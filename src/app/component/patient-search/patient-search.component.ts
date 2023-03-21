@@ -91,7 +91,7 @@ export class PatientSearchComponent implements OnInit {
 
   selectPatient(patient: Patient): void {
 
-    this.patientChange.set(patient);
+    this.patientChange.setPatient(patient);
     this.patientSelected.emit(patient);
   }
 

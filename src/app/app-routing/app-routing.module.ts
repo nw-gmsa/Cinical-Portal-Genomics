@@ -7,6 +7,13 @@ import {PatientSummaryComponent} from '../main/patient-main/patient-summary/pati
 import {PatientMainComponent} from '../main/patient-main/patient-main.component';
 import {ExchangeTokenComponent} from '../exchange-token/exchange-token.component';
 import {ObservationsComponent} from "../main/patient-main/observations/observations.component";
+import {DocumentsComponent} from "../main/patient-main/documents/documents.component";
+import {FormsComponent} from "../main/patient-main/forms/forms.component";
+import {WorkflowComponent} from "../main/patient-main/workflow/workflow.component";
+import {
+  PatientCommunicationComponent
+} from "../main/patient-main/patient-communication/patient-communication.component";
+import {CoordinatedCareComponent} from "../main/patient-main/coordinated-care/coordinated-care.component";
 
 
 const routes: Routes = [
@@ -19,12 +26,15 @@ const routes: Routes = [
       {
         path: 'patient/:patientid', component: PatientMainComponent,
         children: [
-          {path: '', component: PatientSummaryComponent,
-            children: [
-              {path: 'summary', component: PatientSummaryComponent},
-              {path: 'exchange_token', component: ExchangeTokenComponent},
-              {path: 'observations', component: ObservationsComponent}
-            ]}
+          {path: '', component: PatientSummaryComponent},
+          {path: 'summary', component: PatientSummaryComponent},
+          {path: 'exchange_token', component: ExchangeTokenComponent},
+          {path: 'observations', component: ObservationsComponent},
+          {path: 'documents', component: DocumentsComponent},
+          {path: 'forms', component: FormsComponent},
+          {path: 'workflow', component: WorkflowComponent},
+          {path: 'coordination', component: CoordinatedCareComponent},
+          {path: 'communication', component: PatientCommunicationComponent}
         ]
       }
     ]

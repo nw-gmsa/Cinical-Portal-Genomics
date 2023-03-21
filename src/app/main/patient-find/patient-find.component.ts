@@ -16,14 +16,8 @@ export class PatientFindComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private router: Router, private eprService: EprService) { }
 
   ngOnInit() {
-    this.eprService.setTitle('Patient Find');
 
-      this.triageFormGroup = this._formBuilder.group({
-          breathingCtrl: ['', Validators.required]
-      });
   }
-
-    triageFormGroup: FormGroup | undefined;
 
     yesno = [
         {name: 'Yes', viewValue: 0},
@@ -39,9 +33,8 @@ export class PatientFindComponent implements OnInit {
 
     selectPatient(patient: Patient) {
         console.log('Patient change - '+patient.id);
-        this.router.navigateByUrl('patient/' + patient.id  );
-
+        this.eprService.setPatient(patient);
+        this.router.navigateByUrl('patient/' + patient.id);
     }
-
 
 }

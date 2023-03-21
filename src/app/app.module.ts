@@ -84,6 +84,13 @@ import { CommunicationCreateComponent } from './dialogs/communication-create/com
 import { QuestionnaireResponseCreateComponent } from './dialogs/questionnaire-response-create/questionnaire-response-create.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import { ObservationsComponent } from './main/patient-main/observations/observations.component';
+import {CovalentDynamicMenuModule} from "@covalent/core/dynamic-menu";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { DocumentsComponent } from './main/patient-main/documents/documents.component';
+import { FormsComponent } from './main/patient-main/forms/forms.component';
+import { WorkflowComponent } from './main/patient-main/workflow/workflow.component';
+import { CoordinatedCareComponent } from './main/patient-main/coordinated-care/coordinated-care.component';
+import { PatientCommunicationComponent } from './main/patient-main/patient-communication/patient-communication.component';
 
 const modules = [
   MatIconModule,
@@ -107,7 +114,8 @@ const modules = [
   MatTableModule,
   MatDialogModule,
   MatGridListModule,
-  MatTabsModule
+  MatTabsModule,
+  MatSnackBarModule
 ];
 
 @NgModule({
@@ -149,7 +157,12 @@ const modules = [
     EpisodeOfCareCreateComponent,
     CommunicationCreateComponent,
     QuestionnaireResponseCreateComponent,
-    ObservationsComponent
+    ObservationsComponent,
+    DocumentsComponent,
+    FormsComponent,
+    WorkflowComponent,
+    CoordinatedCareComponent,
+    PatientCommunicationComponent
   ],
   imports: [
     BrowserModule,
@@ -174,6 +187,7 @@ const modules = [
     CovalentDialogsModule,
     CovalentMessageModule,
     CovalentLoadingModule,
+    CovalentDynamicMenuModule,
     MatTreeModule,
     MatCheckboxModule,
     MatAutocompleteModule,

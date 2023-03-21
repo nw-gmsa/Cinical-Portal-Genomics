@@ -1,0 +1,23 @@
+
+
+    <mat-card>
+        <mat-card-content>
+            <div fxLayout="row"
+                 fxFlexFill >
+                <h3>Forms (Last 50)</h3>
+                <span flex></span>
+            </div>
+            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addForms()"><mat-icon>filter</mat-icon> Add Forms</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="forms.length>0">
+                     <app-questionnaire-response [forms]="forms"> </app-questionnaire-response>
+                      </span>
+            <span *ngIf="forms.length==0">
+                      No results found.
+                  </span>
+        </mat-card-content>
+    </mat-card>
+

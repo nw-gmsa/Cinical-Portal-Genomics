@@ -49,24 +49,13 @@ export class PatientMainComponent implements OnInit {
 
       const patientid = this.route.snapshot.paramMap.get('patientid');
 
-      this.eprService.setTitle('Health Information Exchange Portal');
-      this.acutecolor = 'info';
-      this.lhcrcolor = 'info';
-
-
       this.fhirSrv.getResource('/Patient/' + patientid ).subscribe(bundle => {
-
-          if (bundle.resourceType == 'Patient') {
-                this.patient = <Patient> bundle;
-          }
-
-
-              this.acutecolor = 'primary';
-              this.lhcrcolor = 'primary';
+              if (bundle.resourceType == 'Patient') {
+                    this.patient = <Patient> bundle;
+                    this.eprService.setPatient(this.patient)
+              }
           }
           , () => {
-            this.acutecolor = 'warn';
-            this.lhcrcolor = 'warn';
         }
 
       );

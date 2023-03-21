@@ -19,16 +19,7 @@ import {Athlete} from '../../../models/athlete';
 import {TdLoadingService} from '@covalent/core/loading';
 import {WithingsService} from '../../../services/withings.service';
 import {delay} from 'rxjs/operators';
-import {PhysicalActivityComponent} from '../../diaglogs/physical-activity/physical-activity.component';
-import {News2Component} from '../../diaglogs/news2/news2.component';
-import {TaskCreateComponent} from '../../../dialogs/task-create/task-create.component';
-import {ServiceCreateComponent} from '../../../dialogs/service-create/service-create.component';
-import {CareTeamCreateComponent} from '../../../dialogs/care-team-create/care-team-create.component';
-import {CarePlanCreateComponent} from '../../../dialogs/care-plan-create/care-plan-create.component';
-import {EpisodeOfCareCreateComponent} from '../../../dialogs/episode-of-care-create/episode-of-care-create.component';
-import {CommunicationCreateComponent} from '../../../dialogs/communication-create/communication-create.component';
-import {QuestionnaireResponseCreateComponent} from '../../../dialogs/questionnaire-response-create/questionnaire-response-create.component';
-import {environment} from '../../../../environments/environment';
+
 
 
 @Component({
@@ -38,17 +29,16 @@ import {environment} from '../../../../environments/environment';
 })
 export class PatientSummaryComponent implements OnInit {
 
-    documents: DocumentReference[] = [];
-    forms: QuestionnaireResponse[] = [];
-    requests: ServiceRequest[] = [];
+
+
+
 
     encounters: Encounter[] = [];
-    episodes: EpisodeOfCare[] = [];
 
-    tasks: Task[] = [];
 
-    careTeams: CareTeam[] = [];
-    carePlans: CarePlan[] = [];
+
+
+
    // careplans: CarePlan[]=[];
     flags: Flag[] = [];
     eolc: Flag | undefined;
@@ -63,9 +53,7 @@ export class PatientSummaryComponent implements OnInit {
   conditions: Condition[] = [];
 
     // @ts-ignore
-  observations: Observation[] = [];
-    // @ts-ignore
-  diagnosticReports: DiagnosticReport[] = [];
+
 
     acutecolor = 'info';
     athlete: Athlete | undefined;
@@ -76,7 +64,7 @@ export class PatientSummaryComponent implements OnInit {
 
     @ViewChild('gpchip', {static: false}) gpchip: MatChip | undefined;
   private withingsConnect: boolean | undefined;
-  public communications: Communication[] = [];
+
   public nhsNumber: string | undefined;
 
   constructor(private router: Router,
@@ -89,14 +77,22 @@ export class PatientSummaryComponent implements OnInit {
 
               private dialogService: TdDialogService,
               public dialog: MatDialog,
-              private viewContainerRef: ViewContainerRef,
+
               private loadingService: TdLoadingService) { }
 
   ngOnInit(): void {
+    if (this.eprService.patient !== undefined) {
+      if (this.eprService.patient.id !== undefined) {
+        this.patientid = this.eprService.patient.id;
+        this.getRecords();
+      }
 
-      this.patientid = this.route.snapshot.paramMap.get('patientid');
-
-      console.log(this.patientid);
+    }
+    this.eprService.patientChangeEvent.subscribe(patient => {
+      if (patient.id !== undefined) this.patientid = patient.id
+      console.log(patient);
+      this.getRecords();
+    });
       this.route.queryParams.subscribe(params => {
         const code = params['code'];
         const state = params['state'];
@@ -160,148 +156,66 @@ export class PatientSummaryComponent implements OnInit {
         this.fhirSrv.sendTransaction(transaction, 'Withings Measures');
       });
       // removed &_revinclude=CarePlan:patient
+
+  }
+
+  getRecords(){
       this.fhirSrv.get('/Condition?patient=' + this.patientid).subscribe(bundle => {
-         if (bundle.entry !== undefined) {
-           for (const entry of bundle.entry) {
-             if (entry.resource !== undefined && entry.resource.resourceType === 'Condition') { this.conditions.push(entry.resource as Condition); }
-           }
-         }
-       }
-     );
-      this.fhirSrv.get('/AllergyIntolerance?patient=' + this.patientid).subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'AllergyIntolerance') { this.allergies.push(entry.resource as AllergyIntolerance); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/MedicationRequest?patient=' + this.patientid).subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'MedicationRequest') { this.medicationRequest.push(entry.resource as MedicationRequest); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/Encounter?patient=' + this.patientid + '&_count=5&_sort=-date').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'Encounter') { this.encounters.push(entry.resource as Encounter); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/EpisodeOfCare?patient=' + this.patientid + '&status=active,waitlist').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'EpisodeOfCare') { this.episodes.push(entry.resource as EpisodeOfCare); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/Task?patient=' + this.patientid + '').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
-              this.tasks.push(entry.resource as Task); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/ServiceRequest?patient=' + this.patientid + '').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') { this.requests.push(entry.resource as ServiceRequest); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/Observation?patient=' + this.patientid + '&_count=100&_sort=-date').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'Observation') { this.observations.push(entry.resource as Observation); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/DiagnosticReport?patient=' + this.patientid + '&_count=50&_sort=-date').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'DiagnosticReport') { this.diagnosticReports.push(entry.resource as DiagnosticReport); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/DocumentReference?patient=' + this.patientid + '&_count=50&_sort=-date').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'DocumentReference') { this.documents.push(entry.resource as DocumentReference); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.get('/QuestionnaireResponse?patient=' + this.patientid + '&_count=50').subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-          if (entry.resource !== undefined && entry.resource.resourceType === 'QuestionnaireResponse') { this.forms.push(entry.resource as QuestionnaireResponse); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.getTIE('/CarePlan?patient=' + this.patientid).subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'CarePlan') { this.carePlans.push(entry.resource as CarePlan); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.getTIE('/Communication?_sort=sent&patient=' + this.patientid).subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'Communication') { this.communications.push(entry.resource as Communication); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.getTIE('/CareTeam?patient=' + this.patientid).subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'CareTeam') { this.careTeams.push(entry.resource as CareTeam); }
-          }
-        }
-      }
-    );
-      this.fhirSrv.getResource('/Patient/' + this.patientid)
-        .subscribe(resource => {
-          const patient = resource as Patient;
-          if (patient !== undefined ) {
-            if (patient.identifier !== undefined){
-              for (const identifier of patient.identifier) {
-                if (identifier.system !== undefined && identifier.system.includes('nhs-number')) {
-                  this.nhsNumber = identifier.value;
-                }
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'Condition') { this.conditions.push(entry.resource as Condition); }
               }
             }
           }
-        }
+      );
+      this.fhirSrv.get('/AllergyIntolerance?patient=' + this.patientid).subscribe(bundle => {
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'AllergyIntolerance') { this.allergies.push(entry.resource as AllergyIntolerance); }
+              }
+            }
+          }
+      );
+      this.fhirSrv.get('/MedicationRequest?patient=' + this.patientid).subscribe(bundle => {
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'MedicationRequest') { this.medicationRequest.push(entry.resource as MedicationRequest); }
+              }
+            }
+          }
+      );
+      this.fhirSrv.get('/Encounter?patient=' + this.patientid + '&_count=5&_sort=-date').subscribe(bundle => {
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'Encounter') { this.encounters.push(entry.resource as Encounter); }
+              }
+            }
+          }
       );
 
+      this.fhirSrv.getResource('/Patient/' + this.patientid)
+          .subscribe(resource => {
+                const patient = resource as Patient;
+                if (patient !== undefined ) {
+                  if (patient.identifier !== undefined){
+                    for (const identifier of patient.identifier) {
+                      if (identifier.system !== undefined && identifier.system.includes('nhs-number')) {
+                        this.nhsNumber = identifier.value;
+                      }
+                    }
+                  }
+                }
+              }
+          );
 
-      this.eprService.getAcuteStatusChangeEvent().subscribe( colour => {
-      this.acutecolor = colour;
-    });
-  }
-
-
+    }
     clearDown(): void {
 
 
         this.encounters = [];
         // this.careplans = [];
         this.patient = undefined;
-        this.documents = [];
+
 
         this.allergies = [];
         this.medicationRequest = [];
@@ -323,63 +237,7 @@ export class PatientSummaryComponent implements OnInit {
 
     }
 
-  selectDocument(document: DocumentReference): void {
-    console.log(document);
 
-    if (document.content !== undefined && document.content.length > 0 && document.content[0].attachment !== undefined
-     && document.content[0].attachment.url !== undefined) {
-
-      this.eprService.setDocumentReference(document);
-      this.fhirSrv.getBinary(document.content[0].attachment.url).subscribe(result => {
-
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.data = {
-          id: 1,
-          binary: result,
-          documentReference: document
-        };
-        this.dialog.open( BinaryComponent, dialogConfig);
-      }, error => {
-        if (document.content[0].attachment.contentType !== undefined && document.content[0].attachment.contentType.indexOf('image') === 0) {
-          // throw alert if not image
-          const alertConfig: IAlertConfig = {message: 'Unable to locate document2.'};
-          alertConfig.disableClose = false; // defaults to false
-          alertConfig.viewContainerRef = this.viewContainerRef;
-          alertConfig.title = 'Alert';
-          alertConfig.closeButton = 'Close';
-          alertConfig.width = '400px';
-          this.dialogService.openAlert(alertConfig);
-        } else {
-          // Try it anyway
-          const dialogConfig = new MatDialogConfig();
-
-          dialogConfig.disableClose = true;
-          dialogConfig.autoFocus = true;
-          dialogConfig.data = {
-            id: 1,
-            documentReference: document
-          };
-          this.dialog.open( BinaryComponent, dialogConfig);
-        }
-      });
-
-    //  this.router.navigate(['..', 'document', document.id], {relativeTo: this.route });
-
-    } else {
-      const alertConfig: IAlertConfig = { message : 'Unable to locate document1.'};
-      alertConfig.disableClose =  false; // defaults to false
-      alertConfig.viewContainerRef = this.viewContainerRef;
-      alertConfig.title = 'Alert';
-      alertConfig.closeButton = 'Close';
-      alertConfig.width = '400px';
-      this.dialogService.openAlert(alertConfig);
-    }
-
-
-  }
   doStravaSetup(authorisationCode: string): void  {
 
     console.log(authorisationCode);
@@ -466,130 +324,4 @@ export class PatientSummaryComponent implements OnInit {
     // Strava covers this this.withings.getWorkoutResults();
   }
 
-  loadPhysicalActivity(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '70%';
-    dialogConfig.width = '90%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid
-    };
-    this.dialog.open( PhysicalActivityComponent, dialogConfig);
-  }
-  loadNEWS2(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '70%';
-    dialogConfig.width = '90%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid
-    };
-    this.dialog.open( News2Component, dialogConfig);
-  }
-  addTask(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '85%';
-    dialogConfig.width = '50%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid,
-      nhsNumber: this.nhsNumber
-    };
-    this.dialog.open( TaskCreateComponent, dialogConfig);
-  }
-
-  addServiceRequest(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '85%';
-    dialogConfig.width = '50%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid,
-      nhsNumber: this.nhsNumber
-    };
-    this.dialog.open( ServiceCreateComponent, dialogConfig);
-  }
-
-  addCareTeam(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '80%';
-    dialogConfig.width = '50%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid,
-      nhsNumber: this.nhsNumber
-    };
-    this.dialog.open( CareTeamCreateComponent, dialogConfig);
-  }
-  addCarePlan(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '80%';
-    dialogConfig.width = '50%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid,
-      nhsNumber: this.nhsNumber
-    };
-    this.dialog.open( CarePlanCreateComponent, dialogConfig);
-  }
-
-  addStay(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '80%';
-    dialogConfig.width = '50%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid,
-      nhsNumber: this.nhsNumber
-    };
-    this.dialog.open( EpisodeOfCareCreateComponent, dialogConfig);
-  }
-
-  addCommunication(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '80%';
-    dialogConfig.width = '50%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid,
-      nhsNumber: this.nhsNumber
-    };
-    this.dialog.open( CommunicationCreateComponent, dialogConfig);
-  }
-
-  addForms(): void {
-    window.open('https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=' + environment.tieServer, '_blank');
-  }
 }

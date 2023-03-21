@@ -1,0 +1,39 @@
+
+    <mat-card>
+        <mat-card-content>
+            <div fxLayout="row"
+                 fxFlexFill >
+                <h3>Outstanding Tasks</h3>
+                <span flex></span>
+            </div>
+            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addTask()"><mat-icon>assignment</mat-icon> Add Task</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="tasks.length>0">
+                  <app-task [tasks]="tasks"> </app-task>
+                   </span>
+            <span *ngIf="tasks.length==0">
+                   No results found.
+               </span>
+        </mat-card-content>
+        <mat-card-content>
+            <div fxLayout="row"
+                 fxFlexFill >
+                <h3>Service Requests</h3>
+                <span flex></span>
+            </div>
+            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addServiceRequest()"><mat-icon>assignment</mat-icon> Add Service Request</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="requests.length>0">
+                  <app-referral-request [referrals]="requests"> </app-referral-request>
+                   </span>
+            <span *ngIf="requests.length==0">
+                   No results found.
+               </span>
+        </mat-card-content>
+    </mat-card>

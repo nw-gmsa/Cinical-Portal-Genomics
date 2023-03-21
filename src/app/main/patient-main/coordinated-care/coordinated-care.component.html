@@ -1,0 +1,59 @@
+
+    <mat-card>
+        <mat-card-content>
+            <div fxLayout="row"
+                 fxFlexFill >
+                <h3>Care Plans</h3>
+                <span flex></span>
+            </div>
+            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addCarePlan()"><mat-icon>map</mat-icon> Add Care Plan</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="carePlans.length>0">
+                    <app-care-plan [carePlans]="carePlans"> </app-care-plan>
+                     </span>
+            <span *ngIf="carePlans.length==0">
+                     No results found.
+                 </span>
+        </mat-card-content>
+        <mat-card-content>
+            <div fxLayout="row"
+                 fxFlexFill >
+                <h3>Care Teams</h3>
+                <span flex></span>
+            </div>
+            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addCareTeam()"><mat-icon>contacts</mat-icon> Add Care Team</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="careTeams.length>0">
+                    <app-care-team [careTeams]="careTeams"> </app-care-team>
+                     </span>
+            <span *ngIf="careTeams.length==0">
+                     No results found.
+                 </span>
+        </mat-card-content>
+        <mat-card-content>
+            <div fxLayout="row"
+                 fxFlexFill >
+                <h3>Stays/Episodes</h3>
+                <span flex></span>
+
+            </div>
+            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addStay()"><mat-icon>inventory</mat-icon> Add Episode/Stay</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="episodes.length>0">
+                    <app-episode-of-care [episodes]="episodes"> </app-episode-of-care>
+                     </span>
+            <span *ngIf="episodes.length==0">
+                     No results found.
+                 </span>
+        </mat-card-content>
+    </mat-card>
+

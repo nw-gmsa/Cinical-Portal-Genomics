@@ -1,53 +1,26 @@
 <td-layout class="layout-nav-demo" sidenavWidth="280px">
-    <td-navigation-drawer
-            flex
-            sidenavTitle="Menu" >
-        <mat-nav-list>
-          <!--  <a mat-list-item [routerLink]="'/'" tdLayoutToggle>
-               <mat-icon>library_books</mat-icon>
-               &nbsp;Reference Implementations
-           </a>
-          <a mat-list-item [routerLink]="'/validate'" tdLayoutToggle>
-               <mat-icon>spellcheck</mat-icon>
-               &nbsp;Validate Resources
-           </a>
-           <a mat-list-item [routerLink]="'/runtest'" tdLayoutToggle>
-               <mat-icon>network_check</mat-icon>
-               &nbsp;Run Package Test
-           </a>
-           <a mat-list-item [routerLink]="'/reports'" tdLayoutToggle>
-               <mat-icon>bug_report</mat-icon>
-               &nbsp;Run Test Reports
-           </a>
-          <a mat-list-item [routerLink]="'/questionnaire'" tdLayoutToggle>
-            <mat-icon>question_answer</mat-icon>
-            &nbsp;Questionnaire Render (demo)
-          </a> -->
-          <a mat-list-item [routerLink]="'/search'" tdLayoutToggle>
-            <mat-icon>account_circle</mat-icon>
-            &nbsp;Find Patient
-          </a>
-          <a mat-list-item (click)="goToLink('https://lhcformbuilder.nlm.nih.gov/')" tdLayoutToggle>
-            <mat-icon>launch</mat-icon>
-            &nbsp;NLM Form Builder
-          </a>
-        </mat-nav-list>
-    </td-navigation-drawer>
+
     <td-layout-nav-list navigationRoute="/" [opened]=false mode="side">
 
-        <div td-sidenav-content>
 
-        </div>
         <div td-toolbar-content layout-align="start center" flex>
-
-            <button mat-icon-button td-menu-button tdLayoutToggle color="accent">
-                <mat-icon>menu</mat-icon>
-            </button>
             <span>&nbsp;</span>
             <span flex>
             FHIR R4 and UKCore Demonstration
             </span>
           <span flex>
+            </span>
+
+            <td-dynamic-menu
+                    [trigger]="triggerPatient"
+                    [items]="itemsPatient"
+            ></td-dynamic-menu>
+            <span *ngIf="patientId!== undefined">
+                <td-dynamic-menu
+                        [trigger]="triggerCare"
+                        [items]="itemsCare"
+                        (itemClicked)="reportClick($event)"
+                ></td-dynamic-menu>
             </span>
         </div>
         <router-outlet></router-outlet>
