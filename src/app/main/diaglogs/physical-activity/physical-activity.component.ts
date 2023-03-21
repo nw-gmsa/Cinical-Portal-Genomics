@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
-import {FhirService} from '../../services/fhir.service';
+import {FhirService} from '../../../services/fhir.service';
 
 @Component({
   selector: 'app-physical-activity',

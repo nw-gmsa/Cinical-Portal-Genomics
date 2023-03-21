@@ -14,9 +14,6 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from '@angular/material/list';
-import { ValidateFhirComponent } from './main/validate-fhir/validate-fhir.component';
-import { ViewTestReportsComponent } from './main/view-test-reports/view-test-reports.component';
-import { RunPackageTestComponent } from './main/run-package-test/run-package-test.component';
 import {MatInputModule} from '@angular/material/input';
 import {CovalentFileModule} from '@covalent/core/file';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -39,7 +36,7 @@ import {PatientComponent} from './component/patient/patient.component';
 import {EprService} from './services/epr.service';
 import {PatientFindComponent} from './main/patient-find/patient-find.component';
 import {PatientMainComponent} from './main/patient-main/patient-main.component';
-import {PatientSummaryComponent} from './main/patient-summary/patient-summary.component';
+import {PatientSummaryComponent} from './main/patient-main/patient-summary/patient-summary.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {ConditionComponent} from './component/condition/condition.component';
 import {MatMenuModule} from '@angular/material/menu';
@@ -70,9 +67,9 @@ import {DatePipe} from '@angular/common';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {ExchangeTokenComponent} from './exchange-token/exchange-token.component';
 import {CovalentLoadingModule} from '@covalent/core/loading';
-import { PhysicalActivityComponent } from './main/physical-activity/physical-activity.component';
+import { PhysicalActivityComponent } from './main/diaglogs/physical-activity/physical-activity.component';
 import { ObservationChartComponent } from './component/observation-chart/observation-chart.component';
-import { News2Component } from './main/news2/news2.component';
+import { News2Component } from './main/diaglogs/news2/news2.component';
 import { CommunicationComponent } from './component/communication/communication.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -86,6 +83,7 @@ import { EpisodeOfCareCreateComponent } from './dialogs/episode-of-care-create/e
 import { CommunicationCreateComponent } from './dialogs/communication-create/communication-create.component';
 import { QuestionnaireResponseCreateComponent } from './dialogs/questionnaire-response-create/questionnaire-response-create.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
+import { ObservationsComponent } from './main/patient-main/observations/observations.component';
 
 const modules = [
   MatIconModule,
@@ -116,9 +114,6 @@ const modules = [
   declarations: [
     AppComponent,
     MainComponent,
-    ValidateFhirComponent,
-     ViewTestReportsComponent,
-    RunPackageTestComponent,
     PatientSearchComponent,
     PatientComponent,
     PatientFindComponent,
@@ -153,7 +148,8 @@ const modules = [
     CarePlanCreateComponent,
     EpisodeOfCareCreateComponent,
     CommunicationCreateComponent,
-    QuestionnaireResponseCreateComponent
+    QuestionnaireResponseCreateComponent,
+    ObservationsComponent
   ],
   imports: [
     BrowserModule,

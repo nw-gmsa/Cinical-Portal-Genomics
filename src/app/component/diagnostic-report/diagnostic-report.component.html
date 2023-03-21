@@ -1,6 +1,6 @@
 
 <div>
-  <table fxFill="100" mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
          matSort
          matSortActive="date" matSortDirection="desc">
 
@@ -24,9 +24,6 @@
     </ng-container>
 
 
-
-
-
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Observation </th>
       <td mat-cell *matCellDef="let diagnosticReport">
@@ -42,6 +39,16 @@
       <span [innerHTML]="fhirService.getCodeableConcepts(diagnosticReport.category)"></span>
       </span> </td>
     </ng-container>
+
+    <ng-container matColumnDef="performer">
+      <th mat-header-cell *matHeaderCellDef width="5%"></th>
+      <td mat-cell *matCellDef="let diagnosticReport">
+        <span *ngIf="diagnosticReport.performer !=undefined">
+            <span [innerHTML]="fhirService.getReferences(diagnosticReport.performer)"></span>
+        </span>
+      </td>
+    </ng-container>
+
 
     <ng-container matColumnDef="resource">
       <th mat-header-cell *matHeaderCellDef width="5%">FHIR</th>

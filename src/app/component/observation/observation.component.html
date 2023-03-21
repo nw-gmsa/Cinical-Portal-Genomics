@@ -37,13 +37,20 @@
     </td>
   </ng-container>
 
-
-
   <ng-container matColumnDef="category">
     <th mat-header-cell *matHeaderCellDef> Category </th>
     <td mat-cell *matCellDef="let observation">  <span *ngIf="observation.category !== undefined">
       <span [innerHTML]="fhirService.getCodeableConcepts(observation.category)"></span>
       </span> </td>
+  </ng-container>
+
+  <ng-container matColumnDef="performer">
+    <th mat-header-cell *matHeaderCellDef width="5%"></th>
+    <td mat-cell *matCellDef="let observation">
+        <span *ngIf="observation.performer !=undefined">
+            <span [innerHTML]="fhirService.getReferences(observation.performer)"></span>
+        </span>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="resource">

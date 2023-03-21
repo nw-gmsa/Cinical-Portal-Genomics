@@ -13,7 +13,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TaskComponent implements OnInit {
 
-  @Input() tasks: Task[] = [];
+  @Input() tasks: Task[] | undefined;
 
   locations: Location[] = [];
 
@@ -25,7 +25,7 @@ export class TaskComponent implements OnInit {
 
 
 
-  @Input() patientId: string = '';
+  @Input() patientId: string | undefined;
 
   @Input() useBundle = false;
 
@@ -40,6 +40,7 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.patientId !== undefined) {
+      console.log('Patient Id found tasks')
    //   this.dataSource = new TaskDataSource(this.fhirService, this.patientId, []);
     } else {
       this.dataSource = new MatTableDataSource<Task>(this.tasks);
@@ -51,7 +52,7 @@ export class TaskComponent implements OnInit {
       this.sort.sortChange.subscribe((event) => {
         console.log(event);
       });
-      this.dataSource.sort = this.sort;
+      if (this.dataSource !== undefined) this.dataSource.sort = this.sort;
     } else {
       console.log('SORT UNDEFINED');
     }

@@ -9,26 +9,26 @@ import {
   Task, Observation,
   Patient, QuestionnaireResponse, Reference, ServiceRequest, MedicationRequest, DiagnosticReport, Communication
 } from 'fhir/r4';
-import {FhirService} from '../../services/fhir.service';
-import {EprService} from '../../services/epr.service';
+import {FhirService} from '../../../services/fhir.service';
+import {EprService} from '../../../services/epr.service';
 import {IAlertConfig, TdDialogService} from '@covalent/core/dialogs';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import { BinaryComponent } from 'src/app/component/binary/binary.component';
-import {StravaService} from '../../services/strava.service';
-import {Athlete} from '../../models/athlete';
+import {StravaService} from '../../../services/strava.service';
+import {Athlete} from '../../../models/athlete';
 import {TdLoadingService} from '@covalent/core/loading';
-import {WithingsService} from '../../services/withings.service';
+import {WithingsService} from '../../../services/withings.service';
 import {delay} from 'rxjs/operators';
-import {PhysicalActivityComponent} from '../physical-activity/physical-activity.component';
-import {News2Component} from '../news2/news2.component';
-import {TaskCreateComponent} from '../../dialogs/task-create/task-create.component';
-import {ServiceCreateComponent} from '../../dialogs/service-create/service-create.component';
-import {CareTeamCreateComponent} from '../../dialogs/care-team-create/care-team-create.component';
-import {CarePlanCreateComponent} from '../../dialogs/care-plan-create/care-plan-create.component';
-import {EpisodeOfCareCreateComponent} from '../../dialogs/episode-of-care-create/episode-of-care-create.component';
-import {CommunicationCreateComponent} from '../../dialogs/communication-create/communication-create.component';
-import {QuestionnaireResponseCreateComponent} from '../../dialogs/questionnaire-response-create/questionnaire-response-create.component';
-import {environment} from '../../../environments/environment';
+import {PhysicalActivityComponent} from '../../diaglogs/physical-activity/physical-activity.component';
+import {News2Component} from '../../diaglogs/news2/news2.component';
+import {TaskCreateComponent} from '../../../dialogs/task-create/task-create.component';
+import {ServiceCreateComponent} from '../../../dialogs/service-create/service-create.component';
+import {CareTeamCreateComponent} from '../../../dialogs/care-team-create/care-team-create.component';
+import {CarePlanCreateComponent} from '../../../dialogs/care-plan-create/care-plan-create.component';
+import {EpisodeOfCareCreateComponent} from '../../../dialogs/episode-of-care-create/episode-of-care-create.component';
+import {CommunicationCreateComponent} from '../../../dialogs/communication-create/communication-create.component';
+import {QuestionnaireResponseCreateComponent} from '../../../dialogs/questionnaire-response-create/questionnaire-response-create.component';
+import {environment} from '../../../../environments/environment';
 
 
 @Component({
@@ -203,7 +203,8 @@ export class PatientSummaryComponent implements OnInit {
       this.fhirSrv.get('/Task?patient=' + this.patientid + '').subscribe(bundle => {
         if (bundle.entry !== undefined) {
           for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'Task') { this.tasks.push(entry.resource as Task); }
+            if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
+              this.tasks.push(entry.resource as Task); }
           }
         }
       }
