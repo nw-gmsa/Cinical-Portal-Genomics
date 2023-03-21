@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>
+     Binary
+ </h2>
+<mat-dialog-content>
+
+  <span *ngIf="docType === undefined">
+  <td-json-formatter *ngIf="binary !== undefined" [data]="binary" key="root" [levelsOpen]="4">
+  </td-json-formatter>
+    </span>
+  <span *ngIf="docType === 'html'">
+    <span [innerHTML]="html"></span>
+  </span>
+
+  <span *ngIf="docType === 'image'">
+    <img [src]="image" alt="Nowt here"/>
+  </span>
+  <span *ngIf="docType === 'pdf'">
+
+    <div *ngIf="isLoaded" style="text-align: center;">
+       <pdf-viewer [src]="pdfSrc"
+                   [render-text]="true"
+                   [show-all]="false"
+                   [page]="page"
+                   (after-load-complete)="afterLoadComplete($event)"
+                   [original-size]="false"
+                   style="width: 600px; height: 800px"
+       ></pdf-viewer>
+      <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+      <span>{{ page }} / {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+    </div>
+  </span>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial>OK</button>
+</mat-dialog-actions>
+
+

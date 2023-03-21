@@ -1,0 +1,68 @@
+<mat-card>
+    <p>List known packages (owned by NHS Digital and HL7 UK).</p>
+
+    <br/>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Select FHIR Package</mat-label>
+        <mat-select required>
+            <mat-option value="volvo">UK Core</mat-option>
+            <mat-option value="saab">NHS Digital</mat-option>
+            <mat-option value="mercedes">BARS</mat-option>
+            <mat-option value="audi">EPS</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br/>
+
+    Once selected query versions from simplifier (so this is not displayed until picked)
+
+    <br/>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Select Version</mat-label>
+        <mat-select required>
+            <mat-option value="volvo">0.5.1</mat-option>
+            <mat-option value="saab">0.5.2</mat-option>
+            <mat-option value="mercedes">1.0.0</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br/>
+
+    <p>Then presume we need something to test against either files/folders from disk or a github repository</p>
+
+
+    <mat-form-field appearance="fill" [style.width.%]="70">
+        <mat-label>Select Github Repository</mat-label>
+        <mat-select required>
+            <mat-option value="volvo">https://github.com/NHSDigital/NHSDigital-FHIR-ImplementationGuide</mat-option>
+            <mat-option value="saab">https://github.com/NHSDigital/FHIR-R4-AMBULANCE-FINAL</mat-option>
+            <mat-option value="mercedes">https://github.com/NHSDigital/NHSDigital-FHIR-Medicines-ImplementationGuide</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br/>
+
+    <td-file-input
+            class="push-left-sm push-right-sm"
+            #fileInput
+            [(ngModel)]="files"
+            multiple
+    >
+        <mat-icon>folder</mat-icon>
+        <span class="text-upper">Browse...</span>
+    </td-file-input>
+
+    <br/>
+
+    <p>Then we trigger the test. I think github actions maybe suitable here</p>
+    <p>See https://docs.github.com/en/rest/actions/workflows#create-a-workflow-dispatch-event</p>
+
+    <br/>
+
+    <button mat-button color="primary">Run Test</button>
+
+
+
+</mat-card>

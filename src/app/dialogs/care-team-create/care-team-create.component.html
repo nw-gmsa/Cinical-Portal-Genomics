@@ -1,0 +1,86 @@
+<h2 mat-dialog-title>Care Team</h2>
+<mat-dialog-content #chart >
+
+  <form class="example-form">
+
+    <mat-form-field class="example-half-width">
+      <mat-label>Status</mat-label>
+      <mat-select required id="status"  (selectionChange)="selectedStatus($event)">
+        <mat-option *ngFor="let stat of status" [value]="stat">
+          {{stat.display}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    &nbsp;
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Team Name</mat-label>
+      <input matInput required [(ngModel)]="teamName">
+    </mat-form-field>
+
+    <mat-form-field class="example-half-width">
+      <mat-label>Contact Email</mat-label>
+      <input matInput required type="email" [(ngModel)]="email">
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field class="example-half-width">
+      <mat-label>Contact Number</mat-label>
+      <input matInput required type="tel" [(ngModel)]="phone">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input #searchBoxOrg matInput placeholder="Managing Organisation" (keyup)="searchOrg(searchBoxOrg.value)" [matAutocomplete]="autoOrg">
+      <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getDisplayOrg">
+        <mat-option *ngFor="let organization of organisation$ | async" [value]="organization" >
+          {{dlgSrv.getDisplayOrg(organization)}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input #searchBoxDr matInput placeholder="Main contact" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
+      <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getDisplayDoctor">
+        <mat-option *ngFor="let doctor of practitioner$ | async" [value]="doctor" >
+          {{dlgSrv.getDisplayDoctor(doctor)}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input #searchBoxReason matInput placeholder="Reason" (keyup)="searchReason(searchBoxReason.value)" [matAutocomplete]="autoReason">
+      <mat-autocomplete #autoReason="matAutocomplete" (optionSelected)="selectedReason($event)" [displayWith]="dlgSrv.getDisplay">
+        <mat-option *ngFor="let reason of reason$ | async" [value]="reason" >
+          {{dlgSrv.getDisplay(reason)}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-half-width">
+      <mat-label>Start date</mat-label>
+      <input matInput [matDatepicker]="start" [(ngModel)]="periodStart">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="start"></mat-datepicker-toggle>
+      <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field class="example-half-width">
+      <mat-label>End date</mat-label>
+      <input matInput [matDatepicker]="end" [(ngModel)]="periodEnd">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="end"></mat-datepicker-toggle>
+      <mat-datepicker #end></mat-datepicker>
+    </mat-form-field>
+
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Notes</mat-label>
+      <textarea matInput rows="5" name="notes" [(ngModel)]="notes"></textarea>
+    </mat-form-field>
+
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
+  <button mat-raised-button color="accent" [disabled]="disabled" (click)="submit()">Submit</button>
+</mat-dialog-actions>

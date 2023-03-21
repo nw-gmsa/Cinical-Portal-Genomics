@@ -1,0 +1,49 @@
+<mat-card>
+    <p>The tests will take time to run (approx 5 mins or more)</p>
+
+    <p>So we need a screen for a user to come back to and view the report. </p>
+
+    <p>On selecting the report it should take you to a detailed view of the report. The table below should allow filtering and searching.</p>
+
+    <p>It is proposed FHIR Composition will be used to store the reports. So the table below would be querying a FHIR Server (assumed to be AWS FHIRWorks).</p>
+
+    <p>Each section in the Composition will relate to an individual resource that was tested. OperationOutcome for this resource will be referenced via
+    <i>Composition.section.entry</i> in the normal manner. </p>
+    <br/>
+
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef> Weight </th>
+            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef> Symbol </th>
+            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+</mat-card>

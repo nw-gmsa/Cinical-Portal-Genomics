@@ -1,0 +1,76 @@
+<mat-drawer-container>
+    <mat-drawer mode="side" [opened]="sidenavopen">
+
+        <mat-nav-list>
+            <mat-list-item>
+              <button #bs mat-menu-item (click)="onClick($event,'bs' )" ><mat-icon>person_outline</mat-icon>Summary</button>
+            </mat-list-item>
+            <mat-list-item>
+              <button #be mat-menu-item (click)="onClick($event,'be')" ><mat-icon>today</mat-icon>Encounters</button>
+            </mat-list-item>
+            <mat-list-item>
+            <button #bd mat-menu-item (click)="onClick($event,'bd')" ><mat-icon>collections_bookmark</mat-icon>Documents</button>
+            </mat-list-item>
+          <mat-list-item>
+            <button #bp mat-menu-item (click)="onClick($event,'bp')" ><mat-icon>local_hospital</mat-icon>Procedures</button>
+          </mat-list-item>
+          <mat-list-item>
+            <button #bo mat-menu-item (click)="onClick($event,'bo')" ><mat-icon>timeline</mat-icon>Observations</button>
+          </mat-list-item>
+          <mat-list-item>
+            <button #bm mat-menu-item (click)="onClick($event,'bm')" ><mat-icon>colorize</mat-icon>Medications</button>
+          </mat-list-item>
+          <mat-list-item>
+            <button #bi mat-menu-item (click)="onClick($event,'bi' )" ><mat-icon>directions_boat</mat-icon>Immunisation</button>
+          </mat-list-item>
+          <mat-list-item>
+            <button #br mat-menu-item (click)="onClick($event,'br' )" ><mat-icon>shopping_cart</mat-icon>Referrals</button>
+          </mat-list-item>
+        </mat-nav-list>
+
+    </mat-drawer>
+
+
+    <mat-drawer-content>
+
+
+      <span *ngIf="patient !== undefined">
+    <mat-card>
+        <mat-card-content>
+            <div class="container" layout="row" layout-align="start center" flex>
+
+                <!-- put back TODO <button mat-icon-button (click)="onToggle($event)" color="accent">
+                    <mat-icon>menu</mat-icon>
+                </button>-->
+                <span> &nbsp; <b>{{ getLastName(patient)}}</b>{{getFirstName(patient)}}</span>
+                <span flex></span>
+
+                &nbsp; <i>DOB:</i><b>&nbsp;{{patient.birthDate | date: 'dd-MMM-yyyy'}}</b>
+
+                <span flex></span>
+                <span>
+                    &nbsp;<i>Gender:</i><b>&nbsp; {{ patient.gender }}</b>
+                </span>
+                <span flex></span>
+
+                &nbsp;<i>NHS No:</i><b>&nbsp;{{ getNHSIdentifier(patient) }}</b>
+                <span flex></span>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+</span>
+
+
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>
+
+
+
+
+
+
+
+
+

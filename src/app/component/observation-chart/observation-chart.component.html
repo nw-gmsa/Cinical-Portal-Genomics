@@ -1,0 +1,26 @@
+
+   <h3>{{title}}</h3>
+    <span  *ngIf="showRange">
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+  <mat-button-toggle value="12" (click)="change(12)">Year</mat-button-toggle>
+  <mat-button-toggle value="6" (click)="change(6)">6 months</mat-button-toggle>
+  <mat-button-toggle value="1" (click)="change(1)">4 weeks</mat-button-toggle>
+</mat-button-toggle-group> </span>
+
+      <ngx-charts-line-chart *ngIf="multi.length>0"
+        [scheme]="colorScheme"
+        [results]="multi"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [autoScale]="autoScale"
+        [timeline]="timeline"
+        [animations]="animations"
+        [yAxisTickFormatting]="axisDigits">
+      </ngx-charts-line-chart>
+

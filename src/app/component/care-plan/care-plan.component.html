@@ -1,0 +1,101 @@
+<div>
+  <table fxFill="100" mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+         matSort
+         matSortActive="start" matSortDirection="desc">
+
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef width="8%"> View </th>
+      <td mat-cell *matCellDef="let carePlan">
+        <button mat-icon-button color="accent"  matTooltip="View Care Plan" (click)="view(carePlan)"><mat-icon>chrome_reader_mode</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="start">
+      <th mat-header-cell *matHeaderCellDef> Start </th>
+      <td mat-cell *matCellDef="let carePlan">  <span *ngIf="carePlan.period !== undefined  && carePlan.period.start !== undefined"> {{carePlan.period.start | date: 'dd-MMM-yyyy'}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="end">
+      <th mat-header-cell *matHeaderCellDef> End </th>
+      <td mat-cell *matCellDef="let carePlan">  <span *ngIf="carePlan.period !== undefined && carePlan.period.end !== undefined"> {{carePlan.period.end | date: 'dd-MMM-yyyy'}} </span> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Category </th>
+      <td mat-cell *matCellDef="let carePlan">  <span *ngIf="carePlan.category !== undefined">
+        <span [innerHTML]="fhirService.getCodeableConcepts(carePlan.category)"></span>
+      </span> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef> Care Team </th>
+      <td mat-cell *matCellDef="let carePlan">
+         <span *ngIf="carePlan.careTeam !== undefined && carePlan.careTeam.length>0">
+        <button mat-button *ngFor="let service of carePlan.careTeam" [matTooltip]="service.reference">
+          {{fhirService.getReference(service)}}
+        </button>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="addresses">
+      <th mat-header-cell *matHeaderCellDef> Addresses </th>
+      <td mat-cell *matCellDef="let carePlan">
+        <span [innerHTML]="fhirService.getReferences(carePlan.addresses)"></span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="goals">
+      <th mat-header-cell *matHeaderCellDef> Goals </th>
+      <td mat-cell *matCellDef="let carePlan">
+        <span [innerHTML]="fhirService.getReferences(carePlan.goal)"></span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="notes">
+      <th mat-header-cell *matHeaderCellDef width="10%"> Notes </th>
+      <td mat-cell *matCellDef="let carePlan">
+        <span *ngIf="carePlan.note !== null">
+            <p *ngFor="let annotation of carePlan.note">{{annotation.text}}</p>
+            </span>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.status}} </td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.description}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="intent">
+      <th mat-header-cell *matHeaderCellDef> Intent </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.intent}} </td>
+    </ng-container>
+
+
+
+
+    <ng-container matColumnDef="resource">
+      <th mat-header-cell *matHeaderCellDef width="5%">FHIR</th>
+      <td mat-cell *matCellDef="let carePlan">  <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(carePlan)"><mat-icon>code</mat-icon></button>  </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>

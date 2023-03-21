@@ -1,0 +1,14 @@
+.example-full-width {
+  width: 100%;
+}
+.example-form {
+  min-width: 360px;
+  max-width: 600px;
+  width: 100%;
+}
+
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+

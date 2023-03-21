@@ -1,0 +1,71 @@
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Encounter, Observation, Patient, Task} from 'fhir/r4';
+import {FhirService} from '../../services/fhir.service';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {ResourceDialogComponent} from '../../dialogs/resource-dialog/resource-dialog.component';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+
+@Component({
+  selector: 'app-task',
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.scss']
+})
+export class TaskComponent implements OnInit {
+
+  @Input() tasks: Task[] = [];
+
+  locations: Location[] = [];
+
+  @Input() showDetail = false;
+
+  @Input() patient: Patient | undefined;
+
+  @Output() task = new EventEmitter<any>();
+
+
+
+  @Input() patientId: string = '';
+
+  @Input() useBundle = false;
+
+  // @ts-ignore
+  dataSource: MatTableDataSource<Task>;
+  @ViewChild(MatSort) sort: MatSort | undefined;
+
+  displayedColumns = ['authored', 'start', 'end', 'status', 'intent', 'code', 'focus', 'reason', 'requester', 'owner', 'notes', 'resource'];
+
+  constructor(public fhirService: FhirService,
+              public dialog: MatDialog) { }
+
+  ngOnInit(): void {
+    if (this.patientId !== undefined) {
+   //   this.dataSource = new TaskDataSource(this.fhirService, this.patientId, []);
+    } else {
+      this.dataSource = new MatTableDataSource<Task>(this.tasks);
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.sort != undefined) {
+      this.sort.sortChange.subscribe((event) => {
+        console.log(event);
+      });
+      this.dataSource.sort = this.sort;
+    } else {
+      console.log('SORT UNDEFINED');
+    }
+  }
+  select(resource: any) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      id: 1,
+      resource: resource
+    };
+    const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
+  }
+
+}

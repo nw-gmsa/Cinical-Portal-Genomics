@@ -1,0 +1,315 @@
+<mat-card>
+<mat-tab-group>
+  <mat-tab label="Patient Summary">
+
+     <mat-card>
+     <mat-card-content>
+    <div fxLayout="row"
+         fxFlexFill >
+        <h3>Conditions</h3>
+           <span flex></span>
+
+    </div>
+         <span *ngIf="conditions.length>0">
+    <app-condition [conditions]="conditions"> </app-condition>
+             </span>
+         <span *ngIf="conditions.length==0">
+             No results found.
+         </span>
+     </mat-card-content>
+       <mat-card-content>
+         <div fxLayout="row"
+              fxFlexFill >
+           <h3>Allergies</h3>
+           <span flex></span>
+
+         </div>
+         <span *ngIf="allergies.length>0">
+    <app-allergy-intolerance [allergies]="allergies"> </app-allergy-intolerance>
+             </span>
+         <span *ngIf="allergies.length==0">
+             No results found.
+         </span>
+       </mat-card-content>
+       <mat-card-content>
+         <div fxLayout="row"
+              fxFlexFill >
+           <h3>Medications (prescriptions)</h3>
+           <span flex></span>
+
+         </div>
+         <span *ngIf="medicationRequest.length>0">
+           <app-medication-request [medicationRequests]="medicationRequest"> </app-medication-request>
+             </span>
+         <span *ngIf="medicationRequest.length==0">
+             No results found.
+         </span>
+       </mat-card-content>
+
+       <mat-card-content>
+         <div fxLayout="row"
+              fxFlexFill >
+           <h3>Last 5 Visits/Encounter</h3>
+           <span flex></span>
+
+         </div>
+         <span *ngIf="encounters.length>0">
+            <app-encounter [encounters]="encounters"> </app-encounter>
+             </span>
+         <span *ngIf="encounters.length==0">
+             No results found.
+         </span>
+       </mat-card-content>
+     </mat-card>
+
+  </mat-tab>
+
+
+  <mat-tab label="Observations">
+    <mat-card>
+      <mat-nav-list class="list-horizontal">
+        <mat-list-item>
+          <button mat-icon-button color="accent"  (click)="loadNEWS2()"><mat-icon>local_hospital</mat-icon> Vitals</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button mat-icon-button color="accent"  (click)="loadPhysicalActivity()"><mat-icon>directions_walk</mat-icon> Physical Activity</button>
+        </mat-list-item>
+      </mat-nav-list>
+
+
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Observations (Last 50)</h3>
+          <span flex></span>
+
+        </div>
+        <span *ngIf="observations.length>0">
+            <app-observation [observations]="observations"> </app-observation>
+             </span>
+        <span *ngIf="observations.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Diagnostic Reports</h3>
+          <span flex></span>
+
+        </div>
+        <span *ngIf="diagnosticReports.length>0">
+            <app-diagnostic-report [diagnosticReports]="diagnosticReports"> </app-diagnostic-report>
+             </span>
+        <span *ngIf="diagnosticReports.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+
+  <mat-tab label="Documents">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Documents (Last 50)</h3>
+          <span flex></span>
+
+        </div>
+        <span *ngIf="documents.length>0">
+            <app-document-reference [documents]="documents" (documentReference)="selectDocument($event)"> </app-document-reference>
+             </span>
+        <span *ngIf="documents.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Forms">
+
+            <mat-card>
+              <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Forms (Last 50)</h3>
+          <span flex></span>
+        </div>
+        <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+          <mat-list-item>
+            <button mat-icon-button color="accent"  (click)="addForms()"><mat-icon>filter</mat-icon> Add Forms</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <span *ngIf="forms.length>0">
+            <app-questionnaire-response [forms]="forms"> </app-questionnaire-response>
+             </span>
+        <span *ngIf="forms.length==0">
+             No results found.
+         </span>
+              </mat-card-content>
+            </mat-card>
+
+  </mat-tab>
+  <mat-tab label="Coordinated Care">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Care Plans</h3>
+          <span flex></span>
+        </div>
+        <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+          <mat-list-item>
+            <button mat-icon-button color="accent"  (click)="addCarePlan()"><mat-icon>map</mat-icon> Add Care Plan</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <span *ngIf="carePlans.length>0">
+            <app-care-plan [carePlans]="carePlans"> </app-care-plan>
+             </span>
+        <span *ngIf="carePlans.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Care Teams</h3>
+          <span flex></span>
+        </div>
+        <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+          <mat-list-item>
+            <button mat-icon-button color="accent"  (click)="addCareTeam()"><mat-icon>contacts</mat-icon> Add Care Team</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <span *ngIf="careTeams.length>0">
+            <app-care-team [careTeams]="careTeams"> </app-care-team>
+             </span>
+        <span *ngIf="careTeams.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Stays/Episodes</h3>
+          <span flex></span>
+
+        </div>
+        <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+          <mat-list-item>
+            <button mat-icon-button color="accent"  (click)="addStay()"><mat-icon>inventory</mat-icon> Add Episode/Stay</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <span *ngIf="episodes.length>0">
+            <app-episode-of-care [episodes]="episodes"> </app-episode-of-care>
+             </span>
+        <span *ngIf="episodes.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Patient Communication">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Communication</h3>
+          <span flex></span>
+        </div>
+        <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+          <mat-list-item>
+            <button mat-icon-button color="accent"  (click)="addCommunication()"><mat-icon>note</mat-icon> Send Message</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <span *ngIf="communications.length>0">
+            <app-communication [communications]="communications"> </app-communication>
+             </span>
+        <span *ngIf="communications.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Workflow">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Outstanding Tasks</h3>
+          <span flex></span>
+        </div>
+        <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+          <mat-list-item>
+            <button mat-icon-button color="accent"  (click)="addTask()"><mat-icon>assignment</mat-icon> Add Task</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <span *ngIf="tasks.length>0">
+            <app-task [tasks]="tasks"> </app-task>
+             </span>
+        <span *ngIf="tasks.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxFlexFill >
+          <h3>Service Requests</h3>
+          <span flex></span>
+        </div>
+        <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+          <mat-list-item>
+            <button mat-icon-button color="accent"  (click)="addServiceRequest()"><mat-icon>assignment</mat-icon> Add Service Request</button>
+          </mat-list-item>
+        </mat-nav-list>
+        <span *ngIf="requests.length>0">
+            <app-referral-request [referrals]="requests"> </app-referral-request>
+             </span>
+        <span *ngIf="requests.length==0">
+             No results found.
+         </span>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="PHR Connection">
+    <mat-card>
+      <mat-card-content>
+        <td-message
+          label="Warning"
+          sublabel="These links will import data into this record. DO NOT CLICK UNLESS YOU UNDERSTAND THIS."
+          color="warn"
+          icon="warning"
+        ></td-message>
+        <mat-list>
+          <mat-list-item  (click)="connectStrava()" >
+            <img class="img-responsive" src="assets/images/btn_strava_connectwith_orange.png">
+          </mat-list-item>
+          <!--<mat-list-item (click)="connectWithings()">
+            <img class="img-responsive"  width="25" height="25"  src="/assets/images/withings.png" > Withings
+          </mat-list-item >-->
+          <mat-list-item (click)="connectWithings()">
+            <img class="img-responsive"  width="25" height="25"  src="assets/images/withings.png" > Withings
+          </mat-list-item >
+          <!--<mat-list-item (click)="connectWithings()">
+            <img class="img-responsive"  width="25" height="25"  src="../../assets/images/withings.png" > Withings
+          </mat-list-item >-->
+        </mat-list>
+        <!--
+          <td-message
+            label="Information"
+            sublabel="Not yet implemented"
+            color="accent"
+            icon="information"
+          ></td-message>
+        -->
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+
+</mat-tab-group>
+
+</mat-card>
+
+
+
+

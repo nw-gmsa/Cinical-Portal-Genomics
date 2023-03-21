@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Send Message</h2>
+<mat-dialog-content #chart >
+  <form class="example-form">
+    <mat-form-field class="example-half-width">
+      <mat-label>Category</mat-label>
+      <mat-select required id="category" (selectionChange)="selectedCategory($event)">
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{category.display}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group aria-label="Select an option" class="example-half-width" [(ngModel)]="chosenItem">
+      <mat-radio-button value="1" checked="true">From Patient</mat-radio-button>
+      <mat-radio-button value="2">To Patient</mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field class="example-full-width">
+      <input #searchBoxDr matInput placeholder="Performer (Person)" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
+      <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getDisplayDoctor">
+        <mat-option *ngFor="let doctor of practitioner$ | async" [value]="doctor" >
+          {{dlgSrv.getDisplayDoctor(doctor)}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input #searchBoxOrg matInput placeholder="Performer (Organisation)" (keyup)="searchOrg(searchBoxOrg.value)" [matAutocomplete]="autoOrg">
+      <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getDisplayOrg">
+        <mat-option *ngFor="let organization of organisation$ | async" [value]="organization" >
+          {{dlgSrv.getDisplayOrg(organization)}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+   <mat-form-field class="example-full-width">
+     <mat-label>Attach Document</mat-label>
+     <mat-select multiple  [(ngModel)]="selectedFoods"
+                 (ngModelChange)="selectedFoods" name="selectedFoods" >
+       <mat-option *ngFor="let doc of documents" [value]="doc">
+         {{getName(doc)}}}
+       </mat-option>
+     </mat-select>
+   </mat-form-field>
+
+
+   <mat-form-field class="example-full-width">
+     <mat-label>Message</mat-label>
+     <textarea matInput rows="5" name="notes" [(ngModel)]="notes"></textarea>
+   </mat-form-field>
+
+ </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+ <button mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
+ <button mat-raised-button color="accent" [disabled]="disabled" (click)="submit()">Submit</button>
+</mat-dialog-actions>
