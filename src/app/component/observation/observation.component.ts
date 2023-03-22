@@ -48,7 +48,14 @@ export class ObservationComponent implements OnInit {
      // this.dataSource = new ObservationDataSource(this.fhirService, this.patientId, []);
     } else {
       this.dataSource = new MatTableDataSource<Observation>(this.observations);
-      // this.dataSource = new ObservationDataSource(this.fhirService, undefined, this.observations);
+      this.dataSource.filterPredicate = (data: Observation, filter: string) => {
+     //   console.log(filter)
+        const search = this.fhirService.getCodeableConceptValue(data.code).toLowerCase();
+       // console.log(search)
+       // console.log(search.indexOf(filter))
+        return search.indexOf(filter) != -1;
+      }
+
     }
 
     // this.dataSource.connect(this.patientId);
@@ -100,7 +107,14 @@ export class ObservationComponent implements OnInit {
     //  console.log(this.dataSource.sort);
 
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   getValue(observation: Observation): string {
     // console.log("getValue called" + observation.valueQuantity.value);
     if (observation === undefined) {

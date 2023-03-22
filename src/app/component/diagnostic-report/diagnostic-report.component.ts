@@ -22,7 +22,6 @@ export class DiagnosticReportComponent implements OnInit {
 
   @Output() diagnosticReport = new EventEmitter<any>();
 
-
   @Input() useBundle = false;
 
   // @ts-ignore
@@ -42,7 +41,10 @@ export class DiagnosticReportComponent implements OnInit {
      // this.dataSource = new DiagnosticReportDataSource(this.fhirService, this.patientId, []);
     } else {
       this.dataSource = new MatTableDataSource<DiagnosticReport>(this.diagnosticReports);
-      //this.dataSource = new DiagnosticReportDataSource(this.fhirService, undefined, this.diagnosticReports);
+      this.dataSource.filterPredicate = (data: DiagnosticReport, filter: string) => {
+        const search = this.fhirService.getCodeableConceptValue(data.code).toLowerCase();
+        return search.indexOf(filter) != -1;
+      }
     }
 
     // this.dataSource.connect(this.patientId);
@@ -84,6 +86,15 @@ export class DiagnosticReportComponent implements OnInit {
           return ''
         }
       };
+    }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 
