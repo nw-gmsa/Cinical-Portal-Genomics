@@ -4,7 +4,6 @@ import {MatChip} from '@angular/material/chips';
 import {
   AllergyIntolerance,  Condition,
   Encounter,
-  Flag,
   Patient, Reference, MedicationRequest,
 } from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
@@ -32,13 +31,6 @@ export class PatientSummaryComponent implements OnInit {
 
     encounters: Encounter[] = [];
 
-
-
-
-
-   // careplans: CarePlan[]=[];
-    flags: Flag[] = [];
-    eolc: Flag | undefined;
     patient: Patient | undefined;
     patientid: string | null = null;
 
@@ -49,10 +41,6 @@ export class PatientSummaryComponent implements OnInit {
     // @ts-ignore
   conditions: Condition[] = [];
 
-    // @ts-ignore
-
-
-    acutecolor = 'info';
     athlete: Athlete | undefined;
 
   stravaConnect = true;
@@ -69,12 +57,9 @@ export class PatientSummaryComponent implements OnInit {
               private route: ActivatedRoute,
               private eprService: EprService,
               private strava: StravaService,
-
               private withings: WithingsService,
-
               private dialogService: TdDialogService,
               public dialog: MatDialog,
-
               private loadingService: TdLoadingService) { }
 
   ngOnInit(): void {
@@ -87,15 +72,12 @@ export class PatientSummaryComponent implements OnInit {
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
       if (patient.id !== undefined) this.patientid = patient.id
-      console.log(patient);
       this.getRecords();
     });
       this.route.queryParams.subscribe(params => {
         const code = params['code'];
         const state = params['state'];
-        console.log(params);
         if (code !== undefined) {
-          console.log(code);
           if (state !== undefined && state === 'withings') {
             console.log('Withings detected');
             this.doWithingsSetup(code, state);
@@ -207,17 +189,11 @@ export class PatientSummaryComponent implements OnInit {
 
     }
     clearDown(): void {
-
-
         this.encounters = [];
-        // this.careplans = [];
         this.patient = undefined;
-
-
         this.allergies = [];
         this.medicationRequest = [];
         this.conditions = [];
-        this.eolc = undefined;
     }
 
     selectEncounter(encounter: Reference): void {
@@ -260,16 +236,6 @@ export class PatientSummaryComponent implements OnInit {
     const url = window.location.href.split('?');
     this.withings.getOAuth2AccessToken(authorisationCode, url[0]);
   }
-  connectStrava(): void {
-
-    this.strava.authorise(window.location.href);
-  }
-
-  connectWithings(): void {
-    this.withings.authorise(window.location.href);
-
-  }
-
   stravaLoad(): void {
     this.getAthlete();
 

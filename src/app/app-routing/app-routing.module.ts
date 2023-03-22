@@ -14,6 +14,7 @@ import {
   PatientCommunicationComponent
 } from "../main/patient-main/patient-communication/patient-communication.component";
 import {CoordinatedCareComponent} from "../main/patient-main/coordinated-care/coordinated-care.component";
+import {PersonalHealthDeviceComponent} from "../main/account/personal-health-device/personal-health-device.component";
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
     children : [
       { path: '', component: PatientFindComponent},
       { path: 'search', component: PatientFindComponent},
+      { path: 'device', component: PersonalHealthDeviceComponent},
       {
         path: 'patient/:patientid', component: PatientMainComponent,
         children: [

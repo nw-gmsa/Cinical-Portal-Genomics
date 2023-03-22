@@ -57,20 +57,20 @@ export class StravaService {
 
   getHeaders(): HttpHeaders {
 
-      let headers = new HttpHeaders(
-      );
+    let headers = new HttpHeaders(
+    );
 
-      headers = headers.append('Authorization', 'Bearer ' + this.getAccessToken());
-      return headers;
-    }
+    headers = headers.append('Authorization', 'Bearer ' + this.getAccessToken());
+    return headers;
+  }
 
   public getAthlete(): Observable<Athlete> {
     return this.http.get<Athlete>(this.url + 'athlete', {headers: this.getHeaders()});
   }
 
   public setAthlete(athlete: Athlete): void {
-     this.athlete = athlete;
-     this.athleteChange.emit(athlete);
+    this.athlete = athlete;
+    this.athleteChange.emit(athlete);
   }
 
 
@@ -127,8 +127,8 @@ export class StravaService {
     let uri = this.url + 'athlete/activities';
 
     uri = uri + '?before=' + Math.floor(this.getToDate().getTime() / 1000)
-      + '&after=' + Math.floor(this.getFromDate().getTime() / 1000)
-      + '&per_page=30';
+        + '&after=' + Math.floor(this.getFromDate().getTime() / 1000)
+        + '&per_page=30';
 
     if (page !== undefined) {
       uri = uri + '&page=' + page;
@@ -147,7 +147,7 @@ export class StravaService {
 
   public authorise(routeUrl: string): void {
     window.location.href = 'http://www.strava.com/oauth/authorize?client_id=' + environment.stravaClientId +
-      '&response_type=code&redirect_uri=' + routeUrl + '&approval_prompt=force&scope=read,activity:read_all,profile:read_all';
+        '&response_type=code&redirect_uri=' + routeUrl + '&approval_prompt=force&scope=read,activity:read_all,profile:read_all';
   }
 
   setAccessToken(token: { access_token: undefined; }): void {
@@ -191,20 +191,20 @@ export class StravaService {
     );
 
     const url = 'https://www.strava.com/oauth/token' +
-      '?client_id=' + environment.stravaClientId +
-      '&client_secret=' + environment.stravaSecret +
-      '&refresh_token=' + token.refresh_token +
-      '&grant_type=refresh_token';
+        '?client_id=' + environment.stravaClientId +
+        '&client_secret=' + environment.stravaSecret +
+        '&refresh_token=' + token.refresh_token +
+        '&grant_type=refresh_token';
 
     return this.http.post<any>(url, {headers}).subscribe(
-      accessToken => {
-        console.log('Strava token refreshed');
-        this.setAccessToken(accessToken);
-        this.refreshingToken = false;
-      },
-      (err) => {
+        accessToken => {
+          console.log('Strava token refreshed');
+          this.setAccessToken(accessToken);
+          this.refreshingToken = false;
+        },
+        (err) => {
           console.log('Strava Refresh Error: ', err);
-      }
+        }
     );
   }
 
@@ -214,25 +214,25 @@ export class StravaService {
     );
 
     const url = 'https://www.strava.com/oauth/token' +
-      '?client_id=' + environment.stravaClientId +
-      '&client_secret=' + environment.stravaSecret +
-      '&code=' + authorisationCode +
-      '&grant_type=authorization_code';
+        '?client_id=' + environment.stravaClientId +
+        '&client_secret=' + environment.stravaSecret +
+        '&code=' + authorisationCode +
+        '&grant_type=authorization_code';
 
     this.http.post<any>(url, {headers}).subscribe(
-      token => {
-        this.setAccessToken(token);
-      },
-      (err) => {
-        console.log('Strava Access Error: ', err);
-      }
+        token => {
+          this.setAccessToken(token);
+        },
+        (err) => {
+          console.log('Strava Access Error: ', err);
+        }
     );
   }
 
 
 
   public getTokenExpirationDate(
-    decoded: any
+      decoded: any
   ): Date | null {
 
     if (!decoded || !decoded.hasOwnProperty('expires_at')) {
@@ -246,8 +246,8 @@ export class StravaService {
   }
 
   public isTokenExpired(
-    token: any,
-    offsetSeconds?: number
+      token: any,
+      offsetSeconds?: number
   ): boolean {
     if (!token || token === '') {
       return true;
@@ -314,15 +314,15 @@ export class StravaService {
 
       if (activity.moving_time !== undefined) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
-          '55411-3', 'Exercise duration', Math.round(activity.moving_time / 60), 'min');
+          '55411-3', 'm','Exercise duration', Math.round(activity.moving_time / 60), 'min');
       }
       if (activity.kilojoules !== undefined) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
-          '55409-7', 'Calories burned, Machine Estimate', activity.kilojoules , 'KJ');
+          '55409-7', 'kcal','Calories burned, Machine Estimate', activity.kilojoules , 'kcal');
       }
       if (activity.average_heartrate !== undefined) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
-          '66440-9', 'Heart rate 10 minutes mean', activity.average_heartrate , 'beat/min');
+          '66440-9', '{beat}/min', 'Heart rate 10 minutes mean', activity.average_heartrate , 'beat/min');
       }
       // @ts-ignore
       bundle.entry.push({
@@ -337,11 +337,13 @@ export class StravaService {
     return bundle;
   }
   private addBundleObservationEntry(bundle: Bundle, report: DiagnosticReport, obs: SummaryActivity,
-                                    codeSystem: string, code: string, display: string, value?: number | undefined, unit?: string): BundleEntry {
+                                    codeSystem: string, code: string, unitCode: string, display: string, value?: number | undefined,
+                                    unitDisplay?: string): BundleEntry {
     const fhirObs: Observation = {
       code: {},
       status: 'final',
-      resourceType: 'Observation'
+      resourceType: 'Observation',
+      extension: []
     };
     fhirObs.subject = report.subject;
     //  console.log(obs.elapsed_time);
@@ -351,23 +353,33 @@ export class StravaService {
         value: obs.id + '-' + code
       }
     ];
-
-    fhirObs.code = {
-      coding : [{
-        system: codeSystem,
-        code,
-        display
+    const extension = {
+      url: 'http://example.fhir.nhs.uk/StructureDefinition/MeasurementSettingExt',
+      valueCodeableConcept: {
+        coding: [
+          {
+            system: 'http://snomed.info/sct',
+            code: '272501009',
+            display: 'Sports facility (environment)'
+          }
+        ]
       }
-      ]
+    };
+    // @ts-ignore
+    fhirObs.extension.push(extension);
+
+    // @ts-ignore
+    fhirObs.code = {coding : [{system: codeSystem, code, display}]
     };
 
     // @ts-ignore
     fhirObs.effectiveDateTime = report.effectivePeriod.end;
-    if (value !== undefined && unit !== undefined) {
-      fhirObs.valueQuantity = {
-        value,
-        unit,
-        system: 'http://unitsofmeasure.org'
+    if (value !== undefined && unitCode !== undefined) {
+      // @ts-ignore
+      fhirObs.valueQuantity = {value,
+        unit: unitDisplay,
+        system: 'http://unitsofmeasure.org',
+        code: unitCode
       };
     }
 
@@ -380,10 +392,7 @@ export class StravaService {
       }
     };
     // @ts-ignore
-    report.result.push({
-      reference : entry.fullUrl,
-      display
-    });
+    report.result.push({reference : entry.fullUrl, display});
     // @ts-ignore
     bundle.entry.push(entry);
     return entry;

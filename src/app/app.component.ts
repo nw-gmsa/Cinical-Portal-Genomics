@@ -13,7 +13,7 @@ export class AppComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         // Show loading indicator
-        console.log(event);
+       // console.log(event);
       }
 
       if (event instanceof NavigationEnd) {

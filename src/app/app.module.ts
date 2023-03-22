@@ -91,6 +91,7 @@ import { FormsComponent } from './main/patient-main/forms/forms.component';
 import { WorkflowComponent } from './main/patient-main/workflow/workflow.component';
 import { CoordinatedCareComponent } from './main/patient-main/coordinated-care/coordinated-care.component';
 import { PatientCommunicationComponent } from './main/patient-main/patient-communication/patient-communication.component';
+import { PersonalHealthDeviceComponent } from './main/account/personal-health-device/personal-health-device.component';
 
 const modules = [
   MatIconModule,
@@ -162,7 +163,8 @@ const modules = [
     FormsComponent,
     WorkflowComponent,
     CoordinatedCareComponent,
-    PatientCommunicationComponent
+    PatientCommunicationComponent,
+    PersonalHealthDeviceComponent
   ],
   imports: [
     BrowserModule,

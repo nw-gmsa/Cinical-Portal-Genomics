@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 import {FhirService} from '../../services/fhir.service';
-import {Observation} from 'fhir/r4';
+import {Extension, Observation} from 'fhir/r4';
 import {ObservationChartDialogComponent} from '../../dialogs/observation-chart-dialog/observation-chart-dialog.component';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {ResourceDialogComponent} from '../../dialogs/resource-dialog/resource-dialog.component';
@@ -32,8 +32,7 @@ export class ObservationComponent implements OnInit {
   // @ts-ignore
   dataSource: MatTableDataSource<Observation> ;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'value', 'chart', 'performer', 'resource'];
-
+  displayedColumns = ['effectiveDateTime', 'code', 'tags', 'category',  'value', 'chart', 'performer', 'resource'];
 
 
   constructor(public fhirService: FhirService,
@@ -147,4 +146,12 @@ export class ObservationComponent implements OnInit {
             this.dialog.open(ObservationChartDialogComponent, dialogConfig);
         }
     }
+
+  getTag(ext: Extension): string {
+    let retStr = '';
+    if (ext.valueCodeableConcept !== undefined && ext.valueCodeableConcept && ext.valueCodeableConcept.coding !== undefined) {
+      retStr += ext.valueCodeableConcept.coding[0].display + ' ';
+    }
+    return retStr.trim();
+  }
 }

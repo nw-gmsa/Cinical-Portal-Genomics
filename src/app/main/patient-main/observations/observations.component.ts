@@ -34,13 +34,17 @@ export class ObservationsComponent implements OnInit {
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
       if (patient.id !== undefined) this.patientid = patient.id
-      console.log(patient);
       this.getRecords();
     });
   }
 
   getRecords() {
-      this.fhirSrv.get('/Observation?patient=' + this.patientid + '&_count=100&_sort=-date').subscribe(bundle => {
+    const end = this.fhirSrv.getToDate();
+    const from = new Date();
+    from.setDate(end.getDate() - 7 );
+      this.fhirSrv.get('/Observation?patient=' + this.patientid
+          + '&date=gt' + from.toISOString().split('T')[0]
+          + '&_count=400&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'Observation') {

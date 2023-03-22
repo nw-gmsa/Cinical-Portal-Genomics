@@ -1,8 +1,18 @@
+import {MeasurementSetting} from "./enums/MeasurementSetting";
+
 export interface Obs {
+  id?: string;
+  measurementSetting: MeasurementSetting;
+  asleep?: boolean;
+  rr_average?: number;
+  snoring?: number;
+  apnea_hypopnea_index?: number;
+  sdnn_1?: number;
   skintemp?: number;
   totalcalories?: number;
 
   obsDate: Date;
+  obsEndDate?: Date;
   identifierValue?: string;
   name?: string;
   weight?: number;

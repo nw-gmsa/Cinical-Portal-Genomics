@@ -3,25 +3,40 @@
     <td-layout-nav-list navigationRoute="/" [opened]=false mode="side">
 
 
-        <div td-toolbar-content layout-align="start center" flex>
-            <span>&nbsp;</span>
-            <span flex>
+        <div td-toolbar-content layout-align="space-between center" flex>
+            <div
+                    flex
+                    flex-order-xs="2"
+                    layout="row"
+                    layout-align="center center"
+            >
             FHIR R4 and UKCore Demonstration
-            </span>
-          <span flex>
-            </span>
-
-            <td-dynamic-menu
-                    [trigger]="triggerPatient"
-                    [items]="itemsPatient"
-            ></td-dynamic-menu>
-            <span *ngIf="patientId!== undefined">
+                <td-dynamic-menu
+                        [trigger]="triggerPatient"
+                        [items]="itemsPatient"
+                        (itemClicked)="reportClick($event)"
+                ></td-dynamic-menu>
+                <span *ngIf="patientId!== undefined">
                 <td-dynamic-menu
                         [trigger]="triggerCare"
                         [items]="itemsCare"
                         (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu>
             </span>
+          <span flex>
+            </span>
+                <td-dynamic-menu
+                        [trigger]="triggerApps"
+                        [items]="itemsApps"
+                ></td-dynamic-menu>
+
+                <td-dynamic-menu
+                        [trigger]="triggerAccount"
+                        [items]="itemsAccount"
+                        (itemClicked)="reportClick($event)"
+                ></td-dynamic-menu>
+
+            </div>
         </div>
         <router-outlet></router-outlet>
     </td-layout-nav-list>

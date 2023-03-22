@@ -32,6 +32,10 @@ export class FhirService {
   private from: Date | undefined;
   private to: Date | undefined;
   private duration = 20;
+  private maxTransactionSize = 80;
+  pageOn = 10;
+  throttle = 3000;
+  measurePageMod = 2;
 
   private baseUrl = environment.fhirServer ;
   private tieUrl = environment.tieServer;
@@ -492,24 +496,25 @@ export class FhirService {
 
   sendTransaction(originalTransaction: Bundle, infoMsg: string): void {
     let trans = this.newTransaction();
-    let count = 90;
-    // @ts-ignore
-    for (const entry of originalTransaction.entry) {
-      count--;
-      if (trans.entry !== undefined) {
+    let count = this.maxTransactionSize;
+    if (originalTransaction.entry !== undefined) {
+      for (const entry of originalTransaction.entry) {
+        count--;
+        // @ts-ignore
         trans.entry.push(entry);
         if (count < 1) {
+          console.log('POST Transaction Batched ' + infoMsg + ' Remaining ' + (originalTransaction.entry.length - count));
           this.sendTransactionInternal(trans, infoMsg);
-          count = 90;
+          count = this.maxTransactionSize;
           trans = this.newTransaction();
-          console.log('Batched ' + infoMsg);
         }
       }
+      // @ts-ignore
+      if (trans.entry.length > 0) {
+        this.sendTransactionInternal(trans, infoMsg);
+      }
     }
-    if (trans.entry !== undefined && trans.entry.length > 0) {
-      console.log('Batched End' + infoMsg);
-      this.sendTransactionInternal(trans, infoMsg);
-    }
+    console.log('POST Transaction End ' + infoMsg);
   }
 
   newTransaction(): Bundle {
@@ -524,26 +529,26 @@ export class FhirService {
     const headers = this.getHeaders();
 
     return this.http.post<any>(this.tieUrl, body, { headers} ).pipe(
-      // retry(3)
-      // May need to consider this
-    ).subscribe(() => {
-        console.log('POSTED ' + infoMsg);
-      },
-      (err) => {
+        // retry(3)
+        // May need to consider this
+    ).subscribe(result => {
+          // console.log('POSTED ' + infoMsg);
+        },
+        (err) => {
 
-        if (err.status === 401) {
-          console.log('Server Busy for ' + infoMsg);
-          // pop onto queue?
-        }
-        else if (err.status === 504) {
-          console.log('Timeout for ' + infoMsg);
-          // pop onto queue?
-        }else {
-          console.log('Http Error for ' + infoMsg);
-          console.log(err);
-        }
-      });
+          if (err.status === 401) {
+            console.log('Server Busy for ' + infoMsg);
+            // pop onto queue?
+          }
+          else if (err.status === 504) {
+            console.log('Timeout for ' + infoMsg);
+            // pop onto queue?
+          }else {
+            console.log('Http Error for ' + infoMsg);
+            console.log(JSON.stringify(body));
+            console.log(err);
+          }
+        });
   }
-
 
 }

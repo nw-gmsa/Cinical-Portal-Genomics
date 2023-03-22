@@ -19,11 +19,38 @@ export class MainComponent implements OnInit {
     icon: 'account_circle',
     text: 'Patient',
   };
+  triggerApps: IMenuTrigger = {
+    id: 'triggerApps',
+    icon: 'apps',
+    text: 'Apps',
+  };
   triggerCare: IMenuTrigger = {
     id: 'triggerbutton',
     icon: 'list',
     text: 'Care Records',
   };
+
+  triggerAccount: IMenuTrigger = {
+    id: 'triggerutility',
+    icon: 'manage_accounts',
+    text: 'Account',
+  };
+
+  itemsAccount: IMenuItem[] = [
+    {
+      // Grouping label
+      id: 'devices',
+      text: 'Personal Health Device',
+    },
+    {
+      // Submenu trigger
+      id: 'phrapps',
+      text: 'Connected PHR Applications',
+      icon: 'app_shortcut',
+      action: 'device',
+      newTab: false,
+    }
+    ];
 
   itemsPatient: IMenuItem[] = [
     {
@@ -35,12 +62,12 @@ export class MainComponent implements OnInit {
       // Submenu trigger
       id: 'patientfind',
       text: 'Patient Find',
-      icon: 'flash_on',
-      link: '/search',
-      newTab: false,
+      icon: 'find_in_page',
+      action: 'search'
     }
     ];
-  itemsCare: IMenuItem[] = [
+
+  itemsApps: IMenuItem[] = [
     {
       // Grouping label
       id: 'platform',
@@ -49,10 +76,11 @@ export class MainComponent implements OnInit {
     {
       id: 'quickstartlink',
       text: 'NLM Form Builder',
-
       link: 'https://lhcformbuilder.nlm.nih.gov/',
       newTab: true
-    },
+    }
+  ];
+  itemsCare: IMenuItem[] = [
     {
       // Grouping label
       id: 'patientcare',
@@ -117,7 +145,7 @@ export class MainComponent implements OnInit {
     this.epr.patientChangeEvent.subscribe(patient => {
       if (patient!==undefined) {
         this.patientId = patient.id;
-        console.log('Got Patient')
+        console.log('Patient record active')
       } else {
         this.patientId = undefined;
       }
@@ -128,9 +156,10 @@ export class MainComponent implements OnInit {
   }
 
   reportClick(event: ITdDynamicMenuLinkClickEvent): void {
-    console.log(event.text)
-    console.log(event.action)
-    if (event.action !== undefined && this.patientId !== undefined) {
+
+    if (event.action !== undefined) {
+
+    if (this.patientId !== undefined) {
       switch (event.action) {
         case 'observations': {
           this.router.navigateByUrl('/patient/'+this.patientId+'/observations');
@@ -160,8 +189,21 @@ export class MainComponent implements OnInit {
           this.router.navigateByUrl('/patient/'+this.patientId+'/coordination');
           break;
         }
+        case 'device': {
+          this.router.navigateByUrl('/device');
+          break;
+        }
       }
     }
+    // These don't require an active patient
+    switch (event.action) {
+        case 'search': {
+          this.router.navigateByUrl('/search');
+          break;
+        }
+      }
+    }
+
    /* this._snackBar.open(
         `Item "${event.text}:${event.action}" clicked`,
         undefined,
