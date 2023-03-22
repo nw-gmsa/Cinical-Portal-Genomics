@@ -2,8 +2,7 @@
 import {Component, OnInit, Input, EventEmitter, Output, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
-import {Identifier, Patient, Practitioner} from 'fhir/r4';
-import {Organization} from 'fhir/r4';
+import {Patient} from 'fhir/r4';
 import {FhirService} from '../../services/fhir.service';
 import {ResourceDialogComponent} from '../../dialogs/resource-dialog/resource-dialog.component';
 import {PatientDataSource} from '../../datasource/patient-data-source';

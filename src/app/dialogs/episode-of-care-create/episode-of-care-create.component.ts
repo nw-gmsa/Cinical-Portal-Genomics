@@ -4,9 +4,7 @@ import {
   CareTeam,
   Coding,
   Condition,
-
   ValueSetExpansionContains,
-  Resource,
   ServiceRequest, Organization, Practitioner
 } from 'fhir/r4';
 import {Observable, Subject} from 'rxjs';

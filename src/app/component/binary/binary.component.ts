@@ -1,9 +1,10 @@
 import {Component, Inject, Input, OnInit, ViewContainerRef} from '@angular/core';
 
 import {ActivatedRoute} from '@angular/router';
-import {IAlertConfig, TdDialogService} from '@covalent/core/dialogs';
-import {Binary, DocumentReference, Encounter} from 'fhir/r4';
+import { TdDialogService} from '@covalent/core/dialogs';
+
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {Binary, DocumentReference} from "fhir/r4";
 
 @Component({
   selector: 'app-binary',

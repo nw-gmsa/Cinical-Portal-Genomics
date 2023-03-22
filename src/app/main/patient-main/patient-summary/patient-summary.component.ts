@@ -2,18 +2,15 @@ import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatChip} from '@angular/material/chips';
 import {
-  AllergyIntolerance, CarePlan, CareTeam, Condition,
-  DocumentReference,
-  Encounter, EpisodeOfCare,
+  AllergyIntolerance,  Condition,
+  Encounter,
   Flag,
-  Task, Observation,
-  Patient, QuestionnaireResponse, Reference, ServiceRequest, MedicationRequest, DiagnosticReport, Communication
+  Patient, Reference, MedicationRequest,
 } from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {EprService} from '../../../services/epr.service';
-import {IAlertConfig, TdDialogService} from '@covalent/core/dialogs';
+import { TdDialogService} from '@covalent/core/dialogs';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import { BinaryComponent } from 'src/app/component/binary/binary.component';
 import {StravaService} from '../../../services/strava.service';
 import {Athlete} from '../../../models/athlete';
 import {TdLoadingService} from '@covalent/core/loading';

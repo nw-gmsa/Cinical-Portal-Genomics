@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Encounter, Observation, Patient, Task} from 'fhir/r4';
+import { Patient, Task} from 'fhir/r4';
 import {FhirService} from '../../services/fhir.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {ResourceDialogComponent} from '../../dialogs/resource-dialog/resource-dialog.component';

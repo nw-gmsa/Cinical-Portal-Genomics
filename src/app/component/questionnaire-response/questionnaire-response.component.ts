@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {QuestionnaireResponse, Reference} from 'fhir/r4';
+import {QuestionnaireResponse} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../dialogs/resource-dialog/resource-dialog.component';
 import {FhirService} from '../../services/fhir.service';
 import {MatTableDataSource} from '@angular/material/table';

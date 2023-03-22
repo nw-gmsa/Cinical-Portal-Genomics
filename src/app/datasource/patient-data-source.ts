@@ -33,7 +33,7 @@ export class PatientDataSource extends DataSource<any> {
 
     this.dataStore = { patients: [] };
 
-    if (this.patients !== [] && this.patients !== undefined) {
+    if (this.patients.length !== 0 && this.patients !== undefined) {
       for (let patient of this.patients) {
         this.dataStore.patients.push(<Patient> patient);
       }

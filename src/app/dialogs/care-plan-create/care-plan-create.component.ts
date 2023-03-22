@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Moment} from 'moment/moment';
-import {CarePlan, CareTeam, Coding, Condition, ContactPoint, Extension, Reference, ValueSetExpansionContains} from 'fhir/r4';
+import {CarePlan, CareTeam, Coding, Condition, Extension, Reference, ValueSetExpansionContains} from 'fhir/r4';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FhirService} from '../../services/fhir.service';
 import {DialogService} from '../dialog.service';

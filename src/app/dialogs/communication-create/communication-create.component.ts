@@ -4,7 +4,7 @@ import {
   Communication,
   DocumentReference,
   Organization, Practitioner,
-  Reference, Resource,
+  Reference,
   ValueSetExpansionContains
 } from 'fhir/r4';
 import {MatSelectChange} from '@angular/material/select';

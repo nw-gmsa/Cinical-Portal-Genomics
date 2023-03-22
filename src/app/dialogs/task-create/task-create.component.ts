@@ -5,7 +5,6 @@ import {
   debounceTime, distinctUntilChanged, map, switchMap
 } from 'rxjs/operators';
 import {
-  Bundle,
   CareTeam,
   Coding,
   MedicationRequest,
@@ -13,7 +12,6 @@ import {
   Practitioner,
   Resource, ServiceRequest,
   Task,
-  ValueSet,
   ValueSetExpansionContains
 } from 'fhir/r4';
 import {FhirService} from '../../services/fhir.service';

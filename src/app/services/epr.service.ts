@@ -1,8 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
-
-import {FhirService} from './fhir.service';
-import {AllergyIntolerance, DocumentReference, Flag, Patient} from 'fhir/r4';
-
+import {Patient} from 'fhir/r4';
 
 @Injectable()
 export class EprService {

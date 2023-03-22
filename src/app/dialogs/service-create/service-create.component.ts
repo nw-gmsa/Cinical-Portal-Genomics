@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {
-  Bundle, CarePlan,
+  CarePlan,
   CareTeam,
   Coding, Condition, DiagnosticReport,
   Organization,

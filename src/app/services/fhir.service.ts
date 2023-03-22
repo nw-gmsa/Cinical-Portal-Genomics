@@ -1,8 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subscription} from 'rxjs';
-
-
 import {
   Binary,
   Bundle,
@@ -10,7 +8,6 @@ import {
   CodeableConcept,
   Coding, Condition,
   Endpoint,
-  FhirResource,
   Identifier, MedicationRequest,
   Quantity,
   Reference, Resource, ServiceRequest,
