@@ -107,6 +107,5 @@
         }
       }
     }
-  },
-  "defaultProject": "FHIR-Demonstration"
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {EprService} from '../../services/epr.service';
 import {Patient} from 'fhir/r4';
@@ -13,7 +13,7 @@ import {Patient} from 'fhir/r4';
 })
 export class PatientFindComponent implements OnInit {
 
-  constructor(private _formBuilder: FormBuilder, private router: Router, private eprService: EprService) { }
+  constructor(private _formBuilder: UntypedFormBuilder, private router: Router, private eprService: EprService) { }
 
   ngOnInit() {
 
