@@ -5,6 +5,7 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog
 import {ResourceDialogComponent} from '../../dialogs/resource-dialog/resource-dialog.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-diagnostic-report',
@@ -28,7 +29,9 @@ export class DiagnosticReportComponent implements OnInit {
   dataSource: MatTableDataSource<DiagnosticReport>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns = ['date', 'code',  'category', 'status', 'performer', 'resource'];
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+
+  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer', 'resource'];
 
   constructor(public fhirService: FhirService,
               public dialog: MatDialog) { }
@@ -53,10 +56,36 @@ export class DiagnosticReportComponent implements OnInit {
     } else {
       console.log('SORT UNDEFINED');
     }
+    if (this.dataSource !== undefined && this.paginator !== undefined) this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'effectiveDateTime': {
+          if (item.effectiveDateTime !== undefined) {
+
+            return item.effectiveDateTime
+          }
+          if (item.effectivePeriod !== undefined) {
+
+            if (item.effectivePeriod?.end !== undefined) {
+              return item.effectivePeriod?.end
+
+            }
+            if (item.effectivePeriod?.start !== undefined) { // @ts-ignore
+
+              return item.effectivePeriod?.start
+            }
+          }
+          return '';
+        }
+        case 'code': {
+          return this.fhirService.getCodeableConceptValue(item.code)
+        }
+        default: {
+          return ''
+        }
+      };
+    }
   }
-
-
-
 
   select(resource: any) {
     const dialogConfig = new MatDialogConfig();

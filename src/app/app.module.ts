@@ -92,6 +92,7 @@ import { WorkflowComponent } from './main/patient-main/workflow/workflow.compone
 import { CoordinatedCareComponent } from './main/patient-main/coordinated-care/coordinated-care.component';
 import { PatientCommunicationComponent } from './main/patient-main/patient-communication/patient-communication.component';
 import { PersonalHealthDeviceComponent } from './main/account/personal-health-device/personal-health-device.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 const modules = [
   MatIconModule,
@@ -166,36 +167,37 @@ const modules = [
     PatientCommunicationComponent,
     PersonalHealthDeviceComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    RouterModule,
-    ...modules,
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        RouterModule,
+        ...modules,
 
-    ReactiveFormsModule,
-    FormsModule,
+        ReactiveFormsModule,
+        FormsModule,
 
-    NgxChartsModule,
+        NgxChartsModule,
 
-    HttpClientModule,
-    LayoutModule,
+        HttpClientModule,
+        LayoutModule,
 
-    CovalentLayoutModule,
-    CovalentMarkdownModule,
-    CovalentDynamicFormsModule,
-    CovalentFileModule,
-    CovalentJsonFormatterModule,
-    CovalentDialogsModule,
-    CovalentMessageModule,
-    CovalentLoadingModule,
-    CovalentDynamicMenuModule,
-    MatTreeModule,
-    MatCheckboxModule,
-    MatAutocompleteModule,
-    MatButtonToggleModule,
-    PdfViewerModule
-  ],
+        CovalentLayoutModule,
+        CovalentMarkdownModule,
+        CovalentDynamicFormsModule,
+        CovalentFileModule,
+        CovalentJsonFormatterModule,
+        CovalentDialogsModule,
+        CovalentMessageModule,
+        CovalentLoadingModule,
+        CovalentDynamicMenuModule,
+        MatTreeModule,
+        MatCheckboxModule,
+        MatAutocompleteModule,
+        MatButtonToggleModule,
+        PdfViewerModule,
+        MatPaginatorModule
+    ],
   exports: [...modules],
   providers: [
     EprService,

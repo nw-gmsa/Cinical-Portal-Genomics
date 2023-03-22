@@ -21,6 +21,7 @@ speed-measure-plugin*.json
 .c9/
 *.launch
 .settings/
+*.iml
 *.sublime-workspace
 
 # IDE - VSCode
@@ -48,3 +49,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/FHIR-R4-Demonstration.iml

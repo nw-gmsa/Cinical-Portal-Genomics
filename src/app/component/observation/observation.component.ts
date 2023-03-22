@@ -6,7 +6,9 @@ import {ObservationChartDialogComponent} from '../../dialogs/observation-chart-d
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {ResourceDialogComponent} from '../../dialogs/resource-dialog/resource-dialog.component';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatPaginator} from "@angular/material/paginator";
+import {LiveAnnouncer} from "@angular/cdk/a11y";
 
 
 
@@ -32,11 +34,13 @@ export class ObservationComponent implements OnInit {
   // @ts-ignore
   dataSource: MatTableDataSource<Observation> ;
   @ViewChild(MatSort) sort: MatSort | undefined;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   displayedColumns = ['effectiveDateTime', 'code', 'tags', 'category',  'value', 'chart', 'performer', 'resource'];
 
 
   constructor(public fhirService: FhirService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
 
@@ -56,10 +60,45 @@ export class ObservationComponent implements OnInit {
         console.log(event);
       });
       // @ts-ignore
+      this.sort.sort(({ id: 'effectiveDateTime', start: 'desc'}) as MatSortable);
       this.dataSource.sort = this.sort;
     } else {
       console.log('SORT UNDEFINED');
     }
+    if (this.dataSource !== undefined && this.paginator !== undefined) this.dataSource.paginator = this.paginator;
+    // @ts-ignore
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'effectiveDateTime': {
+          if (item.effectiveDateTime !== undefined) {
+
+            return item.effectiveDateTime
+          }
+          if (item.effectivePeriod !== undefined) {
+
+            if (item.effectivePeriod?.end !== undefined) {
+              return item.effectivePeriod?.end
+
+            }
+            if (item.effectivePeriod?.start !== undefined) { // @ts-ignore
+
+              return item.effectivePeriod?.start
+            }
+          }
+          return undefined;
+        }
+        case 'code': {
+          return this.fhirService.getCodeableConceptValue(item.code)
+        }
+        default: {
+          return undefined
+        }
+      };
+    };
+
+    // this.dataSource.sort = this.sort;
+    //  console.log(this.dataSource.sort);
+
   }
 
   getValue(observation: Observation): string {
@@ -153,5 +192,17 @@ export class ObservationComponent implements OnInit {
       retStr += ext.valueCodeableConcept.coding[0].display + ' ';
     }
     return retStr.trim();
+  }
+
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 }

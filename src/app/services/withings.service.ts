@@ -126,7 +126,7 @@ export class WithingsService {
     let bodge = 'action=getactivity'
         + '&data_fields=steps,hr_average,hr_min,hr_max,totalcalories,calories,active'
         + '&startdateymd=' + this.fhir.getFromDate().toISOString().split('T')[0]
-        + '&enddateymd=' + this.fhir.getToDate().toISOString().split('T')[0];
+        + '&enddateymd=' + this.fhir.getNextToDay().toISOString().split('T')[0];
     //  + '&lastupdate='+Math.floor(lastUpdate.getTime()/1000);
     if (offset !== undefined) {
       bodge = bodge + '&offset=' + Math.floor(offset);
@@ -170,7 +170,7 @@ export class WithingsService {
         + '&meastypes=1,5,8,9,10,11,12,54,71,73,77,76,88,91,123,135,136,137,138,139'
         + '&category=1'
         + '&startdate=' + Math.floor(this.fhir.getFromDate().getTime() / 1000)
-        + '&enddate=' + Math.floor(this.fhir.getToDate().getTime() / 1000);
+        + '&enddate=' + Math.floor(this.fhir.getNextToDay().getTime() / 1000);
     // + '&lastupdate='+Math.floor(lastUpdate.getTime()/1000);
 
     return this.http.post<any>(this.url + '/measure', bodge, { headers} );
@@ -206,7 +206,7 @@ export class WithingsService {
 
     const bodge = 'action=getsummary'
         + '&startdateymd=' + this.datePipe.transform(this.fhir.getFromDate(), 'yyyy-MM-dd')
-        + '&enddateymd=' + this.datePipe.transform(this.fhir.getToDate(), 'yyyy-MM-dd')
+        + '&enddateymd=' + this.datePipe.transform(this.fhir.getNextToDay(), 'yyyy-MM-dd')
         // + '&lastupdate='+Math.floor(lastUpdate.getTime()/1000)
         + '&data_fields=breathing_disturbances_intensity,deepsleepduration,lightsleepduration'
         + ',wakeupcount,durationtosleep,sleep_score,remsleepduration'

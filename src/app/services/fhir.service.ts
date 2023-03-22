@@ -57,6 +57,16 @@ export class FhirService {
 
   private rootUrl: string | undefined;
 
+  getToDate(): Date {
+    return <Date>this.to;
+  }
+  getNextToDay(): Date {
+    const temp = new Date();
+    this.to = new Date();
+    const next = new Date();
+    next.setDate(temp.getDate() + 1);
+    return next;
+  }
 
   constructor(private http: HttpClient) {
     const temp = new Date();
@@ -486,9 +496,7 @@ export class FhirService {
     return <Date>this.from;
   }
 
-  getToDate(): Date {
-    return <Date>this.to;
-  }
+
 
   getType(type: string): string {
     return type;
