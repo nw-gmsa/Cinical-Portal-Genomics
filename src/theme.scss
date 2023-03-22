@@ -45,6 +45,12 @@ $theme: mat.define-light-theme((
 // Include flex layout classes
 @include covalent-layout();
 
+body .mat-card {
+        border-radius: 8px;
+}
+.fullscreen {
+        height: 100%;
+}
 mat-nav-list, mat-list {
         [mat-list-item].active {
                 mat-icon[matListAvatar] {

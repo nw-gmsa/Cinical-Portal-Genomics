@@ -18,3 +18,7 @@ mat-slider {
 input {
     width: 300px;
 }
+
+.fullscreen {
+    height: 100%;
+}

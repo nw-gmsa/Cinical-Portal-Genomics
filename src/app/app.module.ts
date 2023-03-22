@@ -93,6 +93,7 @@ import { CoordinatedCareComponent } from './main/patient-main/coordinated-care/c
 import { PatientCommunicationComponent } from './main/patient-main/patient-communication/patient-communication.component';
 import { PersonalHealthDeviceComponent } from './main/account/personal-health-device/personal-health-device.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {CovalentCommonModule} from "@covalent/core/common";
 
 const modules = [
   MatIconModule,
@@ -196,7 +197,8 @@ const modules = [
         MatAutocompleteModule,
         MatButtonToggleModule,
         PdfViewerModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        CovalentCommonModule
     ],
   exports: [...modules],
   providers: [

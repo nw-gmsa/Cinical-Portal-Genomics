@@ -51,6 +51,11 @@ export class PatientSummaryComponent implements OnInit {
   private withingsConnect: boolean | undefined;
 
   public nhsNumber: string | undefined;
+    basicFlavoredMarkdown = `
+   Incomplete. To be based around [International Patient Summary](https://build.fhir.org/ig/HL7/fhir-ips/ipsStructure.html)
+   Potentially add code to automatically generate the [FHIR Document](https://build.fhir.org/ig/HL7/fhir-ips/StructureDefinition-Composition-uv-ips.html)
+ 
+ `;
 
   constructor(private router: Router,
               private fhirSrv: FhirService,

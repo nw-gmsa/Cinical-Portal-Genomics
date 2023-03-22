@@ -1,14 +1,14 @@
-<mat-card>
-<mat-tab-group>
-  <mat-tab label="Patient Summary">
+<mat-card class="fullscreen scrollable-content" >
 
+    <!-- <mat-tab-group >
+  <mat-tab label="Patient Summary">
+-->
+    <td-markdown>{{ basicFlavoredMarkdown }}</td-markdown>
      <mat-card>
      <mat-card-content>
-    <div fxLayout="row"
-         fxFlexFill >
+    <div>
         <h3>Conditions</h3>
            <span flex></span>
-
     </div>
          <span *ngIf="conditions.length>0">
     <app-condition [conditions]="conditions"> </app-condition>
@@ -18,11 +18,9 @@
          </span>
      </mat-card-content>
        <mat-card-content>
-         <div fxLayout="row"
-              fxFlexFill >
+         <div>
            <h3>Allergies</h3>
            <span flex></span>
-
          </div>
          <span *ngIf="allergies.length>0">
     <app-allergy-intolerance [allergies]="allergies"> </app-allergy-intolerance>
@@ -32,8 +30,7 @@
          </span>
        </mat-card-content>
        <mat-card-content>
-         <div fxLayout="row"
-              fxFlexFill >
+         <div>
            <h3>Medications (prescriptions)</h3>
            <span flex></span>
 
@@ -47,8 +44,7 @@
        </mat-card-content>
 
        <mat-card-content>
-         <div fxLayout="row"
-              fxFlexFill >
+         <div>
            <h3>Last 5 Visits/Encounter</h3>
            <span flex></span>
 
@@ -61,11 +57,11 @@
          </span>
        </mat-card-content>
      </mat-card>
-
+<!--
   </mat-tab>
 
 </mat-tab-group>
-
+-->
 </mat-card>
 
 
