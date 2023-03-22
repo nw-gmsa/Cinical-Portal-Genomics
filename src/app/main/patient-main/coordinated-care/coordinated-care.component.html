@@ -1,11 +1,10 @@
 
     <mat-card class="fullscreen scrollable-content">
         <mat-card-content>
-            <div fxLayout="row"
-                 fxFlexFill >
+
                 <h3>Care Plans</h3>
                 <span flex></span>
-            </div>
+
             <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
                 <mat-list-item>
                     <button mat-icon-button color="accent"  (click)="addCarePlan()"><mat-icon>map</mat-icon> Add Care Plan</button>
@@ -19,8 +18,7 @@
                  </span>
         </mat-card-content>
         <mat-card-content>
-            <div fxLayout="row"
-                 fxFlexFill >
+            <div >
                 <h3>Care Teams</h3>
                 <span flex></span>
             </div>
@@ -37,8 +35,7 @@
                  </span>
         </mat-card-content>
         <mat-card-content>
-            <div fxLayout="row"
-                 fxFlexFill >
+            <div  >
                 <h3>Stays/Episodes</h3>
                 <span flex></span>
 
