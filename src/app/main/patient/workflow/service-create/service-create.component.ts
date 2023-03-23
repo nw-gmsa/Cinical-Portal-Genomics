@@ -53,7 +53,7 @@ export class ServiceCreateComponent implements OnInit {
   private practitioner: Practitioner | undefined;
   private serviceRequestCode: Coding | undefined;
   selectedValues: any;
-  disabled: boolean | undefined;
+  disabled: boolean = true;
   patientId = undefined;
   nhsNumber = undefined;
   notes: string | undefined;

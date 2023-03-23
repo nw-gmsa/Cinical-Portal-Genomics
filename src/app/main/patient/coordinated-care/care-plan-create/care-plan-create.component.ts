@@ -16,7 +16,7 @@ import * as uuid from 'uuid';
   styleUrls: ['./care-plan-create.component.scss']
 })
 export class CarePlanCreateComponent implements OnInit {
-  disabled: boolean | undefined;
+  disabled: boolean = true;
   patientId : string | undefined;
   nhsNumber : string | undefined;
   statuses: ValueSetExpansionContains[] | undefined;

@@ -51,7 +51,7 @@ export class TaskCreateComponent implements OnInit {
   private taskPriority: Coding | undefined;
   private reasonCode: Coding | undefined;
   selectedValues: any;
-  disabled: boolean | undefined;
+  disabled: boolean = true;
   patientId = undefined;
   nhsNumber = undefined;
   notes: string | undefined;

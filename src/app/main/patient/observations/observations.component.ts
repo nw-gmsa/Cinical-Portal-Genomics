@@ -19,7 +19,7 @@ export class ObservationsComponent implements OnInit {
   diagnosticReports: DiagnosticReport[] = [];
 
   patientid: string | null = null;
-  constructor( private fhirSrv: FhirService,
+  constructor( public fhirSrv: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                public dialog: MatDialog) { }

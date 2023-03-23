@@ -559,4 +559,8 @@ export class FhirService {
         });
   }
 
+  public getUKCore(profile: string ) : string {
+    return "https://simplifier.net/resolve?target=simplifier&fhirVersion=R4&scope=fhir.r4.ukcore.stu3.currentbuild&canonical="+profile;
+  }
+
 }

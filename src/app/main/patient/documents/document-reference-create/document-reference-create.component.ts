@@ -19,7 +19,7 @@ export class DocumentReferenceCreateComponent implements OnInit {
 
   patientId: string | null = null;
   public nhsNumber: string | undefined;
-  disabled: boolean | undefined;
+  disabled: boolean = true;
 
   private metadataStatus: Coding | undefined;
   private metadataDocStatus: Coding | undefined;

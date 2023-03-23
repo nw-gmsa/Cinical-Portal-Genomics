@@ -1,6 +1,5 @@
 <h2 mat-dialog-title>Add Document Metadata</h2>
 <mat-dialog-content>
-
     <form class="example-form">
 
         <mat-form-field class="example-half-width">
@@ -11,6 +10,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        &nbsp;
         <mat-form-field class="example-half-width">
             <mat-label>Document Status</mat-label>
             <mat-select id="docstatus"  (selectionChange)="selectedDocStatus($event)">
@@ -26,7 +26,8 @@
             <mat-datepicker-toggle matSuffix [for]="created"></mat-datepicker-toggle>
             <mat-datepicker #created></mat-datepicker>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        &nbsp;
+        <mat-form-field class="example-half-width">
             <mat-label>Category</mat-label>
             <mat-select required id="category"  (selectionChange)="selectedCategory($event)">
                 <mat-option *ngFor="let stat of categories" [value]="stat">
@@ -53,7 +54,7 @@
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-            <input #searchBoxDr matInput placeholder="Care Manager" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
+            <input #searchBoxDr matInput placeholder="Author" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
             <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getDisplayDoctor">
                 <mat-option *ngFor="let doctor of practitioner$ | async" [value]="doctor" >
                     {{dlgSrv.getDisplayDoctor(doctor)}}
@@ -66,15 +67,7 @@
             <input matInput required type="url" [(ngModel)]="url" (change)="checkSubmit()">
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Practice Setting (NHS Data Dictionary) Not working at present</mat-label>
-            <mat-select id="setting"  (selectionChange)="selectedSetting($event)">
-                <mat-option *ngFor="let stat of careSettings" [value]="stat">
-                    {{stat.display}} ({{stat.code}})
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="example-half-width">
             <input #searchSetting matInput placeholder="Practice Setting (SNOMED CT)" (keyup)="searchCareSetting(searchSetting.value)" [matAutocomplete]="setting">
             <mat-autocomplete #setting="matAutocomplete" (optionSelected)="selectedSettings($event)" [displayWith]="dlgSrv.getDisplay">
                 <mat-option *ngFor="let concept of careSetting$ | async" [value]="concept" >
@@ -82,6 +75,16 @@
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
+        &nbsp;
+        <mat-form-field class="example-half-width">
+            <mat-label>Practice Setting (NHS Data Dictionary) Not working at present</mat-label>
+            <mat-select id="setting"  (selectionChange)="selectedSetting($event)">
+                <mat-option *ngFor="let stat of careSettings" [value]="stat">
+                    {{stat.display}} ({{stat.code}})
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
     </form>
 
 </mat-dialog-content>

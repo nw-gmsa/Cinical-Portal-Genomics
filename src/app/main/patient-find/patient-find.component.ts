@@ -4,6 +4,7 @@ import {UntypedFormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {EprService} from '../../services/epr.service';
 import {Patient} from 'fhir/r4';
+import {FhirService} from "../../services/fhir.service";
 
 
 @Component({
@@ -13,7 +14,10 @@ import {Patient} from 'fhir/r4';
 })
 export class PatientFindComponent implements OnInit {
 
-  constructor(private _formBuilder: UntypedFormBuilder, private router: Router, private eprService: EprService) { }
+  constructor(public fhirSrv: FhirService,
+              private _formBuilder: UntypedFormBuilder,
+              private router: Router,
+              private eprService: EprService) { }
 
   ngOnInit() {
 
@@ -28,7 +32,7 @@ export class PatientFindComponent implements OnInit {
         {name: 'Male', viewValue: 'male'}
     ];
 
-    disabled: boolean = false;
+    disabled: boolean = true;
 
 
     selectPatient(patient: Patient) {

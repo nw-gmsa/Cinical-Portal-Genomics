@@ -23,7 +23,7 @@ import * as uuid from 'uuid';
 })
 export class EpisodeOfCareCreateComponent implements OnInit {
 
-  disabled: boolean | undefined;
+  disabled: boolean = true;
   patientId: string |  undefined;
   nhsNumber: string | undefined;
   statuses: ValueSetExpansionContains[] | undefined;

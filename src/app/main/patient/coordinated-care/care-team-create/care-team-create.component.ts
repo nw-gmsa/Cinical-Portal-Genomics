@@ -15,7 +15,7 @@ import {Moment} from 'moment';
   styleUrls: ['./care-team-create.component.scss']
 })
 export class CareTeamCreateComponent implements OnInit {
-  disabled: boolean | undefined;
+  disabled: boolean = true;
   patientId = undefined;
   nhsNumber = undefined;
   status: ValueSetExpansionContains[] | undefined;

@@ -15,7 +15,7 @@ export class FormsComponent implements OnInit {
   forms: QuestionnaireResponse[] = [];
   patientid: string | null = null;
   public nhsNumber: string | undefined;
-  constructor( private fhirSrv: FhirService,
+  constructor( public fhirSrv: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                public dialog: MatDialog) { }

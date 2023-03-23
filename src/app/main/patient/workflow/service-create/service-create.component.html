@@ -47,7 +47,7 @@
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-      <input #searchBox matInput placeholder="Task code" (keyup)="search(searchBox.value)" [matAutocomplete]="auto">
+      <input #searchBox matInput placeholder="Service code" (keyup)="search(searchBox.value)" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedServiceRequest($event)" [displayWith]="dlgSrv.getDisplay">
         <mat-option *ngFor="let concept of contains$ | async" [value]="concept" >
           {{concept.display}}

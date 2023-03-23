@@ -19,7 +19,7 @@ export class DocumentsComponent implements OnInit {
   documents: DocumentReference[] = [];
   patientid: string | null = null;
   public nhsNumber: string | undefined;
-  constructor( private fhirSrv: FhirService,
+  constructor( public fhirSrv: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                public dialog: MatDialog,
