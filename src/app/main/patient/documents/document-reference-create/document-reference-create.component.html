@@ -1,0 +1,91 @@
+<h2 mat-dialog-title>Add Document Metadata</h2>
+<mat-dialog-content>
+
+    <form class="example-form">
+
+        <mat-form-field class="example-half-width">
+            <mat-label>Status</mat-label>
+            <mat-select required id="status"  (selectionChange)="selectedStatus($event)">
+                <mat-option *ngFor="let stat of statuses" [value]="stat">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-half-width">
+            <mat-label>Document Status</mat-label>
+            <mat-select id="docstatus"  (selectionChange)="selectedDocStatus($event)">
+                <mat-option *ngFor="let stat of docstatuses" [value]="stat">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-half-width">
+            <mat-label>Created</mat-label>
+            <input matInput [matDatepicker]="created" [(ngModel)]="metadataCreated">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="created"></mat-datepicker-toggle>
+            <mat-datepicker #created></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Category</mat-label>
+            <mat-select required id="category"  (selectionChange)="selectedCategory($event)">
+                <mat-option *ngFor="let stat of categories" [value]="stat">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input #searchBox matInput placeholder="Type" (keyup)="searchType(searchBox.value)" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedType($event)" [displayWith]="dlgSrv.getDisplay">
+                <mat-option *ngFor="let concept of types$ | async" [value]="concept" >
+                    {{dlgSrv.getDisplay(concept)}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <input #searchBoxOrg matInput required placeholder="Custodian Organisation" (keyup)="searchOrg(searchBoxOrg.value)" [matAutocomplete]="autoOrg">
+            <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getDisplayOrg">
+                <mat-option *ngFor="let organization of organisation$ | async" [value]="organization" >
+                    {{dlgSrv.getDisplayOrg(organization)}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <input #searchBoxDr matInput placeholder="Care Manager" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
+            <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getDisplayDoctor">
+                <mat-option *ngFor="let doctor of practitioner$ | async" [value]="doctor" >
+                    {{dlgSrv.getDisplayDoctor(doctor)}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Document/Record Location (url)</mat-label>
+            <input matInput required type="url" [(ngModel)]="url" (change)="checkSubmit()">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Practice Setting (NHS Data Dictionary) Not working at present</mat-label>
+            <mat-select id="setting"  (selectionChange)="selectedSetting($event)">
+                <mat-option *ngFor="let stat of careSettings" [value]="stat">
+                    {{stat.display}} ({{stat.code}})
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input #searchSetting matInput placeholder="Practice Setting (SNOMED CT)" (keyup)="searchCareSetting(searchSetting.value)" [matAutocomplete]="setting">
+            <mat-autocomplete #setting="matAutocomplete" (optionSelected)="selectedSettings($event)" [displayWith]="dlgSrv.getDisplay">
+                <mat-option *ngFor="let concept of careSetting$ | async" [value]="concept" >
+                    {{dlgSrv.getDisplay(concept)}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
+    <button mat-raised-button color="accent" [disabled]="disabled" (click)="submit()">Submit</button>
+</mat-dialog-actions>

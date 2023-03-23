@@ -3,17 +3,17 @@ import {MainComponent} from '../main/main.component';
 import {RouterModule, Routes} from '@angular/router';
 
 import {PatientFindComponent} from '../main/patient-find/patient-find.component';
-import {PatientSummaryComponent} from '../main/patient-main/patient-summary/patient-summary.component';
-import {PatientMainComponent} from '../main/patient-main/patient-main.component';
+import {PatientSummaryComponent} from '../main/patient/patient-summary/patient-summary.component';
+import {PatientMainComponent} from '../main/patient/patient-main.component';
 import {ExchangeTokenComponent} from '../exchange-token/exchange-token.component';
-import {ObservationsComponent} from "../main/patient-main/observations/observations.component";
-import {DocumentsComponent} from "../main/patient-main/documents/documents.component";
-import {FormsComponent} from "../main/patient-main/forms/forms.component";
-import {WorkflowComponent} from "../main/patient-main/workflow/workflow.component";
+import {ObservationsComponent} from "../main/patient/observations/observations.component";
+import {DocumentsComponent} from "../main/patient/documents/documents.component";
+import {FormsComponent} from "../main/patient/forms/forms.component";
+import {WorkflowComponent} from "../main/patient/workflow/workflow.component";
 import {
   PatientCommunicationComponent
-} from "../main/patient-main/patient-communication/patient-communication.component";
-import {CoordinatedCareComponent} from "../main/patient-main/coordinated-care/coordinated-care.component";
+} from "../main/patient/patient-communication/patient-communication.component";
+import {CoordinatedCareComponent} from "../main/patient/coordinated-care/coordinated-care.component";
 import {PersonalHealthDeviceComponent} from "../main/account/personal-health-device/personal-health-device.component";
 
 
