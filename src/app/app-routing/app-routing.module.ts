@@ -15,6 +15,7 @@ import {
 } from "../main/patient/patient-communication/patient-communication.component";
 import {CoordinatedCareComponent} from "../main/patient/coordinated-care/coordinated-care.component";
 import {PersonalHealthDeviceComponent} from "../main/account/personal-health-device/personal-health-device.component";
+import {ObservationDetailComponent} from "../main/patient/observations/observation-detail/observation-detail.component";
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
           {path: 'summary', component: PatientSummaryComponent},
           {path: 'exchange_token', component: ExchangeTokenComponent},
           {path: 'observations', component: ObservationsComponent},
+          {path: 'observations/:code', component: ObservationDetailComponent},
           {path: 'documents', component: DocumentsComponent},
           {path: 'forms', component: FormsComponent},
           {path: 'workflow', component: WorkflowComponent},

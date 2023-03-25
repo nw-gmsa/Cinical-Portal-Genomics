@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {DiagnosticReport, Observation} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
-import {ActivatedRoute} from "@angular/router";
 import {EprService} from "../../../services/epr.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {PhysicalActivityComponent} from "../../diaglogs/physical-activity/physical-activity.component";
 import {News2Component} from "../../diaglogs/news2/news2.component";
 import {TdDialogService} from "@covalent/core/dialogs";
+import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 
 @Component({
   selector: 'app-observations',
@@ -19,9 +19,13 @@ export class ObservationsComponent implements OnInit {
   diagnosticReports: DiagnosticReport[] = [];
 
   patientid: string | null = null;
+  loadingMode = LoadingMode;
+  loadingStrategy = LoadingStrategy;
+  loadingType = LoadingType;
   constructor( public fhirSrv: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
+               private _loadingService: TdLoadingService,
                public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -42,6 +46,7 @@ export class ObservationsComponent implements OnInit {
     const end = this.fhirSrv.getToDate();
     const from = new Date();
     from.setDate(end.getDate() - 7 );
+    this._loadingService.register('overlayStarSyntax');
       this.fhirSrv.get('/Observation?patient=' + this.patientid
           + '&date=gt' + from.toISOString().split('T')[0]
           + '&_count=400&_sort=-date').subscribe(bundle => {
@@ -52,6 +57,8 @@ export class ObservationsComponent implements OnInit {
                 }
               }
             }
+          },() => {}, () =>{
+            this._loadingService.resolve('overlayStarSyntax');
           }
       );
       this.fhirSrv.get('/DiagnosticReport?patient=' + this.patientid + '&_count=50&_sort=-date').subscribe(bundle => {

@@ -2,13 +2,13 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 
 import {FhirService} from '../../../../services/fhir.service';
 import {Extension, Observation} from 'fhir/r4';
-import {ObservationChartDialogComponent} from '../observation-chart-dialog/observation-chart-dialog.component';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {Router} from "@angular/router";
 
 
 
@@ -40,6 +40,7 @@ export class ObservationComponent implements OnInit {
 
   constructor(public fhirService: FhirService,
               public dialog: MatDialog,
+              private router: Router,
               private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
@@ -49,13 +50,9 @@ export class ObservationComponent implements OnInit {
     } else {
       this.dataSource = new MatTableDataSource<Observation>(this.observations);
       this.dataSource.filterPredicate = (data: Observation, filter: string) => {
-     //   console.log(filter)
         const search = this.fhirService.getCodeableConceptValue(data.code).toLowerCase();
-       // console.log(search)
-       // console.log(search.indexOf(filter))
         return search.indexOf(filter) != -1;
       }
-
     }
 
     // this.dataSource.connect(this.patientId);
@@ -182,22 +179,9 @@ export class ObservationComponent implements OnInit {
 
 
     selectChart(observation: Observation): void {
-
-        if (observation !== undefined) {
-            const dialogConfig = new MatDialogConfig();
-            dialogConfig.disableClose = true;
-            dialogConfig.autoFocus = true;
-            dialogConfig.height = '75%';
-            dialogConfig.width = '90%';
-            dialogConfig.data = {
-                resource: observation
-            };
-
-            // @ts-ignore
-          console.log(observation.subject.reference);
-
-            this.dialog.open(ObservationChartDialogComponent, dialogConfig);
-        }
+       if (observation.code.coding !== undefined) {
+         this.router.navigate(['/patient', observation.subject?.reference?.replace('Patient/',''), 'observations', observation.code.coding[0].code])
+       }
     }
 
   getTag(ext: Extension): string {

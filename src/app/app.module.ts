@@ -45,7 +45,6 @@ import {CarePlanComponent} from './main/patient/coordinated-care/care-plan/care-
 import {CareTeamComponent} from './main/patient/coordinated-care/care-team/care-team.component';
 import { EpisodeOfCareComponent } from './main/patient/coordinated-care/episode-of-care/episode-of-care.component';
 import {ObservationComponent} from './main/patient/observations/observation/observation.component';
-import {ObservationChartDialogComponent} from './main/patient/observations/observation-chart-dialog/observation-chart-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
@@ -95,6 +94,8 @@ import { PersonalHealthDeviceComponent } from './main/account/personal-health-de
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {CovalentCommonModule} from "@covalent/core/common";
 import { DocumentReferenceCreateComponent } from './main/patient/documents/document-reference-create/document-reference-create.component';
+import { ObservationDetailComponent } from './main/patient/observations/observation-detail/observation-detail.component';
+import {CovalentBreadcrumbsModule} from "@covalent/core/breadcrumbs";
 
 const modules = [
   MatIconModule,
@@ -137,7 +138,6 @@ const modules = [
     CareTeamComponent,
     EpisodeOfCareComponent,
     ObservationComponent,
-    ObservationChartDialogComponent,
     DocumentReferenceComponent,
     QuestionnaireResponseComponent,
     ReferralRequestComponent,
@@ -168,7 +168,8 @@ const modules = [
     CoordinatedCareComponent,
     PatientCommunicationComponent,
     PersonalHealthDeviceComponent,
-    DocumentReferenceCreateComponent
+    DocumentReferenceCreateComponent,
+    ObservationDetailComponent
   ],
     imports: [
         BrowserModule,
@@ -200,7 +201,8 @@ const modules = [
         MatButtonToggleModule,
         PdfViewerModule,
         MatPaginatorModule,
-        CovalentCommonModule
+        CovalentCommonModule,
+        CovalentBreadcrumbsModule
     ],
   exports: [...modules],
   providers: [

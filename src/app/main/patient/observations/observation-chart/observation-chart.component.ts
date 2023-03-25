@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TdDigitsPipe} from '@covalent/core/common';
 import {Bundle, Observation} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
+import {TdLoadingService} from "@covalent/core/loading";
 
 @Component({
   selector: 'app-observation-chart',
@@ -12,6 +13,8 @@ export class ObservationChartComponent implements OnInit {
 
   @Input()
   patentId: string ='';
+
+
 
   @Input()
   observationCode: string ='';
@@ -42,8 +45,10 @@ export class ObservationChartComponent implements OnInit {
   searchRange = 1;
 
   multi: any[] = [];
+  view: any = [700,200];
 
-  constructor(public fhirService: FhirService) {
+  constructor(public fhirService: FhirService,
+              private _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
@@ -67,7 +72,7 @@ export class ObservationChartComponent implements OnInit {
       }
     }
 
-
+    this._loadingService.register('overlayStarSyntax');
     this.fhirService.get('/Observation?patient=' + this.patentId + '&code=' + this.observationCode
         + '&date=gt' + from.toISOString().split('T')[0]
         + '&_count=400').subscribe(
@@ -164,6 +169,20 @@ export class ObservationChartComponent implements OnInit {
 
 
             }
+
+            /*
+            const standardDeviation = (arr, usePopulation = false) => {
+              const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+              return Math.sqrt(
+                  arr
+                      .reduce((acc, val) => acc.concat((val - mean) ** 2), [])
+                      .reduce((acc, val) => acc + val, 0) /
+                  (arr.length - (usePopulation ? 0 : 1))
+              );
+            };
+
+             */
+            this._loadingService.resolve('overlayStarSyntax');
             this.multi = multiNew;
             //    console.log(this.multi);
 

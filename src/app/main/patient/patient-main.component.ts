@@ -9,7 +9,7 @@ import {EprService} from '../../services/epr.service';
 @Component({
   selector: 'app-patient-details',
   templateUrl: './patient-main.component.html',
-  styleUrls: ['./patient-main.component.css']
+  styleUrls: ['./patient-main.component.scss']
 })
 export class PatientMainComponent implements OnInit {
 
