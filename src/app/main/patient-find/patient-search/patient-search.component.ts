@@ -13,6 +13,7 @@ import {NEVER} from 'rxjs/internal/observable/never';
 import {Bundle, Patient} from 'fhir/r4';
 import {EprService} from '../../../services/epr.service';
 import {FhirService} from '../../../services/fhir.service';
+import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 
 
 
@@ -27,9 +28,15 @@ export class PatientSearchComponent implements OnInit {
   patients$: Observable<Patient[]> | undefined;
   private searchTerms = new Subject<string>();
 
+  loadingMode = LoadingMode;
+  loadingStrategy = LoadingStrategy;
+  loadingType = LoadingType;
+
   @Output() patientSelected : EventEmitter<Patient> = new EventEmitter();
 
-  constructor(private patientChange : EprService, private fhirService: FhirService
+  constructor(private patientChange : EprService,
+              private fhirService: FhirService,
+              private _loadingService: TdLoadingService
 
   ) {}
 
@@ -54,11 +61,13 @@ export class PatientSearchComponent implements OnInit {
 
       // switch to new search observable each time the term changes
       switchMap((term: string) => {
+        this._loadingService.register('overlayStarSyntax');
          return this.fhirService.searchPatients(term); }
 
       ),
 
       map(resource    => {
+          this._loadingService.resolve('overlayStarSyntax');
           const bundle = resource as Bundle;
           const pat$: Patient[] = [];
           let i;

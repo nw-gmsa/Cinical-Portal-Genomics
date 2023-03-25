@@ -31,7 +31,7 @@ export class EncounterComponent implements OnInit {
   dataSource: MatTableDataSource<Encounter>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns = ['select', 'start', 'end', 'status', 'class', 'type', 'provider',
+  displayedColumns = [ 'start', 'end', 'status', 'class', 'type', 'serviceType', 'provider',
     'participant',  'location',  'resource'];
 
   constructor(public fhirService: FhirService,

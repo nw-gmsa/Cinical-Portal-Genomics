@@ -12,7 +12,7 @@ import { TdDialogService} from '@covalent/core/dialogs';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {StravaService} from '../../../services/strava.service';
 import {Athlete} from '../../../models/athlete';
-import {TdLoadingService} from '@covalent/core/loading';
+import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from '@covalent/core/loading';
 import {WithingsService} from '../../../services/withings.service';
 import {delay} from 'rxjs/operators';
 
@@ -41,6 +41,11 @@ export class PatientSummaryComponent implements OnInit {
     // @ts-ignore
   conditions: Condition[] = [];
 
+    loadingMode = LoadingMode;
+    loadingStrategy = LoadingStrategy;
+    loadingType = LoadingType;
+
+
     athlete: Athlete | undefined;
 
   stravaConnect = true;
@@ -65,7 +70,7 @@ export class PatientSummaryComponent implements OnInit {
               private withings: WithingsService,
               private dialogService: TdDialogService,
               public dialog: MatDialog,
-              private loadingService: TdLoadingService) { }
+              private _loadingService: TdLoadingService) { }
 
   ngOnInit(): void {
     if (this.eprService.patient !== undefined) {
@@ -144,7 +149,9 @@ export class PatientSummaryComponent implements OnInit {
   }
 
   getRecords(){
+      this._loadingService.register('overlayStarSyntax');
       this.fhirSrv.get('/Condition?patient=' + this.patientid).subscribe(bundle => {
+          this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'Condition') { this.conditions.push(entry.resource as Condition); }
@@ -153,6 +160,7 @@ export class PatientSummaryComponent implements OnInit {
           }
       );
       this.fhirSrv.get('/AllergyIntolerance?patient=' + this.patientid).subscribe(bundle => {
+          this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'AllergyIntolerance') { this.allergies.push(entry.resource as AllergyIntolerance); }
@@ -161,6 +169,7 @@ export class PatientSummaryComponent implements OnInit {
           }
       );
       this.fhirSrv.get('/MedicationRequest?patient=' + this.patientid).subscribe(bundle => {
+          this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'MedicationRequest') { this.medicationRequest.push(entry.resource as MedicationRequest); }
@@ -169,6 +178,7 @@ export class PatientSummaryComponent implements OnInit {
           }
       );
       this.fhirSrv.get('/Encounter?patient=' + this.patientid + '&_count=5&_sort=-date').subscribe(bundle => {
+          this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'Encounter') { this.encounters.push(entry.resource as Encounter); }
@@ -266,20 +276,12 @@ export class PatientSummaryComponent implements OnInit {
   phrLoad(withing: boolean): void {
     this.stravaComplete = false;
 
-    this.loadStart();
     this.strava.getActivities();
 
 
    // TODO reload data
   }
 
-  loadComplete(): void {
-    this.loadingService.resolve('overlayStarSyntax');
-  }
-
-  loadStart(): void {
-    this.loadingService.register('overlayStarSyntax');
-  }
 
   private async withingsLoad(): Promise<void> {
     // Process sequentially. Don't bombard AWS with many requests

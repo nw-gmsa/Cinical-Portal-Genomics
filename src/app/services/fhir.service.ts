@@ -470,12 +470,16 @@ export class FhirService {
     if (valueQuantity.unit !== undefined) {
       unit = valueQuantity.unit;
     }
-    // @ts-ignore
-    return valueQuantity.value.toPrecision(4) + ' ' + unit;
+    var str = valueQuantity.value?.toLocaleString('fullwide', { useGrouping: false });
+  //  console.log(str);
+    return <string>str;
   }
   getQuantityValue(valueQuantity: Quantity): string {
     // @ts-ignore
-    return valueQuantity.value.toPrecision(4);
+    var str = valueQuantity.value?.toLocaleString('fullwide', { useGrouping: false });
+   //
+    // console.log(str);
+    return <string>str;
   }
   getQuantityUnit(valueQuantity: Quantity): string {
     if (valueQuantity.unit !== undefined) {

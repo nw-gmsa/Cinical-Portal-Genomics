@@ -43,10 +43,19 @@
     </ng-container>
 
     <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef> type </th>
+      <th mat-header-cell *matHeaderCellDef> Type </th>
       <td mat-cell *matCellDef="let encounter">
         <span *ngIf="encounter.type !== undefined">
            <span [innerHTML]="fhirService.getCodeableConcepts(encounter.type)"></span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="serviceType">
+      <th mat-header-cell *matHeaderCellDef> Service Type </th>
+      <td mat-cell *matCellDef="let encounter">
+        <span *ngIf="encounter.serviceType !== undefined">
+           <span [innerHTML]="fhirService.getCodeableConcept(encounter.serviceType)"></span>
         </span>
       </td>
     </ng-container>

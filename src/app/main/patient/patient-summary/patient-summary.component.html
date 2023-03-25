@@ -4,7 +4,9 @@
   <mat-tab label="Patient Summary">
 -->
     <td-markdown>{{ basicFlavoredMarkdown }}</td-markdown>
-     <mat-card>
+    <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
+
+    <mat-card>
      <mat-card-content>
     <div>
         <h3>Conditions</h3>
@@ -57,6 +59,7 @@
          </span>
        </mat-card-content>
      </mat-card>
+    </div>
 <!--
   </mat-tab>
 
