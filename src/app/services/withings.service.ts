@@ -326,13 +326,13 @@ export class WithingsService {
     for (const activity of activityData.body.activities) {
       count--;
       const obs: Obs = {
-        obsDate: new Date(activity.date),
+        obsDate: new Date(activity.date + 'T00:00'),
+        obsEndDate: new Date(activity.date + 'T23:59'),
         measurementSetting: MeasurementSetting.home
       };
-
+      // console.log(activity)
       if (activity.steps !== undefined) {
         obs.steps = activity.steps;
-
       }
       if (activity.hr_average !== undefined) {
         obs.hr_average = activity.hr_average;
@@ -565,7 +565,7 @@ export class WithingsService {
       }
 
       if (obs.steps !== undefined) {
-        this.getObservation(patient, bundle, obs, false, '55423-8', 'count', obs.measurementSetting, 'Number of steps in unspecified time Pedometer', obs.steps, 'count');
+        this.getObservation(patient, bundle, obs, false, '41950-7', 'count', obs.measurementSetting, 'Number of steps', obs.steps, 'count');
       }
       if (obs.heartrate !== undefined) {
         const hr = this.getObservation(patient, bundle, obs, true, '364075005',
@@ -618,8 +618,8 @@ export class WithingsService {
             obs.measurementSetting, 'Maximum Heart rate in 24 Hours', obs.hr_max, 'beats/min');
       }
       if (obs.totalcalories !== undefined) {
-        const calories = this.getObservation(patient, bundle, obs, false, '41979-6', 'kcal/(24.h)',
-            obs.measurementSetting, 'Calories burned 24h Calc', obs.totalcalories, 'kcal/(24.h)');
+        const calories = this.getObservation(patient, bundle, obs, false, '55424-6', 'kcal',
+            obs.measurementSetting, 'Calories burned', obs.totalcalories, 'kcal');
 
       }
     }

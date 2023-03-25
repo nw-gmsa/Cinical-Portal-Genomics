@@ -14,7 +14,7 @@
         strategy: loadingStrategy.Overlay;
         color: 'accent'
         ">
-        <app-observation-chart style="width: 100%; height: 70%" [showRange]="true" [patentId]="patientid" [observationCode]="code"></app-observation-chart>
+        <app-observation-chart style="width: 100%; height: 70%" [showLegend]=true [showRange]="true" [showGrid]="true" [patentId]="patientid" [observationCode]="code" ></app-observation-chart>
         </div>
     </div>
 </mat-card>

@@ -4,14 +4,6 @@
             <a td-breadcrumb [routerLink]="['/patient', patientid]">Patient</a>
             <td-breadcrumb>Observations</td-breadcrumb>
         </td-breadcrumbs>
-        <mat-nav-list class="list-horizontal">
-            <mat-list-item>
-                <button mat-icon-button color="accent"  (click)="loadNEWS2()"><mat-icon>local_hospital</mat-icon> Vitals</button>
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-icon-button color="accent"  (click)="loadPhysicalActivity()"><mat-icon>directions_walk</mat-icon> Physical Activity</button>
-            </mat-list-item>
-        </mat-nav-list>
         <mat-card-content>
             <div>
                 <h3>Observations (Last 7 days)</h3>

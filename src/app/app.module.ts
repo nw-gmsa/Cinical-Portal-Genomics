@@ -66,9 +66,7 @@ import {DatePipe} from '@angular/common';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {ExchangeTokenComponent} from './exchange-token/exchange-token.component';
 import {CovalentLoadingModule} from '@covalent/core/loading';
-import { PhysicalActivityComponent } from './main/diaglogs/physical-activity/physical-activity.component';
 import { ObservationChartComponent } from './main/patient/observations/observation-chart/observation-chart.component';
-import { News2Component } from './main/diaglogs/news2/news2.component';
 import { CommunicationComponent } from './main/patient/patient-communication/communication/communication.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -96,6 +94,8 @@ import {CovalentCommonModule} from "@covalent/core/common";
 import { DocumentReferenceCreateComponent } from './main/patient/documents/document-reference-create/document-reference-create.component';
 import { ObservationDetailComponent } from './main/patient/observations/observation-detail/observation-detail.component';
 import {CovalentBreadcrumbsModule} from "@covalent/core/breadcrumbs";
+import { PhysicalActivityDetailComponent } from './main/patient/observations/physical-activity-detail/physical-activity-detail.component';
+import { VitalsDetailComponent } from './main/patient/observations/vitals-detail/vitals-detail.component';
 
 const modules = [
   MatIconModule,
@@ -150,9 +150,7 @@ const modules = [
     QuestionnaireResponseViewComponent,
     QuestionnaireResponseViewItemComponent,
     ExchangeTokenComponent,
-    PhysicalActivityComponent,
     ObservationChartComponent,
-    News2Component,
     CommunicationComponent,
     TaskCreateComponent,
     ServiceCreateComponent,
@@ -169,7 +167,9 @@ const modules = [
     PatientCommunicationComponent,
     PersonalHealthDeviceComponent,
     DocumentReferenceCreateComponent,
-    ObservationDetailComponent
+    ObservationDetailComponent,
+    PhysicalActivityDetailComponent,
+    VitalsDetailComponent
   ],
     imports: [
         BrowserModule,

@@ -270,7 +270,6 @@ export class StravaService {
     };
     for (const activity of activities) {
 
-
       const activityReport: DiagnosticReport = {
         code: {},
         status: 'final',
@@ -282,15 +281,6 @@ export class StravaService {
           system: 'https://fhir.strava.com/Id',
           value: activity.id.toString(2)
         }];
-      /*  activityReport.category = [
-          {
-            coding: [{
-              system: 'http://loinc.org',
-              code: '34833-4',
-              display: 'Recreational therapy Consult note'
-            }]
-          }
-        ];*/
       activityReport.code = {
         coding: [{
           system: 'http://loinc.org',
@@ -318,7 +308,7 @@ export class StravaService {
       }
       if (activity.kilojoules !== undefined) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
-          '55409-7', 'kcal','Calories burned, Machine Estimate', activity.kilojoules , 'kcal');
+          '55424-6', 'kcal','Calories burned', activity.kilojoules , 'kcal');
       }
       if (activity.average_heartrate !== undefined) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
@@ -343,10 +333,11 @@ export class StravaService {
       code: {},
       status: 'final',
       resourceType: 'Observation',
-      extension: []
+      extension: [],
+      effectivePeriod : {}
     };
     fhirObs.subject = report.subject;
-    //  console.log(obs.elapsed_time);
+
     fhirObs.identifier = [
       {
         system: 'https://fhir.strava.com/Id',
@@ -372,8 +363,11 @@ export class StravaService {
     fhirObs.code = {coding : [{system: codeSystem, code, display}]
     };
 
-    // @ts-ignore
-    fhirObs.effectiveDateTime = report.effectivePeriod.end;
+    if (fhirObs.effectivePeriod !== undefined) {
+      fhirObs.effectivePeriod.start = report.effectivePeriod?.start;
+      fhirObs.effectivePeriod.end = report.effectivePeriod?.end;
+    }
+
     if (value !== undefined && unitCode !== undefined) {
       // @ts-ignore
       fhirObs.valueQuantity = {value,

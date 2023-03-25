@@ -1,11 +1,11 @@
-
+<div [style]=getStyle()>
    <h3>{{title}}</h3>
     <span  *ngIf="showRange">
     <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-  <mat-button-toggle value="12" (click)="change(12)">Year</mat-button-toggle>
-  <mat-button-toggle value="6" (click)="change(6)">6 months</mat-button-toggle>
-  <mat-button-toggle value="1" (click)="change(1)">4 weeks</mat-button-toggle>
-</mat-button-toggle-group> </span>
+          <mat-button-toggle value="12" (click)="change(12)">Year</mat-button-toggle>
+          <mat-button-toggle value="6" (click)="change(6)">6 months</mat-button-toggle>
+          <mat-button-toggle value="1" (click)="change(1)">4 weeks</mat-button-toggle>
+    </mat-button-toggle-group> </span>
 
       <ngx-charts-line-chart *ngIf="multi.length>0"
         [scheme]="colorScheme"
@@ -21,5 +21,18 @@
         [autoScale]="autoScale"
         [timeline]="timeline"
         [animations]="animations"
+        [xScaleMax]="maxScale"
+        [xScaleMin]="minScale"
         [yAxisTickFormatting]="axisDigits">
       </ngx-charts-line-chart>
+
+   <span *ngIf="showGrid">
+       grid
+           <span *ngIf="observations.length>0">
+                             <app-observation [observations]="observations"> </app-observation>
+                              </span>
+                <span *ngIf="observations.length==0">
+                              No results found.
+                          </span>
+   </span>
+</div>

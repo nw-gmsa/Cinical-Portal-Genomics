@@ -23,7 +23,6 @@ export class ObservationDetailComponent implements OnInit {
   loadingType = LoadingType;
   constructor( public fhirSrv: FhirService,
                private eprService: EprService,
-               private dialogService: TdDialogService,
                private route: ActivatedRoute,
                public dialog: MatDialog) { }
 
@@ -46,6 +45,7 @@ export class ObservationDetailComponent implements OnInit {
   }
 
   getRecords() {
+    /*
     const end = this.fhirSrv.getToDate();
     const from = new Date();
     from.setDate(end.getDate() - 7 );
@@ -60,7 +60,7 @@ export class ObservationDetailComponent implements OnInit {
             }
           }
         }
-    );
+    );*/
 
   }
 

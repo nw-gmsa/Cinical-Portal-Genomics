@@ -14,7 +14,8 @@ export class ObservationChartComponent implements OnInit {
   @Input()
   patentId: string ='';
 
-
+  @Input()
+  showGrid = false;
 
   @Input()
   observationCode: string ='';
@@ -28,7 +29,8 @@ export class ObservationChartComponent implements OnInit {
   showXAxis = true;
   showYAxis = true;
   gradient = true;
-  showLegend = false;
+  @Input()
+  showLegend = true;
   showXAxisLabel = true;
   xAxisLabel = '';
   showYAxisLabel = true;
@@ -46,18 +48,23 @@ export class ObservationChartComponent implements OnInit {
 
   multi: any[] = [];
   view: any = [700,200];
-
+  observations: Observation[] = [];
+  maxScale: any;
+  minScale: any;
   constructor(public fhirService: FhirService,
               private _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
+
     this.refreshResult();
   }
 
   refreshResult(): void {
     const end = this.fhirService.getToDate();
     const from = new Date();
+    this.maxScale = end;
+    this.minScale = from;
     switch (this.searchRange) {
       case 12: {
         from.setDate(end.getDate() - 365 );
@@ -79,9 +86,10 @@ export class ObservationChartComponent implements OnInit {
         bundle => {
           //   console.log(bundle);
           const observations: Bundle = bundle as Bundle;
+
           this.yAxisLabel = 'Value';
           const multiNew: any[] = [];
-
+          this._loadingService.resolve('overlayStarSyntax');
           if (observations.entry !== undefined && observations.entry.length > 0) {
 
             // Attempt to set up the series. This is not that robust
@@ -94,6 +102,7 @@ export class ObservationChartComponent implements OnInit {
               multiNew.push({name: firstObservation.code.coding[0].display, series: [],
               });
             }
+            // For components use definitions in resource
             if (firstObservation.component !== undefined) {
               // @ts-ignore
               this.yAxisLabel = firstObservation.component[0].valueQuantity.unit;
@@ -102,11 +111,15 @@ export class ObservationChartComponent implements OnInit {
                 multiNew.push({name: component.code.coding[0].display, series: []});
               }
             }
-            if (this.observationCode === '66440-9') {
+            if (this.isFindingsCode(this.observationCode)) {
               this.yAxisLabel = 'Avg Hear Rate';
               multiNew.push(
                   {
-                    name: 'Sleep Avg Hear Rate',
+                    name: 'Asleep',
+                    series: [],
+                  },
+                  {
+                    name: 'Exercise',
                     series: [],
                   }
               );
@@ -115,8 +128,12 @@ export class ObservationChartComponent implements OnInit {
             // console.log(multi);
 
             for (const entry of observations.entry) {
+
               if (entry.resource !== undefined && entry.resource.resourceType === 'Observation') {
                 const observation: Observation = entry.resource as Observation;
+                // populate grid view
+                this.observations.push(observation);
+
                 if (observation.valueQuantity !== undefined && observation.valueQuantity.value !== undefined) {
                   if (observation.effectiveDateTime !== undefined) {
                     //    console.log(observation.effectiveDateTime);
@@ -138,8 +155,6 @@ export class ObservationChartComponent implements OnInit {
                     let seriesId;
                     let cont = 0;
                     for (; cont < multiNew.length; cont++) {
-                      // console.log('series name = ' + multi[cont].name);
-                      //  console.log('component name ' + component.code.coding[0].display);
                       // @ts-ignore
                       if (multiNew[cont].name === component.code.coding[0].display) {
                         seriesId = cont;
@@ -147,7 +162,6 @@ export class ObservationChartComponent implements OnInit {
                     }
                     if (seriesId !== undefined) {
                       if (observation.effectiveDateTime !== undefined ) {
-                        //     console.log(observation.effectiveDateTime);
                         const vl = component.valueQuantity?.value;
                         if (vl !== undefined) {
                           multiNew[seriesId].series.push({
@@ -182,7 +196,7 @@ export class ObservationChartComponent implements OnInit {
             };
 
              */
-            this._loadingService.resolve('overlayStarSyntax');
+
             this.multi = multiNew;
             //    console.log(this.multi);
 
@@ -194,14 +208,27 @@ export class ObservationChartComponent implements OnInit {
 
   getSeriesNum(observation: Observation): number {
     if (observation.code !== undefined && observation.code.coding !== undefined && observation.code.coding.length > 0) {
-      if (observation.effectiveDateTime !== undefined) {
-        if (observation.code.coding[0].code === '66440-9') {
+      if (observation.effectiveDateTime !== undefined || observation.effectivePeriod !== undefined) {
+        if (this.isFindingsObsevation(observation)) {
           if (observation.extension !== undefined) {
             for(const extension of observation.extension) {
+
               if (extension.url === 'http://hl7.org/fhir/us/vitals/StructureDefinition/SleepStatusExt') {
-                if (extension.valueCodeableConcept !== undefined && extension.valueCodeableConcept.coding !== undefined &&
-                    extension.valueCodeableConcept.coding[0].code === '248220008') {
-                  return 1;
+                if (extension.valueCodeableConcept !== undefined && extension.valueCodeableConcept.coding !== undefined) {
+
+                  if (extension.valueCodeableConcept.coding[0].code === '248220008') {
+
+                    return 1;
+                  }
+                }
+              }
+              if (extension.url === 'http://example.fhir.nhs.uk/StructureDefinition/MeasurementSettingExt') {
+                if (extension.valueCodeableConcept !== undefined && extension.valueCodeableConcept.coding !== undefined) {
+
+                  if (extension.valueCodeableConcept.coding[0].code === '272501009') {
+
+                    return 2;
+                  }
                 }
               }
             }
@@ -211,6 +238,22 @@ export class ObservationChartComponent implements OnInit {
     }
     return 0;
   }
+  isFindingsObsevation(observation: Observation): boolean {
+    if (observation.code.coding !== undefined && observation.code.coding.length > 0
+      && observation.code.coding[0].code !== undefined ) {
+      return this.isFindingsCode(observation.code.coding[0].code)
+    }
+    return false;
+  }
+  isFindingsCode(obsCode: string): boolean {
+    if (obsCode === '66440-9') {
+      return true;
+    }
+    if (obsCode === '55424-6') {
+      return true;
+    }
+    return false;
+  }
   axisDigits(val: any): any {
     return new TdDigitsPipe().transform(val);
   }
@@ -219,4 +262,9 @@ export class ObservationChartComponent implements OnInit {
     this.searchRange = num;
     this.refreshResult();
   }
+
+    getStyle() {
+        if (!this.showGrid) return "height: 200px"
+      return "height: 400px"
+    }
 }

@@ -76,7 +76,7 @@
 
   <ng-container matColumnDef="chart">
     <th mat-header-cell *matHeaderCellDef width="5%">Chart</th>
-    <td mat-cell *matCellDef="let observation">  <button mat-icon-button color="accent"  matTooltip="View Observation Chart" (click)="selectChart(observation)"><mat-icon>insert_chart</mat-icon></button></td>
+    <td mat-cell *matCellDef="let observation">  <button mat-icon-button color="accent"  (click)="selectChart(observation)"><mat-icon>insert_chart</mat-icon></button></td>
   </ng-container>
 
 

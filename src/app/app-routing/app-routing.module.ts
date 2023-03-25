@@ -16,6 +16,8 @@ import {
 import {CoordinatedCareComponent} from "../main/patient/coordinated-care/coordinated-care.component";
 import {PersonalHealthDeviceComponent} from "../main/account/personal-health-device/personal-health-device.component";
 import {ObservationDetailComponent} from "../main/patient/observations/observation-detail/observation-detail.component";
+import {PhysicalActivityDetailComponent} from "../main/patient/observations/physical-activity-detail/physical-activity-detail.component";
+import {VitalsDetailComponent} from "../main/patient/observations/vitals-detail/vitals-detail.component";
 
 
 const routes: Routes = [
@@ -34,6 +36,8 @@ const routes: Routes = [
           {path: 'exchange_token', component: ExchangeTokenComponent},
           {path: 'observations', component: ObservationsComponent},
           {path: 'observations/:code', component: ObservationDetailComponent},
+          {path: 'activity', component: PhysicalActivityDetailComponent},
+          {path: 'vitals', component: VitalsDetailComponent},
           {path: 'documents', component: DocumentsComponent},
           {path: 'forms', component: FormsComponent},
           {path: 'workflow', component: WorkflowComponent},

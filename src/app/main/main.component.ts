@@ -93,12 +93,6 @@ export class MainComponent implements OnInit {
       action: 'summary'
     },
     {
-      id: 'obs',
-      text: 'Observations',
-      icon: 'view_kanban',
-      action: 'observations'
-    },
-    {
       id: 'docs',
       text: 'Document',
       icon: 'view_timeline',
@@ -109,6 +103,29 @@ export class MainComponent implements OnInit {
       text: 'Forms',
       icon: 'dataset',
       action: 'forms'
+    },
+    {
+      // Grouping label
+      id: 'patientobservations',
+      text: 'Observations',
+    },
+    {
+      id: 'obs',
+      text: 'All Observations',
+      icon: 'view_kanban',
+      action: 'observations',
+    },
+    {
+      id: 'activity',
+      text: 'Physical Activity',
+      icon: 'directions_walk',
+      action: 'activity',
+    },
+    {
+      id: 'vitals',
+      text: 'Vitals',
+      icon: 'local_hospital',
+      action: 'vitals',
     },
     {
       // Grouping label
@@ -187,6 +204,14 @@ export class MainComponent implements OnInit {
         }
         case 'coordination': {
           this.router.navigateByUrl('/patient/'+this.patientId+'/coordination');
+          break;
+        }
+        case 'activity': {
+          this.router.navigateByUrl('/patient/'+this.patientId+'/activity');
+          break;
+        }
+        case 'vitals': {
+          this.router.navigateByUrl('/patient/'+this.patientId+'/vitals');
           break;
         }
         case 'device': {

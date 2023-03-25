@@ -3,10 +3,9 @@ import {DiagnosticReport, Observation} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {PhysicalActivityComponent} from "../../diaglogs/physical-activity/physical-activity.component";
-import {News2Component} from "../../diaglogs/news2/news2.component";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-observations',
@@ -26,6 +25,7 @@ export class ObservationsComponent implements OnInit {
                private eprService: EprService,
                private dialogService: TdDialogService,
                private _loadingService: TdLoadingService,
+               private router: Router,
                public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -74,33 +74,5 @@ export class ObservationsComponent implements OnInit {
 
   }
 
-  loadPhysicalActivity(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '70%';
-    dialogConfig.width = '90%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid
-    };
-    this.dialog.open( PhysicalActivityComponent, dialogConfig);
-  }
-  loadNEWS2(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = '70%';
-    dialogConfig.width = '90%';
-
-    dialogConfig.data = {
-      id: 1,
-      patientId: this.patientid
-    };
-    this.dialog.open( News2Component, dialogConfig);
-  }
 
 }
