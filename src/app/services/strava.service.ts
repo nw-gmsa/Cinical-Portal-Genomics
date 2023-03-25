@@ -302,15 +302,15 @@ export class StravaService {
       };
       activityReport.subject = patientRefernce;
 
-      if (activity.moving_time !== undefined) {
+      if (activity.moving_time !== undefined && activity.moving_time > 0) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
           '55411-3', 'm','Exercise duration', Math.round(activity.moving_time / 60), 'min');
       }
-      if (activity.kilojoules !== undefined) {
+      if (activity.kilojoules !== undefined && activity.kilojoules > 0) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
           '55424-6', 'kcal','Calories burned', activity.kilojoules , 'kcal');
       }
-      if (activity.average_heartrate !== undefined) {
+      if (activity.average_heartrate !== undefined && activity.average_heartrate > 0) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
           '66440-9', '{beat}/min', 'Heart rate 10 minutes mean', activity.average_heartrate , 'beat/min');
       }
