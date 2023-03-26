@@ -7,7 +7,7 @@ import {DocumentReference, Patient} from "fhir/r4";
 import {BinaryComponent} from "./binary/binary.component";
 import {
   EpisodeOfCareCreateComponent
-} from "../coordinated-care/episode-of-care-create/episode-of-care-create.component";
+} from "../plans-and-goals/episode-of-care-create/episode-of-care-create.component";
 import {DocumentReferenceCreateComponent} from "./document-reference-create/document-reference-create.component";
 
 @Component({

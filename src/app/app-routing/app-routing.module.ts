@@ -3,21 +3,24 @@ import {MainComponent} from '../main/main.component';
 import {RouterModule, Routes} from '@angular/router';
 
 import {PatientFindComponent} from '../main/patient-find/patient-find.component';
-import {PatientSummaryComponent} from '../main/patient/patient-summary/patient-summary.component';
+import {PatientSummaryComponent} from '../main/patient/summary/patient-summary.component';
 import {PatientMainComponent} from '../main/patient/patient-main.component';
 import {ExchangeTokenComponent} from '../exchange-token/exchange-token.component';
 import {ObservationsComponent} from "../main/patient/observations/observations.component";
 import {DocumentsComponent} from "../main/patient/documents/documents.component";
 import {FormsComponent} from "../main/patient/forms/forms.component";
-import {WorkflowComponent} from "../main/patient/workflow/workflow.component";
+import {WorkflowComponent} from "../main/patient/referrals/workflow.component";
 import {
   PatientCommunicationComponent
-} from "../main/patient/patient-communication/patient-communication.component";
-import {CoordinatedCareComponent} from "../main/patient/coordinated-care/coordinated-care.component";
+} from "../main/patient/communication/patient-communication.component";
+import {CoordinatedCareComponent} from "../main/patient/plans-and-goals/coordinated-care.component";
 import {PersonalHealthDeviceComponent} from "../main/account/personal-health-device/personal-health-device.component";
 import {ObservationDetailComponent} from "../main/patient/observations/observation-detail/observation-detail.component";
 import {PhysicalActivityDetailComponent} from "../main/patient/observations/physical-activity-detail/physical-activity-detail.component";
 import {VitalsDetailComponent} from "../main/patient/observations/vitals-detail/vitals-detail.component";
+import {
+  DiagnosticReportDetailComponent
+} from "../main/patient/observations/diagnostic-report-detail/diagnostic-report-detail.component";
 
 
 const routes: Routes = [
@@ -36,6 +39,7 @@ const routes: Routes = [
           {path: 'exchange_token', component: ExchangeTokenComponent},
           {path: 'observations', component: ObservationsComponent},
           {path: 'observations/:code', component: ObservationDetailComponent},
+          {path: 'report/:report', component: DiagnosticReportDetailComponent},
           {path: 'activity', component: PhysicalActivityDetailComponent},
           {path: 'vitals', component: VitalsDetailComponent},
           {path: 'documents', component: DocumentsComponent},

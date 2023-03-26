@@ -1,8 +1,8 @@
 <mat-card class="fullscreen scrollable-content" >
-
-    <!-- <mat-tab-group >
-  <mat-tab label="Patient Summary">
--->
+    <td-breadcrumbs>
+        <a td-breadcrumb [routerLink]="['/patient', patientid]">Patient</a>
+        <td-breadcrumb>Summary Record</td-breadcrumb>
+    </td-breadcrumbs>
     <td-markdown>{{ basicFlavoredMarkdown }}</td-markdown>
     <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
 
@@ -60,11 +60,6 @@
        </mat-card-content>
      </mat-card>
     </div>
-<!--
-  </mat-tab>
-
-</mat-tab-group>
--->
 </mat-card>
 
 

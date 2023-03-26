@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Patient} from 'fhir/r4';
+import {Moment} from "moment";
 
 @Injectable()
 export class EprService {
@@ -15,7 +16,8 @@ export class EprService {
 
   ) { }
 
-
+  public startRange: EventEmitter<Moment> = new EventEmitter();
+  public endRange:  EventEmitter<Moment> = new EventEmitter();
   public patientChangeEvent: EventEmitter<Patient> = new EventEmitter();
 
   public setPatient(patient: Patient) {

@@ -3,6 +3,9 @@ import {TdDigitsPipe} from '@covalent/core/common';
 import {Bundle, Observation} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {TdLoadingService} from "@covalent/core/loading";
+import {Moment} from "moment";
+import * as moment from 'moment';
+import {EprService} from "../../../../services/epr.service";
 
 @Component({
   selector: 'app-observation-chart',
@@ -44,166 +47,171 @@ export class ObservationChartComponent implements OnInit {
 
   // line, area
   autoScale = true;
-  searchRange = 1;
 
   multi: any[] = [];
   view: any = [700,200];
   observations: Observation[] = [];
   maxScale: any;
   minScale: any;
+  selectedValue: number = 1;
+  @Input()
+  startDate: Moment = moment(new Date());
+  @Input()
+  endDate: Moment = moment(new Date());
   constructor(public fhirService: FhirService,
+              private eprService: EprService,
               private _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
-
+    this.endDate = moment(this.fhirService.getToDate())
+    const end = this.endDate?.toDate()
+    const temp = end?.setMonth(end.getMonth() - (this.selectedValue) );
+    this.startDate = moment(new Date(temp))
     this.refreshResult();
+    this.eprService.endRange.subscribe(end => {
+      this.endDate = end;
+      this.refreshResult()
+    })
+    this.eprService.startRange.subscribe(start => {
+      this.startDate = start;
+      this.refreshResult()
+    })
   }
 
   refreshResult(): void {
-    const end = this.fhirService.getToDate();
-    const from = new Date();
-    this.maxScale = end;
-    this.minScale = from;
-    switch (this.searchRange) {
-      case 12: {
-        from.setDate(end.getDate() - 365 );
-        break;
-      }
-      case 6: {
-        from.setDate(end.getDate() - 180 );
-        break;
-      }
-      default: {
-        from.setDate(end.getDate() - 28 );
-      }
-    }
+    const end = this.endDate;
+    const from = this.startDate
+    this.maxScale = end.toDate();
+    this.minScale = from.toDate();
 
-    this._loadingService.register('overlayStarSyntax');
-    this.fhirService.get('/Observation?patient=' + this.patentId + '&code=' + this.observationCode
-        + '&date=gt' + from.toISOString().split('T')[0]
-        + '&_count=400').subscribe(
-        bundle => {
-          //   console.log(bundle);
-          const observations: Bundle = bundle as Bundle;
+    if (end !== undefined && from !== undefined) {
+      this._loadingService.register('overlayStarSyntax');
+      this.fhirService.get('/Observation?patient=' + this.patentId + '&code=' + this.observationCode
+          + '&date=gt' + from.toISOString().split('T')[0]
+          + '&date=lt' + end.toISOString().split('T')[0]
+          + '&_count=400').subscribe(
+          bundle => {
+            //   console.log(bundle);
+            const observations: Bundle = bundle as Bundle;
 
-          this.yAxisLabel = 'Value';
-          const multiNew: any[] = [];
-          this._loadingService.resolve('overlayStarSyntax');
-          if (observations.entry !== undefined && observations.entry.length > 0) {
+            this.yAxisLabel = 'Value';
+            const multiNew: any[] = [];
+            this._loadingService.resolve('overlayStarSyntax');
+            if (observations.entry !== undefined && observations.entry.length > 0) {
 
-            // Attempt to set up the series. This is not that robust
+              // Attempt to set up the series. This is not that robust
 
-            const firstObservation = observations.entry[0].resource as Observation;
-            if (firstObservation.valueQuantity !== undefined) {
-              // @ts-ignore
-              this.yAxisLabel = firstObservation.valueQuantity.unit;
-              // @ts-ignore
-              multiNew.push({name: firstObservation.code.coding[0].display, series: [],
-              });
-            }
-            // For components use definitions in resource
-            if (firstObservation.component !== undefined) {
-              // @ts-ignore
-              this.yAxisLabel = firstObservation.component[0].valueQuantity.unit;
-              for (const component of firstObservation.component) {
+              const firstObservation = observations.entry[0].resource as Observation;
+              if (firstObservation.valueQuantity !== undefined) {
                 // @ts-ignore
-                multiNew.push({name: component.code.coding[0].display, series: []});
+                this.yAxisLabel = firstObservation.valueQuantity.unit;
+                // @ts-ignore
+                multiNew.push({name: firstObservation.code.coding[0].display, series: [],
+                });
               }
-            }
-            if (this.isFindingsCode(this.observationCode)) {
-              this.yAxisLabel = 'Avg Hear Rate';
-              multiNew.push(
-                  {
-                    name: 'Asleep',
-                    series: [],
-                  },
-                  {
-                    name: 'Exercise',
-                    series: [],
-                  }
-              );
-            }
-
-            // console.log(multi);
-
-            for (const entry of observations.entry) {
-
-              if (entry.resource !== undefined && entry.resource.resourceType === 'Observation') {
-                const observation: Observation = entry.resource as Observation;
-                // populate grid view
-                this.observations.push(observation);
-
-                if (observation.valueQuantity !== undefined && observation.valueQuantity.value !== undefined) {
-                  if (observation.effectiveDateTime !== undefined) {
-                    //    console.log(observation.effectiveDateTime);
-                    multiNew[this.getSeriesNum(observation)].series.push({
-                      value: observation.valueQuantity.value,
-                      name: new Date(observation.effectiveDateTime)
-                    });
-                  }
-                  if (observation.effectivePeriod !== undefined) {
-                    //    .log(observation.effectivePeriod.start);
-                    // @ts-ignore
-                    multiNew[this.getSeriesNum(observation)].series.push({value: observation.valueQuantity.value, name: new Date(observation.effectivePeriod.start)
-                    });
-                  }
+              // For components use definitions in resource
+              if (firstObservation.component !== undefined) {
+                // @ts-ignore
+                this.yAxisLabel = firstObservation.component[0].valueQuantity.unit;
+                for (const component of firstObservation.component) {
+                  // @ts-ignore
+                  multiNew.push({name: component.code.coding[0].display, series: []});
                 }
-                if (observation.component !== undefined && observation.component.length > 0) {
-                  for (const component of observation.component) {
-
-                    let seriesId;
-                    let cont = 0;
-                    for (; cont < multiNew.length; cont++) {
-                      // @ts-ignore
-                      if (multiNew[cont].name === component.code.coding[0].display) {
-                        seriesId = cont;
-                      }
+              }
+              if (this.isFindingsCode(this.observationCode)) {
+                this.yAxisLabel = 'Avg Hear Rate';
+                multiNew.push(
+                    {
+                      name: 'Asleep',
+                      series: [],
+                    },
+                    {
+                      name: 'Exercise',
+                      series: [],
                     }
-                    if (seriesId !== undefined) {
-                      if (observation.effectiveDateTime !== undefined ) {
-                        const vl = component.valueQuantity?.value;
-                        if (vl !== undefined) {
-                          multiNew[seriesId].series.push({
-                            value: vl,
-                            name: new Date(observation.effectiveDateTime)
+                );
+              }
+
+              // console.log(multi);
+
+              for (const entry of observations.entry) {
+
+                if (entry.resource !== undefined && entry.resource.resourceType === 'Observation') {
+                  const observation: Observation = entry.resource as Observation;
+                  // populate grid view
+                  this.observations.push(observation);
+
+                  if (observation.valueQuantity !== undefined && observation.valueQuantity.value !== undefined) {
+                    if (observation.effectiveDateTime !== undefined) {
+                      //    console.log(observation.effectiveDateTime);
+                      multiNew[this.getSeriesNum(observation)].series.push({
+                        value: observation.valueQuantity.value,
+                        name: new Date(observation.effectiveDateTime)
+                      });
+                    }
+                    if (observation.effectivePeriod !== undefined) {
+                      //    .log(observation.effectivePeriod.start);
+                      // @ts-ignore
+                      multiNew[this.getSeriesNum(observation)].series.push({value: observation.valueQuantity.value, name: new Date(observation.effectivePeriod.start)
+                      });
+                    }
+                  }
+                  if (observation.component !== undefined && observation.component.length > 0) {
+                    for (const component of observation.component) {
+
+                      let seriesId;
+                      let cont = 0;
+                      for (; cont < multiNew.length; cont++) {
+                        // @ts-ignore
+                        if (multiNew[cont].name === component.code.coding[0].display) {
+                          seriesId = cont;
+                        }
+                      }
+                      if (seriesId !== undefined) {
+                        if (observation.effectiveDateTime !== undefined) {
+                          const vl = component.valueQuantity?.value;
+                          if (vl !== undefined) {
+                            multiNew[seriesId].series.push({
+                              value: vl,
+                              name: new Date(observation.effectiveDateTime)
+                            });
+                          }
+                        }
+                        if (observation.effectivePeriod !== undefined) {
+
+                          // @ts-ignore
+                          multiNew[seriesId].series.push({value: component.valueQuantity.value, name: new Date(observation.effectivePeriod.start)
                           });
                         }
                       }
-                      if (observation.effectivePeriod !== undefined) {
-
-                        // @ts-ignore
-                        multiNew[seriesId].series.push({value: component.valueQuantity.value, name: new Date(observation.effectivePeriod.start)
-                        });
-                      }
                     }
                   }
                 }
+
+
               }
 
+              /*
+              const standardDeviation = (arr, usePopulation = false) => {
+                const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+                return Math.sqrt(
+                    arr
+                        .reduce((acc, val) => acc.concat((val - mean) ** 2), [])
+                        .reduce((acc, val) => acc + val, 0) /
+                    (arr.length - (usePopulation ? 0 : 1))
+                );
+              };
+
+               */
+
+              this.multi = multiNew;
+              //    console.log(this.multi);
 
             }
-
-            /*
-            const standardDeviation = (arr, usePopulation = false) => {
-              const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
-              return Math.sqrt(
-                  arr
-                      .reduce((acc, val) => acc.concat((val - mean) ** 2), [])
-                      .reduce((acc, val) => acc + val, 0) /
-                  (arr.length - (usePopulation ? 0 : 1))
-              );
-            };
-
-             */
-
-            this.multi = multiNew;
-            //    console.log(this.multi);
-
           }
-        }
-    );
-
+      );
+    }
   }
 
   getSeriesNum(observation: Observation): number {
@@ -259,7 +267,7 @@ export class ObservationChartComponent implements OnInit {
   }
 
   change(num: number): void {
-    this.searchRange = num;
+
     this.refreshResult();
   }
 
@@ -267,4 +275,33 @@ export class ObservationChartComponent implements OnInit {
         if (!this.showGrid) return "height: 200px"
       return "height: 400px"
     }
+
+  selected(event: any) {
+
+    const end = this.endDate?.toDate()
+    const temp = end?.setMonth(end.getMonth() - (this.selectedValue) );
+    this.startDate = moment(new Date(temp))
+    this.refreshResult();
+
+  }
+
+
+  functionStartName() {
+    console.log('start')
+    if ((this.startDate.toDate() > this.endDate.toDate()) && this.selectedValue !== undefined) {
+      const start = this.startDate?.toDate()
+      const temp = start?.setMonth(start.getMonth() + (this.selectedValue) );
+      this.endDate = moment(new Date(temp))
+    }
+    this.refreshResult()
+  }
+  functionEndName() {
+    console.log('end')
+    if ((this.startDate.toDate() > this.endDate.toDate()) && this.selectedValue !== undefined) {
+      const end = this.endDate?.toDate()
+      const temp = end?.setMonth(end.getMonth() - (this.selectedValue) );
+      this.startDate = moment(new Date(temp))
+    }
+    this.refreshResult()
+  }
 }

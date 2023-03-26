@@ -1,11 +1,34 @@
 <div [style]=getStyle()>
-   <h3>{{title}}</h3>
+    <h3>{{title}}</h3>
     <span  *ngIf="showRange">
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-          <mat-button-toggle value="12" (click)="change(12)">Year</mat-button-toggle>
-          <mat-button-toggle value="6" (click)="change(6)">6 months</mat-button-toggle>
-          <mat-button-toggle value="1" (click)="change(1)">4 weeks</mat-button-toggle>
-    </mat-button-toggle-group> </span>
+        <form class="example-form">
+            <mat-form-field>
+              <mat-label>Range</mat-label>
+              <mat-select [(ngModel)]="selectedValue" name="selectedValue" (selectionChange)="selected($event)">
+                <mat-option [value]=12>Year</mat-option>
+                <mat-option [value]=6>6 months</mat-option>
+                <mat-option [value]=3>3 Months</mat-option>
+                <mat-option [value]=2>2 Months</mat-option>
+                <mat-option [value]=1>1 Month</mat-option>
+              </mat-select>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <mat-label>Start date</mat-label>
+              <input matInput [matDatepicker]="start" name="start" [(ngModel)]="startDate" (ngModelChange)="functionStartName()">
+              <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+              <mat-datepicker #start></mat-datepicker>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <mat-label>End date</mat-label>
+              <input matInput [matDatepicker]="endpicker" name="endpicker" [(ngModel)]="endDate" (ngModelChange)="functionEndName()">
+              <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+              <mat-datepicker #endpicker></mat-datepicker>
+            </mat-form-field>
+          </form>
+    </span>
+
 
       <ngx-charts-line-chart *ngIf="multi.length>0"
         [scheme]="colorScheme"
@@ -27,7 +50,7 @@
       </ngx-charts-line-chart>
 
    <span *ngIf="showGrid">
-       grid
+
            <span *ngIf="observations.length>0">
                              <app-observation [observations]="observations"> </app-observation>
                               </span>

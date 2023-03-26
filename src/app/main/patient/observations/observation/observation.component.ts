@@ -61,7 +61,7 @@ export class ObservationComponent implements OnInit {
   ngAfterViewInit(): void {
     if (this.sort !== undefined) {
       this.sort.sortChange.subscribe((event) => {
-        console.log(event);
+       // console.log(event);
       });
       // @ts-ignore
       this.sort.sort(({ id: 'effectiveDateTime', start: 'desc'}) as MatSortable);

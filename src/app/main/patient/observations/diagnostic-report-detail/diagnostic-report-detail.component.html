@@ -1,0 +1,35 @@
+
+<mat-card class="fullscreen scrollable-content">
+    <td-breadcrumbs>
+        <a td-breadcrumb [routerLink]="['/patient', patientid]">Patient</a>
+        <a td-breadcrumb [routerLink]="['/patient', patientid, 'observations']">Observations</a>
+        <td-breadcrumb>Report</td-breadcrumb>
+    </td-breadcrumbs>
+    <mat-card-content>
+        <div>
+            <h3>Diagnostic Report</h3>
+            <span flex></span>
+        </div>
+
+        <span *ngIf="diagnosticReports.length>0">
+                         <app-diagnostic-report [diagnosticReports]="diagnosticReports"> </app-diagnostic-report>
+                          </span>
+        <span *ngIf="diagnosticReports.length==0">
+                          No report found.
+                      </span>
+    </mat-card-content>
+    <mat-card-content>
+        <div>
+            <h3>Observations</h3>
+            <span flex></span>
+        </div>
+        <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
+                <span *ngIf="observations.length>0">
+                             <app-observation [observations]="observations"> </app-observation>
+                              </span>
+            <span *ngIf="observations.length === 0">
+                              No observations found.
+                          </span>
+        </div>
+    </mat-card-content>
+</mat-card>

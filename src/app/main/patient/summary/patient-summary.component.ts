@@ -109,12 +109,13 @@ export class PatientSummaryComponent implements OnInit {
         this.withingsLoad();
       }
     );
-      this.strava.loaded.subscribe(loaded => {
+      this.strava.loaded.subscribe(activities => {
         console.log('Strava Loaded Received');
+        console.log(activities)
         const patientRef: Reference = {
           reference: 'Patient/' + this.patientid
         };
-        const transaction = this.strava.createTransaction(this.strava.activities, patientRef);
+        const transaction = this.strava.createTransaction(activities, patientRef);
         this.fhirSrv.sendTransaction(transaction, 'Strava');
       });
       this.withings.activityLoaded.subscribe(result => {

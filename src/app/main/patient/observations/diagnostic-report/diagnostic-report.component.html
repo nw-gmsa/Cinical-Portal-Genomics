@@ -55,6 +55,10 @@
         </span>
       </td>
     </ng-container>
+    <ng-container matColumnDef="chart">
+      <th mat-header-cell *matHeaderCellDef width="5%">Report</th>
+      <td mat-cell *matCellDef="let diagnosticReport">  <button mat-icon-button color="accent"  (click)="selecReport(diagnosticReport)"><mat-icon>insert_chart</mat-icon></button></td>
+    </ng-container>
 
 
     <ng-container matColumnDef="resource">

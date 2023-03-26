@@ -88,7 +88,7 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'summary',
-      text: 'Summary',
+      text: 'Summary Record',
       icon: 'view_cozy',
       action: 'summary'
     },
@@ -123,7 +123,7 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'vitals',
-      text: 'Vitals',
+      text: 'Vital Signs',
       icon: 'local_hospital',
       action: 'vitals',
     },
@@ -134,13 +134,13 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'workflow',
-      text: 'Requests and Tasks',
+      text: 'Referrals and Interventions',
       icon: 'assignment',
       action: 'workflow'
     },
     {
       id: 'coordination',
-      text: 'Care Planning',
+      text: 'Plans and Goals',
       icon: 'map',
       action: 'coordination'
     },

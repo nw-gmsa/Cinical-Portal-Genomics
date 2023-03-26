@@ -6,6 +6,7 @@ import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resou
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-diagnostic-report',
@@ -30,9 +31,10 @@ export class DiagnosticReportComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer', 'resource'];
+  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer', 'chart', 'resource'];
 
   constructor(public fhirService: FhirService,
+              private router: Router,
               public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -111,6 +113,11 @@ export class DiagnosticReportComponent implements OnInit {
   }
 
 
+    selecReport(diagnosticReport : DiagnosticReport) {
 
+      if (diagnosticReport.code.coding !== undefined) {
+        this.router.navigate(['/patient', diagnosticReport.subject?.reference?.replace('Patient/',''), 'report', diagnosticReport.id])
+      }
 
+    }
 }

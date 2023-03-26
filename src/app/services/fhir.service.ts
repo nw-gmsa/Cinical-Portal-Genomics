@@ -31,7 +31,7 @@ export class FhirService {
 
   private from: Date | undefined;
   private to: Date | undefined;
-  private duration = 28;
+  private duration = 10;
   private maxTransactionSize = 80;
   pageOn = 10;
   throttle = 3000;

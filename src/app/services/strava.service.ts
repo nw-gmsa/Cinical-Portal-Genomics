@@ -23,7 +23,7 @@ export class StravaService {
 
   private athlete?: Athlete = undefined;
 
-  loaded: EventEmitter<any> = new EventEmitter();
+  loaded: EventEmitter<SummaryActivity[]> = new EventEmitter();
 
 
   activityMap = new Map();
@@ -34,7 +34,7 @@ export class StravaService {
 
 
   athleteChange: EventEmitter<any> = new EventEmitter();
-  activities: SummaryActivity[] = [];
+
 
 
   constructor(private http: HttpClient, private fhirService: FhirService) {
@@ -75,18 +75,20 @@ export class StravaService {
 
 
 
-  processStravaObs(result: any): void {
+  processStravaObs(result: any): SummaryActivity[] {
     // Filters out duplcates
+    const activities: SummaryActivity[] = [];
     for (const activity of result) {
       const date = new Date(activity.start_date).toISOString();
       activity.intensity = this.intensity(activity.weighted_average_watts);
       if (this.activityMap.get(activity.id) === undefined) {
         this.activityMap.set(activity.id, activity);
-        this.activities.push(activity);
+        activities.push(activity);
       } else {
         console.log('Duplicate Id = ' + this.activityMap.get(activity.id));
       }
     }
+    return activities;
   }
 
   intensity(pwr: number): number {
@@ -98,7 +100,6 @@ export class StravaService {
 
   getActivities(page?: number | undefined): void {
     if (page === undefined) {
-      this.activities = [];
       this.activityMap = new Map();
     }
     this.getStravaActivities(page).subscribe(
@@ -106,18 +107,19 @@ export class StravaService {
         // tslint:disable-next-line:triple-equals
         if (page == undefined) { page = 0; }
         page++;
-        this.processStravaObs(result);
+        const activities = this.processStravaObs(result);
         if (result.length > 0) {
+          this.loaded.emit(activities);
           this.getActivities(page);
         } else {
-          this.loaded.emit(true);
+          this.loaded.emit(activities);
         }
       },
       (err) => {
         console.log('STRAVA Error - ' + err);
         console.log(err);
         if (err.status === 401) {
-          this.loaded.emit(false);
+          this.loaded.emit([]);
         }
       }
     );
