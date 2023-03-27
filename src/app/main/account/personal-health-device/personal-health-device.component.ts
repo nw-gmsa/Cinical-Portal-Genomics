@@ -21,6 +21,7 @@ export class PersonalHealthDeviceComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVisible();
+    console.log(window.location.pathname);
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
         this.patientid = this.eprService.patient.id;
@@ -34,12 +35,19 @@ export class PersonalHealthDeviceComponent implements OnInit {
   connectStrava(): void {
 
     console.log(window.location.origin);
-    this.strava.authorise(window.location.origin + '/patient/'+this.patientid);
+
+
+
+    this.strava.authorise(window.location.origin + this.getPathName(window.location.pathname) +  '/patient/'+this.patientid);
   }
 
   connectWithings(): void {
     console.log(window.location.origin);
-    this.withings.authorise(window.location.origin + '/patient/'+this.patientid);
+    this.withings.authorise(window.location.origin + this.getPathName(window.location.pathname) +  '/patient/'+this.patientid);
+  }
+  getPathName(pathname: string): string {
+    if (pathname.includes('FHIR-R4')) return "/FHIR-R4-Demonstration";
+    return "";
   }
 
   getVisible() {
