@@ -103,6 +103,7 @@ export class ObservationChartComponent implements OnInit {
           bundle => {
             //   console.log(bundle);
             const observations: Bundle = bundle as Bundle;
+            let isComponent = false;
 
             this.yAxisLabel = 'Value';
             const multiNew: any[] = [];
@@ -123,6 +124,7 @@ export class ObservationChartComponent implements OnInit {
               if (firstObservation.component !== undefined) {
                 // @ts-ignore
                 this.yAxisLabel = firstObservation.component[0].valueQuantity.unit;
+                isComponent = true;
                 for (const component of firstObservation.component) {
                   // @ts-ignore
                   multiNew.push({name: component.code.coding[0].display, series: []});
@@ -205,30 +207,15 @@ export class ObservationChartComponent implements OnInit {
               if ((multiNew.length==1 || this.observationCode=== '444981005'
                   || this.observationCode=== '40443-4'
                   || this.observationCode=== '66440-9'
-              ) && multiNew.length > 0 && multiNew[0].series.length > 0) {
-                this.showRefLines = true;
-                let mean = 0
-                multiNew[0].series.forEach(((res: any) => {
-                  mean += res.value
-                }))
-                mean = mean / multiNew[0].series.length
-                let sumSq = 0
-                multiNew[0].series.forEach(((res: any) => {
-                  sumSq += (res.value - mean) ** 2
-                }))
-                sumSq = Math.sqrt(sumSq / multiNew[0].series.length)
-                this.referencelines.push({
-                  name: 'Average',
-                  value: (mean)
-                })
-                this.referencelines.push({
-                  name: '+',
-                  value: (mean + sumSq)
-                })
-                this.referencelines.push({
-                  name: '-',
-                  value: (mean - sumSq)
-                })
+              ) && multiNew.length > 0) {
+                this.getReferenceLines(multiNew,0)
+              } else {
+                if (isComponent) {
+                  for(const series in multiNew) {
+                    console.log(series)
+                    this.getReferenceLines(multiNew,Number(series))
+                  }
+                }
               }
               this.multi = multiNew;
 
@@ -237,6 +224,35 @@ export class ObservationChartComponent implements OnInit {
             }
           }
       );
+    }
+  }
+
+  getReferenceLines(multiNew: any[], series: number ) {
+    if (multiNew[0].series.length > 0)
+    {
+      this.showRefLines = true;
+      let mean = 0
+      multiNew[series].series.forEach(((res: any) => {
+        mean += res.value
+      }))
+      mean = mean / multiNew[series].series.length
+      let sumSq = 0
+      multiNew[series].series.forEach(((res: any) => {
+        sumSq += (res.value - mean) ** 2
+      }))
+      sumSq = Math.sqrt(sumSq / multiNew[series].series.length)
+      this.referencelines.push({
+        name: 'Average',
+        value: (mean)
+      })
+      this.referencelines.push({
+        name: '+',
+        value: (mean + sumSq)
+      })
+      this.referencelines.push({
+        name: '-',
+        value: (mean - sumSq)
+      })
     }
   }
 
