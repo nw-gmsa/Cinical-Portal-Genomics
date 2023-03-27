@@ -6,6 +6,10 @@ import {TdLoadingService} from "@covalent/core/loading";
 import {Moment} from "moment";
 import * as moment from 'moment';
 import {EprService} from "../../../../services/epr.service";
+// import {curveCardinal} from "d3-shape";
+/// import {curveLinear} from "d3-shape";
+import {curveCardinal} from "d3-shape";
+
 
 @Component({
   selector: 'app-observation-chart',
@@ -58,6 +62,11 @@ export class ObservationChartComponent implements OnInit {
   startDate: Moment = moment(new Date());
   @Input()
   endDate: Moment = moment(new Date());
+
+  // https://github.com/d3/d3-shape#curves
+  curve = curveCardinal.tension(0.5)
+  referencelines: any[] = [];
+  showRefLines = false;
   constructor(public fhirService: FhirService,
               private eprService: EprService,
               private _loadingService: TdLoadingService) {
@@ -153,7 +162,7 @@ export class ObservationChartComponent implements OnInit {
                     if (observation.effectivePeriod !== undefined) {
                       //    .log(observation.effectivePeriod.start);
                       // @ts-ignore
-                      multiNew[this.getSeriesNum(observation)].series.push({value: observation.valueQuantity.value, name: new Date(observation.effectivePeriod.start)
+                      multiNew[this.getSeriesNum(observation)].series.push({value: observation.valueQuantity.value, name: new Date(observation.effectivePeriod.end)
                       });
                     }
                   }
@@ -181,7 +190,7 @@ export class ObservationChartComponent implements OnInit {
                         if (observation.effectivePeriod !== undefined) {
 
                           // @ts-ignore
-                          multiNew[seriesId].series.push({value: component.valueQuantity.value, name: new Date(observation.effectivePeriod.start)
+                          multiNew[seriesId].series.push({value: component.valueQuantity.value, name: new Date(observation.effectivePeriod.end)
                           });
                         }
                       }
@@ -192,20 +201,37 @@ export class ObservationChartComponent implements OnInit {
 
               }
 
-              /*
-              const standardDeviation = (arr, usePopulation = false) => {
-                const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
-                return Math.sqrt(
-                    arr
-                        .reduce((acc, val) => acc.concat((val - mean) ** 2), [])
-                        .reduce((acc, val) => acc + val, 0) /
-                    (arr.length - (usePopulation ? 0 : 1))
-                );
-              };
-
-               */
-
+              this.referencelines = [];
+              if (multiNew.length==1 || this.observationCode=== '444981005'
+                  || this.observationCode=== '40443-4'
+                  || this.observationCode=== '66440-9'
+              ) {
+                this.showRefLines = true;
+                let mean = 0
+                multiNew[0].series.forEach(((res: any) => {
+                  mean += res.value
+                }))
+                mean = mean / multiNew[0].series.length
+                let sumSq = 0
+                multiNew[0].series.forEach(((res: any) => {
+                  sumSq += (res.value - mean) ** 2
+                }))
+                sumSq = Math.sqrt(sumSq / multiNew[0].series.length)
+                this.referencelines.push({
+                  name: 'Average',
+                  value: (mean)
+                })
+                this.referencelines.push({
+                  name: '+',
+                  value: (mean + sumSq)
+                })
+                this.referencelines.push({
+                  name: '-',
+                  value: (mean - sumSq)
+                })
+              }
               this.multi = multiNew;
+
               //    console.log(this.multi);
 
             }
@@ -260,6 +286,9 @@ export class ObservationChartComponent implements OnInit {
     if (obsCode === '55424-6') {
       return true;
     }
+    if (obsCode === '40443-4' || obsCode === '444981005') {
+      return true;
+    }
     return false;
   }
   axisDigits(val: any): any {
@@ -272,7 +301,7 @@ export class ObservationChartComponent implements OnInit {
   }
 
     getStyle() {
-        if (!this.showGrid) return "height: 200px"
+        if (!this.showGrid) return "height: 150px"
       return "height: 400px"
     }
 

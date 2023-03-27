@@ -307,6 +307,8 @@ export class StravaService {
       if (activity.moving_time !== undefined && activity.moving_time > 0) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',
           '55411-3', 'm','Exercise duration', Math.round(activity.moving_time / 60), 'min');
+      } else {
+        console.log(activity.elapsed_time)
       }
       if (activity.kilojoules !== undefined && activity.kilojoules > 0) {
         this.addBundleObservationEntry(bundle, activityReport, activity, 'http://loinc.org',

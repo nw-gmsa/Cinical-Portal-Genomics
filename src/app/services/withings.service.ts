@@ -402,7 +402,7 @@ export class WithingsService {
         obs.lightsleepduration = sleep.data.lightsleepduration;
       }
       if (sleep.data.hr_average !== undefined) {
-        obs.hr_average = sleep.data.hr_average;
+        obs.hr_min = sleep.data.hr_average;
       }
       if (sleep.data.apnea_hypopnea_index !== undefined) {
         obs.apnea_hypopnea_index = sleep.data.apnea_hypopnea_index;
@@ -435,6 +435,7 @@ export class WithingsService {
   async processSleepGet(startdate: Date, enddate: Date, id: string, sleepData: any): Promise<void> {
     let count = 0;
     let sum = 0;
+    await this.delay(this.fhir.throttle);
     if (sleepData.body !== undefined && sleepData.body.series !== undefined) {
       for (const sleep of sleepData.body.series) {
         if (sleep.sdnn_1 !== undefined) {
@@ -605,7 +606,7 @@ export class WithingsService {
       }
       if (obs.hr_min !== undefined) {
         const hrmin = this.getObservation(patient, bundle, obs, false, '40443-4', '{beats}/min',
-            obs.measurementSetting, 'Heart rate - resting', obs.hr_min, 'beats/min');
+            obs.measurementSetting, 'Heart rate - resting', obs.hr_min, 'beats/min', obs.id, obs.asleep);
         // @ts-ignore
         hrmin.code.coding.push({
           system: 'http://snomed.info/sct',

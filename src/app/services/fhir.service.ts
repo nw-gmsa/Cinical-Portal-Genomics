@@ -31,11 +31,11 @@ export class FhirService {
 
   private from: Date | undefined;
   private to: Date | undefined;
-  private duration = 10;
+  private duration = 14;
   private maxTransactionSize = 80;
-  pageOn = 10;
+  pageOn = 7;
   throttle = 3000;
-  measurePageMod = 2;
+  measurePageMod = 3;
 
   private baseUrl = environment.fhirServer ;
   private tieUrl = environment.tieServer;
