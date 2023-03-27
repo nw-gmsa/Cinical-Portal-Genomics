@@ -202,10 +202,10 @@ export class ObservationChartComponent implements OnInit {
               }
 
               this.referencelines = [];
-              if (multiNew.length==1 || this.observationCode=== '444981005'
+              if ((multiNew.length==1 || this.observationCode=== '444981005'
                   || this.observationCode=== '40443-4'
                   || this.observationCode=== '66440-9'
-              ) {
+              ) && multiNew.length > 0 && multiNew[0].series.length > 0) {
                 this.showRefLines = true;
                 let mean = 0
                 multiNew[0].series.forEach(((res: any) => {
@@ -316,7 +316,7 @@ export class ObservationChartComponent implements OnInit {
 
 
   functionStartName() {
-    console.log('start')
+
     if ((this.startDate.toDate() > this.endDate.toDate()) && this.selectedValue !== undefined) {
       const start = this.startDate?.toDate()
       const temp = start?.setMonth(start.getMonth() + (this.selectedValue) );
@@ -325,7 +325,7 @@ export class ObservationChartComponent implements OnInit {
     this.refreshResult()
   }
   functionEndName() {
-    console.log('end')
+
     if ((this.startDate.toDate() > this.endDate.toDate()) && this.selectedValue !== undefined) {
       const end = this.endDate?.toDate()
       const temp = end?.setMonth(end.getMonth() - (this.selectedValue) );

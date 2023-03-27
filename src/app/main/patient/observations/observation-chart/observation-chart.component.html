@@ -1,3 +1,4 @@
+<span *ngIf="multi.length>0 || showRange">
 <div [style]=getStyle()>
     <h3>{{title}}</h3>
     <span  *ngIf="showRange">
@@ -52,6 +53,7 @@
                              [showRefLines]="showRefLines"
       >
       </ngx-charts-line-chart>
+     <span *ngIf="multi.length === 0">No results found</span>
 
    <span *ngIf="showGrid">
 
@@ -63,3 +65,4 @@
                           </span>
    </span>
 </div>
+</span>

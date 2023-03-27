@@ -63,7 +63,7 @@ export class PhysicalActivityDetailComponent implements OnInit {
 
 
   functionStartName() {
-    console.log('start')
+
     if ((this.startDate.toDate() > this.endDate.toDate()) && this.selectedValue !== undefined) {
       const start = this.startDate?.toDate()
       const temp = start?.setMonth(start.getMonth() + (this.selectedValue) );
@@ -73,7 +73,7 @@ export class PhysicalActivityDetailComponent implements OnInit {
     this.eprService.startRange.emit(this.startDate)
   }
   functionEndName() {
-    console.log('end')
+
     if ((this.startDate.toDate() > this.endDate.toDate()) && this.selectedValue !== undefined) {
       const end = this.endDate?.toDate()
       const temp = end?.setMonth(end.getMonth() - (this.selectedValue) );
