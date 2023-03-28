@@ -176,25 +176,26 @@ export class FhirService {
   public getCodeableConcept(concept: CodeableConcept | undefined): string {
     if (concept === undefined) { return ''; }
     let result = '';
+    if (concept.text !== undefined) { result += ' <b>' + concept.text + '</b>'; }
     if (concept.coding !== undefined) {
       for (const code of concept.coding) {
         if (result !== '') { result += '<br/>'; }
         result += this.getCoding(code);
       }
     }
-    if (concept.text !== undefined) { result += ' ' + concept.text; }
     return result;
   }
   public getCodeableConceptValue(concept?: CodeableConcept): string {
     if (concept === undefined) { return ''; }
     let result = '';
+    if (concept.text !== undefined) { result += ' <b>' + concept.text + '</b>'; }
     if (concept.coding !== undefined) {
       for (const code of concept.coding) {
         if (result !== '') { result += ', '; }
         result += this.getCodingValue(code);
       }
     }
-    if (concept.text !== undefined) { result += ' ' + concept.text; }
+
     return result;
   }
 
