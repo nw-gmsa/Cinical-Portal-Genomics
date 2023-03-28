@@ -93,6 +93,7 @@ export class ObservationChartComponent implements OnInit {
     const from = this.startDate
     this.maxScale = end.toDate();
     this.minScale = from.toDate();
+    this.observations = [];
 
     if (end !== undefined && from !== undefined) {
       this._loadingService.register('overlayStarSyntax');
@@ -113,11 +114,19 @@ export class ObservationChartComponent implements OnInit {
               // Attempt to set up the series. This is not that robust
 
               const firstObservation = observations.entry[0].resource as Observation;
+              let label = "Unknown";
+              if (firstObservation.code !== undefined) {
+                if (firstObservation.code.text !== undefined) label = firstObservation.code.text
+                if (firstObservation.code.coding !== undefined && firstObservation.code.coding.length > 0 && firstObservation.code.coding[0].display !== undefined) {
+                  label = firstObservation.code.coding[0].display
+                }
+              }
               if (firstObservation.valueQuantity !== undefined) {
                 // @ts-ignore
                 this.yAxisLabel = firstObservation.valueQuantity.unit;
+
                 // @ts-ignore
-                multiNew.push({name: firstObservation.code.coding[0].display, series: [],
+                multiNew.push({name: label, series: [],
                 });
               }
               // For components use definitions in resource
