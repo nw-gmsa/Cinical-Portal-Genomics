@@ -47,7 +47,7 @@
       <th mat-header-cell *matHeaderCellDef > Focus </th>
       <td mat-cell *matCellDef="let task">
         <span *ngIf="task.focus !== undefined">
-            <button mat-button [matTooltip]="task.focus.reference">{{fhirService.getReference(task.focus)}}</button>
+            <span [innerHTML]="fhirService.getReference(task.focus)"></span>
         </span>
       </td>
     </ng-container>

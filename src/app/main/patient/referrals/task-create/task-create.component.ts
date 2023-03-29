@@ -19,6 +19,7 @@ import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import * as uuid from 'uuid';
 import {DialogService} from '../../../../dialogs/dialog.service';
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-task-create',
@@ -28,6 +29,7 @@ import {DialogService} from '../../../../dialogs/dialog.service';
 export class TaskCreateComponent implements OnInit {
 
   code$: Observable<ValueSetExpansionContains[]> | undefined;
+  code: ValueSetExpansionContains[] | undefined;
 
   reason$: Observable<ValueSetExpansionContains[]> | undefined;
 
@@ -84,6 +86,11 @@ export class TaskCreateComponent implements OnInit {
       resource  => {
         this.priority = this.dlgSrv.getContainsExpansion(resource);
       }
+    );
+    this.fhirService.getConf('/ValueSet/$expand?url=https://fhir.nhs.uk/ValueSet/NHSDigital-task-code').subscribe(
+        resource  => {
+          this.code = this.dlgSrv.getContainsExpansion(resource);
+        }
     );
     this.fhirService.get('/MedicationRequest?patient=' + this.patientId).subscribe(bundle => {
         if (bundle.entry !== undefined) {
@@ -201,6 +208,10 @@ export class TaskCreateComponent implements OnInit {
     };
     console.log(this.taskCode);
     this.checkSubmit();
+  }
+  selectedTaskC(event: MatSelectChange) {
+    this.taskCode = event.value
+    this.checkSubmit()
   }
   selectedPriority(status: any): void {
     console.log(status);
@@ -425,10 +436,12 @@ export class TaskCreateComponent implements OnInit {
         reference: this.planFocus.resourceType + '/' + this.planFocus.id,
       };
       if (this.planFocus.resourceType === 'MedicationRequest') {
-        task.focus.display = this.fhirService.getCodeableConceptValue((this.planFocus as MedicationRequest).medicationCodeableConcept);
+        const display = this.fhirService.getCodeableConceptValue((this.planFocus as MedicationRequest).medicationCodeableConcept);
+        if (display !== undefined && display !== '') task.focus.display = display
       }
       if (this.planFocus.resourceType === 'ServiceRequest') {
-        task.focus.display = this.fhirService.getCodeableConceptValue((this.planFocus as ServiceRequest).code);
+        const display = this.fhirService.getCodeableConceptValue((this.planFocus as ServiceRequest).code);
+        if (display !== undefined && display !== '') task.focus.display = display
       }
     }
 
@@ -439,6 +452,7 @@ export class TaskCreateComponent implements OnInit {
       this.dialog.closeAll();
     });
   }
+
 
 
 }

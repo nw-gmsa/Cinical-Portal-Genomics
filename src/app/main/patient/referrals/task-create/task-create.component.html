@@ -29,14 +29,22 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <input #searchBox matInput placeholder="Task code" (keyup)="search(searchBox.value)" [matAutocomplete]="auto">
+    &nbsp;
+    <mat-form-field class="example-half-width">
+      <input #searchBox matInput placeholder="Task code (SNOMED CT)" (keyup)="search(searchBox.value)" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedTask($event)" [displayWith]="dlgSrv.getDisplay">
         <mat-option *ngFor="let concept of code$ | async" [value]="concept" >
           {{dlgSrv.getDisplay(concept)}}
         </mat-option>
       </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="example-half-width">
+      <mat-label>Task code (Action)</mat-label>
+      <mat-select required id="code" (selectionChange)="selectedTaskC($event)">
+        <mat-option *ngFor="let concept of code" [value]="concept" >
+          {{dlgSrv.getDisplay(concept)}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
