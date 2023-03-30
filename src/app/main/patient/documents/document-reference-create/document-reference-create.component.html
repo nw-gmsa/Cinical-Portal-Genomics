@@ -87,9 +87,9 @@
             <mat-hint align="end">Additional details about where the content was created (e.g. clinical specialty)</mat-hint>
         </mat-form-field>
         &nbsp;
-        <mat-form-field class="example-half-width">
+        <mat-form-field disabled="true" class="example-half-width">
             <mat-label>Practice Setting (NHS Data Dictionary) Not working at present</mat-label>
-            <mat-select id="setting"  (selectionChange)="selectedSetting($event)">
+            <mat-select id="setting"  disabled="true" (selectionChange)="selectedSetting($event)">
                 <mat-option *ngFor="let stat of careSettings" [value]="stat">
                     {{stat.display}} ({{stat.code}})
                 </mat-option>
