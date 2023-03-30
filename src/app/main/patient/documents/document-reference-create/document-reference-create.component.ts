@@ -21,11 +21,10 @@ export class DocumentReferenceCreateComponent implements OnInit {
   public nhsNumber: string | undefined;
   disabled: boolean = true;
 
-  private metadataStatus: Coding | undefined;
-  private metadataDocStatus: Coding | undefined;
+  metadataStatus: string = 'current';
+  metadataDocStatus: string = 'final';
   private metadataCategory: Coding | undefined;
   private typeCode: Coding | undefined;
-  private careSettingCode: Coding | undefined;
   private organisation: Organization | undefined;
   private practitioner: Practitioner | undefined;
 
@@ -219,8 +218,8 @@ export class DocumentReferenceCreateComponent implements OnInit {
     };
 
 
-    if (this.metadataStatus !== undefined) {
-      switch (this.metadataStatus.code) {
+
+      switch (this.metadataStatus) {
         case 'current' : {
           metadata.status = 'current';
           break;
@@ -234,9 +233,9 @@ export class DocumentReferenceCreateComponent implements OnInit {
           break;
         }
       }
-    }
-    if (this.metadataDocStatus !== undefined) {
-      switch (this.metadataDocStatus.code) {
+
+
+      switch (this.metadataDocStatus) {
         //  | final | amended | entered-in-error
         case 'preliminary' : {
           metadata.docStatus = 'preliminary';
@@ -255,7 +254,7 @@ export class DocumentReferenceCreateComponent implements OnInit {
           break;
         }
       }
-    }
+
 
     metadata.subject = {
       reference: 'Patient/' + this.patientId,

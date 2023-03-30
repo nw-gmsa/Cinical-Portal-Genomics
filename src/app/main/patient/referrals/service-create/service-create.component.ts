@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {
   CarePlan,
   CareTeam,
@@ -47,8 +47,7 @@ export class ServiceCreateComponent implements OnInit {
   private searchPerformers = new Subject<string>();
   private searchTermsOrg = new Subject<string>();
   private searchTermsDoc = new Subject<string>();
-  private serviceRequestStatus: Coding | undefined;
-  private serviceRequestPriority: Coding | undefined;
+
   private organisation: Organization | undefined;
   private practitioner: Practitioner | undefined;
   private serviceRequestCode: Coding | undefined;
@@ -64,7 +63,9 @@ export class ServiceCreateComponent implements OnInit {
   planTeams: CareTeam[] | undefined;
   planPlans: CarePlan[] | undefined;
   planConditions: Resource[] | undefined;
-  private careIntent: Coding | undefined;
+  careIntent: string = 'order';
+  serviceRequestStatus: string = 'active';
+  serviceRequestPriority: string = 'routine'
 
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
@@ -336,7 +337,7 @@ export class ServiceCreateComponent implements OnInit {
       serviceRequest.performer.push(reference);
     }
     if (this.serviceRequestPriority !== undefined) {
-      switch (this.serviceRequestPriority.code) {
+      switch (this.serviceRequestPriority) {
           case 'routine': {
             serviceRequest.priority = 'routine';
             break;
@@ -356,7 +357,7 @@ export class ServiceCreateComponent implements OnInit {
         }
     }
     if (this.careIntent !== undefined) {
-      switch (this.careIntent.code) {
+      switch (this.careIntent) {
         case 'proposal': {
           serviceRequest.intent = 'proposal';
           break;
@@ -395,8 +396,8 @@ export class ServiceCreateComponent implements OnInit {
         }
       }
     }
-    if (this.serviceRequestStatus !== undefined) {
-      switch (this.serviceRequestStatus.code) {
+
+      switch (this.serviceRequestStatus) {
         case 'active' : {
           serviceRequest.status = 'active';
           break;
@@ -426,7 +427,7 @@ export class ServiceCreateComponent implements OnInit {
           break;
         }
       }
-    }
+
     serviceRequest.subject = {
       reference: 'Patient/' + this.patientId,
       identifier: {

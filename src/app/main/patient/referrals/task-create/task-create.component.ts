@@ -46,20 +46,23 @@ export class TaskCreateComponent implements OnInit {
   private searchTerms = new Subject<string>();
   private searchTermsOrg = new Subject<string>();
   private searchTermsDoc = new Subject<string>();
-  private taskStatus: Coding | undefined;
+
   private organisation: Organization | undefined;
   private practitioner: Practitioner | undefined;
   private taskCode: Coding | undefined;
-  private taskPriority: Coding | undefined;
+  taskStatus: string = 'requested';
+  taskPriority: string = 'routine';
+  careIntent: string = 'order'
   private reasonCode: Coding | undefined;
   selectedValues: any;
   disabled: boolean = true;
   patientId = undefined;
   nhsNumber = undefined;
   notes: string | undefined;
-  private careIntent: Coding | undefined;
+
   planTeams: CareTeam | undefined;
   planFocus: Resource | undefined;
+  description: string = '';
 
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
@@ -213,11 +216,7 @@ export class TaskCreateComponent implements OnInit {
     this.taskCode = event.value
     this.checkSubmit()
   }
-  selectedPriority(status: any): void {
-    console.log(status);
-    this.taskPriority = status.value;
-    this.checkSubmit();
-  }
+
   selectedReason(event: MatAutocompleteSelectedEvent): void {
     this.reasonCode = {
       system: event.option.value.system,
@@ -226,10 +225,7 @@ export class TaskCreateComponent implements OnInit {
     };
     this.checkSubmit();
   }
-  selectedIntent(intent: any): void {
-    this.careIntent = intent.value;
-    this.checkSubmit();
-  }
+
 
 
   selectedOrg(event: MatAutocompleteSelectedEvent): void {
@@ -244,9 +240,9 @@ export class TaskCreateComponent implements OnInit {
     this.checkSubmit();
   }
 
-  selectedStatus(status: any): void {
-    console.log(status);
-    this.taskStatus = status.value;
+  selectedStatus(): void {
+    console.log(this.taskStatus);
+   // this.taskStatus = status.value;
     this.checkSubmit();
   }
 
@@ -306,7 +302,7 @@ export class TaskCreateComponent implements OnInit {
       };
     }
     if (this.taskPriority !== undefined) {
-      switch (this.taskPriority.code) {
+      switch (this.taskPriority) {
         case 'routine': {
           task.priority = 'routine';
           break;
@@ -325,8 +321,8 @@ export class TaskCreateComponent implements OnInit {
         }
       }
     }
-    if (this.careIntent !== undefined) {
-      switch (this.careIntent.code) {
+
+      switch (this.careIntent) {
         case 'proposal': {
           task.intent = 'proposal';
           break;
@@ -364,9 +360,10 @@ export class TaskCreateComponent implements OnInit {
           break;
         }
       }
-    }
-    if (this.taskStatus !== undefined) {
-      switch (this.taskStatus.code) {
+
+
+
+      switch (this.taskStatus) {
         case 'requested' : {
           task.status = 'requested';
           break;
@@ -403,10 +400,6 @@ export class TaskCreateComponent implements OnInit {
           task.status = 'draft';
           break;
         }
-        case 'completed' : {
-          task.status = 'completed';
-          break;
-        }
         case 'rejected' : {
           task.status = 'rejected';
           break;
@@ -416,7 +409,7 @@ export class TaskCreateComponent implements OnInit {
           break;
         }
       }
-    }
+
     task.for = {
       reference: 'Patient/' + this.patientId,
       identifier: {
@@ -430,6 +423,9 @@ export class TaskCreateComponent implements OnInit {
           text: this.notes.trim()
         }
       ];
+    }
+    if (this.description.trim() !== '') {
+      task.description = this.description.trim()
     }
     if (this.planFocus !== undefined) {
       task.focus = {
