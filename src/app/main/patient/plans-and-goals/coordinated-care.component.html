@@ -22,6 +22,23 @@
                  </span>
         </mat-card-content>
         <mat-card-content>
+
+            <h3>Goals</h3>
+            <span flex></span>
+
+            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addGoal()"><mat-icon>stars</mat-icon> Add Goal</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="goals.length>0">
+                    <app-goal [goals]="goals"></app-goal>
+                     </span>
+            <span *ngIf="goals.length==0">
+                     No results found.
+                 </span>
+        </mat-card-content>
+        <mat-card-content>
             <div >
                 <h3>Care Teams</h3>
                 <span flex></span>

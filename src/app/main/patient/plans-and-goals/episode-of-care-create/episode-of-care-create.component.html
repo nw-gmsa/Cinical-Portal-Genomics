@@ -5,8 +5,8 @@
 
     <mat-form-field class="example-half-width">
       <mat-label>Status</mat-label>
-      <mat-select required id="status"  (selectionChange)="selectedStatus($event)">
-        <mat-option *ngFor="let stat of statuses" [value]="stat">
+      <mat-select required name="stayStatus" [(ngModel)]="stayStatus"  (selectionChange)="checkSubmit()">
+        <mat-option *ngFor="let stat of statuses" [value]="stat.code">
           {{stat.display}}
         </mat-option>
       </mat-select>

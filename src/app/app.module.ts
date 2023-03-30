@@ -96,6 +96,8 @@ import {CovalentBreadcrumbsModule} from "@covalent/core/breadcrumbs";
 import { PhysicalActivityDetailComponent } from './main/patient/observations/physical-activity-detail/physical-activity-detail.component';
 import { VitalsDetailComponent } from './main/patient/observations/vitals-detail/vitals-detail.component';
 import { DiagnosticReportDetailComponent } from './main/patient/observations/diagnostic-report-detail/diagnostic-report-detail.component';
+import { GoalCreateComponent } from './main/patient/plans-and-goals/goal-create/goal-create.component';
+import { GoalComponent } from './main/patient/plans-and-goals/goal/goal.component';
 
 const modules = [
   MatIconModule,
@@ -169,7 +171,9 @@ const modules = [
     ObservationDetailComponent,
     PhysicalActivityDetailComponent,
     VitalsDetailComponent,
-    DiagnosticReportDetailComponent
+    DiagnosticReportDetailComponent,
+    GoalCreateComponent,
+    GoalComponent
   ],
     imports: [
         BrowserModule,

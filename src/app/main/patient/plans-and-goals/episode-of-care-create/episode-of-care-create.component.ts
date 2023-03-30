@@ -42,7 +42,7 @@ export class EpisodeOfCareCreateComponent implements OnInit {
   periodEnd: Moment | undefined;
 
 
-  private stayStatus: Coding | undefined;
+  stayStatus: string = 'active' ;
 
   private stayType: Coding | undefined;
   stayServiceRequest: ServiceRequest[] | undefined;
@@ -132,10 +132,7 @@ export class EpisodeOfCareCreateComponent implements OnInit {
       this.searchTermsDoc.next(term);
     }
   }
-  selectedStatus(status: any): void {
-    this.stayStatus = status.value;
-    this.checkSubmit();
-  }
+
   selectedType(status: any): void {
     this.stayType = status.value;
     this.checkSubmit();
@@ -175,8 +172,8 @@ export class EpisodeOfCareCreateComponent implements OnInit {
     };
 
 
-     if (this.stayStatus !== undefined) {
-       switch (this.stayStatus.code) {
+
+       switch (this.stayStatus) {
          case 'active' : {
            stay.status = 'active';
            break;
@@ -206,7 +203,7 @@ export class EpisodeOfCareCreateComponent implements OnInit {
            break;
          }
        }
-     }
+
     if (this.stayType !== undefined && stay.type !== undefined) {
      stay.type.push({
        coding: [

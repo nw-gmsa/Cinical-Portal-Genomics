@@ -123,12 +123,12 @@ export class CarePlanCreateComponent implements OnInit {
   }
 
   searchCategory(value: string): void {
-    if (value.length > 3) {
+    if (value.length > 2) {
       this.searchCategories.next(value);
     }
   }
   searchCondition(value: string): void {
-    if (value.length > 3) {
+    if (value.length > 2) {
       this.searchConditions.next(value);
     }
   }

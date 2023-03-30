@@ -3,10 +3,11 @@ import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {CarePlan, CareTeam, EpisodeOfCare, Patient} from "fhir/r4";
+import {CarePlan, CareTeam, EpisodeOfCare, Goal, Patient} from "fhir/r4";
 import {CareTeamCreateComponent} from "./care-team-create/care-team-create.component";
 import {CarePlanCreateComponent} from "./care-plan-create/care-plan-create.component";
 import {EpisodeOfCareCreateComponent} from "./episode-of-care-create/episode-of-care-create.component";
+import {GoalCreateComponent} from "./goal-create/goal-create.component";
 
 @Component({
   selector: 'app-coordinated-care',
@@ -19,6 +20,7 @@ export class CoordinatedCareComponent implements OnInit {
   carePlans: CarePlan[] = [];
   patientid: string | null = null;
   public nhsNumber: string | undefined;
+  goals: Goal[] = [];
   constructor( private fhirSrv: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
@@ -64,6 +66,15 @@ export class CoordinatedCareComponent implements OnInit {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'CarePlan') { this.carePlans.push(entry.resource as CarePlan); }
+            }
+          }
+        }
+    );
+
+    this.fhirSrv.getTIE('/Goal?patient=' + this.patientid).subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'Goal') { this.goals.push(entry.resource as Goal); }
             }
           }
         }
@@ -127,4 +138,19 @@ export class CoordinatedCareComponent implements OnInit {
   }
 
 
+    addGoal() {
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.height = '80%';
+      dialogConfig.width = '50%';
+
+      dialogConfig.data = {
+        id: 1,
+        patientId: this.patientid,
+        nhsNumber: this.nhsNumber
+      };
+      this.dialog.open( GoalCreateComponent, dialogConfig);
+    }
 }
