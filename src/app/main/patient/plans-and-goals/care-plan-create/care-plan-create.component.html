@@ -25,6 +25,7 @@
     <mat-form-field class="example-full-width">
       <mat-label>Plan Title</mat-label>
       <input matInput required [(ngModel)]="planTitle">
+      <mat-hint align="end">Human-friendly name for the care plan</mat-hint>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
@@ -34,11 +35,13 @@
           {{dlgSrv.getDisplay(category)}}
         </mat-option>
       </mat-autocomplete>
+      <mat-hint align="end">Type of plan</mat-hint>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
       <mat-label>Description</mat-label>
       <textarea matInput rows="5" name="notes" [(ngModel)]="planDescription"></textarea>
+      <mat-hint align="end">Summary of nature of plan</mat-hint>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
@@ -46,6 +49,7 @@
       <mat-select [(ngModel)]="planTeams" multiple>
         <mat-option *ngFor="let careTeam of careTeams" [value]="careTeam">{{careTeam.name}}</mat-option>
       </mat-select>
+      <mat-hint align="end">Who's involved in plan?</mat-hint>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
@@ -53,6 +57,7 @@
       <mat-select [(ngModel)]="planConditions" multiple>
         <mat-option *ngFor="let condition of conditions" [value]="condition">{{fhirService.getCodeableConcept(condition.code)}}</mat-option>
       </mat-select>
+      <mat-hint align="end">Health issues this plan addresses</mat-hint>
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <input #searchBoxCondition matInput placeholder="Addresses (Condition coded)" (keyup)="searchCondition(searchBoxCondition.value)" [matAutocomplete]="autoCondition">
@@ -61,6 +66,7 @@
           {{dlgSrv.getDisplay(condition)}}
         </mat-option>
       </mat-autocomplete>
+      <mat-hint align="end">Health issues this plan addresses</mat-hint>
     </mat-form-field>
 
 
@@ -70,6 +76,7 @@
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
       <mat-datepicker #start></mat-datepicker>
+      <mat-hint align="end">Time period plan covers</mat-hint>
     </mat-form-field>
     &nbsp;
     <mat-form-field class="example-half-width">
@@ -78,19 +85,21 @@
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
       <mat-datepicker #end></mat-datepicker>
+      <mat-hint align="end">Time period plan covers</mat-hint>
     </mat-form-field>
 
 
     <mat-form-field class="example-full-width">
       <mat-label>Notes</mat-label>
       <textarea matInput rows="5" name="notes" [(ngModel)]="notes"></textarea>
+      <mat-hint align="end">Comments about the plan</mat-hint>
     </mat-form-field>
 
   </form>
 
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button color="accent" [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="true" autoFocus>Cancel</button>
   <button mat-raised-button color="accent" [disabled]="disabled" (click)="submit()">Submit</button>
 </mat-dialog-actions>
 
