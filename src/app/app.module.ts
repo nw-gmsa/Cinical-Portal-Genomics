@@ -99,6 +99,7 @@ import { DiagnosticReportDetailComponent } from './main/patient/observations/dia
 import { GoalCreateComponent } from './main/patient/plans-and-goals/goal-create/goal-create.component';
 import { GoalComponent } from './main/patient/plans-and-goals/goal/goal.component';
 import { GoalTargetComponent } from './main/patient/plans-and-goals/goal-target/goal-target.component';
+import { ReferralRequestTasksComponent } from './main/patient/referrals/referral-request-tasks/referral-request-tasks.component';
 
 const modules = [
   MatIconModule,
@@ -175,7 +176,8 @@ const modules = [
     DiagnosticReportDetailComponent,
     GoalCreateComponent,
     GoalComponent,
-    GoalTargetComponent
+    GoalTargetComponent,
+    ReferralRequestTasksComponent
   ],
     imports: [
         BrowserModule,
