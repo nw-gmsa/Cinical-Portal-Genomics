@@ -274,7 +274,8 @@ export class TaskCreateComponent implements OnInit {
     }
     if (this.organisation !== undefined) {
       task.owner = {
-        reference: 'Organization/' + this.organisation.id
+        reference: 'Organization/' + this.organisation.id,
+        display : this.organisation.name
       };
       if (this.organisation.identifier !== undefined && this.organisation.identifier.length > 0) {
         task.owner.identifier = this.organisation.identifier[0];

@@ -13,7 +13,7 @@
     </ng-container>
 
     <ng-container matColumnDef="authored">
-      <th mat-header-cell *matHeaderCellDef > Created </th>
+      <th mat-header-cell *matHeaderCellDef > Authored </th>
       <td mat-cell *matCellDef="let task">  <span *ngIf="task.authoredOn !== undefined "> {{task.authoredOn | date: 'dd-MMM-yyyy HH:mm'}} </span> </td>
     </ng-container>
     <ng-container matColumnDef="start">
@@ -40,6 +40,14 @@
         <span *ngFor="let note of task.note">
          {{note.text}}
         </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef > Description </th>
+      <td mat-cell *matCellDef="let task">
+         {{task.description}}
+
       </td>
     </ng-container>
 

@@ -48,7 +48,7 @@ export class WorkflowComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.get('/Task?patient=' + this.patientId + '').subscribe(bundle => {
+    this.fhirSrv.getTIE('/Task?patient=' + this.patientId + '').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
@@ -57,7 +57,7 @@ export class WorkflowComponent implements OnInit {
           }
         }
     );
-    this.fhirSrv.get('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
+    this.fhirSrv.getTIE('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') { this.requests.push(entry.resource as ServiceRequest); }

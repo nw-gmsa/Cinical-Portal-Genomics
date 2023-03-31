@@ -33,7 +33,7 @@ export class TaskComponent implements OnInit {
   dataSource: MatTableDataSource<Task>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns = ['authored', 'start', 'end', 'status', 'intent', 'code', 'focus', 'reason', 'requester', 'owner', 'notes', 'resource'];
+  displayedColumns = ['authored', 'start', 'end', 'status', 'intent', 'code', 'focus', 'reason', 'description', 'requester', 'owner', 'notes', 'resource'];
 
   constructor(public fhirService: FhirService,
               public dialog: MatDialog) { }
