@@ -2,7 +2,7 @@
     <mat-card class="fullscreen scrollable-content">
         <mat-card-content>
             <td-breadcrumbs>
-                <a td-breadcrumb [routerLink]="['/patient', patientid]">Patient</a>
+                <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
                 <td-breadcrumb>Communication</td-breadcrumb>
             </td-breadcrumbs>
             <div fxLayout="row"
@@ -10,7 +10,7 @@
                 <h3>Communication</h3>
                 <span flex></span>
             </div>
-            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+            <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
                     <button mat-icon-button color="accent"  (click)="addCommunication()"><mat-icon>note</mat-icon> Send Message</button>
                 </mat-list-item>

@@ -10,7 +10,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        &nbsp;
+
         <mat-form-field class="example-half-width">
             <mat-label>Achievement Status</mat-label>
             <mat-select name="achievement" [(ngModel)]="achievement"  (selectionChange)="checkSubmit()">
@@ -35,13 +35,17 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+      <!-- R5  &nbsp;<section class="example-section">
+             <mat-checkbox [(ngModel)]="continuous" )]>Continuous</mat-checkbox>
+        </section> -->
         <mat-form-field class="example-half-width">
-            <input #searchBoxDescription matInput placeholder="Description" (keyup)="searchDescription(searchBoxDescription.value)" [matAutocomplete]="autoDescription">
+            <input #searchBoxDescription required matInput placeholder="Description" (keyup)="searchDescription(searchBoxDescription.value)" [matAutocomplete]="autoDescription">
             <mat-autocomplete #autoDescription="matAutocomplete" (optionSelected)="selectedDescription($event)" [displayWith]="dlgSrv.getDisplay">
                 <mat-option *ngFor="let description of description$ | async" [value]="description" >
                     {{dlgSrv.getDisplay(description)}}
                 </mat-option>
             </mat-autocomplete>
+            <mat-hint align="end">Code or text describing goal</mat-hint>
         </mat-form-field>
         &nbsp;
         <mat-form-field class="example-half-width">
@@ -50,22 +54,57 @@
             <mat-hint>DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
             <mat-datepicker #start></mat-datepicker>
+            <mat-hint align="end">When goal pursuit begins</mat-hint>
         </mat-form-field>
         <div class="example-full-width">
-            <mat-form-field class="example-half-width">
+            <mat-form-field >
                 <input #searchBoxTarget matInput placeholder="Target" (keyup)="searchTarget(searchBoxTarget.value)" [matAutocomplete]="autoTarget">
                 <mat-autocomplete #autoTarget="matAutocomplete" (optionSelected)="selectedTarget($event)" [displayWith]="dlgSrv.getDisplay">
                     <mat-option *ngFor="let target of target$ | async" [value]="target" >
                         {{dlgSrv.getDisplay(target)}}
                     </mat-option>
                 </mat-autocomplete>
+                <mat-hint align="end">The measure whose value is being tracked</mat-hint>
             </mat-form-field>
-            <mat-form-field class="example-half-width">
+            <mat-form-field >
                 <mat-label>Target State</mat-label>
                 <input matInput name="targetValue" [(ngModel)]="targetValue">
                 <mat-hint align="end">The target value to be achieved</mat-hint>
             </mat-form-field>
+            <button mat-icon-button [disabled]="isDisabled()" (click)="addTarget()" color="accent">
+                <mat-icon>add_task</mat-icon>
+            </button>
         </div>
+        <span *ngIf="goalTarget.length>0">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+
+                <ng-container matColumnDef="measure">
+                    <th mat-header-cell *matHeaderCellDef> Measure </th>
+                    <td mat-cell *matCellDef="let goalTarget"> {{fhirService.getCodeableConceptValue(goalTarget.measure)}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef> Target Value </th>
+                    <td mat-cell *matCellDef="let goalTarget"> {{goalTarget.detailString}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </span>
+        <mat-form-field class="example-half-width">
+            <mat-label>Status date</mat-label>
+            <input matInput [matDatepicker]="statusDate" [(ngModel)]="goalStatusDate">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="statusDate"></mat-datepicker-toggle>
+            <mat-datepicker #statusDate></mat-datepicker>
+            <mat-hint align="end">When goal status took effect</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Status Reason</mat-label>
+            <input matInput name="statusReason" [(ngModel)]="statusReason">
+            <mat-hint align="end">Reason for current status</mat-hint>
+        </mat-form-field>
     </form>
 
 </mat-dialog-content>

@@ -32,7 +32,7 @@ export class PatientSummaryComponent implements OnInit {
     encounters: Encounter[] = [];
 
     patient: Patient | undefined;
-    patientid: string | null = null;
+    patientId: string | null = null;
 
     // @ts-ignore
   allergies: AllergyIntolerance[] = [];
@@ -75,13 +75,13 @@ export class PatientSummaryComponent implements OnInit {
   ngOnInit(): void {
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+        this.patientId = this.eprService.patient.id;
         this.getRecords();
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
       this.getRecords();
     });
       this.route.queryParams.subscribe(params => {
@@ -113,7 +113,7 @@ export class PatientSummaryComponent implements OnInit {
         console.log('Strava Loaded Received');
         console.log(activities)
         const patientRef: Reference = {
-          reference: 'Patient/' + this.patientid
+          reference: 'Patient/' + this.patientId
         };
         const transaction = this.strava.createTransaction(activities, patientRef);
         this.fhirSrv.sendTransaction(transaction, 'Strava');
@@ -121,7 +121,7 @@ export class PatientSummaryComponent implements OnInit {
       this.withings.activityLoaded.subscribe(result => {
         console.log('Withings Activity Loaded Received');
         const patientRef: Reference = {
-          reference: 'Patient/' + this.patientid
+          reference: 'Patient/' + this.patientId
         };
         const transaction = this.withings.createTransaction(result, patientRef);
         // console.log(JSON.stringify(transaction))
@@ -130,7 +130,7 @@ export class PatientSummaryComponent implements OnInit {
       this.withings.sleepLoaded.subscribe(result => {
         console.log('Withings Sleep Loaded Received');
         const patientRef: Reference = {
-          reference: 'Patient/' + this.patientid
+          reference: 'Patient/' + this.patientId
         };
         const transaction = this.withings.createTransaction(result, patientRef);
        // console.log(JSON.stringify(transaction))
@@ -139,7 +139,7 @@ export class PatientSummaryComponent implements OnInit {
       this.withings.measuresLoaded.subscribe(result => {
         console.log('Withings Measures Loaded Received');
         const patientRef: Reference = {
-          reference: 'Patient/' + this.patientid
+          reference: 'Patient/' + this.patientId
         };
         const transaction = this.withings.createTransaction(result, patientRef);
        // console.log(JSON.stringify(transaction))
@@ -151,7 +151,7 @@ export class PatientSummaryComponent implements OnInit {
 
   getRecords(){
       this._loadingService.register('overlayStarSyntax');
-      this.fhirSrv.get('/Condition?patient=' + this.patientid).subscribe(bundle => {
+      this.fhirSrv.get('/Condition?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -160,7 +160,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
-      this.fhirSrv.get('/AllergyIntolerance?patient=' + this.patientid).subscribe(bundle => {
+      this.fhirSrv.get('/AllergyIntolerance?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -169,7 +169,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
-      this.fhirSrv.get('/MedicationRequest?patient=' + this.patientid).subscribe(bundle => {
+      this.fhirSrv.get('/MedicationRequest?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -178,7 +178,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
-      this.fhirSrv.get('/Encounter?patient=' + this.patientid + '&_count=5&_sort=-date').subscribe(bundle => {
+      this.fhirSrv.get('/Encounter?patient=' + this.patientId + '&_count=5&_sort=-date').subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -188,7 +188,7 @@ export class PatientSummaryComponent implements OnInit {
           }
       );
 
-      this.fhirSrv.getResource('/Patient/' + this.patientid)
+      this.fhirSrv.getResource('/Patient/' + this.patientId)
           .subscribe(resource => {
                 const patient = resource as Patient;
                 if (patient !== undefined ) {
@@ -234,7 +234,7 @@ export class PatientSummaryComponent implements OnInit {
     // Subscribe to the token change
     this.strava.tokenChange.subscribe(
       token => {
-        this.router.navigateByUrl('/patient/' + this.patientid);
+        this.router.navigateByUrl('/patient/' + this.patientId);
       }
     );
     // this will emit a change when the token is retrieved
@@ -246,7 +246,7 @@ export class PatientSummaryComponent implements OnInit {
     console.log(authorisationCode);
     this.withings.tokenChange.subscribe(
       token => {
-        this.router.navigateByUrl('/patient/' + this.patientid);
+        this.router.navigateByUrl('/patient/' + this.patientId);
       }
     );
     const url = window.location.href.split('?');

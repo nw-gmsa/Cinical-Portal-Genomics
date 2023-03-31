@@ -47,7 +47,7 @@ export class CarePlanCreateComponent implements OnInit {
               public dlgSrv: DialogService,
               private diaglogRef: MatDialogRef<CarePlanCreateComponent>) {
     this.patientId = data.patientId;
-    this.nhsNumber = data.nhsNumber;
+   // this.nhsNumber = data.nhsNumber;
   }
 
   ngOnInit(): void {

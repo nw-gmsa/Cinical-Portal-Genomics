@@ -2,7 +2,7 @@
 
     <mat-card class="fullscreen scrollable-content">
         <td-breadcrumbs>
-            <a td-breadcrumb [routerLink]="['/patient', patientid]">Patient</a>
+            <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
             <td-breadcrumb>Forms</td-breadcrumb>
         </td-breadcrumbs>
         <mat-card-content>
@@ -12,7 +12,7 @@
                 <span flex></span>
             </div>
             <td-markdown>For documentation of the data model see [UKCore-QuestionnaireResponse]({{fhirSrv.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-QuestionnaireResponse')}}) and [NHSDigital-QuestionnaireResponse](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-QuestionnaireResponse)</td-markdown>
-            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+            <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
                     <button mat-icon-button color="accent"  (click)="addForms()"><mat-icon>filter</mat-icon> Add Forms</button>
                 </mat-list-item>

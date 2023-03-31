@@ -1,14 +1,14 @@
 
     <mat-card class="fullscreen scrollable-content">
         <td-breadcrumbs>
-            <a td-breadcrumb [routerLink]="['/patient', patientid]">Patient</a>
+            <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
             <td-breadcrumb>Referrals and Interventions</td-breadcrumb>
         </td-breadcrumbs>
         <mat-card-content>
                 <h3>Outstanding Tasks</h3>
                 <span flex></span>
 
-            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+            <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
                     <button mat-icon-button color="accent"  (click)="addTask()"><mat-icon>assignment</mat-icon> Add Task</button>
                 </mat-list-item>
@@ -25,7 +25,7 @@
                 <h3>Service Requests</h3>
                 <span flex></span>
 
-            <mat-nav-list *ngIf="nhsNumber !== undefined" class="list-horizontal">
+            <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
                     <button mat-icon-button color="accent"  (click)="addServiceRequest()"><mat-icon>assignment</mat-icon> Add Service Request</button>
                 </mat-list-item>

@@ -98,6 +98,7 @@ import { VitalsDetailComponent } from './main/patient/observations/vitals-detail
 import { DiagnosticReportDetailComponent } from './main/patient/observations/diagnostic-report-detail/diagnostic-report-detail.component';
 import { GoalCreateComponent } from './main/patient/plans-and-goals/goal-create/goal-create.component';
 import { GoalComponent } from './main/patient/plans-and-goals/goal/goal.component';
+import { GoalTargetComponent } from './main/patient/plans-and-goals/goal-target/goal-target.component';
 
 const modules = [
   MatIconModule,
@@ -173,7 +174,8 @@ const modules = [
     VitalsDetailComponent,
     DiagnosticReportDetailComponent,
     GoalCreateComponent,
-    GoalComponent
+    GoalComponent,
+    GoalTargetComponent
   ],
     imports: [
         BrowserModule,

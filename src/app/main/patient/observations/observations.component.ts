@@ -17,7 +17,7 @@ export class ObservationsComponent implements OnInit {
   // @ts-ignore
   diagnosticReports: DiagnosticReport[] = [];
 
-  patientid: string | null = null;
+  patientId: string | null = null;
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
@@ -31,13 +31,13 @@ export class ObservationsComponent implements OnInit {
   ngOnInit(): void {
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+        this.patientId = this.eprService.patient.id;
         this.getRecords();
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
       this.getRecords();
     });
   }
@@ -47,7 +47,7 @@ export class ObservationsComponent implements OnInit {
     const from = new Date();
     from.setDate(end.getDate() - 7 );
     this._loadingService.register('overlayStarSyntax');
-      this.fhirSrv.get('/Observation?patient=' + this.patientid
+      this.fhirSrv.get('/Observation?patient=' + this.patientId
           + '&date=gt' + from.toISOString().split('T')[0]
           + '&_count=400&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
@@ -61,7 +61,7 @@ export class ObservationsComponent implements OnInit {
             this._loadingService.resolve('overlayStarSyntax');
           }
       );
-      this.fhirSrv.get('/DiagnosticReport?patient=' + this.patientid + '&_count=50&_sort=-date').subscribe(bundle => {
+      this.fhirSrv.get('/DiagnosticReport?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'DiagnosticReport') {

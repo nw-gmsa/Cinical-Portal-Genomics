@@ -18,8 +18,8 @@ export class CoordinatedCareComponent implements OnInit {
   episodes: EpisodeOfCare[] = [];
   careTeams: CareTeam[] = [];
   carePlans: CarePlan[] = [];
-  patientid: string | null = null;
-  public nhsNumber: string | undefined;
+  patientId: string | null = null;
+  private nhsNumber: string | undefined;
   goals: Goal[] = [];
   constructor( private fhirSrv: FhirService,
                private eprService: EprService,
@@ -30,13 +30,13 @@ export class CoordinatedCareComponent implements OnInit {
   ngOnInit(): void {
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+        this.patientId = this.eprService.patient.id;
         this.getRecords(this.eprService.patient);
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
 
       this.getRecords(patient);
     });
@@ -52,7 +52,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.get('/EpisodeOfCare?patient=' + this.patientid + '&status=active,waitlist').subscribe(bundle => {
+    this.fhirSrv.get('/EpisodeOfCare?patient=' + this.patientId + '&status=active,waitlist').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'EpisodeOfCare') { this.episodes.push(entry.resource as EpisodeOfCare); }
@@ -62,7 +62,7 @@ export class CoordinatedCareComponent implements OnInit {
     );
 
 
-    this.fhirSrv.getTIE('/CarePlan?patient=' + this.patientid).subscribe(bundle => {
+    this.fhirSrv.getTIE('/CarePlan?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'CarePlan') { this.carePlans.push(entry.resource as CarePlan); }
@@ -71,7 +71,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
 
-    this.fhirSrv.getTIE('/Goal?patient=' + this.patientid).subscribe(bundle => {
+    this.fhirSrv.getTIE('/Goal?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'Goal') { this.goals.push(entry.resource as Goal); }
@@ -80,7 +80,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
 
-    this.fhirSrv.getTIE('/CareTeam?patient=' + this.patientid).subscribe(bundle => {
+    this.fhirSrv.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'CareTeam') { this.careTeams.push(entry.resource as CareTeam); }
@@ -100,7 +100,7 @@ export class CoordinatedCareComponent implements OnInit {
 
     dialogConfig.data = {
       id: 1,
-      patientId: this.patientid,
+      patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
     this.dialog.open( CareTeamCreateComponent, dialogConfig);
@@ -115,7 +115,7 @@ export class CoordinatedCareComponent implements OnInit {
 
     dialogConfig.data = {
       id: 1,
-      patientId: this.patientid,
+      patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
     this.dialog.open( CarePlanCreateComponent, dialogConfig);
@@ -131,7 +131,7 @@ export class CoordinatedCareComponent implements OnInit {
 
     dialogConfig.data = {
       id: 1,
-      patientId: this.patientid,
+      patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
     this.dialog.open( EpisodeOfCareCreateComponent, dialogConfig);
@@ -148,7 +148,7 @@ export class CoordinatedCareComponent implements OnInit {
 
       dialogConfig.data = {
         id: 1,
-        patientId: this.patientid,
+        patientId: this.patientId,
         nhsNumber: this.nhsNumber
       };
       this.dialog.open( GoalCreateComponent, dialogConfig);

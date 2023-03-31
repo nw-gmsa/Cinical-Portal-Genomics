@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Coding, Goal, ValueSetExpansionContains} from "fhir/r4";
+import {Coding, Goal, GoalTarget, ValueSetExpansionContains} from "fhir/r4";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FhirService} from "../../../../services/fhir.service";
 import {DialogService} from "../../../../dialogs/dialog.service";
@@ -9,6 +9,7 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {Observable, Subject} from "rxjs";
 import {Moment} from "moment";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-goal-create',
@@ -38,6 +39,14 @@ export class GoalCreateComponent implements OnInit {
   goalStart: Moment | undefined;
   targetValue: string | undefined;
 
+  goalTarget: GoalTarget[] = [];
+  // @ts-ignore
+  dataSource : MatTableDataSource<GoalTarget>;
+  displayedColumns = ['measure','value'];
+  goalStatusDate: Moment | undefined;
+  statusReason: string | undefined;
+  continuous: boolean = false;
+
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
@@ -48,6 +57,9 @@ export class GoalCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.dataSource = new MatTableDataSource<GoalTarget>(this.goalTarget);
+
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/goal-status').subscribe(
         resource  => {
           this.statuses = this.dlgSrv.getContainsExpansion(resource);
@@ -184,16 +196,15 @@ export class GoalCreateComponent implements OnInit {
         ]
       }
     }
-    if (this.target !== undefined && this.targetValue !== undefined) {
-      // @ts-ignore
-      goal.target[0] = {
-        measure: {
-          coding: [
-            this.target
-          ]
-        },
-        detailString: this.targetValue
-      }
+    if (this.continuous) {
+
+    }
+    if (this.goalTarget.length > 0 ) {
+      goal.target = [];
+      this.goalTarget.forEach( (goalTarget) => {
+        goal.target?.push(goalTarget)
+      })
+
     }
 
     if (this.priority !== undefined) {
@@ -207,6 +218,14 @@ export class GoalCreateComponent implements OnInit {
 
       // @ts-ignore
       goal.startDate = this.goalStart.toISOString().split('T')[0];
+    }
+    if (this.goalStatusDate !== undefined) {
+
+      // @ts-ignore
+      goal.statusDate = this.goalStatusDate.toISOString().split('T')[0];
+    }
+    if (this.statusReason !== undefined) {
+      goal.statusReason = this.statusReason.trim()
     }
 
     goal.subject = {
@@ -257,5 +276,27 @@ export class GoalCreateComponent implements OnInit {
       display: event.option.value.display,
     };
     this.checkSubmit();
+  }
+
+  isDisabled() {
+    if (this.target !== undefined && this.targetValue !== undefined) return false;
+    return true;
+  }
+
+  addTarget() {
+    if (this.target !== undefined) {
+      let goalTarget: GoalTarget = {
+        measure: {
+          coding: [
+            this.target
+          ]
+        },
+        detailString: this.targetValue?.trim()
+      }
+      this.target = undefined;
+      this.targetValue = undefined;
+      this.dataSource = new MatTableDataSource<GoalTarget>(this.goalTarget);
+      this.goalTarget.push(goalTarget)
+    }
   }
 }

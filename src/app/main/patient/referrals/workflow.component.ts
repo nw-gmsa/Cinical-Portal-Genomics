@@ -15,8 +15,8 @@ import {ServiceCreateComponent} from "./service-create/service-create.component"
 export class WorkflowComponent implements OnInit {
   requests: ServiceRequest[] = [];
   tasks: Task[] = [];
-  patientid: string | null = null;
-  public nhsNumber: string | undefined;
+  patientId: string | null = null;
+  private nhsNumber: string | undefined;
   constructor( private fhirSrv: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
@@ -26,13 +26,13 @@ export class WorkflowComponent implements OnInit {
   ngOnInit(): void {
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+        this.patientId = this.eprService.patient.id;
         this.getRecords(this.eprService.patient);
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
 
       this.getRecords(patient);
     });
@@ -48,7 +48,7 @@ export class WorkflowComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.get('/Task?patient=' + this.patientid + '').subscribe(bundle => {
+    this.fhirSrv.get('/Task?patient=' + this.patientId + '').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
@@ -57,7 +57,7 @@ export class WorkflowComponent implements OnInit {
           }
         }
     );
-    this.fhirSrv.get('/ServiceRequest?patient=' + this.patientid + '').subscribe(bundle => {
+    this.fhirSrv.get('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') { this.requests.push(entry.resource as ServiceRequest); }
@@ -76,7 +76,7 @@ export class WorkflowComponent implements OnInit {
 
     dialogConfig.data = {
       id: 1,
-      patientId: this.patientid,
+      patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
     this.dialog.open( TaskCreateComponent, dialogConfig);
@@ -92,7 +92,7 @@ export class WorkflowComponent implements OnInit {
 
     dialogConfig.data = {
       id: 1,
-      patientId: this.patientid,
+      patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
     this.dialog.open( ServiceCreateComponent, dialogConfig);

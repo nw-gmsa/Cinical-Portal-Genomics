@@ -13,8 +13,8 @@ import {environment} from "../../../../environments/environment";
 })
 export class FormsComponent implements OnInit {
   forms: QuestionnaireResponse[] = [];
-  patientid: string | null = null;
-  public nhsNumber: string | undefined;
+  patientId: string | null = null;
+  private nhsNumber: string | undefined;
   constructor( public fhirSrv: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
@@ -23,13 +23,13 @@ export class FormsComponent implements OnInit {
   ngOnInit(): void {
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+        this.patientId = this.eprService.patient.id;
         this.getRecords(this.eprService.patient);
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
 
       this.getRecords(patient);
     });
@@ -45,7 +45,7 @@ export class FormsComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.get('/QuestionnaireResponse?patient=' + this.patientid + '&_count=50').subscribe(bundle => {
+    this.fhirSrv.get('/QuestionnaireResponse?patient=' + this.patientId + '&_count=50').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'QuestionnaireResponse') { this.forms.push(entry.resource as QuestionnaireResponse); }
