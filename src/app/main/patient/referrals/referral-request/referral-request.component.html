@@ -139,7 +139,7 @@
       <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
         <div class="example-element-detail"
              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-          <app-referral-request-tasks [serviceRequest]="element"></app-referral-request-tasks>
+          <app-referral-request-tasks [serviceRequest]="element" [patientId]="patientId"></app-referral-request-tasks>
         </div>
       </td>
     </ng-container>

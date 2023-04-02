@@ -100,6 +100,7 @@ import { GoalCreateComponent } from './main/patient/plans-and-goals/goal-create/
 import { GoalComponent } from './main/patient/plans-and-goals/goal/goal.component';
 import { GoalTargetComponent } from './main/patient/plans-and-goals/goal-target/goal-target.component';
 import { ReferralRequestTasksComponent } from './main/patient/referrals/referral-request-tasks/referral-request-tasks.component';
+import { TaskNoteComponent } from './main/patient/referrals/task-note/task-note.component';
 
 const modules = [
   MatIconModule,
@@ -177,7 +178,8 @@ const modules = [
     GoalCreateComponent,
     GoalComponent,
     GoalTargetComponent,
-    ReferralRequestTasksComponent
+    ReferralRequestTasksComponent,
+    TaskNoteComponent
   ],
     imports: [
         BrowserModule,

@@ -6,7 +6,7 @@
     <mat-form-field class="example-half-width">
       <mat-label>Status</mat-label>
       <mat-select required name="taskStatus" [(ngModel)]="taskStatus" (selectionChange)="checkSubmit()">
-        <mat-option *ngFor="let stat of status" [value]="stat.code">
+        <mat-option *ngFor="let stat of statuses" [value]="stat.code">
           {{stat.display}}
         </mat-option>
       </mat-select>
@@ -16,7 +16,7 @@
     <mat-form-field class="example-half-width">
       <mat-label>Priority</mat-label>
       <mat-select required name="taskPriority" [(ngModel)]="taskPriority" (selectionChange)="checkSubmit()">
-        <mat-option *ngFor="let stat of priority" [value]="stat.code">
+        <mat-option *ngFor="let stat of priorities" [value]="stat.code">
           {{stat.display}}
         </mat-option>
       </mat-select>
@@ -104,7 +104,7 @@
 
     <mat-form-field class="example-full-width">
       <mat-label>Notes</mat-label>
-      <textarea matInput rows="5" name="notes" [(ngModel)]="notes"></textarea>
+      <textarea matInput rows="5" name="notes" [(ngModel)]="notes" (ngModelChange)="checkSubmit()"></textarea>
     </mat-form-field>
   </form>
 

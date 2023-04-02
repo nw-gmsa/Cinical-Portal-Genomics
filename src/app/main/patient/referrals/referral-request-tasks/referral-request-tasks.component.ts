@@ -5,6 +5,7 @@ import {MatSort} from "@angular/material/sort";
 import {FhirService} from "../../../../services/fhir.service";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {ResourceDialogComponent} from "../../../../dialogs/resource-dialog/resource-dialog.component";
+import {TaskCreateComponent} from "../task-create/task-create.component";
 
 @Component({
   selector: 'app-referral-request-tasks',
@@ -15,6 +16,8 @@ export class ReferralRequestTasksComponent implements OnInit {
 
   @Input()
   serviceRequest: ServiceRequest | undefined
+
+  @Input() patientId: string | undefined;
 
   tasks: Task[] = [];
 
@@ -28,7 +31,7 @@ export class ReferralRequestTasksComponent implements OnInit {
   dataSource: MatTableDataSource<Task>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns = ['authored', 'start', 'end', 'status', 'intent', 'code', 'reason', 'description','requester', 'owner', 'notes', 'resource'];
+  displayedColumns = ['authored', 'start', 'end', 'status', 'intent', 'code', 'reason', 'description','requester', 'owner', 'notes', 'edit', 'resource'];
 
   constructor(public fhirService: FhirService,
               public dialog: MatDialog) { }
@@ -72,4 +75,19 @@ export class ReferralRequestTasksComponent implements OnInit {
   }
 
 
+  edit(task: Task) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '85%';
+    dialogConfig.width = '50%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      task: task
+    };
+    this.dialog.open( TaskCreateComponent, dialogConfig);
+  }
 }

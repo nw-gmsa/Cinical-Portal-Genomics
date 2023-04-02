@@ -34,7 +34,7 @@ export class TaskCreateComponent implements OnInit {
   reason$: Observable<ValueSetExpansionContains[]> | undefined;
 
   intents: ValueSetExpansionContains[] | undefined;
-  priority: ValueSetExpansionContains[] | undefined;
+  priorities: ValueSetExpansionContains[] | undefined;
 
   private searchReasons = new Subject<string>();
 
@@ -42,7 +42,7 @@ export class TaskCreateComponent implements OnInit {
   careTeams: CareTeam[] = [];
   foci: Resource[] = [];
   practitioner$: Observable<Practitioner[]> | undefined;
-  status: ValueSetExpansionContains[] | undefined;
+  statuses: ValueSetExpansionContains[] | undefined;
   private searchTerms = new Subject<string>();
   private searchTermsOrg = new Subject<string>();
   private searchTermsDoc = new Subject<string>();
@@ -57,12 +57,14 @@ export class TaskCreateComponent implements OnInit {
   selectedValues: any;
   disabled: boolean = true;
   patientId = undefined;
-  nhsNumber = undefined;
+  nhsNumber :string;
   notes: string | undefined;
 
   planTeams: CareTeam | undefined;
   planFocus: Resource | undefined;
-  description: string = '';
+  description: string | undefined = '';
+
+  task: Task | undefined;
 
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
@@ -71,23 +73,65 @@ export class TaskCreateComponent implements OnInit {
               private diaglogRef: MatDialogRef<TaskCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
+    this.task = data.task
   }
 
   ngOnInit(): void {
+    if (this.task !== undefined) {
+      this.description = this.task.description
+      // leave for now.... allow new new notes if (this.task.note !== undefined && this.task.note.length > 0)
+      if (this.task.code !== undefined && this.task.code.coding !== undefined && this.task.code.coding.length>0) {
+        const code = this.task.code.coding[0]
+        this.taskCode = code
+      }
+    }
 
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/task-status').subscribe(
       resource  => {
-        this.status = this.dlgSrv.getContainsExpansion(resource);
+        this.statuses = this.dlgSrv.getContainsExpansion(resource);
+        if (this.task !== undefined) {
+          this.statuses.forEach(status => {
+            if (status.code === this.task?.status) {
+              console.log('Match')
+              // @ts-ignore
+              this.taskStatus = status.code.toString()
+            } else {
+             // console.log(status.code + ' - ' + this.task?.status)
+            }
+          })
+        }
       }
     );
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/task-intent').subscribe(
       resource  => {
         this.intents = this.dlgSrv.getContainsExpansion(resource);
+        if (this.task !== undefined) {
+          this.intents.forEach(intent => {
+            if (intent.code === this.task?.intent) {
+              console.log('Match')
+              // @ts-ignore
+              this.careIntent = intent.code.toString()
+            } else {
+              // console.log(status.code + ' - ' + this.task?.status)
+            }
+          })
+        }
       }
     );
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/request-priority').subscribe(
       resource  => {
-        this.priority = this.dlgSrv.getContainsExpansion(resource);
+        this.priorities = this.dlgSrv.getContainsExpansion(resource);
+        if (this.task !== undefined) {
+          this.priorities.forEach(priority => {
+            if (priority.code === this.task?.intent) {
+              console.log('Match')
+              // @ts-ignore
+              this.taskPriority = priority.code.toString()
+            } else {
+              // console.log(status.code + ' - ' + this.task?.status)
+            }
+          })
+        }
       }
     );
     this.fhirService.getConf('/ValueSet/$expand?url=https://fhir.nhs.uk/ValueSet/NHSDigital-task-code').subscribe(
@@ -248,11 +292,26 @@ export class TaskCreateComponent implements OnInit {
 
   checkSubmit(): void {
     this.disabled = true;
-    if (this.taskCode !== undefined &&
-      (this.practitioner !== undefined || this.organisation !== undefined || (this.careTeams !== undefined && this.careTeams.length > 0)) &&
+
+    if ((this.taskCode !== undefined || this.hasCode()) &&
+      (this.hasOwner() || this.practitioner !== undefined || this.organisation !== undefined || (this.careTeams !== undefined && this.careTeams.length > 0)) &&
       this.taskStatus !== undefined) {
       this.disabled = false;
     }
+  }
+  hasOwner(): boolean {
+    if (this.task !== undefined && this.task.owner !== null) {
+      console.log('Has Owner')
+      return true
+    }
+    return false;
+  }
+  hasCode(): boolean {
+    if (this.task !== undefined && this.task.code !== null) {
+      console.log('Has Code')
+      return true
+    }
+    return false;
   }
 
   submit(): void {
@@ -263,8 +322,17 @@ export class TaskCreateComponent implements OnInit {
         value: uuid.v4()
       }],
       resourceType: 'Task',
-      status: 'requested'
+      status: 'requested',
+      note: []
     };
+    if (this.task !== undefined && this.task.identifier !== undefined && this.task.identifier?.length>0) {
+      task.identifier = this.task.identifier
+    }
+    if (this.hasCode()) {
+      // Add in the original code if defined
+      // @ts-ignore
+      task.code = this.task.code
+    }
     if (this.taskCode !== undefined) {
       task.code = {
         coding: [
@@ -272,6 +340,7 @@ export class TaskCreateComponent implements OnInit {
         ]
       }
     }
+
     if (this.organisation !== undefined) {
       task.owner = {
         reference: 'Organization/' + this.organisation.id,
@@ -294,6 +363,11 @@ export class TaskCreateComponent implements OnInit {
         reference: 'CareTeam/' + this.planTeams.id,
         display: this.planTeams.name
       };
+    }
+    // Put the old owner back in
+    if (this.hasOwner()) {
+      // @ts-ignore
+      task.owner = this.task.owner
     }
     if (this.reasonCode !== undefined) {
       task.reasonCode = {
@@ -410,22 +484,40 @@ export class TaskCreateComponent implements OnInit {
           break;
         }
       }
-
-    task.for = {
-      reference: 'Patient/' + this.patientId,
-      identifier: {
-        system: 'https://fhir.nhs.uk/Id/nhs-number',
-        value: this.nhsNumber
-      }
-    };
-    if (this.notes !== undefined) {
-      task.note = [
-        {
-          text: this.notes.trim()
-        }
-      ];
+   if (this.task !== undefined && this.task.for !== undefined ) {
+      // @ts-ignore
+      task.for = this.task.for
+    } else {
+     task.for = {
+       reference: 'Patient/' + this.patientId,
+       identifier: {
+         system: 'https://fhir.nhs.uk/Id/nhs-number',
+         value: this.nhsNumber
+       }
+     };
+   }
+    if (this.task !== undefined && this.task.note !== undefined) {
+      task.note = this.task.note
     }
-    if (this.description.trim() !== '') {
+    if (this.notes !== undefined) {
+      console.log('Adding new note '+ this.notes.trim())
+      task.note?.push(
+        {
+          time: new Date().toISOString(),
+          text: this.notes.trim()
+        });
+    } else {
+      if (this.task !== undefined) {
+        console.log('Adding updated note')
+        task.note?.push(
+            {
+              time: new Date().toISOString(),
+              text: 'Task updated'
+            });
+      }
+    }
+    console.log(task.note)
+    if (this.description != undefined && this.description.trim() !== '') {
       task.description = this.description.trim()
     }
     if (this.planFocus !== undefined) {
@@ -440,14 +532,29 @@ export class TaskCreateComponent implements OnInit {
         const display = this.fhirService.getCodeableConceptValue((this.planFocus as ServiceRequest).code);
         if (display !== undefined && display !== '') task.focus.display = display
       }
+    } else {
+      if (this.task !== undefined && this.task.focus !== undefined) {
+        task.focus = this.task.focus
+      }
     }
 
     console.log(task);
     task.authoredOn = new Date().toISOString();
-    this.fhirService.postTIE('/Task', task).subscribe(result => {
-      this.diaglogRef.close();
-      this.dialog.closeAll();
-    });
+    task.lastModified = new Date().toISOString();
+    if (this.task !== undefined && this.task.authoredOn !== undefined) {
+      task.authoredOn = this.task.authoredOn
+    }
+    if (this.task === undefined || this.task.identifier === undefined || this.task.identifier.length ===0) {
+      this.fhirService.postTIE('/Task', task).subscribe(result => {
+        this.diaglogRef.close();
+        this.dialog.closeAll();
+      });
+    } else {
+      this.fhirService.putTIE('/Task?identifier='+encodeURI(this.task.identifier[0].system + '|' + this.task.identifier[0].value) , task).subscribe(result => {
+        this.diaglogRef.close();
+        this.dialog.closeAll();
+      });
+    }
   }
 
 

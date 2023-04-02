@@ -352,7 +352,12 @@ export class FhirService {
     headers.append('Prefer', 'return=representation');
     return this.http.post<any>(this.tieUrl + resource, body, {headers});
   }
-
+  public putTIE(resource: string, body: any): Observable<any> {
+    const headers: HttpHeaders = this.getEPRHeaders(false);
+    headers.append('Content-Type', 'application/fhir+json');
+    headers.append('Prefer', 'return=representation');
+    return this.http.put<any>(this.tieUrl + resource, body, {headers});
+  }
   public put(resource: string, body: any): Observable<any> {
 
     const headers: HttpHeaders = this.getEPRHeaders(false);
