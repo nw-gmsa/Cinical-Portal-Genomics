@@ -48,6 +48,9 @@ export class WorkflowComponent implements OnInit {
         }
       }
     }
+    this.getResults();
+  }
+  getResults() {
     this.fhirSrv.getTIE('/Task?patient=' + this.patientId + '').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
@@ -79,7 +82,16 @@ export class WorkflowComponent implements OnInit {
       patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
-    this.dialog.open( TaskCreateComponent, dialogConfig);
+    const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      if (result !== undefined) {
+        let taskCopy = this.tasks;
+        this.tasks = [];
+        taskCopy.push(result)
+        this.tasks = taskCopy;
+      }
+    })
   }
 
   addServiceRequest(): void {
@@ -95,7 +107,18 @@ export class WorkflowComponent implements OnInit {
       patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
-    this.dialog.open( ServiceCreateComponent, dialogConfig);
+    const dialogRef = this.dialog.open( ServiceCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      this.getResults();
+    })
   }
 
+  getResultsEvent() {
+    console.log('Update event fired')
+    this.requests = [];
+    this.tasks = [];
+    // possible problem on query being too fast. AWS appears to have a delay before results arrive
+    this.getResults();
+  }
 }

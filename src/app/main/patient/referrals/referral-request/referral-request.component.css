@@ -20,7 +20,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-detail {
     overflow: hidden;
-    display: flex;
+
 }
 
 .mat-mdc-form-field {

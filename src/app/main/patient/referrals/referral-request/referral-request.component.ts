@@ -42,7 +42,7 @@ export class ReferralRequestComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
     displayedColumns = [ 'date', 'start', 'end', 'fulfills', 'status', 'intent', 'priority', 'category',
-      'code', 'performer', 'reason', 'requester', 'recipient', 'notes', 'resource'];
+      'code', 'performer',  'recipient',  'resource'];
 
     columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
 
@@ -65,6 +65,7 @@ export class ReferralRequestComponent implements OnInit {
 
   }
   // tslint:disable-next-line:use-lifecycle-interface
+
   ngAfterViewInit(): void {
     if (this.sort !== undefined) {
       this.sort.sortChange.subscribe((event) => {

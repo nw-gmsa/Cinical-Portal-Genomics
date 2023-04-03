@@ -512,7 +512,7 @@ export class TaskCreateComponent implements OnInit {
         task.note?.push(
             {
               time: new Date().toISOString(),
-              text: 'Task updated'
+              text: 'Task updated ('+this.taskStatus+')'
             });
       }
     }
@@ -546,12 +546,14 @@ export class TaskCreateComponent implements OnInit {
     }
     if (this.task === undefined || this.task.identifier === undefined || this.task.identifier.length ===0) {
       this.fhirService.postTIE('/Task', task).subscribe(result => {
-        this.diaglogRef.close();
+        console.log(result);
+        this.diaglogRef.close(result);
         this.dialog.closeAll();
       });
     } else {
       this.fhirService.putTIE('/Task?identifier='+encodeURI(this.task.identifier[0].system + '|' + this.task.identifier[0].value) , task).subscribe(result => {
-        this.diaglogRef.close();
+      console.log(result)
+        this.diaglogRef.close(result);
         this.dialog.closeAll();
       });
     }

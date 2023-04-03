@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Patient, Task} from 'fhir/r4';
+import {Patient, ServiceRequest, Task} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
@@ -22,7 +22,10 @@ import {TaskCreateComponent} from "../task-create/task-create.component";
 })
 export class TaskComponent implements OnInit {
 
-  @Input() tasks: Task[] | undefined;
+  @Input() tasks: Task[] = [];
+
+  @Input()
+  serviceRequest: ServiceRequest | undefined
 
   locations: Location[] = [];
 
@@ -43,8 +46,9 @@ export class TaskComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
   expandedElement: null | Task | undefined;
-  displayedColumns = ['authored', 'lastModified', 'status', 'intent', 'code', 'focus', 'reason', 'description', 'requester', 'owner', 'edit', 'resource'];
+  displayedColumns = ['authored', 'lastModified', 'status', 'intent', 'code', 'focus',  'owner', 'edit', 'resource'];
   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+  showHeader = true;
   constructor(public fhirService: FhirService,
               public dialog: MatDialog) { }
 
@@ -55,6 +59,10 @@ export class TaskComponent implements OnInit {
     } else {
       this.dataSource = new MatTableDataSource<Task>(this.tasks);
     }
+
+    let displayedColumns;
+    this.refreshResults()
+
   }
 
   ngAfterViewInit() {
@@ -65,6 +73,23 @@ export class TaskComponent implements OnInit {
       if (this.dataSource !== undefined) this.dataSource.sort = this.sort;
     } else {
       console.log('SORT UNDEFINED');
+    }
+  }
+
+  refreshResults() {
+    if (this.serviceRequest !== undefined) {
+      this.showHeader = false;
+      this.fhirService.getTIE('/Task?focus=ServiceRequest/' + this.serviceRequest.id + '&_sort=-authored-on').subscribe(bundle => {
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
+                  this.tasks.push(entry.resource as Task);
+                }
+              }
+              this.dataSource = new MatTableDataSource<Task>(this.tasks);
+            }
+          }
+      );
     }
   }
   select(resource: any) {
@@ -92,7 +117,16 @@ export class TaskComponent implements OnInit {
       patientId: this.patientId,
       task: task
     };
-    this.dialog.open( TaskCreateComponent, dialogConfig);
+    const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      // TODO need to update the local copy of this event
+      if (this.serviceRequest !== undefined) {
+        this.refreshResults();
+      } else {
+        this.task.emit('Updated')
+      }
+    })
   }
 
 }

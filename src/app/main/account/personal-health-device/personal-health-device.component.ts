@@ -12,7 +12,7 @@ import {catchError} from "rxjs/operators";
   styleUrls: ['./personal-health-device.component.scss']
 })
 export class PersonalHealthDeviceComponent implements OnInit {
-  patientid: string | null = null;
+  patientId: string | null = null;
   visible = false;
   constructor(  private strava: StravaService,
                 private http: HttpClient,
@@ -24,26 +24,22 @@ export class PersonalHealthDeviceComponent implements OnInit {
     console.log(window.location.pathname);
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+        this.patientId = this.eprService.patient.id;
       }
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
     });
 
   }
   connectStrava(): void {
-
     console.log(window.location.origin);
-
-
-
-    this.strava.authorise(window.location.origin + this.getPathName(window.location.pathname) +  '/patient/'+this.patientid);
+    this.strava.authorise(window.location.origin + this.getPathName(window.location.pathname) +  '/patient/'+this.patientId);
   }
 
   connectWithings(): void {
     console.log(window.location.origin);
-    this.withings.authorise(window.location.origin + this.getPathName(window.location.pathname) +  '/patient/'+this.patientid);
+    this.withings.authorise(window.location.origin + this.getPathName(window.location.pathname) +  '/patient/'+this.patientId);
   }
   getPathName(pathname: string): string {
     if (pathname.includes('FHIR-R4')) return "/FHIR-R4-Demonstration";

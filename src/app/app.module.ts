@@ -99,7 +99,6 @@ import { DiagnosticReportDetailComponent } from './main/patient/observations/dia
 import { GoalCreateComponent } from './main/patient/plans-and-goals/goal-create/goal-create.component';
 import { GoalComponent } from './main/patient/plans-and-goals/goal/goal.component';
 import { GoalTargetComponent } from './main/patient/plans-and-goals/goal-target/goal-target.component';
-import { ReferralRequestTasksComponent } from './main/patient/referrals/referral-request-tasks/referral-request-tasks.component';
 import { TaskNoteComponent } from './main/patient/referrals/task-note/task-note.component';
 
 const modules = [
@@ -125,7 +124,11 @@ const modules = [
   MatDialogModule,
   MatGridListModule,
   MatTabsModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+    MatTreeModule,
+    MatCheckboxModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
 ];
 
 @NgModule({
@@ -178,7 +181,6 @@ const modules = [
     GoalCreateComponent,
     GoalComponent,
     GoalTargetComponent,
-    ReferralRequestTasksComponent,
     TaskNoteComponent
   ],
     imports: [
@@ -187,12 +189,9 @@ const modules = [
         AppRoutingModule,
         RouterModule,
         ...modules,
-
         ReactiveFormsModule,
         FormsModule,
-
         NgxChartsModule,
-
         HttpClientModule,
         LayoutModule,
 
@@ -205,10 +204,7 @@ const modules = [
         CovalentMessageModule,
         CovalentLoadingModule,
         CovalentDynamicMenuModule,
-        MatTreeModule,
-        MatCheckboxModule,
-        MatAutocompleteModule,
-        MatButtonToggleModule,
+
         PdfViewerModule,
         MatPaginatorModule,
         CovalentCommonModule,
