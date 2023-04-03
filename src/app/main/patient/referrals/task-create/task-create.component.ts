@@ -92,7 +92,7 @@ export class TaskCreateComponent implements OnInit {
         if (this.task !== undefined) {
           this.statuses.forEach(status => {
             if (status.code === this.task?.status) {
-              console.log('Match')
+           //   console.log('Match')
               // @ts-ignore
               this.taskStatus = status.code.toString()
             } else {
@@ -108,7 +108,7 @@ export class TaskCreateComponent implements OnInit {
         if (this.task !== undefined) {
           this.intents.forEach(intent => {
             if (intent.code === this.task?.intent) {
-              console.log('Match')
+            //  console.log('Match')
               // @ts-ignore
               this.careIntent = intent.code.toString()
             } else {
@@ -301,14 +301,14 @@ export class TaskCreateComponent implements OnInit {
   }
   hasOwner(): boolean {
     if (this.task !== undefined && this.task.owner !== null) {
-      console.log('Has Owner')
+    //  console.log('Has Owner')
       return true
     }
     return false;
   }
   hasCode(): boolean {
     if (this.task !== undefined && this.task.code !== null) {
-      console.log('Has Code')
+    //  console.log('Has Code')
       return true
     }
     return false;
@@ -500,7 +500,7 @@ export class TaskCreateComponent implements OnInit {
       task.note = this.task.note
     }
     if (this.notes !== undefined) {
-      console.log('Adding new note '+ this.notes.trim())
+     // console.log('Adding new note '+ this.notes.trim())
       task.note?.push(
         {
           time: new Date().toISOString(),
@@ -508,7 +508,7 @@ export class TaskCreateComponent implements OnInit {
         });
     } else {
       if (this.task !== undefined) {
-        console.log('Adding updated note')
+      //  console.log('Adding updated note')
         task.note?.push(
             {
               time: new Date().toISOString(),
@@ -516,7 +516,7 @@ export class TaskCreateComponent implements OnInit {
             });
       }
     }
-    console.log(task.note)
+   // console.log(task.note)
     if (this.description != undefined && this.description.trim() !== '') {
       task.description = this.description.trim()
     }
@@ -538,7 +538,7 @@ export class TaskCreateComponent implements OnInit {
       }
     }
 
-    console.log(task);
+    //console.log(task);
     task.authoredOn = new Date().toISOString();
     task.lastModified = new Date().toISOString();
     if (this.task !== undefined && this.task.authoredOn !== undefined) {

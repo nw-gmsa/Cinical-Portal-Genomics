@@ -91,7 +91,7 @@ export class WorkflowComponent implements OnInit {
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      this.getResultsEvent(result)
+      if (result !== undefined) this.getResultsEvent(result)
     })
   }
 
@@ -133,7 +133,7 @@ export class WorkflowComponent implements OnInit {
         taskCopy[found] = task;
       }
       this.tasks = Object.assign([], taskCopy)
-      console.log(this.tasks)
+     // console.log(this.tasks)
     }
   }
 }

@@ -107,10 +107,10 @@ export class TaskComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
 
     if (changes['tasks'] !== undefined) {
-      console.log(this.tasks);
+     // console.log(this.tasks);
       this.dataSource = new MatTableDataSource<Task>(this.tasks);
     } else {
-      console.log(changes)
+    //  console.log(changes)
     }
   }
 
@@ -129,15 +129,17 @@ export class TaskComponent implements OnInit {
     };
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      // TODO need to update the local copy of this event
-      if (this.serviceRequest !== undefined) {
-        console.log('Refresh Results')
-        this.getResultsEvent(result);
-        this.task.emit(result)
-      } else {
-        console.log('Task emit')
-        this.task.emit(result)
+      //console.log(result)
+      if (result !== undefined && result.resourceType !== undefined) {
+        // TODO need to update the local copy of this event
+        if (this.serviceRequest !== undefined) {
+         // console.log('Refresh Results')
+          this.getResultsEvent(result);
+          this.task.emit(result)
+        } else {
+        //  console.log('Task emit')
+          this.task.emit(result)
+        }
       }
     })
   }
