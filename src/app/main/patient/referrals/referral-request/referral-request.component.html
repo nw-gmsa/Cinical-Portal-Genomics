@@ -130,9 +130,11 @@
           <span *ngIf="element.note !== undefined">
             <app-task-note [annotations]="element.note"></app-task-note>
           </span>
-
+          <div style="display: flex; align-items: flex-start;">
           <h4>Tasks</h4>
+            &nbsp;&nbsp;
           <app-task [serviceRequest]="element" [patientId]="patientId"></app-task>
+          </div>
         </div>
       </td>
     </ng-container>

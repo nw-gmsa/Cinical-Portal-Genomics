@@ -88,11 +88,13 @@
 
           <h4>Requester</h4>
           <span [innerHTML]="fhirService.getReference(element.requester)"></span> <br/>
-
-          <h4>Notes</h4>
-          <span *ngIf="element.note !== undefined">
-            <app-task-note [annotations]="element.note"></app-task-note>
-          </span>
+          <div style="display: flex; align-items: flex-start;">
+            <h4>Notes</h4>
+              &nbsp;&nbsp;
+            <span *ngIf="element.note !== undefined">
+              <app-task-note [annotations]="element.note"></app-task-note>
+            </span>
+          </div>
         </div>
       </td>
     </ng-container>
