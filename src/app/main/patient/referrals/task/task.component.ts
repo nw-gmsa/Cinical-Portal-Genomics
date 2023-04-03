@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {Patient, ServiceRequest, Task} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
@@ -104,6 +104,16 @@ export class TaskComponent implements OnInit {
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['tasks'] !== undefined) {
+      console.log(this.tasks);
+      this.dataSource = new MatTableDataSource<Task>(this.tasks);
+    } else {
+      console.log(changes)
+    }
+  }
+
   edit(task: Task) {
     const dialogConfig = new MatDialogConfig();
 
@@ -122,11 +132,36 @@ export class TaskComponent implements OnInit {
       console.log(result)
       // TODO need to update the local copy of this event
       if (this.serviceRequest !== undefined) {
-        this.refreshResults();
+        console.log('Refresh Results')
+        this.getResultsEvent(result);
+        this.task.emit(result)
       } else {
-        this.task.emit('Updated')
+        console.log('Task emit')
+        this.task.emit(result)
       }
     })
+  }
+
+  getResultsEvent(task: Task) {
+    if (task !== undefined) {
+      let taskCopy = this.tasks;
+      this.tasks = [];
+      // check if present
+      let found = undefined;
+      taskCopy.forEach((taskIt,index)=> {
+        if (taskIt.id === task.id) {
+          found = index;
+        }
+      })
+      if (found == undefined) {
+        taskCopy.push(task)
+      } else {
+        // replace
+        taskCopy[found] = task;
+      }
+      this.tasks = Object.assign([], taskCopy)
+      this.dataSource = new MatTableDataSource<Task>(this.tasks);
+    }
   }
 
 }

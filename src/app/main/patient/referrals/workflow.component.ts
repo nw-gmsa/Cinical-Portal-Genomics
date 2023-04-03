@@ -6,6 +6,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Patient, ServiceRequest, Task} from "fhir/r4";
 import {TaskCreateComponent} from "./task-create/task-create.component";
 import {ServiceCreateComponent} from "./service-create/service-create.component";
+import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 
 @Component({
   selector: 'app-workflow',
@@ -17,8 +18,12 @@ export class WorkflowComponent implements OnInit {
   tasks: Task[] = [];
   patientId: string | null = null;
   private nhsNumber: string | undefined;
+  loadingMode = LoadingMode;
+  loadingStrategy = LoadingStrategy;
+  loadingType = LoadingType;
   constructor( private fhirSrv: FhirService,
                private eprService: EprService,
+               private _loadingService: TdLoadingService,
                private dialogService: TdDialogService,
                public dialog: MatDialog,
                private viewContainerRef: ViewContainerRef) { }
@@ -51,23 +56,24 @@ export class WorkflowComponent implements OnInit {
     this.getResults();
   }
   getResults() {
+    this._loadingService.register('overlayStarSyntax');
     this.fhirSrv.getTIE('/Task?patient=' + this.patientId + '').subscribe(bundle => {
-          if (bundle.entry !== undefined) {
-            for (const entry of bundle.entry) {
-              if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
-                this.tasks.push(entry.resource as Task); }
-            }
-          }
+      this._loadingService.resolve('overlayStarSyntax');
+      if (bundle.entry !== undefined) {
+        for (const entry of bundle.entry) {
+          if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
+            this.tasks.push(entry.resource as Task); }
         }
-    );
+      }
+    });
     this.fhirSrv.getTIE('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
-          if (bundle.entry !== undefined) {
-            for (const entry of bundle.entry) {
-              if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') { this.requests.push(entry.resource as ServiceRequest); }
-            }
-          }
+      this._loadingService.resolve('overlayStarSyntax');
+      if (bundle.entry !== undefined) {
+        for (const entry of bundle.entry) {
+          if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') { this.requests.push(entry.resource as ServiceRequest); }
         }
-    );
+      }
+    });
   }
   addTask(): void {
     const dialogConfig = new MatDialogConfig();
@@ -85,12 +91,7 @@ export class WorkflowComponent implements OnInit {
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      if (result !== undefined) {
-        let taskCopy = this.tasks;
-        this.tasks = [];
-        taskCopy.push(result)
-        this.tasks = taskCopy;
-      }
+      this.getResultsEvent(result)
     })
   }
 
@@ -110,15 +111,29 @@ export class WorkflowComponent implements OnInit {
     const dialogRef = this.dialog.open( ServiceCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      this.getResults();
+      //this.getResults();
     })
   }
 
-  getResultsEvent() {
-    console.log('Update event fired')
-    this.requests = [];
-    this.tasks = [];
-    // possible problem on query being too fast. AWS appears to have a delay before results arrive
-    this.getResults();
+  getResultsEvent(task: Task) {
+    if (task !== undefined) {
+      let taskCopy = this.tasks;
+      this.tasks = [];
+      // check if present
+      let found = undefined;
+      taskCopy.forEach((taskIt,index)=> {
+        if (taskIt.id === task.id) {
+          found = index;
+        }
+      })
+      if (found == undefined) {
+        taskCopy.push(task)
+      } else {
+        // replace
+        taskCopy[found] = task;
+      }
+      this.tasks = Object.assign([], taskCopy)
+      console.log(this.tasks)
+    }
   }
 }

@@ -546,15 +546,15 @@ export class TaskCreateComponent implements OnInit {
     }
     if (this.task === undefined || this.task.identifier === undefined || this.task.identifier.length ===0) {
       this.fhirService.postTIE('/Task', task).subscribe(result => {
-        console.log(result);
+     //   console.log(result);
         this.diaglogRef.close(result);
-        this.dialog.closeAll();
+     //   this.dialog.closeAll();
       });
     } else {
       this.fhirService.putTIE('/Task?identifier='+encodeURI(this.task.identifier[0].system + '|' + this.task.identifier[0].value) , task).subscribe(result => {
-      console.log(result)
+     // console.log(result)
         this.diaglogRef.close(result);
-        this.dialog.closeAll();
+       // this.dialog.closeAll();
       });
     }
   }
