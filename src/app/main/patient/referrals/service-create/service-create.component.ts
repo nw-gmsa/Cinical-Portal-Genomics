@@ -67,6 +67,9 @@ export class ServiceCreateComponent implements OnInit {
   serviceRequestStatus: string = 'active';
   serviceRequestPriority: string = 'routine'
 
+  serviceRequest: ServiceRequest | undefined;
+  private edit = false;
+
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
@@ -74,6 +77,8 @@ export class ServiceCreateComponent implements OnInit {
               private diaglogRef: MatDialogRef<ServiceCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
+    this.serviceRequest = data.serviceRequest;
+    if (this.serviceRequest !== undefined) this.edit = true;
   }
 
   ngOnInit(): void {

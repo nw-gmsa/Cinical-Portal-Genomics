@@ -99,8 +99,11 @@
     </ng-container>
 
     <ng-container matColumnDef="resource">
-      <th mat-header-cell *matHeaderCellDef width="5%">FHIR</th>
-      <td mat-cell *matCellDef="let referral">  <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(referral)"><mat-icon>code</mat-icon></button>  </td>
+      <th mat-header-cell *matHeaderCellDef width="8%">FHIR</th>
+      <td mat-cell *matCellDef="let referral">
+        <button mat-icon-button color="accent" matTooltip="Edit" (click)="edit(referral)"><mat-icon>mode_edit</mat-icon></button>
+        <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(referral)"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(referral)"><mat-icon>code</mat-icon></button>  </td>
     </ng-container>
 
     <ng-container matColumnDef="expand">
@@ -135,12 +138,9 @@
             <app-task-note [annotations]="element.note"></app-task-note>
           </span>
 
-          <div style="display: flex; align-items: flex-start;">
+          <div style="display: flex; align-items: flex-start; width: 100%;">
           <h4>Tasks</h4>
-            &nbsp;
-          <div>
             <app-task [serviceRequest]="element" [patientId]="patientId" (task)="processTaskChange($event)"></app-task>
-          </div>
           </div>
         </div>
       </td>

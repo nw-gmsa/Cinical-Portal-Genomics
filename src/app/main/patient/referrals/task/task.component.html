@@ -3,7 +3,7 @@
     <button mat-icon-button color="accent"  (click)="addTask()"><mat-icon>assignment</mat-icon> Add Task</button>
   </mat-list-item>
 </mat-nav-list>
-<div>
+
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
          multiTemplateDataRows
          matSort
@@ -69,16 +69,16 @@
     </ng-container>
 
 
-
-
     <ng-container matColumnDef="resource">
-      <th mat-header-cell *matHeaderCellDef width="5%">FHIR</th>
+      <th mat-header-cell *matHeaderCellDef width="8%"></th>
       <td mat-cell *matCellDef="let task">
-
-        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(task)"><mat-icon>code</mat-icon></button>
-
+        <button mat-icon-button color="accent" matTooltip="Edit" (click)="edit(task)"><mat-icon>mode_edit</mat-icon></button>
+        <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(task)"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button color="accent" matTooltip="View FHIR resource" (click)="select(task)"><mat-icon>code</mat-icon></button>
       </td>
     </ng-container>
+
+
 
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
@@ -123,19 +123,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef width="5%">Update</th>
-      <td mat-cell *matCellDef="let task">
-        <button mat-icon-button color="accent"  (click)="edit(task)"><mat-icon>mode_edit</mat-icon></button>
-      </td>
-    </ng-container>
 
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef width="5%"></th>
-      <td mat-cell *matCellDef="let task">
-        <button mat-icon-button color="accent"  (click)="delete(task)"><mat-icon>delete</mat-icon></button>
-      </td>
-    </ng-container>
 
     <span *ngIf="showHeader">
       <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
@@ -147,5 +135,3 @@
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
-
-</div>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatSelectChange} from '@angular/material/select';
 import {TestingService} from '../services/testing.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IMenuItem, IMenuTrigger, ITdDynamicMenuLinkClickEvent} from "@covalent/core/dynamic-menu";
@@ -19,6 +18,9 @@ export class MainComponent implements OnInit {
     icon: 'account_circle',
     text: 'Patient',
   };
+
+  private themeWrapper = document.querySelector('body');
+
   triggerApps: IMenuTrigger = {
     id: 'triggerApps',
     icon: 'apps',
@@ -38,6 +40,19 @@ export class MainComponent implements OnInit {
 
   itemsAccount: IMenuItem[] = [
     {
+      // Grouping label
+      id: 'acc_menu',
+      text: 'Simulated Role',
+    },
+    {
+      // Submenu trigger
+      id: 'roles',
+      text: 'Role Picker',
+      icon: 'perm_identity',
+      action: 'roles',
+      newTab: false,
+    },
+      {
       // Grouping label
       id: 'devices',
       text: 'Personal Health Device',
@@ -216,6 +231,11 @@ export class MainComponent implements OnInit {
         }
         case 'device': {
           this.router.navigateByUrl('/device');
+          break;
+        }
+        case 'roles': {
+          // @ts-ignore
+          this.themeWrapper.style.setProperty('$primary', define-palette(mat.$red-palette, 700));
           break;
         }
       }

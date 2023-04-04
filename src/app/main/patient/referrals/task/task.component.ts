@@ -51,7 +51,7 @@ export class TaskComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
   expandedElement: null | Task | undefined;
-  displayedColumns = ['authored', 'lastModified', 'status', 'intent', 'code', 'focus',  'owner', 'edit', 'delete', 'resource'];
+  displayedColumns = ['authored', 'lastModified', 'status', 'intent', 'code', 'focus',  'owner', 'resource'];
   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
   showHeader = true;
   constructor(public fhirService: FhirService,
