@@ -116,6 +116,8 @@ export class WorkflowComponent implements OnInit {
   }
 
   getResultsEvent(task: Task) {
+    console.log('Task update received')
+    console.log(task)
     if (task !== undefined) {
       let taskCopy = this.tasks;
       this.tasks = [];

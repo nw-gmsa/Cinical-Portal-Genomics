@@ -16,7 +16,7 @@
                     </mat-list-item>
                 </mat-nav-list>
                 <span *ngIf="requests.length>0">
-                      <app-referral-request [referrals]="requests"> </app-referral-request>
+                      <app-referral-request [referrals]="requests" (taskChange)="getResultsEvent($event)"> </app-referral-request>
                        </span>
                 <span *ngIf="requests.length==0">
                        No results found.

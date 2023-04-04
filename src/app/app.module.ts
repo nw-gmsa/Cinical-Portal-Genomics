@@ -100,6 +100,8 @@ import { GoalCreateComponent } from './main/patient/plans-and-goals/goal-create/
 import { GoalComponent } from './main/patient/plans-and-goals/goal/goal.component';
 import { GoalTargetComponent } from './main/patient/plans-and-goals/goal-target/goal-target.component';
 import { TaskNoteComponent } from './main/patient/referrals/task-note/task-note.component';
+import { DeleteComponent } from './dialogs/delete/delete.component';
+import {A11yModule} from "@angular/cdk/a11y";
 
 const modules = [
   MatIconModule,
@@ -181,7 +183,8 @@ const modules = [
     GoalCreateComponent,
     GoalComponent,
     GoalTargetComponent,
-    TaskNoteComponent
+    TaskNoteComponent,
+    DeleteComponent
   ],
     imports: [
         BrowserModule,
@@ -208,7 +211,8 @@ const modules = [
         PdfViewerModule,
         MatPaginatorModule,
         CovalentCommonModule,
-        CovalentBreadcrumbsModule
+        CovalentBreadcrumbsModule,
+        A11yModule
     ],
   exports: [...modules],
   providers: [

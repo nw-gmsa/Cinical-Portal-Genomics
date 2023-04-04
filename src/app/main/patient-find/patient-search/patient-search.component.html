@@ -1,7 +1,7 @@
 <div id="search-results">
   <form class="example-form">
     <mat-form-field [style.width.%]="50">
-      <input #searchBox matInput placeholder="Patient Find (NHS Number or name)" (keyup)="search(searchBox.value)" >
+      <input #searchBox matInput placeholder="Patient Find (NHS Number or name)" (keyup)="search(searchBox.value)" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" >
     </mat-form-field>
   </form>
   <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">

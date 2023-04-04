@@ -53,7 +53,7 @@ export class TaskCreateComponent implements OnInit {
   taskStatus: string = 'requested';
   taskPriority: string = 'routine';
   careIntent: string = 'order'
-  private reasonCode: Coding | undefined;
+  reasonCode: Coding | undefined;
   selectedValues: any;
   disabled: boolean = true;
   patientId = undefined;
@@ -64,7 +64,9 @@ export class TaskCreateComponent implements OnInit {
   planFocus: Resource | undefined;
   description: string | undefined = '';
 
+
   task: Task | undefined;
+  edit = false;
 
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
@@ -73,7 +75,11 @@ export class TaskCreateComponent implements OnInit {
               private diaglogRef: MatDialogRef<TaskCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
-    this.task = data.task
+    this.task = data.task;
+    if (this.task !== undefined) this.edit = true;
+    if (data.focus !== undefined) {
+       this.planFocus = data.focus;
+    }
   }
 
   ngOnInit(): void {
@@ -83,6 +89,9 @@ export class TaskCreateComponent implements OnInit {
       if (this.task.code !== undefined && this.task.code.coding !== undefined && this.task.code.coding.length>0) {
         const code = this.task.code.coding[0]
         this.taskCode = code
+      }
+      if (this.task.reasonCode !== undefined && this.task.reasonCode.coding !== undefined) {
+        this.reasonCode = this.task.reasonCode.coding[0]
       }
     }
 
@@ -306,6 +315,13 @@ export class TaskCreateComponent implements OnInit {
     }
     return false;
   }
+  hasReason(): boolean {
+    if (this.task !== undefined && this.task.reasonCode !== null) {
+      //  console.log('Has Owner')
+      return true
+    }
+    return false;
+  }
   hasCode(): boolean {
     if (this.task !== undefined && this.task.code !== null) {
     //  console.log('Has Code')
@@ -340,7 +356,11 @@ export class TaskCreateComponent implements OnInit {
         ]
       }
     }
-
+    // Put the old owner back in
+    if (this.hasOwner()) {
+      // @ts-ignore
+      task.owner = this.task.owner
+    }
     if (this.organisation !== undefined) {
       task.owner = {
         reference: 'Organization/' + this.organisation.id,
@@ -357,6 +377,9 @@ export class TaskCreateComponent implements OnInit {
       if (this.practitioner.identifier !== undefined && this.practitioner.identifier.length > 0) {
         task.owner.identifier = this.practitioner.identifier[0];
       }
+      if (this.practitioner.name !== undefined && this.practitioner.name.length > 0) {
+        task.owner.display = this.practitioner.name[0].prefix + ' ' +this.practitioner.name[0].family
+      }
     }
     if (this.planTeams !== undefined) {
       task.owner = {
@@ -364,10 +387,9 @@ export class TaskCreateComponent implements OnInit {
         display: this.planTeams.name
       };
     }
-    // Put the old owner back in
-    if (this.hasOwner()) {
-      // @ts-ignore
-      task.owner = this.task.owner
+
+    if (this.edit && this.hasReason()) {
+      task.reasonCode = this.task?.reasonCode
     }
     if (this.reasonCode !== undefined) {
       task.reasonCode = {
@@ -376,6 +398,7 @@ export class TaskCreateComponent implements OnInit {
         ]
       };
     }
+
     if (this.taskPriority !== undefined) {
       switch (this.taskPriority) {
         case 'routine': {
@@ -484,6 +507,7 @@ export class TaskCreateComponent implements OnInit {
           break;
         }
       }
+
    if (this.task !== undefined && this.task.for !== undefined ) {
       // @ts-ignore
       task.for = this.task.for
@@ -496,6 +520,7 @@ export class TaskCreateComponent implements OnInit {
        }
      };
    }
+
     if (this.task !== undefined && this.task.note !== undefined) {
       task.note = this.task.note
     }
@@ -517,9 +542,11 @@ export class TaskCreateComponent implements OnInit {
       }
     }
    // console.log(task.note)
+    if (this.edit && this.task !== undefined) task.description = this.task.description;
     if (this.description != undefined && this.description.trim() !== '') {
       task.description = this.description.trim()
     }
+
     if (this.planFocus !== undefined) {
       task.focus = {
         reference: this.planFocus.resourceType + '/' + this.planFocus.id,
@@ -533,17 +560,20 @@ export class TaskCreateComponent implements OnInit {
         if (display !== undefined && display !== '') task.focus.display = display
       }
     } else {
+      // edit
       if (this.task !== undefined && this.task.focus !== undefined) {
         task.focus = this.task.focus
       }
     }
 
-    //console.log(task);
-    task.authoredOn = new Date().toISOString();
     task.lastModified = new Date().toISOString();
+
     if (this.task !== undefined && this.task.authoredOn !== undefined) {
       task.authoredOn = this.task.authoredOn
+    } else {
+      task.authoredOn = new Date().toISOString();
     }
+
     if (this.task === undefined || this.task.identifier === undefined || this.task.identifier.length ===0) {
       this.fhirService.postTIE('/Task', task).subscribe(result => {
      //   console.log(result);

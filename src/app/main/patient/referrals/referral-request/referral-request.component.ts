@@ -9,6 +9,7 @@ import {MatSort} from '@angular/material/sort';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 
 
+
 @Component({
   selector: 'app-referral-request',
   templateUrl: './referral-request.component.html',
@@ -30,7 +31,7 @@ export class ReferralRequestComponent implements OnInit {
     @Input() patientId: string | undefined;
 
     @Output() referral = new EventEmitter<any>();
-
+    @Output() taskChange = new EventEmitter<any>();
 
     @Input() useBundle = false;
 
@@ -57,13 +58,10 @@ export class ReferralRequestComponent implements OnInit {
 
   ngOnInit(): void {
 
-      if (this.patientId !== undefined) {
-      //    this.dataSource = new ReferralRequestDataSource(this.fhirService, this.patientId, []);
-      } else {
-        this.dataSource = new MatTableDataSource<ServiceRequest>(this.referrals);
-      }
-
+      this.dataSource = new MatTableDataSource<ServiceRequest>(this.referrals);
   }
+
+
   // tslint:disable-next-line:use-lifecycle-interface
 
   ngAfterViewInit(): void {
@@ -89,4 +87,8 @@ export class ReferralRequestComponent implements OnInit {
         const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
     }
 
+    processTaskChange($event: any) {
+        console.log($event)
+        this.taskChange.emit($event)
+    }
 }

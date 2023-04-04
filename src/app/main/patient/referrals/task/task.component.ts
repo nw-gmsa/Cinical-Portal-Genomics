@@ -7,6 +7,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TaskCreateComponent} from "../task-create/task-create.component";
+import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
+import {EprService} from "../../../../services/epr.service";
 
 @Component({
   selector: 'app-task',
@@ -39,6 +41,9 @@ export class TaskComponent implements OnInit {
 
   @Input() patientId: string | undefined;
 
+  private nhsNumber: string | undefined;
+
+
   @Input() useBundle = false;
 
   // @ts-ignore
@@ -46,13 +51,26 @@ export class TaskComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
   expandedElement: null | Task | undefined;
-  displayedColumns = ['authored', 'lastModified', 'status', 'intent', 'code', 'focus',  'owner', 'edit', 'resource'];
+  displayedColumns = ['authored', 'lastModified', 'status', 'intent', 'code', 'focus',  'owner', 'edit', 'delete', 'resource'];
   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
   showHeader = true;
   constructor(public fhirService: FhirService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private eprService: EprService) { }
 
   ngOnInit(): void {
+    if (this.eprService.patient !== undefined) {
+      if (this.eprService.patient.id !== undefined) {
+        this.patientId = this.eprService.patient.id;
+        this.getRecords(this.eprService.patient);
+      }
+
+    }
+    this.eprService.patientChangeEvent.subscribe(patient => {
+      if (patient.id !== undefined) this.patientId = patient.id
+
+      this.getRecords(patient);
+    });
     if (this.patientId !== undefined) {
       console.log('Patient Id found tasks')
    //   this.dataSource = new TaskDataSource(this.fhirService, this.patientId, []);
@@ -63,6 +81,19 @@ export class TaskComponent implements OnInit {
     let displayedColumns;
     this.refreshResults()
 
+  }
+
+  private getRecords(patient : Patient) {
+    if (patient !== undefined) {
+      this.patientId = patient.id;
+      if (patient.identifier !== undefined) {
+        for (const identifier of patient.identifier) {
+          if (identifier.system !== undefined && identifier.system.includes('nhs-number')) {
+            this.nhsNumber = identifier.value;
+          }
+        }
+      }
+    }
   }
 
   ngAfterViewInit() {
@@ -166,4 +197,48 @@ export class TaskComponent implements OnInit {
     }
   }
 
+  delete(task : Task) {
+     let dialogRef = this.dialog.open(DeleteComponent, {
+        width: '250px',
+        data:  task
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('The dialog was closed ' + result);
+        this.fhirService.deleteTIE('/Task/'+task.id).subscribe(result => {
+          console.log(result);
+          this.tasks.forEach((taskIt,index)=> {
+            if (taskIt.id === task.id) {
+              this.tasks.splice(index, 1);
+            }
+          })
+          this.dataSource = new MatTableDataSource<Task>(this.tasks);
+        })
+      }
+    });
+  }
+  addTask(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '85%';
+    dialogConfig.width = '50%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      nhsNumber: this.nhsNumber,
+      focus: this.serviceRequest
+    };
+    const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      if (result !== undefined) {
+        this.tasks.push(result)
+        this.task.emit(result)
+        this.dataSource = new MatTableDataSource<Task>(this.tasks);
+      }
+    })
+  }
 }

@@ -381,6 +381,14 @@ export class FhirService {
 
     return this.http.get<any>(url, {headers});
   }
+
+  deleteTIE(resource: string): Observable<any> {
+    const headers: HttpHeaders = this.getEPRHeaders(false);
+    headers.append('Content-Type', 'application/fhir+json');
+    headers.append('Prefer', 'return=representation');
+    return this.http.delete<any>(this.tieUrl + resource, {headers});
+  }
+
   public getConf(search: string): Observable<any> {
     const url: string = this.conformanceUrl + search;
     const headers = new HttpHeaders();
@@ -572,5 +580,6 @@ export class FhirService {
   public getUKCore(profile: string ) : string {
     return "https://simplifier.net/resolve?target=simplifier&fhirVersion=R4&scope=fhir.r4.ukcore.stu3.currentbuild&canonical="+profile;
   }
+
 
 }

@@ -1,3 +1,8 @@
+&nbsp;<mat-nav-list *ngIf="patientId !== undefined && serviceRequest !== undefined" class="list-horizontal">
+  <mat-list-item>
+    <button mat-icon-button color="accent"  (click)="addTask()"><mat-icon>assignment</mat-icon> Add Task</button>
+  </mat-list-item>
+</mat-nav-list>
 <div>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
          multiTemplateDataRows
@@ -80,14 +85,23 @@
         <div class="example-element-detail"
              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-          <h4>Description</h4>
-          {{element.description}}
+          <span *ngIf="element.description !== undefined">
+            <h4>Description</h4>
+            {{element.description}}
+          </span>
 
-          <h4>Reason</h4>
-          <span [innerHTML]="fhirService.getCodeableConcept(element.reasonCode)"></span>
+          <span *ngIf="element.reasonCode !== undefined || element.reasonReference !== undefined">
+            <h4>Reason</h4>
+            <span [innerHTML]="fhirService.getCodeableConcept(element.reasonCode)"></span>
+            <span [innerHTML]="fhirService.getReferences(element.reasonReference)"></span>
+          </span>
 
-          <h4>Requester</h4>
-          <span [innerHTML]="fhirService.getReference(element.requester)"></span> <br/>
+
+          <span *ngIf="element.requester !== undefined">
+            <h4>Requester</h4>
+            <span [innerHTML]="fhirService.getReference(element.requester)"></span> <br/>
+          </span>
+
           <div style="display: flex; align-items: flex-start;">
             <h4>Notes</h4>
               &nbsp;&nbsp;
@@ -115,6 +129,14 @@
         <button mat-icon-button color="accent"  (click)="edit(task)"><mat-icon>mode_edit</mat-icon></button>
       </td>
     </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef width="5%"></th>
+      <td mat-cell *matCellDef="let task">
+        <button mat-icon-button color="accent"  (click)="delete(task)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
     <span *ngIf="showHeader">
       <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
     </span>

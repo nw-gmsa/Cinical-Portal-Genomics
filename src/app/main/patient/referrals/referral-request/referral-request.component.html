@@ -119,21 +119,28 @@
         <div class="example-element-detail"
              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-          <h4>Requester</h4>
-          <span [innerHTML]="fhirService.getReference(element.requester)"></span>
+          <span *ngIf="element.requester !== undefined">
+            <h4>Requester</h4>
+            <span [innerHTML]="fhirService.getReference(element.requester)"></span>
+          </span>
 
-          <h4>Reason</h4>
-          <span [innerHTML]="fhirService.getCodeableConcepts(element.reasonCode)"></span>
-          <span [innerHTML]="fhirService.getReferences(element.reasonReference)"></span>
+          <span *ngIf="element.reasonCode !== undefined || element.reasonReference !== undefined">
+            <h4>Reason</h4>
+            <span [innerHTML]="fhirService.getCodeableConcepts(element.reasonCode)"></span>
+            <span [innerHTML]="fhirService.getReferences(element.reasonReference)"></span>
+          </span>
 
-          <h4>Notes</h4>
           <span *ngIf="element.note !== undefined">
+            <h4>Notes</h4>
             <app-task-note [annotations]="element.note"></app-task-note>
           </span>
+
           <div style="display: flex; align-items: flex-start;">
           <h4>Tasks</h4>
-            &nbsp;&nbsp;
-          <app-task [serviceRequest]="element" [patientId]="patientId"></app-task>
+            &nbsp;
+          <div>
+            <app-task [serviceRequest]="element" [patientId]="patientId" (task)="processTaskChange($event)"></app-task>
+          </div>
           </div>
         </div>
       </td>

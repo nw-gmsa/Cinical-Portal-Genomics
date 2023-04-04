@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>Add Task</h2>
+<h2 mat-dialog-title>
+  <span *ngIf="!edit">Add Task</span>
+  <span *ngIf="edit">Edit Task</span>
+</h2>
 <mat-dialog-content>
 
   <form class="example-form">
@@ -30,9 +33,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <div class="example-form-fields">
+    <div *ngIf="!edit" class="example-form-fields">
+
       <mat-form-field class="example-half-width">
-        <input #searchBox matInput placeholder="Task code (SNOMED CT)" (keyup)="search(searchBox.value)" [matAutocomplete]="auto">
+        <input #searchBox matInput placeholder="Task code (SNOMED CT)" (keyup)="search(searchBox.value)" [matAutocomplete]="auto"  [disabled]="edit">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedTask($event)" [displayWith]="dlgSrv.getDisplay">
           <mat-option *ngFor="let concept of code$ | async" [value]="concept" >
             {{dlgSrv.getDisplay(concept)}}
@@ -43,7 +47,7 @@
       &nbsp;
       <mat-form-field class="example-half-width">
         <mat-label>Task code (Action)</mat-label>
-        <mat-select required id="code" (selectionChange)="selectedTaskC($event)">
+        <mat-select required id="code" (selectionChange)="selectedTaskC($event)"  [disabled]="edit">
           <mat-option *ngFor="let concept of code" [value]="concept" >
             {{dlgSrv.getDisplay(concept)}}
           </mat-option>
@@ -51,23 +55,39 @@
         <mat-hint align="end">Task Type</mat-hint>
       </mat-form-field>
     </div>
+    <span *ngIf="edit">
+          <mat-form-field class="example-full-width">
+            <mat-label>Task code (Action)</mat-label>
+            <input matInput placeholder="Task code" [value]="task !== undefined && fhirService.getCodeableConceptValue(task.code)" [disabled]="edit">
+            <mat-hint align="end">Task Type</mat-hint>
+          </mat-form-field>
+      </span>
 
     <mat-form-field class="example-full-width">
       <mat-label>Description</mat-label>
-      <input matInput name="description" [(ngModel)]="description">
+      <input matInput name="description" [(ngModel)]="description" (change)="checkSubmit()">
       <mat-hint align="end">Human-readable explanation of task</mat-hint>
     </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Task Focus</mat-label>
-      <mat-select [(ngModel)]="planFocus">
-        <mat-option *ngFor="let resource of foci" [value]="resource">{{fhirService.getCodeableConceptResourceValue(resource)}}</mat-option>
-      </mat-select>
-      <mat-hint align="end">What task is acting on</mat-hint>
-    </mat-form-field>
+    <span *ngIf="!edit">
+      <mat-form-field class="example-full-width">
+        <mat-label>Task Focus</mat-label>
+        <mat-select [(ngModel)]="planFocus"  [disabled]="edit">
+          <mat-option *ngFor="let resource of foci" [value]="resource">{{fhirService.getCodeableConceptResourceValue(resource)}}</mat-option>
+        </mat-select>
+        <mat-hint align="end">What task is acting on</mat-hint>
+      </mat-form-field>
+    </span>
+    <span *ngIf="edit">
+       <mat-form-field class="example-full-width">
+            <mat-label>Task Focus</mat-label>
+            <input matInput placeholder="Task focus" [value]="task !== undefined && task.focus !== undefined && fhirService.getReference(task.focus)" [disabled]="edit">
+            <mat-hint align="end">What task is acting on</mat-hint>
+          </mat-form-field>
+    </span>
 
     <mat-form-field class="example-full-width">
-      <input #searchBoxReason matInput placeholder="Reason" (keyup)="searchReason(searchBoxReason.value)" [matAutocomplete]="autoReason">
+      <input #searchBoxReason matInput placeholder="Reason" [value]="reasonCode?.display" (keyup)="searchReason(searchBoxReason.value)" [matAutocomplete]="autoReason">
       <mat-autocomplete #autoReason="matAutocomplete" (optionSelected)="selectedReason($event)" [displayWith]="dlgSrv.getDisplay">
         <mat-option *ngFor="let reason of reason$ | async" [value]="reason" >
           {{dlgSrv.getDisplay(reason)}}
@@ -75,6 +95,13 @@
       </mat-autocomplete>
       <mat-hint align="end">Why task is needed</mat-hint>
     </mat-form-field>
+    <span *ngIf="edit">
+      <mat-form-field class="example-full-width">
+            <mat-label>Performer</mat-label>
+            <input matInput placeholder="Performer" [value]="task !== undefined && task.owner !== undefined && task.owner.display" [disabled]="edit">
+            <mat-hint align="end">Responsible organisation/practitioner/team</mat-hint>
+          </mat-form-field>
+    </span>
     <div class="example-form-fields">
       <mat-form-field class="third-width">
         <input #searchBoxDr matInput placeholder="Performer (Person)" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
