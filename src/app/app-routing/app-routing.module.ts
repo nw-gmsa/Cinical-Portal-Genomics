@@ -21,6 +21,9 @@ import {VitalsDetailComponent} from "../main/patient/observations/vitals-detail/
 import {
   DiagnosticReportDetailComponent
 } from "../main/patient/observations/diagnostic-report-detail/diagnostic-report-detail.component";
+import {
+  QuestionnaireResponseViewComponent
+} from "../main/patient/forms/questionnaire-response-view/questionnaire-response-view.component";
 
 
 const routes: Routes = [
@@ -44,6 +47,7 @@ const routes: Routes = [
           {path: 'vitals', component: VitalsDetailComponent},
           {path: 'documents', component: DocumentsComponent},
           {path: 'forms', component: FormsComponent},
+          {path: 'forms/:form', component: QuestionnaireResponseViewComponent},
           {path: 'workflow', component: WorkflowComponent},
           {path: 'coordination', component: CoordinatedCareComponent},
           {path: 'communication', component: PatientCommunicationComponent}

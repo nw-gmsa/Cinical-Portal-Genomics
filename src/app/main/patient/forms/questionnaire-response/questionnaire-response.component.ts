@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {QuestionnaireResponse} from 'fhir/r4';
+import { QuestionnaireResponse} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
 import {FhirService} from '../../../../services/fhir.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
-import {QuestionnaireResponseViewComponent} from '../questionnaire-response-view/questionnaire-response-view.component';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-questionnaire-response',
@@ -28,11 +28,12 @@ export class QuestionnaireResponseComponent implements OnInit {
     dataSource: MatTableDataSource<QuestionnaireResponse>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-    displayedColumns = ['date', 'open', 'questionnaire', 'status',  'source', 'author',  'resource'];
+    displayedColumns = ['date', 'questionnaire', 'status',  'source', 'author', 'resource'];
 
     constructor(
                 public dialog: MatDialog,
-                public fhirService: FhirService
+                public fhirService: FhirService,
+                private router: Router,
     ) { }
 
     ngOnInit(): void {
@@ -71,20 +72,10 @@ export class QuestionnaireResponseComponent implements OnInit {
         const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
     }
 
-  selectForm(form : QuestionnaireResponse): void {
-    const dialogConfig = new MatDialogConfig();
+    viewForm(form : QuestionnaireResponse): void {
+        this.router.navigate(['/patient', form.subject?.reference?.replace('Patient/',''), 'forms', form.id])
+    }
 
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '40%';
-    dialogConfig.data = {
-      id: 1,
-      resource: form
-    };
-    const resourceDialog: MatDialogRef<QuestionnaireResponseViewComponent> =
-      this.dialog.open( QuestionnaireResponseViewComponent, dialogConfig);
-
-  }
 
   getName(questionnaire: string ): string {
 

@@ -13,7 +13,7 @@ import {LoadingMode, LoadingStrategy, LoadingType} from "@covalent/core/loading"
   styleUrls: ['./observation-detail.component.scss']
 })
 export class ObservationDetailComponent implements OnInit {
-  patientid: string = '';
+  patientId: string = '';
 
   observations: Observation[] = [];
 
@@ -33,13 +33,13 @@ export class ObservationDetailComponent implements OnInit {
     console.log(this.code)
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+        this.patientId = this.eprService.patient.id;
         this.getRecords();
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
       this.getRecords();
     });
   }

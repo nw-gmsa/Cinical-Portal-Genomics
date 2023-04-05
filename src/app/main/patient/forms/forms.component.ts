@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {TdDialogService} from "@covalent/core/dialogs";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Patient, QuestionnaireResponse} from "fhir/r4";
 import {environment} from "../../../../environments/environment";
+
 
 @Component({
   selector: 'app-forms',
@@ -58,5 +59,7 @@ export class FormsComponent implements OnInit {
   addForms(): void {
     window.open('https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=' + environment.tieServer, '_blank');
   }
+
+
 
 }
