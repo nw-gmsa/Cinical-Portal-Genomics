@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
-import {TdDialogService} from "@covalent/core/dialogs";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Patient, QuestionnaireResponse} from "fhir/r4";
 import {environment} from "../../../../environments/environment";
+import {TaskCreateComponent} from "../referrals/task-create/task-create.component";
+
 
 
 @Component({
@@ -18,7 +19,6 @@ export class FormsComponent implements OnInit {
   private nhsNumber: string | undefined;
   constructor( public fhirSrv: FhirService,
                private eprService: EprService,
-               private dialogService: TdDialogService,
                public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -60,6 +60,27 @@ export class FormsComponent implements OnInit {
     window.open('https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=' + environment.tieServer, '_blank');
   }
 
+  addTask(): void {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '85%';
+    dialogConfig.width = '50%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      nhsNumber: this.nhsNumber,
+      taskType: 1
+    };
+    const dialogRef = this.dialog.open(TaskCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      if (result !== undefined) {
+        // TODO review if required
+      }
+    })
+  }
 
 }

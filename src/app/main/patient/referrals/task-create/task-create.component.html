@@ -73,7 +73,7 @@
       <mat-form-field class="example-full-width">
         <mat-label>Task Focus</mat-label>
         <mat-select [(ngModel)]="planFocus"  [disabled]="edit">
-          <mat-option *ngFor="let resource of foci" [value]="resource">{{fhirService.getCodeableConceptResourceValue(resource)}}</mat-option>
+          <mat-option *ngFor="let resource of foci" [value]="resource">{{getResourceDisplay(resource)}}</mat-option>
         </mat-select>
         <mat-hint align="end">What task is acting on</mat-hint>
       </mat-form-field>

@@ -86,7 +86,8 @@ export class WorkflowComponent implements OnInit {
     dialogConfig.data = {
       id: 1,
       patientId: this.patientId,
-      nhsNumber: this.nhsNumber
+      nhsNumber: this.nhsNumber,
+      taskType: 0
     };
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {

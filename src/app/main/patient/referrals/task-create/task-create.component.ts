@@ -7,9 +7,8 @@ import {
 import {
   CareTeam,
   Coding,
-  MedicationRequest,
   Organization,
-  Practitioner,
+  Practitioner, Questionnaire,
   Resource, ServiceRequest,
   Task,
   ValueSetExpansionContains
@@ -64,6 +63,7 @@ export class TaskCreateComponent implements OnInit {
   planFocus: Resource | undefined;
   description: string | undefined = '';
 
+  taskType = 0;
 
   task: Task | undefined;
   edit = false;
@@ -76,6 +76,7 @@ export class TaskCreateComponent implements OnInit {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
     this.task = data.task;
+    this.taskType = data.taskType
     if (this.task !== undefined) this.edit = true;
     if (data.focus !== undefined) {
        this.planFocus = data.focus;
@@ -156,14 +157,30 @@ export class TaskCreateComponent implements OnInit {
         }
       }
     );
-    this.fhirService.get('/ServiceRequest?status=active,on-hold,draft&patient=' + this.patientId).subscribe(bundle => {
-        if (bundle.entry !== undefined) {
-          for (const entry of bundle.entry) {
-            if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') { this.foci.push(entry.resource); }
+    if (this.taskType === 0 || this.taskType === 2) {
+      this.fhirService.get('/ServiceRequest?status=active,on-hold,draft&patient=' + this.patientId).subscribe(bundle => {
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') {
+                  this.foci.push(entry.resource);
+                }
+              }
+            }
           }
-        }
-      }
-    );
+      );
+    }
+    if (this.taskType === 1) {
+      this.fhirService.getTIE('/Questionnaire').subscribe(bundle => {
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') {
+                  this.foci.push(entry.resource);
+                }
+              }
+            }
+          }
+      );
+    }
     this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
         if (bundle.entry !== undefined) {
           for (const entry of bundle.entry) {
@@ -550,15 +567,9 @@ export class TaskCreateComponent implements OnInit {
     if (this.planFocus !== undefined) {
       task.focus = {
         reference: this.planFocus.resourceType + '/' + this.planFocus.id,
+        display: this.getResourceDisplay(this.planFocus),
+        type: this.planFocus.resourceType
       };
-      if (this.planFocus.resourceType === 'MedicationRequest') {
-        const display = this.fhirService.getCodeableConceptValue((this.planFocus as MedicationRequest).medicationCodeableConcept);
-        if (display !== undefined && display !== '') task.focus.display = display
-      }
-      if (this.planFocus.resourceType === 'ServiceRequest') {
-        const display = this.fhirService.getCodeableConceptValue((this.planFocus as ServiceRequest).code);
-        if (display !== undefined && display !== '') task.focus.display = display
-      }
     } else {
       // edit
       if (this.task !== undefined && this.task.focus !== undefined) {
@@ -590,5 +601,16 @@ export class TaskCreateComponent implements OnInit {
   }
 
 
-
+  getResourceDisplay(resource: Resource): string{
+    if (resource.resourceType === 'Questionnaire') {
+      const questionnaire = resource as Questionnaire;
+      if (questionnaire.title !== null) return <string>questionnaire.title;
+    }
+    if (resource.resourceType === 'ServiceRequest') {
+      const serviceRequest = resource as ServiceRequest;
+      if (serviceRequest.code !== undefined) return this.fhirService.getCodeableConceptValue(serviceRequest.code)
+      if (serviceRequest.category !== undefined && serviceRequest.category.length >0) return this.fhirService.getCodeableConceptValue(serviceRequest.category[0])
+    }
+    return this.fhirService.getCodeableConceptResourceValue(resource)
+  }
 }

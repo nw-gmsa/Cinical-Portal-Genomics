@@ -225,11 +225,14 @@ export class TaskComponent implements OnInit {
     dialogConfig.height = '85%';
     dialogConfig.width = '50%';
 
+    let taskType = 0;
+    if (this.serviceRequest !== undefined) taskType = 2;
     dialogConfig.data = {
       id: 1,
       patientId: this.patientId,
       nhsNumber: this.nhsNumber,
-      focus: this.serviceRequest
+      focus: this.serviceRequest,
+      taskType: taskType
     };
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
