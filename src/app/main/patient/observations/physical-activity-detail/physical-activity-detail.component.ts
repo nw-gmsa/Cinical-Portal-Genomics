@@ -25,13 +25,13 @@ export class PhysicalActivityDetailComponent implements OnInit {
   loadingType = LoadingType;
   selectedValue: number = 1;
 
-  constructor( public fhirSrv: FhirService,
+  constructor( public fhirService: FhirService,
                private eprService: EprService,
                private route: ActivatedRoute,
                public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.endDate = moment(this.fhirSrv.getToDate())
+    this.endDate = moment(this.fhirService.getToDate())
     const end = this.endDate?.toDate()
     const temp = end?.setMonth(end.getMonth() - (this.selectedValue) );
     this.startDate = moment(new Date(temp))

@@ -17,7 +17,7 @@ export class FormsComponent implements OnInit {
   forms: QuestionnaireResponse[] = [];
   patientId: string | null = null;
   private nhsNumber: string | undefined;
-  constructor( public fhirSrv: FhirService,
+  constructor( public fhirService: FhirService,
                private eprService: EprService,
                public dialog: MatDialog) { }
 
@@ -46,7 +46,7 @@ export class FormsComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.get('/QuestionnaireResponse?patient=' + this.patientId + '&_count=50').subscribe(bundle => {
+    this.fhirService.get('/QuestionnaireResponse?patient=' + this.patientId + '&_count=50').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'QuestionnaireResponse') { this.forms.push(entry.resource as QuestionnaireResponse); }

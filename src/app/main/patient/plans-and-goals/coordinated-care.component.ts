@@ -21,7 +21,7 @@ export class CoordinatedCareComponent implements OnInit {
   patientId: string | null = null;
   private nhsNumber: string | undefined;
   goals: Goal[] = [];
-  constructor( private fhirSrv: FhirService,
+  constructor( private fhirService: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                public dialog: MatDialog,
@@ -52,7 +52,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.get('/EpisodeOfCare?patient=' + this.patientId + '&status=active,waitlist').subscribe(bundle => {
+    this.fhirService.get('/EpisodeOfCare?patient=' + this.patientId + '&status=active,waitlist').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'EpisodeOfCare') { this.episodes.push(entry.resource as EpisodeOfCare); }
@@ -62,7 +62,7 @@ export class CoordinatedCareComponent implements OnInit {
     );
 
 
-    this.fhirSrv.getTIE('/CarePlan?patient=' + this.patientId).subscribe(bundle => {
+    this.fhirService.getTIE('/CarePlan?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'CarePlan') { this.carePlans.push(entry.resource as CarePlan); }
@@ -71,7 +71,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
 
-    this.fhirSrv.getTIE('/Goal?patient=' + this.patientId).subscribe(bundle => {
+    this.fhirService.getTIE('/Goal?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'Goal') { this.goals.push(entry.resource as Goal); }
@@ -80,7 +80,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
 
-    this.fhirSrv.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
+    this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'CareTeam') { this.careTeams.push(entry.resource as CareTeam); }

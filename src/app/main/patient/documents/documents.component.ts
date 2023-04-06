@@ -5,9 +5,7 @@ import {IAlertConfig, TdDialogService} from "@covalent/core/dialogs";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {DocumentReference, Patient} from "fhir/r4";
 import {BinaryComponent} from "./binary/binary.component";
-import {
-  EpisodeOfCareCreateComponent
-} from "../plans-and-goals/episode-of-care-create/episode-of-care-create.component";
+
 import {DocumentReferenceCreateComponent} from "./document-reference-create/document-reference-create.component";
 
 @Component({
@@ -19,7 +17,7 @@ export class DocumentsComponent implements OnInit {
   documents: DocumentReference[] = [];
   patientId: string | null = null;
   private nhsNumber: string | undefined;
-  constructor( public fhirSrv: FhirService,
+  constructor( public fhirService: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                public dialog: MatDialog,
@@ -40,6 +38,7 @@ export class DocumentsComponent implements OnInit {
     });
   }
 
+
   private getRecords(patient : Patient) {
     if (patient !== undefined ) {
       if (patient.identifier !== undefined){
@@ -50,7 +49,7 @@ export class DocumentsComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.get('/DocumentReference?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
+    this.fhirService.get('/DocumentReference?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'DocumentReference') { this.documents.push(entry.resource as DocumentReference); }
@@ -65,7 +64,7 @@ export class DocumentsComponent implements OnInit {
     if (document.content !== undefined && document.content.length > 0 && document.content[0].attachment !== undefined
         && document.content[0].attachment.url !== undefined) {
 
-      this.fhirSrv.getBinary(document.content[0].attachment.url).subscribe(result => {
+      this.fhirService.getBinary(document.content[0].attachment.url).subscribe(result => {
 
         const dialogConfig = new MatDialogConfig();
 
@@ -126,6 +125,9 @@ export class DocumentsComponent implements OnInit {
       patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
-    this.dialog.open( DocumentReferenceCreateComponent, dialogConfig);
+    const dialogRef = this.dialog.open( DocumentReferenceCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      this.documents.push(result)
+    })
   }
 }

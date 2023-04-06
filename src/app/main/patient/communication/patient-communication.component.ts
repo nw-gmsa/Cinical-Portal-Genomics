@@ -16,7 +16,7 @@ export class PatientCommunicationComponent implements OnInit {
   public communications: Communication[] = [];
   patientId: string | null = null;
   private nhsNumber: string | undefined;
-  constructor( private fhirSrv: FhirService,
+  constructor( private fhirService: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                public dialog: MatDialog,
@@ -47,7 +47,7 @@ export class PatientCommunicationComponent implements OnInit {
         }
       }
     }
-    this.fhirSrv.getTIE('/Communication?_sort=sent&patient=' + this.patientId).subscribe(bundle => {
+    this.fhirService.getTIE('/Communication?_sort=sent&patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'Communication') { this.communications.push(entry.resource as Communication); }

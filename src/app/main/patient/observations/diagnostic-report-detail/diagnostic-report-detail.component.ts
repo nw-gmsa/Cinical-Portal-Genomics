@@ -24,7 +24,7 @@ export class DiagnosticReportDetailComponent implements OnInit {
   loadingType = LoadingType;
   code: string = '';
   observationsHide = true;
-  constructor(public fhirSrv: FhirService,
+  constructor(public fhirService: FhirService,
               private eprService: EprService,
               private dialogService: TdDialogService,
               private _loadingService: TdLoadingService,
@@ -49,7 +49,7 @@ export class DiagnosticReportDetailComponent implements OnInit {
     });
   }
   getRecords() {
-    this.fhirSrv.getResource('/DiagnosticReport/'+ this.code).subscribe(report => {
+    this.fhirService.getResource('/DiagnosticReport/'+ this.code).subscribe(report => {
           if (report !== undefined && report.resourceType === 'DiagnosticReport') {
             this.diagnosticReports.push(report as DiagnosticReport);
 
@@ -58,7 +58,7 @@ export class DiagnosticReportDetailComponent implements OnInit {
               let count = 0;
               for (const observation of report.result) {
                 if (observation.reference !== undefined) {
-                  this.fhirSrv.getResource('/' + observation.reference).subscribe(obs => {
+                  this.fhirService.getResource('/' + observation.reference).subscribe(obs => {
                     if (obs !== undefined && obs.resourceType === 'Observation') {
                       observationsTemp.push(obs as Observation);
                       count++;

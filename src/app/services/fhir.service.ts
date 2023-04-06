@@ -347,9 +347,14 @@ export class FhirService {
     return this.http.post<any>(this.getFHIRServerBase() + resource, body, {headers});
   }
   public postTIE(resource: string, body: any): Observable<any> {
-    const headers: HttpHeaders = this.getEPRHeaders(false);
-    headers.append('Content-Type', 'application/fhir+json');
-    headers.append('Prefer', 'return=representation');
+    const headerDict = {
+      'Content-Type': 'application/fhir+json',
+      'Accept': 'application/fhir+json',
+      'Prefer': 'return=representation'
+    }
+    const headers = new HttpHeaders(headerDict)
+    console.log(this.tieUrl + resource)
+    console.log(headers)
     return this.http.post<any>(this.tieUrl + resource, body, {headers});
   }
   public putTIE(resource: string, body: any): Observable<any> {

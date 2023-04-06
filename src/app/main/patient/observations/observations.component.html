@@ -9,7 +9,7 @@
                 <h3>Observations (Last 7 days)</h3>
                 <span flex></span>
             </div>
-            <td-markdown>For documentation of the data model see [UKCore-Observation]({{fhirSrv.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation')}}) and [NHSDigital-Observation](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Observation)</td-markdown>
+            <td-markdown>For documentation of the data model see [UKCore-Observation]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation')}}) and [NHSDigital-Observation](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Observation)</td-markdown>
             <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
                 <span *ngIf="observations.length>0">
                              <app-observation [observations]="observations"> </app-observation>
@@ -25,7 +25,7 @@
                 <span flex></span>
 
             </div>
-            <td-markdown>For documentation of the data model see [UKCore-DiagnosticReport]({{fhirSrv.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DiagnosticReport')}})</td-markdown>
+            <td-markdown>For documentation of the data model see [UKCore-DiagnosticReport]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DiagnosticReport')}})</td-markdown>
 
             <span *ngIf="diagnosticReports.length>0">
                          <app-diagnostic-report [diagnosticReports]="diagnosticReports"> </app-diagnostic-report>

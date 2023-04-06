@@ -58,7 +58,6 @@
                 </mat-option>
             </mat-autocomplete>
             <mat-hint align="end">Organization which maintains the document</mat-hint>
-
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -71,12 +70,22 @@
             <mat-hint align="end">Who and/or what authored the document</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Document/Record Location (url)</mat-label>
-            <input matInput required type="url" [(ngModel)]="url" (change)="checkSubmit()">
-            <mat-hint align="end">Where to access the document</mat-hint>
-        </mat-form-field>
+        <span>
 
+            <td-file-input
+                     [(ngModel)]="files"
+                     color="primary"
+                     (selectFile)="selectEvent($event)"
+                     accept=".jpg,.pdf">
+                <mat-icon>attach_file</mat-icon><span>Choose a file...</span>
+            </td-file-input>
+            <br/>
+            <mat-form-field class="example-full-width">
+                <mat-label>Document/Record Location (url)</mat-label>
+                <input matInput required type="url" [(ngModel)]="url" (change)="checkSubmit()">
+                <mat-hint align="end">Where to access the document</mat-hint>
+            </mat-form-field>
+        </span>
         <mat-form-field class="example-half-width">
             <input #searchSetting matInput placeholder="Practice Setting (SNOMED CT)" (keyup)="searchCareSetting(searchSetting.value)" [matAutocomplete]="setting">
             <mat-autocomplete #setting="matAutocomplete" (optionSelected)="selectedSettings($event)" [displayWith]="dlgSrv.getDisplay">

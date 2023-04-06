@@ -1,7 +1,31 @@
-<h2 mat-dialog-title>
-     Binary
+<mat-card class="fullscreen scrollable-content example-full-width">
+  <td-breadcrumbs>
+    <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+    <a td-breadcrumb [routerLink]="['/patient', patientId, 'documents']">Documents</a>
+    <td-breadcrumb>Document</td-breadcrumb>
+  </td-breadcrumbs>
+  <mat-card-content>
+  <h2 mat-dialog-title>
+     Document
  </h2>
-<mat-dialog-content>
+  <div *ngIf="document !== undefined" style="flex: auto">
+      <span >
+          <h3>Created</h3>  {{document.date | date: 'dd-MMM-yyyy HH:mm'}}
+      </span>
+      <span>
+          <h3>Type</h3> <span [innerHTML]="fhirService.getCodeableConcept(document.type)"></span>
+      </span>
+      <span *ngIf="document.category !== undefined" >
+          <h3>Category</h3> <span [innerHTML]="fhirService.getCodeableConcepts(document.category)"></span>
+      </span>
+      <span *ngIf="document.custodian !== undefined">
+          <h3>Custodian</h3> <span [innerHTML]="fhirService.getReference(document.custodian)"></span>
+      </span>
+      <span *ngIf="document.context !== undefined">
+          <h3>Setting</h3>
+          <span *ngIf="document.context !== undefined" [innerHTML]="fhirService.getCodeableConcept(document.context.practiceSetting)"></span>
+      </span>
+  </div>
 
   <span *ngIf="docType === undefined">
   <td-json-formatter *ngIf="binary !== undefined" [data]="binary" key="root" [levelsOpen]="4">
@@ -12,7 +36,7 @@
   </span>
 
   <span *ngIf="docType === 'image'">
-    <img [src]="image" alt="Nowt here"/>
+    <img class="oversize" [src]="image" alt="Nowt here"/>
   </span>
   <span *ngIf="docType === 'pdf'">
 
@@ -30,9 +54,8 @@
       <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
     </div>
   </span>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-raised-button [mat-dialog-close]="true" autoFocus>OK</button>
-</mat-dialog-actions>
+  </mat-card-content>
+</mat-card>
+
 
 

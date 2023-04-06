@@ -21,7 +21,7 @@ export class ObservationDetailComponent implements OnInit {
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
-  constructor( public fhirSrv: FhirService,
+  constructor( public fhirService: FhirService,
                private eprService: EprService,
                private route: ActivatedRoute,
                public dialog: MatDialog) { }
@@ -46,10 +46,10 @@ export class ObservationDetailComponent implements OnInit {
 
   getRecords() {
     /*
-    const end = this.fhirSrv.getToDate();
+    const end = this.fhirService.getToDate();
     const from = new Date();
     from.setDate(end.getDate() - 7 );
-    this.fhirSrv.get('/Observation?patient=' + this.patientid
+    this.fhirService.get('/Observation?patient=' + this.patientid
         + '&date=gt' + from.toISOString().split('T')[0]
         + '&_count=400&_sort=-date').subscribe(bundle => {
           if (bundle.entry !== undefined) {

@@ -24,6 +24,7 @@ import {
 import {
   QuestionnaireResponseViewComponent
 } from "../main/patient/forms/questionnaire-response-view/questionnaire-response-view.component";
+import {BinaryComponent} from "../main/patient/documents/binary/binary.component";
 
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
           {path: 'activity', component: PhysicalActivityDetailComponent},
           {path: 'vitals', component: VitalsDetailComponent},
           {path: 'documents', component: DocumentsComponent},
+          {path: 'documents/:docid', component: BinaryComponent},
           {path: 'forms', component: FormsComponent},
           {path: 'forms/:form', component: QuestionnaireResponseViewComponent},
           {path: 'workflow', component: WorkflowComponent},

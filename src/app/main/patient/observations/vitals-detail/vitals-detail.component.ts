@@ -16,7 +16,7 @@ export class VitalsDetailComponent implements OnInit {
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
 
-  constructor( public fhirSrv: FhirService,
+  constructor( public fhirService: FhirService,
                private eprService: EprService,
                private route: ActivatedRoute,
                public dialog: MatDialog) { }

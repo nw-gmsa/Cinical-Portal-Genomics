@@ -21,7 +21,7 @@ export class WorkflowComponent implements OnInit {
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
-  constructor( private fhirSrv: FhirService,
+  constructor( private fhirService: FhirService,
                private eprService: EprService,
                private _loadingService: TdLoadingService,
                private dialogService: TdDialogService,
@@ -57,7 +57,7 @@ export class WorkflowComponent implements OnInit {
   }
   getResults() {
     this._loadingService.register('overlayStarSyntax');
-    this.fhirSrv.getTIE('/Task?patient=' + this.patientId + '').subscribe(bundle => {
+    this.fhirService.getTIE('/Task?patient=' + this.patientId + '').subscribe(bundle => {
       this._loadingService.resolve('overlayStarSyntax');
       if (bundle.entry !== undefined) {
         for (const entry of bundle.entry) {
@@ -66,7 +66,7 @@ export class WorkflowComponent implements OnInit {
         }
       }
     });
-    this.fhirSrv.getTIE('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
+    this.fhirService.getTIE('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
       this._loadingService.resolve('overlayStarSyntax');
       if (bundle.entry !== undefined) {
         for (const entry of bundle.entry) {

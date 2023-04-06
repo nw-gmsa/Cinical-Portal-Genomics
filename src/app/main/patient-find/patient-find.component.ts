@@ -14,7 +14,7 @@ import {FhirService} from "../../services/fhir.service";
 })
 export class PatientFindComponent implements OnInit {
 
-  constructor(public fhirSrv: FhirService,
+  constructor(public fhirService: FhirService,
               private _formBuilder: UntypedFormBuilder,
               private router: Router,
               private eprService: EprService) { }

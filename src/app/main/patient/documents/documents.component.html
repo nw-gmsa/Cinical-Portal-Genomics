@@ -9,10 +9,10 @@
                 <h3>Documents (Last 50)</h3>
                 <span flex></span>
             </div>
-            <td-markdown>For documentation of the data model see [UKCore-DocumentReference]({{fhirSrv.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DocumentReference')}}) and [NHSDigital-DocumentReference](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-DocumentReference)</td-markdown>
+            <td-markdown>For documentation of the data model see [UKCore-DocumentReference]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DocumentReference')}}) and [NHSDigital-DocumentReference](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-DocumentReference)</td-markdown>
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
-                    <button mat-icon-button color="accent"  (click)="addDocumentMetadata()"><mat-icon>view_timeline</mat-icon> Add Document Metadata</button>
+                    <button mat-icon-button color="accent"  (click)="addDocumentMetadata()"><mat-icon>view_timeline</mat-icon> Add Document</button>
                 </mat-list-item>
             </mat-nav-list>
             <span *ngIf="documents.length>0">

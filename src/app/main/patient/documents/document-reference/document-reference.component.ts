@@ -1,4 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {Router} from "@angular/router";
 
 
@@ -31,7 +40,7 @@ export class DocumentReferenceComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns = ['open', 'created','category', 'type', 'setting', 'author', 'custodian',  'mime', 'status', 'resource'];
+  displayedColumns = [ 'created','category', 'type', 'setting', 'author', 'custodian',  'status', 'resource'];
 
   constructor(private router: Router,
               private _viewContainerRef: ViewContainerRef,
@@ -58,13 +67,20 @@ export class DocumentReferenceComponent implements OnInit {
     }
   }
 
-  selectDocument(document: DocumentReference) {
+  ngOnChanges(changes: SimpleChanges) {
 
-    this.documentReference.emit(document);
-
+    if (changes['documents'] !== undefined) {
+      // console.log(this.tasks);
+      this.dataSource = new MatTableDataSource<DocumentReference>(this.documents);
+    } else {
+      //  console.log(changes)
+    }
   }
 
-
+  selectDocument(document: DocumentReference) {
+    console.log(document)
+      this.router.navigate(['/patient', document.subject?.reference?.replace('Patient/',''), 'documents', document.id])
+  }
 
 
   getMime(mimeType: string) {

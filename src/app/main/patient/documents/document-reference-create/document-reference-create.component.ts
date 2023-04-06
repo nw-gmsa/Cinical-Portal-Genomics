@@ -1,14 +1,23 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {FhirService} from "../../../../services/fhir.service";
 import {DialogService} from "../../../../dialogs/dialog.service";
-import {Coding, DocumentReference, Organization, Practitioner, Reference, ValueSetExpansionContains} from "fhir/r4";
+import {
+  Binary,
+  Coding,
+  DocumentReference,
+  Organization,
+  Practitioner,
+  Reference,
+  ValueSetExpansionContains
+} from "fhir/r4";
 import * as uuid from "uuid";
 import {Observable, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Moment} from "moment/moment";
 import {MatSelectChange} from "@angular/material/select";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-document-reference-create',
@@ -44,6 +53,9 @@ export class DocumentReferenceCreateComponent implements OnInit {
   metadataCreated: Moment | undefined;
   url: string | undefined;
   private metadataSetting: Coding | undefined;
+  files: File | FileList | undefined;
+  public fileLoaded: EventEmitter<any> = new EventEmitter();
+
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
@@ -332,7 +344,43 @@ export class DocumentReferenceCreateComponent implements OnInit {
       this.dialog.closeAll();
     });
   }
+  selectEvent(files: FileList | File): void {
+    // see also https://github.com/nhsconnect/careconnect-document-viewer/blob/master/web/src/app/modules/document-load/load-document.component.ts
+    if (files instanceof FileList) {
+      console.log('filelist')
+    } else {
+      this.postBinary(files)
+    }
+  };
+  postBinary(file : File) {
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    this.fileLoaded.subscribe( (data) => {
+          var binary : Binary = {
+            resourceType: 'Binary',
+            contentType: file.type,
+            data: data
+          }
+          this.fhirService.postTIE('/Binary',binary).subscribe(response => {
+            this.url = environment.tieServer + '/Binary/'+ response.id
+          });
+        }
+    );
+    const me = this;
+    reader.onload = (event: Event) => {
+      if (reader.result instanceof ArrayBuffer) {
+        console.log('array buffer');
 
-
+        // @ts-ignore
+        me.fileLoaded.emit(btoa(String.fromCharCode.apply(null, reader.result)));
+      } else {
+        console.log('not a buffer');
+        if (reader.result !== null) me.fileLoaded.emit(btoa(reader.result));
+      }
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
 
 }

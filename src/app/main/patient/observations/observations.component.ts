@@ -21,7 +21,7 @@ export class ObservationsComponent implements OnInit {
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
-  constructor( public fhirSrv: FhirService,
+  constructor( public fhirService: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                private _loadingService: TdLoadingService,
@@ -43,11 +43,11 @@ export class ObservationsComponent implements OnInit {
   }
 
   getRecords() {
-    const end = this.fhirSrv.getToDate();
+    const end = this.fhirService.getToDate();
     const from = new Date();
     from.setDate(end.getDate() - 7 );
     this._loadingService.register('overlayStarSyntax');
-      this.fhirSrv.get('/Observation?patient=' + this.patientId
+      this.fhirService.get('/Observation?patient=' + this.patientId
           + '&date=gt' + from.toISOString().split('T')[0]
           + '&_count=400&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
@@ -61,7 +61,7 @@ export class ObservationsComponent implements OnInit {
             this._loadingService.resolve('overlayStarSyntax');
           }
       );
-      this.fhirSrv.get('/DiagnosticReport?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
+      this.fhirService.get('/DiagnosticReport?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'DiagnosticReport') {

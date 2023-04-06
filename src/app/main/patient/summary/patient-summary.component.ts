@@ -63,7 +63,7 @@ export class PatientSummaryComponent implements OnInit {
  `;
 
   constructor(private router: Router,
-              private fhirSrv: FhirService,
+              private fhirService: FhirService,
               private route: ActivatedRoute,
               private eprService: EprService,
               private strava: StravaService,
@@ -116,7 +116,7 @@ export class PatientSummaryComponent implements OnInit {
           reference: 'Patient/' + this.patientId
         };
         const transaction = this.strava.createTransaction(activities, patientRef);
-        this.fhirSrv.sendTransaction(transaction, 'Strava');
+        this.fhirService.sendTransaction(transaction, 'Strava');
       });
       this.withings.activityLoaded.subscribe(result => {
         console.log('Withings Activity Loaded Received');
@@ -125,7 +125,7 @@ export class PatientSummaryComponent implements OnInit {
         };
         const transaction = this.withings.createTransaction(result, patientRef);
         // console.log(JSON.stringify(transaction))
-        this.fhirSrv.sendTransaction(transaction, 'Withings Activity');
+        this.fhirService.sendTransaction(transaction, 'Withings Activity');
       });
       this.withings.sleepLoaded.subscribe(result => {
         console.log('Withings Sleep Loaded Received');
@@ -134,7 +134,7 @@ export class PatientSummaryComponent implements OnInit {
         };
         const transaction = this.withings.createTransaction(result, patientRef);
        // console.log(JSON.stringify(transaction))
-        this.fhirSrv.sendTransaction(transaction, 'Withings Sleep');
+        this.fhirService.sendTransaction(transaction, 'Withings Sleep');
       });
       this.withings.measuresLoaded.subscribe(result => {
         console.log('Withings Measures Loaded Received');
@@ -143,7 +143,7 @@ export class PatientSummaryComponent implements OnInit {
         };
         const transaction = this.withings.createTransaction(result, patientRef);
        // console.log(JSON.stringify(transaction))
-        this.fhirSrv.sendTransaction(transaction, 'Withings Measures');
+        this.fhirService.sendTransaction(transaction, 'Withings Measures');
       });
       // removed &_revinclude=CarePlan:patient
 
@@ -151,7 +151,7 @@ export class PatientSummaryComponent implements OnInit {
 
   getRecords(){
       this._loadingService.register('overlayStarSyntax');
-      this.fhirSrv.get('/Condition?patient=' + this.patientId).subscribe(bundle => {
+      this.fhirService.get('/Condition?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -160,7 +160,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
-      this.fhirSrv.get('/AllergyIntolerance?patient=' + this.patientId).subscribe(bundle => {
+      this.fhirService.get('/AllergyIntolerance?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -169,7 +169,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
-      this.fhirSrv.get('/MedicationRequest?patient=' + this.patientId).subscribe(bundle => {
+      this.fhirService.get('/MedicationRequest?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -178,7 +178,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
-      this.fhirSrv.get('/Encounter?patient=' + this.patientId + '&_count=5&_sort=-date').subscribe(bundle => {
+      this.fhirService.get('/Encounter?patient=' + this.patientId + '&_count=5&_sort=-date').subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -188,7 +188,7 @@ export class PatientSummaryComponent implements OnInit {
           }
       );
 
-      this.fhirSrv.getResource('/Patient/' + this.patientId)
+      this.fhirService.getResource('/Patient/' + this.patientId)
           .subscribe(resource => {
                 const patient = resource as Patient;
                 if (patient !== undefined ) {

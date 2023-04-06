@@ -41,7 +41,7 @@ export class PatientMainComponent implements OnInit {
 
 
   constructor(private router: Router,
-              private fhirSrv: FhirService,
+              private fhirService: FhirService,
               private route: ActivatedRoute,
               private eprService: EprService) { }
 
@@ -49,7 +49,7 @@ export class PatientMainComponent implements OnInit {
 
       const patientid = this.route.snapshot.paramMap.get('patientid');
 
-      this.fhirSrv.getResource('/Patient/' + patientid ).subscribe(bundle => {
+      this.fhirService.getResource('/Patient/' + patientid ).subscribe(bundle => {
               if (bundle.resourceType == 'Patient') {
                     this.patient = <Patient> bundle;
                     this.eprService.setPatient(this.patient)
@@ -98,7 +98,7 @@ export class PatientMainComponent implements OnInit {
   }
 
   addClient(client: any): void {
-    this.fhirSrv.get('/Endpoint?identifier=' + client.clientId).subscribe( result => {
+    this.fhirService.get('/Endpoint?identifier=' + client.clientId).subscribe( result => {
         const bundle: Bundle = result;
         if (bundle.entry !== undefined) {
           for (const entry of bundle.entry) {
@@ -250,11 +250,11 @@ export class PatientMainComponent implements OnInit {
           console.log(err);
         },
         () => {
-          window.open(card.url + '?iss=' + this.fhirSrv.getBaseUrl() + '&launch=' + launch, '_blank');
+          window.open(card.url + '?iss=' + this.fhirService.getBaseUrl() + '&launch=' + launch, '_blank');
         }
       );
     } else {
-      this.fhirSrv.get('/Endpoint?identifier=' + card.clientId).subscribe( result => {
+      this.fhirService.get('/Endpoint?identifier=' + card.clientId).subscribe( result => {
         console.log(result);
         const bundle: Bundle = result;
         if (bundle.entry !== undefined) {
@@ -271,7 +271,7 @@ export class PatientMainComponent implements OnInit {
                   console.log(err);
                 },
                 () => {
-                  window.open(endpoint.address + '?iss=' + this.fhirSrv.getBaseUrl() + '&launch=' + launch, '_blank');
+                  window.open(endpoint.address + '?iss=' + this.fhirService.getBaseUrl() + '&launch=' + launch, '_blank');
                 }
               );
             }
