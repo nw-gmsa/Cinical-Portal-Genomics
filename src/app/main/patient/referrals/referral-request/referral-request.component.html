@@ -133,6 +133,14 @@
             <span [innerHTML]="fhirService.getReferences(element.reasonReference)"></span>
           </span>
 
+          <span *ngIf="element.supportingInfo !== undefined">
+             <h4>Supporting Information</h4>
+            <mat-card style="width: 25%;" *ngFor="let supportingInfo of element.supportingInfo" (click)="onClick(supportingInfo)">
+              <p style="color:blue;font-size:11px;">{{supportingInfo.type}}</p>
+              <span [innerHTML]="fhirService.getReference(supportingInfo)"></span>
+            </mat-card>
+          </span>
+
           <span *ngIf="element.note !== undefined">
             <h4>Notes</h4>
             <app-task-note [annotations]="element.note"></app-task-note>

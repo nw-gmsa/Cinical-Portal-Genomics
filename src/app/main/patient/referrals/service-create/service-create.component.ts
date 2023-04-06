@@ -68,7 +68,9 @@ export class ServiceCreateComponent implements OnInit {
   serviceRequestPriority: string = 'routine'
 
   serviceRequest: ServiceRequest | undefined;
-  private edit = false;
+  edit = false;
+  supportingInformation: Resource[] = [];
+  supporting: Resource[] = [];
 
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
@@ -118,6 +120,22 @@ export class ServiceCreateComponent implements OnInit {
           }
         }
       }
+    );
+    this.fhirService.get('/DocumentReference?patient=' + this.patientId).subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'DocumentReference') { this.supportingInformation.push(entry.resource); }
+            }
+          }
+        }
+    );
+    this.fhirService.get('/QuestionnaireResponse?patient=' + this.patientId).subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'QuestionnaireResponse') { this.supportingInformation.push(entry.resource); }
+            }
+          }
+        }
     );
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/request-status').subscribe(
       resource  => {
@@ -470,6 +488,19 @@ export class ServiceCreateComponent implements OnInit {
           serviceRequest.basedOn.push(reference);
         }
     }
+    if (this.supporting !== undefined && this.supporting.length>0) {
+      serviceRequest.supportingInfo = [];
+      this.supporting.forEach( resource => {
+
+        var reference : Reference = {
+          type: resource.resourceType,
+          reference: resource.resourceType + '/' + resource.id,
+          display: this.fhirService.getResourceDisplay(resource)
+        }
+        // @ts-ignore
+        serviceRequest.supportingInfo.push(reference);
+      })
+    }
     if (this.planTeams !== undefined && this.planTeams.length > 0 && serviceRequest.performer !== undefined) {
       for (const carePlan of this.planTeams) {
         const reference: Reference = {
@@ -500,9 +531,8 @@ export class ServiceCreateComponent implements OnInit {
 
     console.log(serviceRequest);
     serviceRequest.authoredOn = new Date().toISOString();
-    this.fhirService.postTIE('/ServiceRequest', serviceRequest).subscribe(() => {
-      this.diaglogRef.close();
-      this.dialog.closeAll();
+    this.fhirService.postTIE('/ServiceRequest', serviceRequest).subscribe((result) => {
+      this.diaglogRef.close(result);
     });
 
   }

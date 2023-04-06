@@ -6,10 +6,10 @@ import {
   Bundle,
   CapabilityStatement,
   CodeableConcept,
-  Coding, Condition,
+  Coding, Condition, DocumentReference,
   Endpoint,
   Identifier, MedicationRequest,
-  Quantity,
+  Quantity, Questionnaire, QuestionnaireResponse,
   Reference, Resource, ServiceRequest,
   ValueSet
 } from 'fhir/r4';
@@ -36,6 +36,8 @@ export class FhirService {
   pageOn = 7;
   throttle = 3000;
   measurePageMod = 3;
+
+  questionnaires: Questionnaire[] = [];
 
   private baseUrl = environment.fhirServer ;
   private tieUrl = environment.tieServer;
@@ -197,6 +199,33 @@ export class FhirService {
     }
 
     return result;
+  }
+
+  getResourceDisplay(resource: Resource): string{
+    if (resource.resourceType === 'Questionnaire') {
+      const questionnaire = resource as Questionnaire;
+      if (questionnaire.title !== null) return <string>questionnaire.title;
+    }
+    if (resource.resourceType === 'ServiceRequest') {
+      const serviceRequest = resource as ServiceRequest;
+      if (serviceRequest.code !== undefined) return this.getCodeableConceptValue(serviceRequest.code)
+      if (serviceRequest.category !== undefined && serviceRequest.category.length >0) return this.getCodeableConceptValue(serviceRequest.category[0])
+    }
+    if (resource.resourceType === 'DocumentReference') {
+      const documentReference = resource as DocumentReference;
+      if (documentReference.type !== undefined) return this.getCodeableConceptValue(documentReference.type)
+      if (documentReference.category !== undefined && documentReference.category.length >0) return this.getCodeableConceptValue(documentReference.category[0])
+    }
+    if (resource.resourceType === 'QuestionnaireResponse') {
+      const questionnaireResponse = resource as QuestionnaireResponse;
+      if (questionnaireResponse.questionnaire !== undefined) {
+         var questionnaire = this.getQuestionnaire(questionnaireResponse.questionnaire)
+         if (questionnaire !== undefined) {
+           if (questionnaire.title !== undefined) return questionnaire.title + ' ' + questionnaireResponse.authored?.split('T')[0];
+         }
+      }
+    }
+    return this.getCodeableConceptResourceValue(resource)
   }
 
   public getCodeableConceptResourceValue(condition: Resource) : string {
@@ -587,4 +616,24 @@ export class FhirService {
   }
 
 
+  setQuestionnaires(bundle: Bundle) {
+     if (bundle.entry !== undefined) {
+       bundle.entry.forEach( entry => {
+         if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') this.questionnaires.push(entry.resource)
+
+       })
+     }
+  }
+  getQuestionnaire(url : string) : Questionnaire | undefined {
+    var questionnaire = undefined;
+    this.questionnaires.forEach(form => {
+       if (url === form.url) {
+         questionnaire = form;
+       }
+        if (url === ('Questionnaire/' + form.id)) {
+          questionnaire = form;
+        }
+    })
+    return questionnaire;
+  }
 }

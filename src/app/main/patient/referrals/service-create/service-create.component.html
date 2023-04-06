@@ -86,6 +86,14 @@
     </div>
 
     <mat-form-field class="example-full-width">
+      <mat-label>Supporting Information</mat-label>
+      <mat-select name="supporting" [(ngModel)]="supporting" (selectionChange)="checkSubmit()" [disabled]="edit" multiple>
+        <mat-option *ngFor="let resource of supportingInformation" [value]="resource">{{fhirService.getResourceDisplay(resource)}}</mat-option>
+      </mat-select>
+      <mat-hint align="end">Additional clinical information</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
       <input #searchBoxPerformer matInput placeholder="Performer Type" (keyup)="searchPerformer(searchBoxPerformer.value)" [matAutocomplete]="autoPerformer">
       <mat-autocomplete #autoPerformer="matAutocomplete" (optionSelected)="selectedPerformer($event)" [displayWith]="dlgSrv.getDisplay">
         <mat-option *ngFor="let performer of performer$ | async" [value]="performer" >

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {IMenuItem, IMenuTrigger, ITdDynamicMenuLinkClickEvent} from "@covalent/core/dynamic-menu";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {EprService} from "../services/epr.service";
+import {FhirService} from "../services/fhir.service";
 
 @Component({
   selector: 'app-main',
@@ -171,6 +172,7 @@ export class MainComponent implements OnInit {
   constructor( private testingService: TestingService,
                private route: ActivatedRoute,
                private epr: EprService,
+               private fhirService: FhirService,
                private router: Router,private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -181,6 +183,9 @@ export class MainComponent implements OnInit {
       } else {
         this.patientId = undefined;
       }
+    })
+    this.fhirService.getTIE('/Questionnaire').subscribe(bundle => {
+      this.fhirService.setQuestionnaires(bundle);
     })
   }
   goToLink(url: string): void {

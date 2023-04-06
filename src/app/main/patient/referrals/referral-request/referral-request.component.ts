@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 
-import {Patient, ServiceRequest} from 'fhir/r4';
+import {Patient, Reference, ServiceRequest} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatTableDataSource} from '@angular/material/table';
@@ -10,6 +10,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 import {ServiceCreateComponent} from "../service-create/service-create.component";
 import {EprService} from "../../../../services/epr.service";
+import {Router} from "@angular/router";
 
 
 
@@ -53,10 +54,10 @@ export class ReferralRequestComponent implements OnInit {
 
 
   constructor(
-              // private modalService: NgbModal,
-              public dialog: MatDialog,
-              public fhirService: FhirService,
-              private eprService: EprService) {
+      private router: Router,
+      public dialog: MatDialog,
+      public fhirService: FhirService,
+      private eprService: EprService) {
 
 
   }
@@ -101,6 +102,15 @@ export class ReferralRequestComponent implements OnInit {
       console.log('SORT UNDEFINED');
     }
   }
+
+    ngOnChanges(changes: SimpleChanges) {
+
+        if (changes['referrals'] !== undefined) {
+            this.dataSource = new MatTableDataSource<ServiceRequest>(this.referrals);
+        } else {
+
+        }
+    }
 
     select(resource: any): void {
         const dialogConfig = new MatDialogConfig();
@@ -159,5 +169,14 @@ export class ReferralRequestComponent implements OnInit {
             console.log(result)
             //this.getResults();
         })
+    }
+
+    onClick(supportingInfo: Reference) {
+        if (supportingInfo.type !== undefined && supportingInfo.reference !== undefined) {
+            const id = supportingInfo.reference.split('/')[1];
+            console.log(id);
+            if (supportingInfo.type === 'DocumentReference') this.router.navigate(['/patient', this.patientId, 'documents', id])
+            if (supportingInfo.type === 'QuestionnaireResponse') this.router.navigate(['/patient', this.patientId, 'forms', id])
+        }
     }
 }

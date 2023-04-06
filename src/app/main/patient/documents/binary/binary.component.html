@@ -27,6 +27,18 @@
       </span>
   </div>
 
+      <span *ngIf="binary === undefined">
+
+
+<td-message
+        label="Warning"
+        sublabel="No document found, reference does not contain url or (cors) error."
+        color="accent"
+        icon="warning"
+>
+</td-message>
+      </span>
+
   <span *ngIf="docType === undefined">
   <td-json-formatter *ngIf="binary !== undefined" [data]="binary" key="root" [levelsOpen]="4">
   </td-json-formatter>

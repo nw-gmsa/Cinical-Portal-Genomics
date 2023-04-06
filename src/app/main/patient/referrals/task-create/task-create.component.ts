@@ -8,8 +8,8 @@ import {
   CareTeam,
   Coding,
   Organization,
-  Practitioner, Questionnaire,
-  Resource, ServiceRequest,
+  Practitioner,
+  Resource,
   Task,
   ValueSetExpansionContains
 } from 'fhir/r4';
@@ -567,7 +567,7 @@ export class TaskCreateComponent implements OnInit {
     if (this.planFocus !== undefined) {
       task.focus = {
         reference: this.planFocus.resourceType + '/' + this.planFocus.id,
-        display: this.getResourceDisplay(this.planFocus),
+        display: this.fhirService.getResourceDisplay(this.planFocus),
         type: this.planFocus.resourceType
       };
     } else {
@@ -587,30 +587,17 @@ export class TaskCreateComponent implements OnInit {
 
     if (this.task === undefined || this.task.identifier === undefined || this.task.identifier.length ===0) {
       this.fhirService.postTIE('/Task', task).subscribe(result => {
-     //   console.log(result);
         this.diaglogRef.close(result);
-     //   this.dialog.closeAll();
-      });
+       });
     } else {
       this.fhirService.putTIE('/Task?identifier='+encodeURI(this.task.identifier[0].system + '|' + this.task.identifier[0].value) , task).subscribe(result => {
-     // console.log(result)
+
         this.diaglogRef.close(result);
-       // this.dialog.closeAll();
+
       });
     }
   }
 
 
-  getResourceDisplay(resource: Resource): string{
-    if (resource.resourceType === 'Questionnaire') {
-      const questionnaire = resource as Questionnaire;
-      if (questionnaire.title !== null) return <string>questionnaire.title;
-    }
-    if (resource.resourceType === 'ServiceRequest') {
-      const serviceRequest = resource as ServiceRequest;
-      if (serviceRequest.code !== undefined) return this.fhirService.getCodeableConceptValue(serviceRequest.code)
-      if (serviceRequest.category !== undefined && serviceRequest.category.length >0) return this.fhirService.getCodeableConceptValue(serviceRequest.category[0])
-    }
-    return this.fhirService.getCodeableConceptResourceValue(resource)
-  }
+
 }

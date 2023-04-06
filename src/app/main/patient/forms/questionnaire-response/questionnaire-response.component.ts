@@ -77,16 +77,11 @@ export class QuestionnaireResponseComponent implements OnInit {
     }
 
 
-  getName(questionnaire: string ): string {
-
-      if (questionnaire === undefined ) {
-        return '';
+  getName(url: string ): string {
+      var questionnaire = this.fhirService.getQuestionnaire(url);
+      if (questionnaire !== undefined) {
+          if (questionnaire.title) return questionnaire.title
       }
-      if (questionnaire.includes('d4fe68ff-7ed9-47f6-862e-c994dada56a0')) { return 'About Me'; }
-      if (questionnaire.includes('0d9fccea-9c98-4e61-b3e0-bc9b3a9db675')) { return 'Vital Signs'; }
-      if (questionnaire.includes('6fba39d5-618f-4aef-ab09-97e601ac9dbb')) { return 'PROMs EQ Healthcare Questionnaire'; }
-      if (questionnaire.includes('56969434-1980-4262-b6a7-ed1c8aca5ec2')) { return 'Kansas City Cardiomyopathy Questionnaire - 12 item [KCCQ-12]'; }
-      if (questionnaire.includes('185a1edc-f0ea-4176-8a9d-035313326124')) { return 'Covid-19 Community Oxygen Weaning Virtual Ward Referral Form'; }
-      return questionnaire;
+      return 'Not found';
   }
 }
