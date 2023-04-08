@@ -270,8 +270,8 @@ export class EpisodeOfCareCreateComponent implements OnInit {
     }
     console.log(stay);
     this.fhirService.postTIE('/EpisodeOfCare', stay).subscribe(result => {
-      this.diaglogRef.close();
-      this.dialog.closeAll();
+      this.diaglogRef.close(result);
+
     });
   }
 }

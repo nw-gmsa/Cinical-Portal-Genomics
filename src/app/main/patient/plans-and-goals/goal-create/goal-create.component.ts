@@ -24,17 +24,21 @@ export class GoalCreateComponent implements OnInit {
   statuses: ValueSetExpansionContains[] | undefined;
   achievements: ValueSetExpansionContains[] | undefined;
   goalStatus: string = 'active' ;
+
+  description$: Observable<ValueSetExpansionContains[]> | undefined;
   description: Coding | undefined;
+  private searchDescriptions = new Subject<string>();
+
   target: Coding | undefined;
   achievement: Coding | undefined;
   categories:  ValueSetExpansionContains[] | undefined;
   category: Coding[] = [];
   priority:  Coding| undefined;
   priorities: ValueSetExpansionContains[] | undefined;
-  description$: Observable<ValueSetExpansionContains[]> | undefined;
+
   target$: Observable<ValueSetExpansionContains[]> | undefined;
   private searchTargets = new Subject<string>();
-  private searchDescriptions = new Subject<string>();
+
 
   goalStart: Moment | undefined;
   targetValue: string | undefined;
@@ -96,7 +100,8 @@ export class GoalCreateComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((term: string) => {
-              return this.fhirService.searchConcepts(term, 'https://fhir.hl7.org.uk/ValueSet/UKCore-ObservationType');
+          return this.fhirService.searchConceptsInternational(term, 'http://hl7.org/fhir/ValueSet/observation-codes');
+             // return this.fhirService.searchConcepts(term, 'https://fhir.hl7.org.uk/ValueSet/UKCore-ObservationType');
             }
         ),
         map(resource    => {
@@ -110,8 +115,9 @@ export class GoalCreateComponent implements OnInit {
 
   checkSubmit(): void {
     this.disabled = true;
-    if (
-        this.goalStatus !== undefined && this.description !== undefined ) {
+    if (this.goalStatus !== undefined
+       && this.description !== undefined
+    ) {
       this.disabled = false;
     }
   }
@@ -230,16 +236,18 @@ export class GoalCreateComponent implements OnInit {
 
     goal.subject = {
       reference: 'Patient/' + this.patientId,
-      identifier: {
-        system: 'https://fhir.nhs.uk/Id/nhs-number',
-        value: this.nhsNumber
-      }
     };
+    if (this.nhsNumber !== undefined) {
+      goal.subject.identifier = {
+        system: 'https://fhir.nhs.uk/Id/nhs-number',
+            value: this.nhsNumber
+      }
+    }
 
     console.log(JSON.stringify(goal));
-    this.fhirService.postTIE('/Goal', goal).subscribe(result => {
-      this.diaglogRef.close();
-      this.dialog.closeAll();
+    this.fhirService.postTIE('/Goal', goal).subscribe(goal => {
+
+      this.diaglogRef.close(goal);
     });
   }
 

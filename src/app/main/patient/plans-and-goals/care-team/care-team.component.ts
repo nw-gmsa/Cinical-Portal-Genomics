@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {FhirService} from '../../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
@@ -14,7 +14,7 @@ import {CareTeam} from "fhir/r4";
 })
 export class CareTeamComponent implements OnInit {
 
-  @Input() careTeams: CareTeam[] | undefined;
+  @Input() careTeams: CareTeam[] = [];
 
   @Output() careTeam = new EventEmitter<any>();
 
@@ -47,6 +47,15 @@ export class CareTeamComponent implements OnInit {
       if (this.dataSource !== undefined) this.dataSource.sort = this.sort;
     } else {
       console.log('SORT UNDEFINED');
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['careTeams'] !== undefined) {
+      this.dataSource = new MatTableDataSource<CareTeam>(this.careTeams);
+    } else {
+
     }
   }
   select(resource: any): void {

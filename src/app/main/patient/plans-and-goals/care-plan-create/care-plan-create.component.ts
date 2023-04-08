@@ -31,8 +31,8 @@ export class CarePlanCreateComponent implements OnInit {
   periodEnd: Moment | undefined;
 
   notes: string | undefined;
-  private carePlanStatus: Coding | undefined;
-  private carePlanIntent: Coding | undefined;
+  carePlanStatus: string = 'active';
+  carePlanIntent: string = 'plan';
   private category: Coding | undefined;
   private condition: Coding | undefined;
   private searchCategories = new Subject<string>();
@@ -207,7 +207,7 @@ export class CarePlanCreateComponent implements OnInit {
       carePlan.addresses.push(reference);
     }
     if (this.carePlanStatus !== undefined) {
-      switch (this.carePlanStatus.code) {
+      switch (this.carePlanStatus) {
         case 'active' : {
           carePlan.status = 'active';
           break;
@@ -239,7 +239,7 @@ export class CarePlanCreateComponent implements OnInit {
       }
     }
     if (this.carePlanIntent !== undefined) {
-      switch (this.carePlanIntent.code) {
+      switch (this.carePlanIntent) {
         case 'proposal': {
           carePlan.intent = 'proposal';
           break;
@@ -260,11 +260,14 @@ export class CarePlanCreateComponent implements OnInit {
     }
     carePlan.subject = {
         reference: 'Patient/' + this.patientId,
-        identifier: {
-          system: 'https://fhir.nhs.uk/Id/nhs-number',
-          value: this.nhsNumber
-        }
+
       };
+    if (this.nhsNumber !== undefined) {
+      carePlan.subject.identifier =  {
+        system: 'https://fhir.nhs.uk/Id/nhs-number',
+            value: this.nhsNumber
+      }
+    }
     if (this.notes !== undefined) {
       carePlan.note = [
         {
@@ -275,7 +278,7 @@ export class CarePlanCreateComponent implements OnInit {
     if (this.planTitle !== undefined) {
       carePlan.title = this.planTitle.trim();
     }
-    if (this.planDescription !== undefined) {
+    if (this.planDescription !== undefined && this.planDescription.trim() !== '') {
       carePlan.description = this.planDescription.trim();
     }
     if (this.periodStart !== undefined) {
@@ -291,8 +294,8 @@ export class CarePlanCreateComponent implements OnInit {
     console.log(carePlan);
     carePlan.created = new Date().toISOString();
     this.fhirService.postTIE('/CarePlan', carePlan).subscribe(result => {
-      this.diaglogRef.close();
-      this.dialog.closeAll();
+      this.diaglogRef.close(result);
+
     });
   }
 }

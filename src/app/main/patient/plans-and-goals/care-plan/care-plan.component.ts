@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 
 import {FhirService} from '../../../../services/fhir.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
@@ -6,6 +6,7 @@ import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resou
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {CarePlan} from "fhir/r4";
+import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 
 
 @Component({
@@ -15,7 +16,7 @@ import {CarePlan} from "fhir/r4";
 })
 export class CarePlanComponent implements OnInit {
 
-    @Input() carePlans: CarePlan[] | undefined;
+    @Input() carePlans: CarePlan[] = [];
 
     @Output() carePlan = new EventEmitter<any>();
 
@@ -27,7 +28,7 @@ export class CarePlanComponent implements OnInit {
     dataSource : MatTableDataSource<CarePlan>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-    displayedColumns = [ 'start', 'end', 'title', 'category', 'status', 'intent', 'addresses', 'team', 'notes', 'description', 'resource'];
+    displayedColumns = [ 'created', 'start', 'end', 'title', 'category',  'addresses', 'team', 'notes', 'description','status', 'intent', 'resource'];
 
     constructor(
 
@@ -35,13 +36,7 @@ export class CarePlanComponent implements OnInit {
                    public dialog: MatDialog) { }
 
     ngOnInit(): void {
-
-        if (this.patientId !== undefined) {
-           // this.dataSource = new CarePlanDataSource(this.fhirService, this.patientId, []);
-        } else {
-          this.dataSource = new MatTableDataSource<CarePlan>(this.carePlans);
-
-        }
+        this.dataSource = new MatTableDataSource<CarePlan>(this.carePlans);
     }
   ngAfterViewInit(): void {
     if (this.sort !== undefined) {
@@ -51,6 +46,14 @@ export class CarePlanComponent implements OnInit {
       if (this.dataSource !== undefined) this.dataSource.sort = this.sort;
     } else {
       console.log('SORT UNDEFINED');
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changed')
+    if (changes['carePlans'] !== undefined) {
+      this.dataSource = new MatTableDataSource<CarePlan>(this.carePlans);
+    } else {
+
     }
   }
   select(resource: any): void {
@@ -68,4 +71,24 @@ export class CarePlanComponent implements OnInit {
     view(carePlan: CarePlan): void {
         this.carePlan.emit(carePlan);
     }
+
+  delete(carePlan: CarePlan) {
+    let dialogRef = this.dialog.open(DeleteComponent, {
+      width: '250px',
+      data:  carePlan
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('The dialog was closed ' + result);
+        this.fhirService.deleteTIE('/CarePlan/'+carePlan.id).subscribe(result => {
+          this.carePlans.forEach((taskIt,index)=> {
+            if (taskIt.id === carePlan.id) {
+              this.carePlans.splice(index, 1);
+            }
+          })
+          this.dataSource = new MatTableDataSource<CarePlan>(this.carePlans);
+        })
+      }
+    });
+  }
 }

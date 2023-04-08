@@ -245,9 +245,8 @@ export class CareTeamCreateComponent implements OnInit {
       }
       console.log(careTeam);
 
-      this.fhirService.postTIE('/CareTeam', careTeam).subscribe(() => {
-        this.diaglogRef.close();
-        this.dialog.closeAll();
+      this.fhirService.postTIE('/CareTeam', careTeam).subscribe((careTeam) => {
+        this.diaglogRef.close(careTeam);
       });
     }
   }

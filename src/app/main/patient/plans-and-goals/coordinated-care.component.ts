@@ -18,7 +18,7 @@ export class CoordinatedCareComponent implements OnInit {
   episodes: EpisodeOfCare[] = [];
   careTeams: CareTeam[] = [];
   carePlans: CarePlan[] = [];
-  patientId: string | null = null;
+  patientId: string | undefined = undefined;
   private nhsNumber: string | undefined;
   goals: Goal[] = [];
   constructor( private fhirService: FhirService,
@@ -28,6 +28,7 @@ export class CoordinatedCareComponent implements OnInit {
                private viewContainerRef: ViewContainerRef) { }
 
   ngOnInit(): void {
+
     if (this.eprService.patient !== undefined) {
       if (this.eprService.patient.id !== undefined) {
         this.patientId = this.eprService.patient.id;
@@ -103,7 +104,12 @@ export class CoordinatedCareComponent implements OnInit {
       patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
-    this.dialog.open( CareTeamCreateComponent, dialogConfig);
+    const dialogRef = this.dialog.open( CareTeamCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      this.careTeams.push(result);
+      this.careTeams = Object.assign([], this.careTeams)
+    })
   }
   addCarePlan(): void {
     const dialogConfig = new MatDialogConfig();
@@ -118,7 +124,12 @@ export class CoordinatedCareComponent implements OnInit {
       patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
-    this.dialog.open( CarePlanCreateComponent, dialogConfig);
+    const dialogRef = this.dialog.open( CarePlanCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      this.carePlans.push(result);
+      this.carePlans = Object.assign([], this.carePlans)
+    })
   }
 
   addStay(): void {
@@ -134,7 +145,12 @@ export class CoordinatedCareComponent implements OnInit {
       patientId: this.patientId,
       nhsNumber: this.nhsNumber
     };
-    this.dialog.open( EpisodeOfCareCreateComponent, dialogConfig);
+    const dialogRef = this.dialog.open( EpisodeOfCareCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      this.episodes.push(result);
+      this.episodes = Object.assign([], this.episodes)
+    })
   }
 
 
@@ -151,6 +167,11 @@ export class CoordinatedCareComponent implements OnInit {
         patientId: this.patientId,
         nhsNumber: this.nhsNumber
       };
-      this.dialog.open( GoalCreateComponent, dialogConfig);
+      const dialogRef = this.dialog.open( GoalCreateComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(result)
+        this.goals.push(result);
+        this.goals = Object.assign([], this.goals)
+      })
     }
 }

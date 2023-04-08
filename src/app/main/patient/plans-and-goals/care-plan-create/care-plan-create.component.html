@@ -5,17 +5,17 @@
 
     <mat-form-field class="example-half-width">
       <mat-label>Status</mat-label>
-      <mat-select required id="status"  (selectionChange)="selectedStatus($event)">
-        <mat-option *ngFor="let stat of statuses" [value]="stat">
+      <mat-select required name="carePlanStatus" [(ngModel)]="carePlanStatus" (selectionChange)="checkSubmit()">
+        <mat-option *ngFor="let stat of statuses" [value]="stat.code">
           {{stat.display}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field class="example-half-width">
-      <mat-label>Status</mat-label>
-      <mat-select required id="intent" (selectionChange)="selectedIntent($event)">
-        <mat-option *ngFor="let stat of intents" [value]="stat">
+      <mat-label>Intent</mat-label>
+      <mat-select required name="carePlanIntent" [(ngModel)]="carePlanIntent" (selectionChange)="checkSubmit()">
+        <mat-option *ngFor="let stat of intents" [value]="stat.code">
           {{stat.display}}
         </mat-option>
       </mat-select>
@@ -24,7 +24,7 @@
 
     <mat-form-field class="example-full-width">
       <mat-label>Plan Title</mat-label>
-      <input matInput required [(ngModel)]="planTitle">
+      <input matInput [(ngModel)]="planTitle">
       <mat-hint align="end">Human-friendly name for the care plan</mat-hint>
     </mat-form-field>
 

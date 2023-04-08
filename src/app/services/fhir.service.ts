@@ -58,6 +58,7 @@ export class FhirService {
   formatChange: EventEmitter<any> = new EventEmitter();
 
   private rootUrl: string | undefined;
+  private ontoUrl ='https://r4.ontoserver.csiro.au/fhir' ;
 
   getToDate(): Date {
     return <Date>this.to;
@@ -507,6 +508,12 @@ export class FhirService {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
       `/ValueSet/$expand?url=${valueSet}&filter=${term}`);
+  }
+
+  searchConceptsInternational(term: string, valueSet: string): Observable<ValueSet> {
+    const url = this.ontoUrl;
+    return this.http.get<ValueSet>(url +
+        `/ValueSet/$expand?url=${valueSet}&filter=${term}`);
   }
 
   private getTIEUrl(): string {

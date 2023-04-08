@@ -2,7 +2,7 @@
 
     <ng-container matColumnDef="measure">
         <th mat-header-cell *matHeaderCellDef> Measure </th>
-        <td mat-cell *matCellDef="let goalTarget"> {{fhirService.getCodeableConceptValue(goalTarget.measure)}} </td>
+        <td mat-cell *matCellDef="let goalTarget" (click)="viewMeasure(goalTarget)"> {{fhirService.getCodeableConceptValue(goalTarget.measure)}} </td>
     </ng-container>
 
     <ng-container matColumnDef="value">

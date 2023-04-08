@@ -49,15 +49,15 @@ export class PatientMainComponent implements OnInit {
 
       const patientid = this.route.snapshot.paramMap.get('patientid');
 
-      this.fhirService.getResource('/Patient/' + patientid ).subscribe(bundle => {
-              if (bundle.resourceType == 'Patient') {
-                    this.patient = <Patient> bundle;
+      this.fhirService.getResource('/Patient/' + patientid ).subscribe(patient => {
+              if (patient.resourceType == 'Patient') {
+                    this.patient = <Patient> patient;
+                    console.log(patient.id)
                     this.eprService.setPatient(this.patient)
               }
           }
           , () => {
         }
-
       );
 
 

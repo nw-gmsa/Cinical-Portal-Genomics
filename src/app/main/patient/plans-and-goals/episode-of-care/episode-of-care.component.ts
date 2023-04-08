@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {EpisodeOfCare, Patient} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class EpisodeOfCareComponent implements OnInit {
 
-  @Input() episodes: EpisodeOfCare[] | undefined;
+  @Input() episodes: EpisodeOfCare[] = [];
 
    @Input() showDetail = false;
 
@@ -54,7 +54,14 @@ export class EpisodeOfCareComponent implements OnInit {
       console.log('SORT UNDEFINED');
     }
   }
+  ngOnChanges(changes: SimpleChanges) {
 
+    if (changes['episodes'] !== undefined) {
+      this.dataSource = new MatTableDataSource<EpisodeOfCare>(this.episodes);
+    } else {
+
+    }
+  }
 
   selectEpisodeOfCare(episodeOfCare: EpisodeOfCare): void {
     this.episodeOfCare.emit(episodeOfCare);

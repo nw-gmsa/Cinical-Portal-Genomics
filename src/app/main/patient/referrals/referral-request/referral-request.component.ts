@@ -167,6 +167,7 @@ export class ReferralRequestComponent implements OnInit {
         const dialogRef = this.dialog.open( ServiceCreateComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(result => {
             console.log(result)
+            this.referral.emit(result)
             //this.getResults();
         })
     }

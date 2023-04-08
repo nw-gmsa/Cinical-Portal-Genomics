@@ -113,6 +113,7 @@ export class WorkflowComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
       this.requests.push(result);
+      this.requests = Object.assign([], this.requests)
     })
   }
 
