@@ -106,9 +106,11 @@ export class CoordinatedCareComponent implements OnInit {
     };
     const dialogRef = this.dialog.open( CareTeamCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.careTeams.push(result);
-      this.careTeams = Object.assign([], this.careTeams)
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.careTeams.push(result);
+        this.careTeams = Object.assign([], this.careTeams)
+      }
     })
   }
   addCarePlan(): void {
@@ -126,9 +128,11 @@ export class CoordinatedCareComponent implements OnInit {
     };
     const dialogRef = this.dialog.open( CarePlanCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.carePlans.push(result);
-      this.carePlans = Object.assign([], this.carePlans)
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.carePlans.push(result);
+        this.carePlans = Object.assign([], this.carePlans)
+      }
     })
   }
 
@@ -147,9 +151,11 @@ export class CoordinatedCareComponent implements OnInit {
     };
     const dialogRef = this.dialog.open( EpisodeOfCareCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.episodes.push(result);
-      this.episodes = Object.assign([], this.episodes)
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.episodes.push(result);
+        this.episodes = Object.assign([], this.episodes)
+      }
     })
   }
 
@@ -169,9 +175,12 @@ export class CoordinatedCareComponent implements OnInit {
       };
       const dialogRef = this.dialog.open( GoalCreateComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result)
-        this.goals.push(result);
-        this.goals = Object.assign([], this.goals)
+
+        if (result !== undefined && result.resourceType !== undefined) {
+          console.log(result)
+          this.goals.push(result);
+          this.goals = Object.assign([], this.goals)
+        }
       })
     }
 }

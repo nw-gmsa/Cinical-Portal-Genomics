@@ -4,10 +4,10 @@ import {Observable, Subscription} from 'rxjs';
 import {
   Binary,
   Bundle,
-  CapabilityStatement,
+  CapabilityStatement, CarePlan,
   CodeableConcept,
   Coding, Condition, DocumentReference,
-  Endpoint,
+  Endpoint, Goal,
   Identifier, MedicationRequest,
   Quantity, Questionnaire, QuestionnaireResponse,
   Reference, Resource, ServiceRequest,
@@ -216,6 +216,16 @@ export class FhirService {
       const documentReference = resource as DocumentReference;
       if (documentReference.type !== undefined) return this.getCodeableConceptValue(documentReference.type)
       if (documentReference.category !== undefined && documentReference.category.length >0) return this.getCodeableConceptValue(documentReference.category[0])
+    }
+    if (resource.resourceType === 'Goal') {
+      const goal = resource as Goal;
+      if (goal.description !== undefined) return this.getCodeableConceptValue(goal.description)
+    }
+    if (resource.resourceType === 'CarePlan') {
+      const carePlan = resource as CarePlan;
+      if (carePlan.title !== undefined) return carePlan.title
+      if (carePlan.description !== undefined) return carePlan.description
+      if (carePlan.category !== undefined && carePlan.category.length>0) return this.getCodeableConceptValue(carePlan.category[0])
     }
     if (resource.resourceType === 'QuestionnaireResponse') {
       const questionnaireResponse = resource as QuestionnaireResponse;

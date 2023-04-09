@@ -46,7 +46,7 @@
     <mat-form-field class="example-full-width">
       <mat-label>Fulfills (Care Plans)</mat-label>
       <mat-select [(ngModel)]="planPlans" multiple>
-        <mat-option *ngFor="let carePlan of carePlans" [value]="carePlan">{{carePlan.title}}</mat-option>
+        <mat-option *ngFor="let carePlan of carePlans" [value]="carePlan">{{fhirService.getResourceDisplay(carePlan)}}</mat-option>
       </mat-select>
     </mat-form-field>
 

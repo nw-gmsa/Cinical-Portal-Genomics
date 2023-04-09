@@ -458,9 +458,10 @@ export class ServiceCreateComponent implements OnInit {
         value: this.nhsNumber
       }
     };
-    if (this.notes !== undefined) {
+    if (this.notes !== undefined && this.notes.trim() !== '') {
       serviceRequest.note = [
         {
+          time: new Date().toISOString().split('T')[0],
           text: this.notes.trim()
         }
       ];

@@ -102,6 +102,7 @@ import { GoalTargetComponent } from './main/patient/plans-and-goals/goal-target/
 import { TaskNoteComponent } from './main/patient/referrals/task-note/task-note.component';
 import { DeleteComponent } from './dialogs/delete/delete.component';
 import {A11yModule} from "@angular/cdk/a11y";
+import { AboutComponent } from './main/about/about.component';
 
 const modules = [
   MatIconModule,
@@ -184,7 +185,8 @@ const modules = [
     GoalComponent,
     GoalTargetComponent,
     TaskNoteComponent,
-    DeleteComponent
+    DeleteComponent,
+    AboutComponent
   ],
     imports: [
         BrowserModule,

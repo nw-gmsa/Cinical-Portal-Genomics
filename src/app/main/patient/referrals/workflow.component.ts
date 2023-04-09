@@ -92,7 +92,7 @@ export class WorkflowComponent implements OnInit {
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      if (result !== undefined) this.getResultsEvent(result)
+      if (result !== undefined && result.resourceType !== undefined) this.getResultsEvent(result)
     })
   }
 
@@ -111,9 +111,11 @@ export class WorkflowComponent implements OnInit {
     };
     const dialogRef = this.dialog.open( ServiceCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.requests.push(result);
-      this.requests = Object.assign([], this.requests)
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.requests.push(result);
+        this.requests = Object.assign([], this.requests)
+      }
     })
   }
 

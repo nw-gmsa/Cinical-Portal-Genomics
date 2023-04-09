@@ -127,7 +127,10 @@ export class DocumentsComponent implements OnInit {
     };
     const dialogRef = this.dialog.open( DocumentReferenceCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      this.documents.push(result)
+      if (result !== undefined && result.resourceType !== undefined) {
+        this.documents.push(result)
+        this.documents = Object.assign([], this.documents)
+      }
     })
   }
 }

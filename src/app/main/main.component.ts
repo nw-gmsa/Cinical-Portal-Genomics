@@ -127,7 +127,7 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'obs',
-      text: 'All Observations',
+      text: 'Observations',
       icon: 'view_kanban',
       action: 'observations',
     },

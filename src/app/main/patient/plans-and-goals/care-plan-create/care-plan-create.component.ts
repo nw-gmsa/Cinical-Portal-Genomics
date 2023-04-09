@@ -1,6 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Moment} from 'moment/moment';
-import {CarePlan, CareTeam, Coding, Condition, Extension, Reference, ValueSetExpansionContains} from 'fhir/r4';
+import {
+  CarePlan,
+  CareTeam,
+  Coding,
+  Condition,
+  Extension, Goal,
+  Reference,
+  Resource,
+  ValueSetExpansionContains
+} from 'fhir/r4';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FhirService} from '../../../../services/fhir.service';
 import {DialogService} from '../../../../dialogs/dialog.service';
@@ -41,6 +50,12 @@ export class CarePlanCreateComponent implements OnInit {
   planTeams: CareTeam[] | undefined;
   planConditions: Condition[] | undefined;
 
+  edit = false;
+  supportingInformation: Resource[] = [];
+  supporting: Resource[] = [];
+  goals: Goal[] = [];
+  allGoals: Goal[] = [];
+
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
@@ -78,6 +93,34 @@ export class CarePlanCreateComponent implements OnInit {
         }
       }
     );
+
+    // Supporting Infor resources
+
+    this.fhirService.get('/DocumentReference?patient=' + this.patientId).subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'DocumentReference') { this.supportingInformation.push(entry.resource); }
+            }
+          }
+        }
+    );
+    this.fhirService.get('/QuestionnaireResponse?patient=' + this.patientId).subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'QuestionnaireResponse') { this.supportingInformation.push(entry.resource); }
+            }
+          }
+        }
+    );
+    this.fhirService.getTIE('/Goal?patient=' + this.patientId).subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'Goal') { this.allGoals.push(entry.resource); }
+            }
+          }
+        }
+    );
+
     this.categories$ = this.searchCategories.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -268,9 +311,10 @@ export class CarePlanCreateComponent implements OnInit {
             value: this.nhsNumber
       }
     }
-    if (this.notes !== undefined) {
+    if (this.notes !== undefined && this.notes.trim() !== '') {
       carePlan.note = [
         {
+          time: new Date().toISOString().split('T')[0],
           text: this.notes.trim()
         }
       ];
@@ -290,6 +334,32 @@ export class CarePlanCreateComponent implements OnInit {
       console.log(this.periodEnd);
       // @ts-ignore
       carePlan.period.end = this.periodEnd.toISOString();
+    }
+    if (this.supporting !== undefined && this.supporting.length>0) {
+      carePlan.supportingInfo = [];
+      this.supporting.forEach( resource => {
+
+        var reference : Reference = {
+          type: resource.resourceType,
+          reference: resource.resourceType + '/' + resource.id,
+          display: this.fhirService.getResourceDisplay(resource)
+        }
+        // @ts-ignore
+        carePlan.supportingInfo.push(reference);
+      })
+    }
+    if (this.goals !== undefined && this.goals.length>0) {
+      carePlan.goal = [];
+      this.goals.forEach( resource => {
+
+        var reference : Reference = {
+          type: resource.resourceType,
+          reference: resource.resourceType + '/' + resource.id,
+          display: this.fhirService.getResourceDisplay(resource)
+        }
+        // @ts-ignore
+        carePlan.goal.push(reference);
+      })
     }
     console.log(carePlan);
     carePlan.created = new Date().toISOString();

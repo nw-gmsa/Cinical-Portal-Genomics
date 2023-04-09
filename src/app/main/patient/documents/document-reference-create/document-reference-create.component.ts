@@ -340,8 +340,8 @@ export class DocumentReferenceCreateComponent implements OnInit {
 
     console.log(metadata);
     this.fhirService.postTIE('/DocumentReference', metadata).subscribe(result => {
-      this.diaglogRef.close();
-      this.dialog.closeAll();
+      this.diaglogRef.close(result);
+
     });
   }
   selectEvent(files: FileList | File): void {
