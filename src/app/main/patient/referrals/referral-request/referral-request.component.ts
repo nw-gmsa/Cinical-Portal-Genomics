@@ -101,6 +101,21 @@ export class ReferralRequestComponent implements OnInit {
     } else {
       console.log('SORT UNDEFINED');
     }
+      // @ts-ignore
+      this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+              case 'date': {
+                  if (item.authoredOn !== undefined) {
+
+                      return item.authoredOn
+                  }
+                  return undefined;
+              }
+              default: {
+                  return undefined
+              }
+          };
+      };
   }
 
     ngOnChanges(changes: SimpleChanges) {

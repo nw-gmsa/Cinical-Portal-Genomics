@@ -3,7 +3,7 @@
   <table mat-table [dataSource]="dataSource"
          class="mat-elevation-z8"
          matSort
-         matSortActive="date" matSortDirection="desc">
+         matSortActive="authored" matSortDirection="desc">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -14,8 +14,8 @@
       <td mat-cell *matCellDef="let form"> {{form.id}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Date </th>
+    <ng-container matColumnDef="authored">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Date </th>
       <td mat-cell *matCellDef="let form"> {{form.authored | date: 'dd-MMM-yyyy HH:mm'}} </td>
     </ng-container>
 

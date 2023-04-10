@@ -105,6 +105,28 @@ export class TaskComponent implements OnInit {
     } else {
       console.log('SORT UNDEFINED');
     }
+    // @ts-ignore
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'authored': {
+          if (item.authoredOn !== undefined) {
+
+            return item.authoredOn
+          }
+          return undefined;
+        }
+        case 'start': {
+          if (item.executionPeriod !== undefined && item.executionPeriod.start !== undefined) {
+
+            return item.executionPeriod.start
+          }
+          return undefined;
+        }
+        default: {
+          return undefined
+        }
+      };
+    };
   }
 
   refreshResults() {

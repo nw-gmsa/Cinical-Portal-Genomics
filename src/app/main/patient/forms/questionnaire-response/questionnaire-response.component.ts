@@ -28,7 +28,7 @@ export class QuestionnaireResponseComponent implements OnInit {
     dataSource: MatTableDataSource<QuestionnaireResponse>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-    displayedColumns = ['date', 'questionnaire', 'status',  'source', 'author', 'resource'];
+    displayedColumns = ['authored', 'questionnaire', 'status',  'source', 'author', 'resource'];
 
     constructor(
                 public dialog: MatDialog,
@@ -55,6 +55,21 @@ export class QuestionnaireResponseComponent implements OnInit {
     } else {
       console.log('SORT UNDEFINED');
     }
+      // @ts-ignore
+      this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+              case 'authored': {
+                  if (item.authored !== undefined) {
+
+                      return item.authored
+                  }
+                  return undefined;
+              }
+              default: {
+                  return undefined
+              }
+          };
+      };
   }
 
 
