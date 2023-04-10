@@ -31,9 +31,10 @@ export class ObservationDetailComponent implements OnInit {
     const code= this.route.snapshot.paramMap.get('code');
     if (code != null) this.code = code
     console.log(this.code)
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
         this.getRecords();
       }
 

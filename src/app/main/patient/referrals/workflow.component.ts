@@ -29,10 +29,11 @@ export class WorkflowComponent implements OnInit {
                private viewContainerRef: ViewContainerRef) { }
 
   ngOnInit(): void {
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
-        this.getRecords(this.eprService.patient);
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
+        this.getRecords(patient);
       }
 
     }
@@ -57,6 +58,7 @@ export class WorkflowComponent implements OnInit {
   }
   getResults() {
     this._loadingService.register('overlayStarSyntax');
+    this.tasks = [];
     this.fhirService.getTIE('/Task?patient=' + this.patientId + '').subscribe(bundle => {
       this._loadingService.resolve('overlayStarSyntax');
       if (bundle.entry !== undefined) {
@@ -66,6 +68,7 @@ export class WorkflowComponent implements OnInit {
         }
       }
     });
+    this.requests = [];
     this.fhirService.getTIE('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
       this._loadingService.resolve('overlayStarSyntax');
       if (bundle.entry !== undefined) {

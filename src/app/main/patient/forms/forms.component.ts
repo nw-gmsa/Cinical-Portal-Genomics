@@ -22,10 +22,11 @@ export class FormsComponent implements OnInit {
                public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
-        this.getRecords(this.eprService.patient);
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
+        this.getRecords(patient);
       }
 
     }
@@ -46,6 +47,7 @@ export class FormsComponent implements OnInit {
         }
       }
     }
+    this.forms = [];
     this.fhirService.get('/QuestionnaireResponse?patient=' + this.patientId + '&_count=50').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {

@@ -11,7 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./vitals-detail.component.scss']
 })
 export class VitalsDetailComponent implements OnInit {
-  patientid: string = '';
+  patientId: string = '';
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
@@ -23,15 +23,16 @@ export class VitalsDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
         this.getRecords();
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
       this.getRecords();
     });
   }

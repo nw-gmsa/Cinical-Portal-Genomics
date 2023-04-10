@@ -29,9 +29,10 @@ export class ObservationsComponent implements OnInit {
                public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
         this.getRecords();
       }
 
@@ -47,6 +48,7 @@ export class ObservationsComponent implements OnInit {
     const from = new Date();
     from.setDate(end.getDate() - 7 );
     this._loadingService.register('overlayStarSyntax');
+    this.observations = [];
       this.fhirService.get('/Observation?patient=' + this.patientId
           + '&date=gt' + from.toISOString().split('T')[0]
           + '&_count=400&_sort=-date').subscribe(bundle => {
@@ -61,6 +63,7 @@ export class ObservationsComponent implements OnInit {
             this._loadingService.resolve('overlayStarSyntax');
           }
       );
+      this.diagnosticReports = [];
       this.fhirService.get('/DiagnosticReport?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {

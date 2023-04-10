@@ -29,10 +29,11 @@ export class CoordinatedCareComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
-        this.getRecords(this.eprService.patient);
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
+        this.getRecords(patient);
       }
 
     }
@@ -53,6 +54,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
       }
     }
+    this.episodes = [];
     this.fhirService.get('/EpisodeOfCare?patient=' + this.patientId + '&status=active,waitlist').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
@@ -62,7 +64,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
 
-
+    this.carePlans = [];
     this.fhirService.getTIE('/CarePlan?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
@@ -72,6 +74,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
 
+    this.goals = [];
     this.fhirService.getTIE('/Goal?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
@@ -81,6 +84,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
 
+    this.careTeams = [];
     this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {

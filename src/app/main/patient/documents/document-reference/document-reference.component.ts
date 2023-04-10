@@ -65,6 +65,21 @@ export class DocumentReferenceComponent implements OnInit {
     } else {
       console.log('SORT UNDEFINED');
     }
+    // @ts-ignore
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'created': {
+          if (item.date !== undefined) {
+
+            return item.date
+          }
+          return undefined;
+        }
+        default: {
+          return undefined
+        }
+      };
+    };
   }
 
   ngOnChanges(changes: SimpleChanges) {

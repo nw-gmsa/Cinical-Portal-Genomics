@@ -19,7 +19,7 @@ export class PhysicalActivityDetailComponent implements OnInit {
   startDate: Moment = moment(new Date());
 
   endDate: Moment = moment(new Date());
-  patientid: string = '';
+  patientId: string = '';
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
@@ -36,15 +36,16 @@ export class PhysicalActivityDetailComponent implements OnInit {
     const temp = end?.setMonth(end.getMonth() - (this.selectedValue) );
     this.startDate = moment(new Date(temp))
 
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientid = this.eprService.patient.id;
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
         this.getRecords();
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientid = patient.id
+      if (patient.id !== undefined) this.patientId = patient.id
       this.getRecords();
     });
   }

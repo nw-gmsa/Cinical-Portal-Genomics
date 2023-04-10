@@ -22,9 +22,10 @@ export class PersonalHealthDeviceComponent implements OnInit {
   ngOnInit(): void {
     this.getVisible();
     console.log(window.location.pathname);
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id;
       }
     }
     this.eprService.patientChangeEvent.subscribe(patient => {

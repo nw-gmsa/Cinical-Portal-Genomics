@@ -30,11 +30,11 @@ export class QuestionnaireResponseViewComponent implements OnInit {
       this.form = form;
       this.getRecords()
     }
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
       }
-
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
       if (patient.id !== undefined) this.patientId = patient.id

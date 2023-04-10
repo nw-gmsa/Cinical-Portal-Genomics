@@ -5,7 +5,7 @@ import {Moment} from "moment";
 @Injectable()
 export class EprService {
 
-  patient: Patient | undefined;
+  private patient: Patient | undefined;
 
   resource: any = undefined;
 
@@ -23,6 +23,11 @@ export class EprService {
   public setPatient(patient: Patient) {
     this.patient = patient;
     this.patientChangeEvent.emit(this.patient);
+  }
+
+  public getPatient(){
+    console.log(this.patient?.id)
+    return this.patient;
   }
 
 

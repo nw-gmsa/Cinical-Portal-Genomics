@@ -73,12 +73,12 @@ export class PatientSummaryComponent implements OnInit {
               private _loadingService: TdLoadingService) { }
 
   ngOnInit(): void {
-    if (this.eprService.patient !== undefined) {
-      if (this.eprService.patient.id !== undefined) {
-        this.patientId = this.eprService.patient.id;
-        this.getRecords();
-      }
-
+      let patient = this.eprService.getPatient()
+      if (patient !== undefined) {
+          if (patient.id !== undefined) {
+              this.patientId = patient.id
+              this.getRecords();
+          }
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
       if (patient.id !== undefined) this.patientId = patient.id
@@ -151,6 +151,7 @@ export class PatientSummaryComponent implements OnInit {
 
   getRecords(){
       this._loadingService.register('overlayStarSyntax');
+      this.conditions = [];
       this.fhirService.get('/Condition?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
@@ -160,6 +161,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
+      this.allergies = [];
       this.fhirService.get('/AllergyIntolerance?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
@@ -169,6 +171,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
+      this.medicationRequest = [];
       this.fhirService.get('/MedicationRequest?patient=' + this.patientId).subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {
@@ -178,6 +181,7 @@ export class PatientSummaryComponent implements OnInit {
             }
           }
       );
+      this.encounters = [];
       this.fhirService.get('/Encounter?patient=' + this.patientId + '&_count=5&_sort=-date').subscribe(bundle => {
           this._loadingService.resolve('overlayStarSyntax');
             if (bundle.entry !== undefined) {

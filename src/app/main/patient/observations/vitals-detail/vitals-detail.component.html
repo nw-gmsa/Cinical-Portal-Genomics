@@ -1,9 +1,9 @@
 <mat-card class="fullscreen scrollable-content">
 
-    <div *ngIf="patientid !== ''" >
+    <div *ngIf="patientId !== ''" >
         <td-breadcrumbs>
-            <a td-breadcrumb [routerLink]="['/patient', patientid]">Patient</a>
-            <a td-breadcrumb [routerLink]="['/patient', patientid, 'observations']">Observations</a>
+            <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+            <a td-breadcrumb [routerLink]="['/patient', patientId, 'observations']">Observations</a>
             <td-breadcrumb>Vital Signs</td-breadcrumb>
         </td-breadcrumbs>
         <div *tdLoading="
@@ -14,12 +14,12 @@
         color: 'accent'
         ">
 
-        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientid" observationCode="364075005" title="Heart Rate"></app-observation-chart>
-        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientid" observationCode="75367002" title="Blood Pressure"></app-observation-chart>
-        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientid" observationCode="276885007" title="Body Temp"></app-observation-chart>
-        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientid" observationCode="27113001" title="Body Weight"></app-observation-chart>
-        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientid" observationCode="103228002" title="Oxygen Saturation"></app-observation-chart>
-        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientid" observationCode="86290005" title="Respiratory Rate"></app-observation-chart>
+        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" observationCode="364075005" title="Heart Rate"></app-observation-chart>
+        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" observationCode="75367002" title="Blood Pressure"></app-observation-chart>
+        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" observationCode="276885007" title="Body Temp"></app-observation-chart>
+        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" observationCode="27113001" title="Body Weight"></app-observation-chart>
+        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" observationCode="103228002" title="Oxygen Saturation"></app-observation-chart>
+        <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" observationCode="86290005" title="Respiratory Rate"></app-observation-chart>
 
         </div>
     </div>

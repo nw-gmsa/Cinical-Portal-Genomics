@@ -1,7 +1,7 @@
 
   <table  mat-table [dataSource]="dataSource"
          matSort
-         matSortActive="effectiveDateTime" matSortDirection="desc"
+         matSortActive="created" matSortDirection="desc"
          class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
@@ -14,7 +14,7 @@
     </ng-container>
 
     <ng-container matColumnDef="created">
-      <th mat-header-cell *matHeaderCellDef> Created </th>
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Created </th>
       <td mat-cell *matCellDef="let document">
         {{document.date | date: 'dd-MMM-yyyy HH:mm'}}
       </td>
