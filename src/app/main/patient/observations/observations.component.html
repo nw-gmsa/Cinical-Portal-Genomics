@@ -25,6 +25,11 @@
                 <span flex></span>
 
             </div>
+            <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-icon-button color="accent"  (click)="addReport()"><mat-icon>stars</mat-icon> Add Report</button>
+                </mat-list-item>
+            </mat-nav-list>
             <td-markdown>For documentation of the data model see [UKCore-DiagnosticReport]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DiagnosticReport')}})</td-markdown>
 
             <span *ngIf="diagnosticReports.length>0">

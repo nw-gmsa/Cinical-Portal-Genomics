@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {DiagnosticReport, Observation} from "fhir/r4";
+import {DiagnosticReport, Observation, Patient} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {Router} from "@angular/router";
+import {GoalCreateComponent} from "../plans-and-goals/goal-create/goal-create.component";
+import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagnostic-report-create.component";
 
 @Component({
   selector: 'app-observations',
@@ -18,6 +20,7 @@ export class ObservationsComponent implements OnInit {
   diagnosticReports: DiagnosticReport[] = [];
 
   patientId: string | null = null;
+  private nhsNumber: string | undefined;
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
@@ -33,17 +36,26 @@ export class ObservationsComponent implements OnInit {
     if (patient !== undefined) {
       if (patient.id !== undefined) {
         this.patientId = patient.id
-        this.getRecords();
+        this.getRecords(patient);
       }
 
     }
     this.eprService.patientChangeEvent.subscribe(patient => {
       if (patient.id !== undefined) this.patientId = patient.id
-      this.getRecords();
+      this.getRecords(patient);
     });
   }
 
-  getRecords() {
+  getRecords(patient : Patient) {
+    if (patient !== undefined) {
+      if (patient.identifier !== undefined) {
+        for (const identifier of patient.identifier) {
+          if (identifier.system !== undefined && identifier.system.includes('nhs-number')) {
+            this.nhsNumber = identifier.value;
+          }
+        }
+      }
+    }
     const end = this.fhirService.getToDate();
     const from = new Date();
     from.setDate(end.getDate() - 7 );
@@ -78,4 +90,29 @@ export class ObservationsComponent implements OnInit {
   }
 
 
+    protected readonly undefined = undefined;
+
+  addReport() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '80%';
+    dialogConfig.width = '50%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      nhsNumber: this.nhsNumber
+    };
+    const dialogRef = this.dialog.open( DiagnosticReportCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.diagnosticReports.push(result);
+        this.diagnosticReports = Object.assign([], this.diagnosticReports)
+      }
+    })
+  }
 }

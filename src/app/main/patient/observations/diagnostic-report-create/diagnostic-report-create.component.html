@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>Add Goal</h2>
+<mat-dialog-content #chart >
+
+    <form class="example-form">
+        <mat-form-field class="example-half-width">
+            <mat-label>Status</mat-label>
+            <mat-select required name="status" [(ngModel)]="status"  (selectionChange)="checkSubmit()">
+                <mat-option *ngFor="let stat of statuses" [value]="stat.code">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-half-width">
+            <input #searchBoxCodes required matInput placeholder="Code" (keyup)="searchCodes(searchBoxCodes.value)" [matAutocomplete]="autoCode">
+            <mat-autocomplete #autoCode="matAutocomplete" (optionSelected)="selectedCode($event)" [displayWith]="dlgSrv.getDisplay">
+                <mat-option *ngFor="let code of code$ | async" [value]="code" >
+                    {{dlgSrv.getDisplay(code)}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint align="end">Name/Code for this diagnostic report</mat-hint>
+        </mat-form-field>
+        <div class="example-form-fields">
+            <mat-form-field class="example-half-width">
+                <mat-label>Report Period Start</mat-label>
+                <input matInput [matDatepicker]="periodStart" [(ngModel)]="periodStartM">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="periodStart"></mat-datepicker-toggle>
+                <mat-datepicker #periodStart></mat-datepicker>
+                <mat-hint align="end">When this document reference was created</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="example-half-width">
+                <mat-label>Report Period End</mat-label>
+                <input matInput [matDatepicker]="periodEnd" [(ngModel)]="periodEndM">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="periodEnd"></mat-datepicker-toggle>
+                <mat-datepicker #periodEnd></mat-datepicker>
+                <mat-hint align="end">Clinically relevant time/time-period for report</mat-hint>
+            </mat-form-field>
+
+
+        </div>
+        <span>
+
+            <td-file-input
+                    [(ngModel)]="files"
+                    color="primary"
+                    (selectFile)="selectEvent($event)"
+                    accept=".jpg,.pdf,.png">
+                <mat-icon>attach_file</mat-icon><span>Choose a file...</span>
+            </td-file-input>
+            <br/>
+        </span>
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="accent" [mat-dialog-close]="true" >Cancel</button>
+    <button mat-raised-button color="accent" [disabled]="disabled" (click)="submit()">Submit</button>
+</mat-dialog-actions>
