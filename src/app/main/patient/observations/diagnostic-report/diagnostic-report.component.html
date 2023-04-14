@@ -31,6 +31,8 @@
     </ng-container>
 
 
+
+
     <ng-container matColumnDef="code">
       <th mat-header-cell mat-sort-header *matHeaderCellDef> Observation </th>
       <td mat-cell *matCellDef="let diagnosticReport">
@@ -48,10 +50,12 @@
     </ng-container>
 
     <ng-container matColumnDef="performer">
-      <th mat-header-cell *matHeaderCellDef width="5%"></th>
+      <th mat-header-cell *matHeaderCellDef>Performer(s)</th>
       <td mat-cell *matCellDef="let diagnosticReport">
         <span *ngIf="diagnosticReport.performer !=undefined">
-            <span [innerHTML]="fhirService.getReferences(diagnosticReport.performer)"></span>
+            <div *ngFor="let performer of diagnosticReport.performer">
+              <p>{{performer.display}} ({{performer.type}})</p>
+            </div>
         </span>
       </td>
     </ng-container>

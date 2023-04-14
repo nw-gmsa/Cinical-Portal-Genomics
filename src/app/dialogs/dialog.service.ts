@@ -1,5 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Bundle, Organization, Practitioner, ValueSet, ValueSetExpansionContains} from 'fhir/r4';
+import {
+  Bundle, CarePlan, CareTeam, DocumentReference, Goal,
+  Organization,
+  Practitioner,
+  Questionnaire, QuestionnaireResponse,
+  Resource, ServiceRequest,
+  ValueSet,
+  ValueSetExpansionContains
+} from 'fhir/r4';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {FhirService} from '../services/fhir.service';
@@ -14,20 +22,66 @@ export class DialogService {
     // console.log(concept);
     return <string>concept.display;
   }
-  getDisplayOrg(organization: Organization): string {
-    if (organization.identifier === undefined) { return <string>organization.name; }
-    return organization.name + ' (' + organization.identifier[0].value + ')';
-  }
-  getDisplayDoctor(practitioner: Practitioner): string {
-    if (practitioner.name !== undefined) {
-      let name = '';
-      if (practitioner.name[0].family !== undefined) { name += practitioner.name[0].family; }
-      if (practitioner.name[0].given !== undefined) { name += ', ' + practitioner.name[0].given[0]; }
-      if (practitioner.identifier !== undefined) { name += ' (' + practitioner.identifier[0].value + ')'; }
-      return name;
+
+
+
+  getResourceDisplay(resource: Resource): string{
+    if (resource.resourceType === 'Questionnaire') {
+      const questionnaire = resource as Questionnaire;
+      if (questionnaire.title !== null) return <string>questionnaire.title;
     }
-    return 'Unknown';
+    if (resource.resourceType === 'ServiceRequest') {
+      const serviceRequest = resource as ServiceRequest;
+      if (serviceRequest.code !== undefined) return this.fhirService.getCodeableConceptValue(serviceRequest.code)
+      if (serviceRequest.category !== undefined && serviceRequest.category.length >0) return this.fhirService.getCodeableConceptValue(serviceRequest.category[0])
+    }
+    if (resource.resourceType === 'DocumentReference') {
+      const documentReference = resource as DocumentReference;
+      if (documentReference.type !== undefined) return this.fhirService.getCodeableConceptValue(documentReference.type)
+      if (documentReference.category !== undefined && documentReference.category.length >0) return this.fhirService.getCodeableConceptValue(documentReference.category[0])
+    }
+    if (resource.resourceType === 'Goal') {
+      const goal = resource as Goal;
+      if (goal.description !== undefined) return this.fhirService.getCodeableConceptValue(goal.description)
+    }
+    if (resource.resourceType === 'CarePlan') {
+      const carePlan = resource as CarePlan;
+      if (carePlan.title !== undefined) return carePlan.title
+      if (carePlan.description !== undefined) return carePlan.description
+      if (carePlan.category !== undefined && carePlan.category.length>0) return this.fhirService.getCodeableConceptValue(carePlan.category[0])
+    }
+    if (resource.resourceType === 'QuestionnaireResponse') {
+      const questionnaireResponse = resource as QuestionnaireResponse;
+      if (questionnaireResponse.questionnaire !== undefined) {
+        var questionnaire = this.fhirService.getQuestionnaire(questionnaireResponse.questionnaire)
+        if (questionnaire !== undefined) {
+          if (questionnaire.title !== undefined) return questionnaire.title + ' ' + questionnaireResponse.authored?.split('T')[0];
+        }
+      }
+    }
+    if (resource.resourceType === 'Practitioner') {
+      const practitioner = resource as Practitioner
+      if (practitioner.name !== undefined) {
+        let name = '';
+        if (practitioner.name[0].family !== undefined) { name += practitioner.name[0].family; }
+        if (practitioner.name[0].given !== undefined) { name += ', ' + practitioner.name[0].given[0]; }
+        if (practitioner.identifier !== undefined) { name += ' (' + practitioner.identifier[0].value + ')'; }
+        return name;
+      }
+      return 'Unknown';
+    }
+    if (resource.resourceType === 'Organization') {
+      const organization = resource as Organization;
+      if (organization.identifier === undefined) { return <string>organization.name; }
+      return organization.name + ' (' + organization.identifier[0].value + ')';
+    }
+    if (resource.resourceType === 'CareTeam') {
+      const careTeam = resource as CareTeam;
+      if (careTeam.name !== null) return <string>careTeam.name;
+    }
+    return this.fhirService.getCodeableConceptResourceValue(resource)
   }
+
   getContainsExpansion(resource: any): ValueSetExpansionContains[] {
     const valueSet = resource as ValueSet;
     const contains: ValueSetExpansionContains[] = [];

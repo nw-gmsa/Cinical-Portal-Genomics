@@ -72,7 +72,7 @@
     <mat-form-field class="example-full-width">
       <mat-label>Goals</mat-label>
       <mat-select name="goals" [(ngModel)]="goals" (selectionChange)="checkSubmit()" [disabled]="edit" multiple>
-        <mat-option *ngFor="let resource of allGoals" [value]="resource">{{fhirService.getResourceDisplay(resource)}}</mat-option>
+        <mat-option *ngFor="let resource of allGoals" [value]="resource">{{dlgSrv.getResourceDisplay(resource)}}</mat-option>
       </mat-select>
       <mat-hint align="end">Desired outcome of plan</mat-hint>
     </mat-form-field>
@@ -80,7 +80,7 @@
     <mat-form-field class="example-full-width">
       <mat-label>Supporting Information</mat-label>
       <mat-select name="supporting" [(ngModel)]="supporting" (selectionChange)="checkSubmit()" [disabled]="edit" multiple>
-        <mat-option *ngFor="let resource of supportingInformation" [value]="resource">{{fhirService.getResourceDisplay(resource)}}</mat-option>
+        <mat-option *ngFor="let resource of supportingInformation" [value]="resource">{{dlgSrv.getResourceDisplay(resource)}}</mat-option>
       </mat-select>
       <mat-hint align="end">Information considered as part of plan</mat-hint>
     </mat-form-field>

@@ -342,7 +342,7 @@ export class CarePlanCreateComponent implements OnInit {
         var reference : Reference = {
           type: resource.resourceType,
           reference: resource.resourceType + '/' + resource.id,
-          display: this.fhirService.getResourceDisplay(resource)
+          display: this.dlgSrv.getResourceDisplay(resource)
         }
         // @ts-ignore
         carePlan.supportingInfo.push(reference);
@@ -355,7 +355,7 @@ export class CarePlanCreateComponent implements OnInit {
         var reference : Reference = {
           type: resource.resourceType,
           reference: resource.resourceType + '/' + resource.id,
-          display: this.fhirService.getResourceDisplay(resource)
+          display: this.dlgSrv.getResourceDisplay(resource)
         }
         // @ts-ignore
         carePlan.goal.push(reference);

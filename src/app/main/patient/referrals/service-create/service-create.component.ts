@@ -496,7 +496,7 @@ export class ServiceCreateComponent implements OnInit {
         var reference : Reference = {
           type: resource.resourceType,
           reference: resource.resourceType + '/' + resource.id,
-          display: this.fhirService.getResourceDisplay(resource)
+          display: this.dlgSrv.getResourceDisplay(resource)
         }
         // @ts-ignore
         serviceRequest.supportingInfo.push(reference);

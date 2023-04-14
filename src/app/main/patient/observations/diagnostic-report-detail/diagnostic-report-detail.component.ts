@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DiagnosticReport, Observation} from "fhir/r4";
+import {Attachment, DiagnosticReport, Observation} from "fhir/r4";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {FhirService} from "../../../../services/fhir.service";
 import {EprService} from "../../../../services/epr.service";
@@ -24,6 +24,13 @@ export class DiagnosticReportDetailComponent implements OnInit {
   loadingType = LoadingType;
   code: string = '';
   observationsHide = true;
+
+  // pdf suport
+
+  page = 1;
+  totalPages: number | undefined;
+  isLoaded = false;
+
   constructor(public fhirService: FhirService,
               private eprService: EprService,
               private dialogService: TdDialogService,
@@ -76,4 +83,24 @@ export class DiagnosticReportDetailComponent implements OnInit {
     );
   }
 
+  nextPage() {
+    this.page++;
+  }
+
+  prevPage() {
+    this.page--;
+  }
+  afterLoadComplete(pdfData: any) {
+    this.totalPages = pdfData.numPages;
+    this.isLoaded = true;
+  }
+
+  getData(attachment: Attachment) {
+    return 'data:application/pdf;base64, '+attachment.data
+    //atob(<string>attachment.data)
+  }
+
+  getImage(attachment: Attachment) {
+     return 'data:image/png;base64, '+attachment.data
+  }
 }

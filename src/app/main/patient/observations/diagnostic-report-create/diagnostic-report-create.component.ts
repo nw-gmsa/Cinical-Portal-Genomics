@@ -1,5 +1,13 @@
 import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
-import {Attachment, Binary, Coding, DiagnosticReport, ValueSetExpansionContains} from "fhir/r4";
+import {
+  Attachment,
+  Binary, CareTeam,
+  Coding,
+  DiagnosticReport,
+  Organization,
+  Practitioner, Reference, Resource,
+  ValueSetExpansionContains
+} from "fhir/r4";
 import * as uuid from "uuid";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FhirService} from "../../../../services/fhir.service";
@@ -9,6 +17,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rx
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Moment} from "moment";
 import {environment} from "../../../../../environments/environment";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-diagnostic-report-create',
@@ -33,6 +42,16 @@ export class DiagnosticReportCreateComponent implements OnInit {
   public fileLoaded: EventEmitter<any> = new EventEmitter();
   binary : Binary | undefined;
 
+  careTeams: CareTeam[] = [];
+
+  organisation$: Observable<Organization[]> | undefined;
+  practitioner$: Observable<Practitioner[]> | undefined;
+  performers: Resource[] = [];
+
+  private searchTermsOrg = new Subject<string>();
+  private searchTermsDoc = new Subject<string>();
+
+
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
@@ -55,7 +74,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((term: string) => {
-              return this.fhirService.getConf(`/ValueSet/$expandEcl?ecl=descendantOrSelfOf 371525003&filter=${term}&count=20`);
+              return this.fhirService.getConf(`/ValueSet/$expandEcl?ecl=descendantOrSelfOf 371525003&filter=${term}&count=30`);
             }
         ),
         map(resource    => {
@@ -64,7 +83,79 @@ export class DiagnosticReportCreateComponent implements OnInit {
         )
     ), catchError(this.dlgSrv.handleError('getReasons', []));
 
+    this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'CareTeam') { this.careTeams.push(entry.resource as CareTeam); }
+            }
+          }
+        }
+    );
+    this.practitioner$ = this.searchTermsDoc.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) => {
+              return this.fhirService.getDirectory('/Practitioner?name=' + term);
+            }
+        ),
+        map(resource    => {
+              return this.dlgSrv.getContainsPractitoner(resource);
+            }
+        )
+    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    this.organisation$ = this.searchTermsOrg.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) => {
+              return this.fhirService.getDirectory('/Organization?name=' + term);
+            }
+        ),
+
+        map(resource    => {
+              return this.dlgSrv.getContainsOrganisation(resource);
+            }
+        )
+    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
   }
+
+  selectedOrg(event: MatAutocompleteSelectedEvent): void {
+    this.performers.push(event.option.value);
+    this.checkSubmit();
+  }
+  searchDoc(term: string): void {
+    if (term.length > 3) {
+      this.searchTermsDoc.next(term);
+    }
+  }
+  searchOrg(term: string): void {
+    if (term.length > 3) {
+      this.searchTermsOrg.next(term);
+    }
+  }
+
+  selectedDr(event: MatAutocompleteSelectedEvent): void {
+    this.performers.push(event.option.value);
+    this.checkSubmit();
+  }
+  selectedCode(event: MatAutocompleteSelectedEvent) {
+    this.code = event.option.value;
+    this.checkSubmit();
+  }
+  selectedCareTeam($event: MatSelectChange) {
+    //console.log($event)
+    this.performers.push($event.value);
+  }
+
+  selectEvent(files: FileList | File): void {
+    // see also https://github.com/nhsconnect/careconnect-document-viewer/blob/master/web/src/app/modules/document-load/load-document.component.ts
+    if (files instanceof FileList) {
+      console.log('filelist')
+    } else {
+      this.postBinary(files)
+    }
+  };
   checkSubmit(): void {
     this.disabled = true;
     if (this.status !== undefined
@@ -142,6 +233,23 @@ export class DiagnosticReportCreateComponent implements OnInit {
       ]
     }
 
+    if (this.performers !== undefined) {
+      diagnosticReport.performer = [];
+      this.performers.forEach(performer => {
+        let reference : Reference = {
+          type: performer.resourceType,
+          display: this.dlgSrv.getResourceDisplay(performer),
+          reference: performer.resourceType + '/' + performer.id
+        }
+        // @ts-ignore
+        if (performer.identifier !== undefined) {
+           // @ts-ignore
+          reference.identifier = performer.identifier[0]
+        }
+        diagnosticReport.performer?.push(reference)
+      })
+    }
+
     console.log(JSON.stringify(diagnosticReport));
     this.fhirService.postTIE('/DiagnosticReport', diagnosticReport).subscribe(diagnosticReport => {
 
@@ -155,19 +263,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
     }
   }
 
-  selectedCode(event: MatAutocompleteSelectedEvent) {
-      this.code = event.option.value;
-      this.checkSubmit();
-  }
 
-  selectEvent(files: FileList | File): void {
-    // see also https://github.com/nhsconnect/careconnect-document-viewer/blob/master/web/src/app/modules/document-load/load-document.component.ts
-    if (files instanceof FileList) {
-      console.log('filelist')
-    } else {
-      this.postBinary(files)
-    }
-  };
 
   postBinary(file : File) {
     const reader = new FileReader();
@@ -197,4 +293,6 @@ export class DiagnosticReportCreateComponent implements OnInit {
       console.log('Error: ', error);
     };
   }
+
+
 }

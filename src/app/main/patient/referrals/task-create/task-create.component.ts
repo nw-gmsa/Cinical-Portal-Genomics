@@ -567,7 +567,7 @@ export class TaskCreateComponent implements OnInit {
     if (this.planFocus !== undefined) {
       task.focus = {
         reference: this.planFocus.resourceType + '/' + this.planFocus.id,
-        display: this.fhirService.getResourceDisplay(this.planFocus),
+        display: this.dlgSrv.getResourceDisplay(this.planFocus),
         type: this.planFocus.resourceType
       };
     } else {

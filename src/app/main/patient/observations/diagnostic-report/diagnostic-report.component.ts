@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
 import {Router} from "@angular/router";
+import {DialogService} from "../../../../dialogs/dialog.service";
 
 @Component({
   selector: 'app-diagnostic-report',
@@ -34,6 +35,7 @@ export class DiagnosticReportComponent implements OnInit {
   displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer', 'chart', 'resource'];
 
   constructor(public fhirService: FhirService,
+              public dlgSrv: DialogService,
               private router: Router,
               public dialog: MatDialog) { }
 
@@ -120,4 +122,6 @@ export class DiagnosticReportComponent implements OnInit {
       }
 
     }
+
+  protected readonly performance = performance;
 }

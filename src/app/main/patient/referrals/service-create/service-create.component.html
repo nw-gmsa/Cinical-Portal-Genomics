@@ -46,7 +46,7 @@
     <mat-form-field class="example-full-width">
       <mat-label>Fulfills (Care Plans)</mat-label>
       <mat-select [(ngModel)]="planPlans" multiple>
-        <mat-option *ngFor="let carePlan of carePlans" [value]="carePlan">{{fhirService.getResourceDisplay(carePlan)}}</mat-option>
+        <mat-option *ngFor="let carePlan of carePlans" [value]="carePlan">{{dlgSrv.getResourceDisplay(carePlan)}}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -88,7 +88,7 @@
     <mat-form-field class="example-full-width">
       <mat-label>Supporting Information</mat-label>
       <mat-select name="supporting" [(ngModel)]="supporting" (selectionChange)="checkSubmit()" [disabled]="edit" multiple>
-        <mat-option *ngFor="let resource of supportingInformation" [value]="resource">{{fhirService.getResourceDisplay(resource)}}</mat-option>
+        <mat-option *ngFor="let resource of supportingInformation" [value]="resource">{{dlgSrv.getResourceDisplay(resource)}}</mat-option>
       </mat-select>
       <mat-hint align="end">Additional clinical information</mat-hint>
     </mat-form-field>
@@ -109,18 +109,18 @@
     <div class="example-form-fields">
       <mat-form-field class="third-width">
         <input #searchBoxDr matInput placeholder="Performer (Person)" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
-        <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getDisplayDoctor">
+        <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getResourceDisplay">
           <mat-option *ngFor="let doctor of practitioner$ | async" [value]="doctor" >
-            {{dlgSrv.getDisplayDoctor(doctor)}}
+            {{dlgSrv.getResourceDisplay(doctor)}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       &nbsp;
       <mat-form-field class="third-width">
         <input #searchBoxOrg matInput placeholder="Performer (Organisation)" (keyup)="searchOrg(searchBoxOrg.value)" [matAutocomplete]="autoOrg">
-        <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getDisplayOrg">
+        <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getResourceDisplay">
           <mat-option *ngFor="let organization of organisation$ | async" [value]="organization" >
-            {{dlgSrv.getDisplayOrg(organization)}}
+            {{dlgSrv.getResourceDisplay(organization)}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

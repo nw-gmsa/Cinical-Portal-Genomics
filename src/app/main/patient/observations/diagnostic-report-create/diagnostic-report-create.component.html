@@ -39,8 +39,36 @@
 
 
         </div>
+        <div class="example-form-fields">
+            <mat-form-field class="example-half-width">
+                <input #searchBoxDr matInput placeholder="Performer (Person)" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
+                <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getResourceDisplay">
+                    <mat-option *ngFor="let doctor of practitioner$ | async" [value]="doctor" >
+                        {{dlgSrv.getResourceDisplay(doctor)}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field class="example-half-width">
+                <input #searchBoxOrg matInput placeholder="Performer (Organisation)" (keyup)="searchOrg(searchBoxOrg.value)" [matAutocomplete]="autoOrg">
+                <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getResourceDisplay">
+                    <mat-option *ngFor="let organization of organisation$ | async" [value]="organization" >
+                        {{dlgSrv.getResourceDisplay(organization)}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field class="example-half-width">
+                <mat-label>Performer (Care Teams)</mat-label>
+                <mat-select (selectionChange)="selectedCareTeam($event)">
+                    <mat-option *ngFor="let careTeam of careTeams" [value]="careTeam">{{careTeam.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div *ngFor="let performer of performers">
+            <p>{{dlgSrv.getResourceDisplay(performer)}} ({{performer.resourceType}})</p>
+        </div>
         <span>
-
             <td-file-input
                     [(ngModel)]="files"
                     color="primary"

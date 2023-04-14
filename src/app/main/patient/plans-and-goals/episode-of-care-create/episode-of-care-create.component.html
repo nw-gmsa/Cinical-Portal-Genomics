@@ -31,9 +31,9 @@
 
     <mat-form-field class="example-full-width">
       <input #searchBoxOrg matInput placeholder="Managing Organisation" (keyup)="searchOrg(searchBoxOrg.value)" [matAutocomplete]="autoOrg">
-      <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getDisplayOrg">
+      <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="selectedOrg($event)" [displayWith]="dlgSrv.getResourceDisplay">
         <mat-option *ngFor="let organization of organisation$ | async" [value]="organization" >
-          {{dlgSrv.getDisplayOrg(organization)}}
+          {{dlgSrv.getResourceDisplay(organization)}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
@@ -63,9 +63,9 @@
 
     <mat-form-field class="example-full-width">
       <input #searchBoxDr matInput placeholder="Care Manager" (keyup)="searchDoc(searchBoxDr.value)" [matAutocomplete]="autoDr">
-      <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getDisplayDoctor">
+      <mat-autocomplete #autoDr="matAutocomplete" (optionSelected)="selectedDr($event)" [displayWith]="dlgSrv.getResourceDisplay">
         <mat-option *ngFor="let doctor of practitioner$ | async" [value]="doctor" >
-          {{dlgSrv.getDisplayDoctor(doctor)}}
+          {{dlgSrv.getResourceDisplay(doctor)}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

@@ -4,12 +4,12 @@ import {Observable, Subscription} from 'rxjs';
 import {
   Binary,
   Bundle,
-  CapabilityStatement, CarePlan,
+  CapabilityStatement,
   CodeableConcept,
-  Coding, Condition, DocumentReference,
-  Endpoint, Goal,
+  Coding, Condition,
+  Endpoint,
   Identifier, MedicationRequest,
-  Quantity, Questionnaire, QuestionnaireResponse,
+  Quantity, Questionnaire,
   Reference, Resource, ServiceRequest,
   ValueSet
 } from 'fhir/r4';
@@ -202,42 +202,7 @@ export class FhirService {
     return result;
   }
 
-  getResourceDisplay(resource: Resource): string{
-    if (resource.resourceType === 'Questionnaire') {
-      const questionnaire = resource as Questionnaire;
-      if (questionnaire.title !== null) return <string>questionnaire.title;
-    }
-    if (resource.resourceType === 'ServiceRequest') {
-      const serviceRequest = resource as ServiceRequest;
-      if (serviceRequest.code !== undefined) return this.getCodeableConceptValue(serviceRequest.code)
-      if (serviceRequest.category !== undefined && serviceRequest.category.length >0) return this.getCodeableConceptValue(serviceRequest.category[0])
-    }
-    if (resource.resourceType === 'DocumentReference') {
-      const documentReference = resource as DocumentReference;
-      if (documentReference.type !== undefined) return this.getCodeableConceptValue(documentReference.type)
-      if (documentReference.category !== undefined && documentReference.category.length >0) return this.getCodeableConceptValue(documentReference.category[0])
-    }
-    if (resource.resourceType === 'Goal') {
-      const goal = resource as Goal;
-      if (goal.description !== undefined) return this.getCodeableConceptValue(goal.description)
-    }
-    if (resource.resourceType === 'CarePlan') {
-      const carePlan = resource as CarePlan;
-      if (carePlan.title !== undefined) return carePlan.title
-      if (carePlan.description !== undefined) return carePlan.description
-      if (carePlan.category !== undefined && carePlan.category.length>0) return this.getCodeableConceptValue(carePlan.category[0])
-    }
-    if (resource.resourceType === 'QuestionnaireResponse') {
-      const questionnaireResponse = resource as QuestionnaireResponse;
-      if (questionnaireResponse.questionnaire !== undefined) {
-         var questionnaire = this.getQuestionnaire(questionnaireResponse.questionnaire)
-         if (questionnaire !== undefined) {
-           if (questionnaire.title !== undefined) return questionnaire.title + ' ' + questionnaireResponse.authored?.split('T')[0];
-         }
-      }
-    }
-    return this.getCodeableConceptResourceValue(resource)
-  }
+
 
   public getCodeableConceptResourceValue(condition: Resource) : string {
     if (condition !== undefined && (condition.resourceType === 'Condition')) return this.getCodeableConceptValue((condition as Condition).code)
