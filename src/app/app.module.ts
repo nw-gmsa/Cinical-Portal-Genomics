@@ -104,6 +104,8 @@ import { DeleteComponent } from './dialogs/delete/delete.component';
 import {A11yModule} from "@angular/cdk/a11y";
 import { AboutComponent } from './main/about/about.component';
 import { DiagnosticReportCreateComponent } from './main/patient/observations/diagnostic-report-create/diagnostic-report-create.component';
+import { ActivityDefinitionComponent } from './main/Management/activity-definition/activity-definition.component';
+import { ActivityDefinitionDetailComponent } from './main/Management/activity-definition-detail/activity-definition-detail.component';
 
 const modules = [
   MatIconModule,
@@ -188,7 +190,9 @@ const modules = [
     TaskNoteComponent,
     DeleteComponent,
     AboutComponent,
-    DiagnosticReportCreateComponent
+    DiagnosticReportCreateComponent,
+    ActivityDefinitionComponent,
+    ActivityDefinitionDetailComponent
   ],
     imports: [
         BrowserModule,

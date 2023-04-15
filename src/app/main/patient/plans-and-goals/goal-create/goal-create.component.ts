@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Coding, Goal, GoalTarget, ValueSetExpansionContains} from "fhir/r4";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FhirService} from "../../../../services/fhir.service";
-import {DialogService} from "../../../../dialogs/dialog.service";
+import {DialogService} from "../../../../services/dialog.service";
 import * as uuid from "uuid";
 import {MatSelectChange} from "@angular/material/select";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";

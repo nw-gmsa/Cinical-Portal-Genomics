@@ -7,7 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
 import {Router} from "@angular/router";
-import {DialogService} from "../../../../dialogs/dialog.service";
+import {DialogService} from "../../../../services/dialog.service";
 
 @Component({
   selector: 'app-diagnostic-report',

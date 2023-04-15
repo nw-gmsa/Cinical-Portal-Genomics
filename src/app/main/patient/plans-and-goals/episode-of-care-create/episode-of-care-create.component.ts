@@ -11,7 +11,7 @@ import {Observable, Subject} from 'rxjs';
 import {Moment} from 'moment';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FhirService} from '../../../../services/fhir.service';
-import {DialogService} from '../../../../dialogs/dialog.service';
+import {DialogService} from '../../../../services/dialog.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import * as uuid from 'uuid';

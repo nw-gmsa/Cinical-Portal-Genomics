@@ -12,7 +12,7 @@ import {MatSelectChange} from '@angular/material/select';
 import * as uuid from 'uuid';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FhirService} from '../../../../services/fhir.service';
-import {DialogService} from '../../../../dialogs/dialog.service';
+import {DialogService} from '../../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';

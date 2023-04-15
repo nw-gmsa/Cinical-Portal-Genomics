@@ -26,6 +26,7 @@ import {
 } from "../main/patient/forms/questionnaire-response-view/questionnaire-response-view.component";
 import {BinaryComponent} from "../main/patient/documents/binary/binary.component";
 import {AboutComponent} from "../main/about/about.component";
+import {ActivityDefinitionComponent} from "../main/Management/activity-definition/activity-definition.component";
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
       { path: '', component: PatientFindComponent},
       { path: 'search', component: PatientFindComponent},
       { path: 'device', component: PersonalHealthDeviceComponent},
+      { path: 'activity', component: ActivityDefinitionComponent},
       { path: 'about', component: AboutComponent},
       {
         path: 'patient/:patientid', component: PatientMainComponent,
@@ -46,7 +48,7 @@ const routes: Routes = [
           {path: 'observations', component: ObservationsComponent},
           {path: 'observations/:code', component: ObservationDetailComponent},
           {path: 'report/:report', component: DiagnosticReportDetailComponent},
-          {path: 'activity', component: PhysicalActivityDetailComponent},
+          {path: 'physical', component: PhysicalActivityDetailComponent},
           {path: 'vitals', component: VitalsDetailComponent},
           {path: 'documents', component: DocumentsComponent},
           {path: 'documents/:docid', component: BinaryComponent},

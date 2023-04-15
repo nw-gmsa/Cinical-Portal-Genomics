@@ -1,6 +1,6 @@
 &nbsp;<mat-nav-list *ngIf="patientId !== undefined && serviceRequest !== undefined" class="list-horizontal">
   <mat-list-item>
-    <button mat-icon-button color="accent"  (click)="addTask()"><mat-icon>assignment</mat-icon> Add Task</button>
+    <button mat-button color="accent"  (click)="addTask(2)"> Add Referral Task</button>
   </mat-list-item>
 </mat-nav-list>
 
@@ -40,8 +40,6 @@
       <th mat-header-cell *matHeaderCellDef > Intent </th>
       <td mat-cell *matCellDef="let task"> {{task.intent}} </td>
     </ng-container>
-
-
 
 
     <ng-container matColumnDef="focus">

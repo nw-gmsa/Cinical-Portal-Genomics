@@ -17,7 +17,7 @@ import {FhirService} from '../../../../services/fhir.service';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import * as uuid from 'uuid';
-import {DialogService} from '../../../../dialogs/dialog.service';
+import {DialogService} from '../../../../services/dialog.service';
 import {MatSelectChange} from "@angular/material/select";
 
 @Component({
@@ -67,6 +67,7 @@ export class TaskCreateComponent implements OnInit {
 
   task: Task | undefined;
   edit = false;
+  patientTask: boolean = false;
 
   constructor(public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) data: any,
@@ -157,11 +158,23 @@ export class TaskCreateComponent implements OnInit {
         }
       }
     );
-    if (this.taskType === 0 || this.taskType === 2) {
+    if (this.taskType === 2 || this.taskType === 0 ) {
       this.fhirService.get('/ServiceRequest?status=active,on-hold,draft&patient=' + this.patientId).subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') {
+                  this.foci.push(entry.resource);
+                }
+              }
+            }
+          }
+      );
+    }
+    if (this.taskType === 3 || this.taskType === 0) {
+      this.fhirService.getTIE('/ActivityDefinition').subscribe(bundle => {
+            if (bundle.entry !== undefined) {
+              for (const entry of bundle.entry) {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'ActivityDefinition') {
                   this.foci.push(entry.resource);
                 }
               }
@@ -318,14 +331,15 @@ export class TaskCreateComponent implements OnInit {
 
   checkSubmit(): void {
     this.disabled = true;
-
+    console.log(this.patientTask)
     if ((this.taskCode !== undefined || this.hasCode()) &&
-      (this.hasOwner() || this.practitioner !== undefined || this.organisation !== undefined || (this.careTeams !== undefined && this.careTeams.length > 0)) &&
+      (this.hasOwner() || this.patientTask || this.practitioner !== undefined || this.organisation !== undefined || (this.careTeams !== undefined && this.careTeams.length > 0)) &&
       this.taskStatus !== undefined) {
       this.disabled = false;
     }
   }
   hasOwner(): boolean {
+
     if (this.task !== undefined && this.task.owner !== null) {
     //  console.log('Has Owner')
       return true
@@ -530,6 +544,15 @@ export class TaskCreateComponent implements OnInit {
       task.for = this.task.for
     } else {
      task.for = {
+       reference: 'Patient/' + this.patientId,
+       identifier: {
+         system: 'https://fhir.nhs.uk/Id/nhs-number',
+         value: this.nhsNumber
+       }
+     };
+   }
+   if (this.patientTask) {
+     task.owner = {
        reference: 'Patient/' + this.patientId,
        identifier: {
          system: 'https://fhir.nhs.uk/Id/nhs-number',

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
+  ActivityDefinition,
   Bundle, CarePlan, CareTeam, DocumentReference, Goal,
   Organization,
   Practitioner,
@@ -10,7 +11,7 @@ import {
 } from 'fhir/r4';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {FhirService} from '../services/fhir.service';
+import {FhirService} from './fhir.service';
 import {Observable, of} from 'rxjs';
 
 @Injectable({
@@ -78,6 +79,10 @@ export class DialogService {
     if (resource.resourceType === 'CareTeam') {
       const careTeam = resource as CareTeam;
       if (careTeam.name !== null) return <string>careTeam.name;
+    }
+    if (resource.resourceType === 'ActivityDefinition') {
+      const activityDefinition = resource as ActivityDefinition;
+      if (activityDefinition.title !== null) return <string>activityDefinition.title;
     }
     return this.fhirService.getCodeableConceptResourceValue(resource)
   }

@@ -16,7 +16,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import * as uuid from 'uuid';
 import {MatSelectChange} from '@angular/material/select';
-import {DialogService} from '../../../../dialogs/dialog.service';
+import {DialogService} from '../../../../services/dialog.service';
 
 @Component({
   selector: 'app-service-create',

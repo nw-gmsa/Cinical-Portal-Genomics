@@ -102,32 +102,36 @@ export class TaskComponent implements OnInit {
       this.sort.sortChange.subscribe((event) => {
         console.log(event);
       });
-      if (this.dataSource !== undefined) this.dataSource.sort = this.sort;
+      if (this.dataSource !== undefined) {
+        this.dataSource.sort = this.sort;
+        // @ts-ignore
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'authored': {
+              if (item.authoredOn !== undefined) {
+
+                return item.authoredOn
+              }
+              return undefined;
+            }
+            case 'start': {
+              if (item.executionPeriod !== undefined && item.executionPeriod.start !== undefined) {
+
+                return item.executionPeriod.start
+              }
+              return undefined;
+            }
+            default: {
+              return undefined
+            }
+          };
+        };
+      }
     } else {
       console.log('SORT UNDEFINED');
     }
     // @ts-ignore
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'authored': {
-          if (item.authoredOn !== undefined) {
 
-            return item.authoredOn
-          }
-          return undefined;
-        }
-        case 'start': {
-          if (item.executionPeriod !== undefined && item.executionPeriod.start !== undefined) {
-
-            return item.executionPeriod.start
-          }
-          return undefined;
-        }
-        default: {
-          return undefined
-        }
-      };
-    };
   }
 
   refreshResults() {
@@ -240,7 +244,7 @@ export class TaskComponent implements OnInit {
       }
     });
   }
-  addTask(): void {
+  addTask(taskType: number): void {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -248,7 +252,6 @@ export class TaskComponent implements OnInit {
     dialogConfig.height = '85%';
     dialogConfig.width = '50%';
 
-    let taskType = 0;
     if (this.serviceRequest !== undefined) taskType = 2;
     dialogConfig.data = {
       id: 1,
@@ -260,7 +263,7 @@ export class TaskComponent implements OnInit {
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      if (result !== undefined) {
+      if (result !== undefined && result.resourceType !== undefined) {
         this.tasks.push(result)
         this.task.emit(result)
         this.dataSource = new MatTableDataSource<Task>(this.tasks);

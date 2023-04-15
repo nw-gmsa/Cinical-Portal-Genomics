@@ -94,7 +94,16 @@ export class MainComponent implements OnInit {
       text: 'NLM Form Builder',
       link: 'https://lhcformbuilder.nlm.nih.gov/',
       newTab: true
-    }
+    }, {
+      // Grouping label
+      id: 'management',
+      text: 'Care Management',
+    },
+    {
+      id: 'activityDefinition',
+      text: 'Activity Definitions',
+      link: '/activity'
+    },
   ];
   itemsCare: IMenuItem[] = [
     {
@@ -132,10 +141,10 @@ export class MainComponent implements OnInit {
       action: 'observations',
     },
     {
-      id: 'activity',
+      id: 'physical',
       text: 'Physical Activity',
       icon: 'directions_walk',
-      action: 'activity',
+      action: 'physical',
     },
     {
       id: 'vitals',
@@ -150,7 +159,7 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'workflow',
-      text: 'Referrals and Interventions',
+      text: 'Referrals, Tasks and Interventions',
       icon: 'assignment',
       action: 'workflow'
     },
@@ -194,6 +203,7 @@ export class MainComponent implements OnInit {
 
   reportClick(event: ITdDynamicMenuLinkClickEvent): void {
 
+    //console.log(event)
     if (event.action !== undefined) {
 
     if (this.patientId !== undefined) {
@@ -226,8 +236,8 @@ export class MainComponent implements OnInit {
           this.router.navigateByUrl('/patient/'+this.patientId+'/coordination');
           break;
         }
-        case 'activity': {
-          this.router.navigateByUrl('/patient/'+this.patientId+'/activity');
+        case 'physical': {
+          this.router.navigateByUrl('/patient/'+this.patientId+'/physical');
           break;
         }
         case 'vitals': {
@@ -236,6 +246,10 @@ export class MainComponent implements OnInit {
         }
         case 'device': {
           this.router.navigateByUrl('/device');
+          break;
+        }
+        case 'activity': {
+          this.router.navigateByUrl('/activity');
           break;
         }
         case 'roles': {

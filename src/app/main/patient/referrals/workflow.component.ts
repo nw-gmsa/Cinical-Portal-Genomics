@@ -78,7 +78,7 @@ export class WorkflowComponent implements OnInit {
       }
     });
   }
-  addTask(): void {
+  addTask(taskType : number): void {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -90,7 +90,7 @@ export class WorkflowComponent implements OnInit {
       id: 1,
       patientId: this.patientId,
       nhsNumber: this.nhsNumber,
-      taskType: 0
+      taskType: taskType
     };
     const dialogRef = this.dialog.open( TaskCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {

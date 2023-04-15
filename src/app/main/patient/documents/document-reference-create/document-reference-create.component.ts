@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {FhirService} from "../../../../services/fhir.service";
-import {DialogService} from "../../../../dialogs/dialog.service";
+import {DialogService} from "../../../../services/dialog.service";
 import {
   Binary,
   Coding,

@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Coding, Organization, Practitioner, Reference, CareTeam, ValueSetExpansionContains, ContactPoint} from 'fhir/r4';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FhirService} from '../../../../services/fhir.service';
-import {DialogService} from '../../../../dialogs/dialog.service';
+import {DialogService} from '../../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
