@@ -125,6 +125,7 @@ export class BinaryComponent implements OnInit {
                      var html = '';
                      var composition = entry.resource as Composition
                      if (composition.section !== undefined) {
+                       // possibly swap back to this? https://github.com/nhsconnect/careconnect-document-viewer/blob/master/web/src/app/component/binary/composition-view-section/view-document-section.component.html
                        composition.section.forEach(section => {
                          if (section.title !== undefined) {
                             html += '<h3>'+ section.title + '</h3>'
