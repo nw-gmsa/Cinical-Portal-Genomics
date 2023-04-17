@@ -4,6 +4,7 @@ import {FhirResource} from "fhir/r4";
 
 
 declare var $: any;
+var Fhir = require('fhir').Fhir;
 
 @Component({
   selector: 'app-resource-viewer',
@@ -42,6 +43,25 @@ export class ResourceDialogComponent implements OnInit {
   }
 
 
- }
+    protected readonly JSON = JSON;
+
+    getXML(resource: FhirResource) {
+      var fhir = new Fhir();
+      return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
+    }
+
+  formatXml(xml: string, tab?: string) { // tab = optional indent value, default is tab (\t)
+    var formatted = '', indent= '';
+    if (tab === undefined) tab = '\t';
+    xml.split(/>\s*</).forEach(function(node) {
+      if (node.match( /^\/\w/ )) { // @ts-ignore
+        indent = indent.substring(tab.length);
+      } // decrease indent by one 'tab'
+      formatted += indent + '<' + node + '>\r\n';
+      if (node.match( /^<?\w[^>]*[^\/]$/ )) indent += tab;              // increase indent
+    });
+    return formatted.substring(1, formatted.length-3);
+  }
+}
 
 

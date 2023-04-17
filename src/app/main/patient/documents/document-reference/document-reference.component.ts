@@ -17,6 +17,7 @@ import {FhirService} from '../../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 
 @Component({
   selector: 'app-document-reference',
@@ -123,5 +124,29 @@ export class DocumentReferenceComponent implements OnInit {
       resource: resource
     };
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
+  }
+
+  delete(documentReference: DocumentReference) {
+    let dialogRef = this.dialog.open(DeleteComponent, {
+      width: '250px',
+      data:  documentReference
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this.fhirService.deleteTIE('/DocumentReference/'+documentReference.id).subscribe(result => {
+
+          if (this.documents !== undefined) {
+            this.documents.forEach((taskIt, index) => {
+              if (taskIt.id === documentReference.id) {
+                // @ts-ignore
+                this.documents.splice(index, 1);
+              }
+            })
+            this.dataSource = new MatTableDataSource<DocumentReference>(this.documents);
+          }
+        })
+      }
+    });
   }
 }

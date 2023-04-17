@@ -5,13 +5,15 @@
             <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
             <td-breadcrumb>Forms</td-breadcrumb>
         </td-breadcrumbs>
+        <td-markdown>This is based on [FHIR Structured Data Capture](http://hl7.org/fhir/uv/sdc/).</td-markdown>
+
         <mat-card-content>
             <div fxLayout="row"
                  fxFlexFill >
                 <h3>Forms (Last 50)</h3>
                 <span flex></span>
             </div>
-            <td-markdown>For documentation of the data model see [UKCore-QuestionnaireResponse]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-QuestionnaireResponse')}}) and [NHSDigital-QuestionnaireResponse](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-QuestionnaireResponse)</td-markdown>
+            <td-markdown>Data models [UKCore-QuestionnaireResponse]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-QuestionnaireResponse')}}) and [NHSDigital-QuestionnaireResponse](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-QuestionnaireResponse).</td-markdown>
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
                     <button mat-button color="accent"  (click)="addForms()">

@@ -19,6 +19,8 @@ import {Moment} from "moment/moment";
 import {MatSelectChange} from "@angular/material/select";
 import {environment} from "../../../../../environments/environment";
 
+var Fhir = require('fhir').Fhir;
+
 @Component({
   selector: 'app-document-reference-create',
   templateUrl: './document-reference-create.component.html',
@@ -360,6 +362,10 @@ export class DocumentReferenceCreateComponent implements OnInit {
             resourceType: 'Binary',
             contentType: file.type,
             data: data
+          }
+          if (file.type == 'application/json') {
+            // This is probably a fault on the backend server. It needs to be able to post json
+            binary.contentType = 'text/plain'
           }
           this.fhirService.postTIE('/Binary',binary).subscribe(response => {
             this.url = environment.tieServer + '/Binary/'+ response.id

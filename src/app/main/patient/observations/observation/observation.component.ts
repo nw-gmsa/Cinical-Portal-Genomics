@@ -35,7 +35,7 @@ export class ObservationComponent implements OnInit {
   dataSource: MatTableDataSource<Observation> ;
   @ViewChild(MatSort) sort: MatSort | undefined;
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  displayedColumns = ['effectiveDateTime', 'code', 'tags', 'category',  'value', 'chart', 'performer', 'resource'];
+  displayedColumns = ['effectiveDateTime', 'code', 'tags', 'category',  'value', 'performer', 'resource'];
 
 
   constructor(public fhirService: FhirService,

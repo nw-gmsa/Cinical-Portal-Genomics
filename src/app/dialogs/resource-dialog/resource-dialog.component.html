@@ -9,9 +9,20 @@
      </span>
    </span></h2>
 <mat-dialog-content>
+    <mat-tab-group  *ngIf="resource!=undefined">
 
-<td-json-formatter *ngIf="resource!=undefined" [data]="resource" key="root" [levelsOpen]="4">
-</td-json-formatter>
+      <mat-tab label="JSON (Rendered)">
+          <td-json-formatter [data]="resource" key="root" [levelsOpen]="4">
+          </td-json-formatter>
+      </mat-tab>
+       <mat-tab label="JSON">
+          <pre>{{JSON.stringify(resource,null, 2)}}</pre>
+      </mat-tab>
+        <mat-tab label="XML">
+            <pre>{{getXML(resource)}}</pre>
+        </mat-tab>
+    </mat-tab-group>
+
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button [mat-dialog-close]="true" autoFocus>OK</button>

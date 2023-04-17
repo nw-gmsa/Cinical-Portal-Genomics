@@ -2,10 +2,11 @@ import {Component, Inject, Input, OnInit, ViewContainerRef} from '@angular/core'
 
 import {ActivatedRoute} from '@angular/router';
 import { TdDialogService} from '@covalent/core/dialogs';
-import {Binary, DocumentReference} from "fhir/r4";
+import {Binary, Bundle, Composition, DocumentReference, FhirResource} from "fhir/r4";
 import {EprService} from "../../../../services/epr.service";
 import {FhirService} from "../../../../services/fhir.service";
 
+var Fhir = require('fhir').Fhir;
 @Component({
   selector: 'app-binary',
   templateUrl: './binary.component.html',
@@ -22,6 +23,8 @@ export class BinaryComponent implements OnInit {
   pdfSrc: string = '';
 
   html: string = '';
+
+  json: any;
 
   image: string |undefined
 
@@ -88,12 +91,62 @@ export class BinaryComponent implements OnInit {
   processBinary() {
     if (this.binary !== undefined && this.document !== undefined) {
       if (this.binary.contentType === 'application/fhir+xml'
-          || this.binary.contentType === 'application/fhir+json') {
+          || this.binary.contentType === 'text/xml'
+          || this.binary.contentType === 'text/plain'
+      //    || this.binary.contentType === 'application/fhir+json'
+
+      ) {
+        console.log('Is XML or JSON, assume FHIR')
+        if (typeof this.binary.data === "string") {
+          var xml = atob(this.binary.data);
+          var jsonString: string;
+          if (this.binary.contentType !== 'text/plain') {
+            // FHIR xml to json doesn't like comments https://stackoverflow.com/questions/5653207/remove-html-comments-with-regex-in-javascript
+            var COMMENT_PSEUDO_COMMENT_OR_LT_BANG = new RegExp(
+                '<!--[\\s\\S]*?(?:-->)?'
+                + '<!---+>?'  // A comment with no body
+                + '|<!(?![dD][oO][cC][tT][yY][pP][eE]|\\[CDATA\\[)[^>]*>?'
+                + '|<[?][^>]*>?',  // A pseudo-comment
+                'g');
+            xml = xml.replace(COMMENT_PSEUDO_COMMENT_OR_LT_BANG, "")
+            var fhir = new Fhir();
+            jsonString = fhir.xmlToJson(xml);
+          } else {
+            jsonString = xml
+          }
+          var document = JSON.parse(jsonString)
+          if (document.resourceType === 'Bundle') {
+             const bundle = document as Bundle;
+             if (bundle.entry !== undefined) {
+               bundle.entry.forEach(entry => {
+                 if (entry.resource !== undefined) {
+                   console.log(entry.resource.resourceType)
+                   if (entry.resource.resourceType === 'Composition') {
+                     var html = '';
+                     var composition = entry.resource as Composition
+                     if (composition.section !== undefined) {
+                       composition.section.forEach(section => {
+                         if (section.title !== undefined) {
+                            html += '<h3>'+ section.title + '</h3>'
+                         }
+
+                         if (section.text !== undefined && section.text.div !== undefined) {
+                           html += section.text.div
+                         }
+                       })
+                     }
+                     console.log(html)
+                     this.docType = 'html'
+                     this.html = html
+                     this.json = bundle
+                   }
+                 }
+               })
+             }
+          }
+        }
         //this.docType = 'fhir';
       } else if (this.binary.contentType === 'application/pdf') {
-        /* var decode = atob(this.binary.data);
-         var mediaSource = new Blob([decode], { type: 'application/pdf' });
-         const fileURL = URL.createObjectURL(mediaSource);*/
         if (this.document.content[0].attachment.url !== undefined) this.pdfSrc = this.document.content[0].attachment.url;
         this.docType = 'pdf';
         this.isLoaded = true;
@@ -111,4 +164,24 @@ export class BinaryComponent implements OnInit {
       }
     }
   }
+  getXML(resource: FhirResource) {
+    var fhir = new Fhir();
+    return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
+  }
+
+  formatXml(xml: string, tab?: string) { // tab = optional indent value, default is tab (\t)
+    var formatted = '', indent= '';
+    if (tab === undefined) tab = '\t';
+    xml.split(/>\s*</).forEach(function(node) {
+      if (node.match( /^\/\w/ )) { // @ts-ignore
+        indent = indent.substring(tab.length);
+      } // decrease indent by one 'tab'
+      formatted += indent + '<' + node + '>\r\n';
+      if (node.match( /^<?\w[^>]*[^\/]$/ )) indent += tab;              // increase indent
+    });
+    return formatted.substring(1, formatted.length-3);
+  }
+
+  protected readonly JSON = JSON;
+
 }

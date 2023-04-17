@@ -8,6 +8,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
 import {Router} from "@angular/router";
 import {DialogService} from "../../../../services/dialog.service";
+import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 
 @Component({
   selector: 'app-diagnostic-report',
@@ -32,7 +33,7 @@ export class DiagnosticReportComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer', 'chart', 'resource'];
+  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer',  'resource'];
 
   constructor(public fhirService: FhirService,
               public dlgSrv: DialogService,
@@ -114,6 +115,29 @@ export class DiagnosticReportComponent implements OnInit {
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
   }
 
+  delete(diagnosticReport: DiagnosticReport) {
+    let dialogRef = this.dialog.open(DeleteComponent, {
+      width: '250px',
+      data:  diagnosticReport
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this.fhirService.deleteTIE('/DiagnosticReport/'+diagnosticReport.id).subscribe(result => {
+
+          if (this.diagnosticReports !== undefined) {
+            this.diagnosticReports.forEach((taskIt, index) => {
+              if (taskIt.id === diagnosticReport.id) {
+                // @ts-ignore
+                this.diagnosticReports.splice(index, 1);
+              }
+            })
+            this.dataSource = new MatTableDataSource<DiagnosticReport>(this.diagnosticReports);
+          }
+        })
+      }
+    });
+  }
 
     selecReport(diagnosticReport : DiagnosticReport) {
 

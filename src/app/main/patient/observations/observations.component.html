@@ -4,12 +4,15 @@
             <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
             <td-breadcrumb>Observations</td-breadcrumb>
         </td-breadcrumbs>
+        <td-markdown>This is based on [IHE QEDm](https://wiki.ihe.net/index.php/Query_for_Existing_Data_for_Mobile_(QEDm))</td-markdown>
         <mat-card-content>
+
+
             <div>
                 <h3>Observations (Last 7 days)</h3>
                 <span flex></span>
             </div>
-            <td-markdown>For documentation of the data model see [UKCore-Observation]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation')}}) and [NHSDigital-Observation](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Observation)</td-markdown>
+            <td-markdown>Data models [UKCore-Observation]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation')}}) and [NHSDigital-Observation](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Observation).</td-markdown>
             <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
                 <span *ngIf="observations.length>0">
                              <app-observation [observations]="observations"> </app-observation>

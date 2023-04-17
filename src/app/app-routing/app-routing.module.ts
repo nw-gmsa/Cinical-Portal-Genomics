@@ -9,7 +9,7 @@ import {ExchangeTokenComponent} from '../exchange-token/exchange-token.component
 import {ObservationsComponent} from "../main/patient/observations/observations.component";
 import {DocumentsComponent} from "../main/patient/documents/documents.component";
 import {FormsComponent} from "../main/patient/forms/forms.component";
-import {WorkflowComponent} from "../main/patient/referrals/workflow.component";
+import {WorkflowComponent} from "../main/patient/workflow/workflow.component";
 import {
   PatientCommunicationComponent
 } from "../main/patient/communication/patient-communication.component";

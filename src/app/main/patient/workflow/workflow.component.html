@@ -1,0 +1,46 @@
+
+    <mat-card class="fullscreen scrollable-content">
+        <td-breadcrumbs>
+            <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+            <td-breadcrumb>Referrals, Tasks and Interventions</td-breadcrumb>
+        </td-breadcrumbs>
+        <td-markdown>The API Framework is based on [FHIR Workflow](https://www.hl7.org/fhir/workflow-module.html)</td-markdown>
+        <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
+            <mat-card-content>
+
+                <h3>Referrals and Interventions</h3>
+                <span flex></span>
+
+                <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
+                    <mat-list-item>
+                        <button mat-icon-button color="accent"  (click)="addServiceRequest()"><mat-icon>assignment</mat-icon> Add Service Request</button>
+                    </mat-list-item>
+                </mat-nav-list>
+                <span *ngIf="requests.length>0">
+                      <app-referral-request [referrals]="requests" (taskChange)="getResultsEvent($event)"> </app-referral-request>
+                       </span>
+                <span *ngIf="requests.length==0">
+                       No results found.
+                   </span>
+            </mat-card-content>
+            <mat-card-content>
+                    <h3>Outstanding Tasks</h3>
+                    <span flex></span>
+
+                <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
+                    <mat-list-item>
+                        <button mat-button color="accent"  (click)="addTask(0)"> Add Task</button>
+                        <button mat-button color="accent"  (click)="addTask(3)"> Add Activity Request</button>
+                        <button mat-button color="accent"  (click)="addTask(1)"> Add Form Completion Task</button>
+                    </mat-list-item>
+                </mat-nav-list>
+                <span *ngIf="tasks.length>0">
+                      <app-task [tasks]="tasks" (task)="getResultsEvent($event)"> </app-task>
+                       </span>
+                <span *ngIf="tasks.length==0">
+                       No results found.
+                   </span>
+            </mat-card-content>
+        </div>
+
+    </mat-card>

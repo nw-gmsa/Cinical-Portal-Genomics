@@ -2,9 +2,9 @@ import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatChip} from '@angular/material/chips';
 import {
-  AllergyIntolerance,  Condition,
-  Encounter,
-  Patient, Reference, MedicationRequest,
+    AllergyIntolerance, Condition,
+    Encounter,
+    Patient, Reference, MedicationRequest, DiagnosticReport, Immunization, Procedure,
 } from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {EprService} from '../../../services/epr.service';
@@ -40,6 +40,9 @@ export class PatientSummaryComponent implements OnInit {
   medicationRequest: MedicationRequest[] = [];
     // @ts-ignore
   conditions: Condition[] = [];
+  results: DiagnosticReport[] = [];
+    immunisations: Immunization[] = [];
+    procedures: Procedure[] = [];
 
     loadingMode = LoadingMode;
     loadingStrategy = LoadingStrategy;
@@ -57,10 +60,12 @@ export class PatientSummaryComponent implements OnInit {
 
   public nhsNumber: string | undefined;
     basicFlavoredMarkdown = `
-   Incomplete. To be based around [International Patient Summary](https://build.fhir.org/ig/HL7/fhir-ips/ipsStructure.html)
-   Potentially add code to automatically generate the [FHIR Document](https://build.fhir.org/ig/HL7/fhir-ips/StructureDefinition-Composition-uv-ips.html)
- 
+   Layout is based around [International Patient Summary](https://build.fhir.org/ig/HL7/fhir-ips/ipsStructure.html) and uses a Query API [IHE QEDm](https://wiki.ihe.net/index.php/Query_for_Existing_Data_for_Mobile_(QEDm)) to retrieve the record. 
+  
  `;
+
+    // TODO  Potentially add code to automatically generate the [FHIR Document](https://build.fhir.org/ig/HL7/fhir-ips/StructureDefinition-Composition-uv-ips.html) which is the IPS (PRSB + Transfer of Care)  format.
+    //
 
   constructor(private router: Router,
               private fhirService: FhirService,
@@ -189,6 +194,39 @@ export class PatientSummaryComponent implements OnInit {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'Encounter') { this.encounters.push(entry.resource as Encounter); }
               }
             }
+          }
+      );
+      this.results = [];
+      this.fhirService.get('/DiagnosticReport?patient=' + this.patientId + '&_count=5&_sort=-date').subscribe(bundle => {
+              if (bundle.entry !== undefined) {
+                  for (const entry of bundle.entry) {
+                      if (entry.resource !== undefined && entry.resource.resourceType === 'DiagnosticReport') {
+                          this.results.push(entry.resource as DiagnosticReport);
+                      }
+                  }
+              }
+          }
+      );
+      this.procedures = [];
+      this.fhirService.get('/Procedure?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
+              if (bundle.entry !== undefined) {
+                  for (const entry of bundle.entry) {
+                      if (entry.resource !== undefined && entry.resource.resourceType === 'Procedure') {
+                          this.procedures.push(entry.resource as Procedure);
+                      }
+                  }
+              }
+          }
+      );
+      this.immunisations = [];
+      this.fhirService.get('/Immunization?patient=' + this.patientId ).subscribe(bundle => {
+              if (bundle.entry !== undefined) {
+                  for (const entry of bundle.entry) {
+                      if (entry.resource !== undefined && entry.resource.resourceType === 'Immunization') {
+                          this.immunisations.push(entry.resource as Immunization);
+                      }
+                  }
+              }
           }
       );
 

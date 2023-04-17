@@ -4,7 +4,7 @@ import {EprService} from "../../../services/epr.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Patient, QuestionnaireResponse} from "fhir/r4";
 import {environment} from "../../../../environments/environment";
-import {TaskCreateComponent} from "../referrals/task-create/task-create.component";
+import {TaskCreateComponent} from "../workflow/task-create/task-create.component";
 
 
 

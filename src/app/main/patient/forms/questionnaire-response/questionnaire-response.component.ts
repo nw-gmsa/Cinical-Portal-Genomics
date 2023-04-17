@@ -6,6 +6,7 @@ import {FhirService} from '../../../../services/fhir.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {Router} from "@angular/router";
+import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 
 @Component({
   selector: 'app-questionnaire-response',
@@ -99,4 +100,26 @@ export class QuestionnaireResponseComponent implements OnInit {
       }
       return 'Not found';
   }
+    delete(questionnaireResponse: QuestionnaireResponse) {
+        let dialogRef = this.dialog.open(DeleteComponent, {
+            width: '250px',
+            data:  questionnaireResponse
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+                this.fhirService.deleteTIE('/QuestionnaireResponse/'+questionnaireResponse.id).subscribe(result => {
+                    if (this.forms !== undefined) {
+                        this.forms.forEach((taskIt, index) => {
+                            if (taskIt.id === questionnaireResponse.id) {
+                                // @ts-ignore
+                                this.forms.splice(index, 1);
+                            }
+                        })
+                        this.dataSource = new MatTableDataSource<QuestionnaireResponse>(this.forms);
+                    }
+                })
+            }
+        });
+    }
 }

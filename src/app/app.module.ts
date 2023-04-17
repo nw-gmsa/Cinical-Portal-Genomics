@@ -52,8 +52,8 @@ import {ResourceDialogComponent} from './dialogs/resource-dialog/resource-dialog
 import {MatTabsModule} from '@angular/material/tabs';
 import {DocumentReferenceComponent} from './main/patient/documents/document-reference/document-reference.component';
 import {QuestionnaireResponseComponent} from './main/patient/forms/questionnaire-response/questionnaire-response.component';
-import { TaskComponent } from './main/patient/referrals/task/task.component';
-import {ReferralRequestComponent} from './main/patient/referrals/referral-request/referral-request.component';
+import { TaskComponent } from './main/patient/workflow/task/task.component';
+import {ReferralRequestComponent} from './main/patient/workflow/referral-request/referral-request.component';
 import {AllergyIntoleranceComponent} from './main/patient/summary/allergy-intolerance/allergy-intolerance.component';
 import {MedicationRequestComponent} from './main/patient/summary/medication-request/medication-request.component';
 import { DiagnosticReportComponent } from './main/patient/observations/diagnostic-report/diagnostic-report.component';
@@ -70,9 +70,9 @@ import { ObservationChartComponent } from './main/patient/observations/observati
 import { CommunicationComponent } from './main/patient/communication/communication/communication.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { TaskCreateComponent } from './main/patient/referrals/task-create/task-create.component';
+import { TaskCreateComponent } from './main/patient/workflow/task-create/task-create.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { ServiceCreateComponent } from './main/patient/referrals/service-create/service-create.component';
+import { ServiceCreateComponent } from './main/patient/workflow/service-create/service-create.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { CareTeamCreateComponent } from './main/patient/plans-and-goals/care-team-create/care-team-create.component';
 import { CarePlanCreateComponent } from './main/patient/plans-and-goals/care-plan-create/care-plan-create.component';
@@ -84,7 +84,7 @@ import {CovalentDynamicMenuModule} from "@covalent/core/dynamic-menu";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { DocumentsComponent } from './main/patient/documents/documents.component';
 import { FormsComponent } from './main/patient/forms/forms.component';
-import { WorkflowComponent } from './main/patient/referrals/workflow.component';
+import { WorkflowComponent } from './main/patient/workflow/workflow.component';
 import { CoordinatedCareComponent } from './main/patient/plans-and-goals/coordinated-care.component';
 import { PatientCommunicationComponent } from './main/patient/communication/patient-communication.component';
 import { PersonalHealthDeviceComponent } from './main/account/personal-health-device/personal-health-device.component';
@@ -99,13 +99,15 @@ import { DiagnosticReportDetailComponent } from './main/patient/observations/dia
 import { GoalCreateComponent } from './main/patient/plans-and-goals/goal-create/goal-create.component';
 import { GoalComponent } from './main/patient/plans-and-goals/goal/goal.component';
 import { GoalTargetComponent } from './main/patient/plans-and-goals/goal-target/goal-target.component';
-import { TaskNoteComponent } from './main/patient/referrals/task-note/task-note.component';
+import { TaskNoteComponent } from './main/patient/workflow/task-note/task-note.component';
 import { DeleteComponent } from './dialogs/delete/delete.component';
 import {A11yModule} from "@angular/cdk/a11y";
 import { AboutComponent } from './main/about/about.component';
 import { DiagnosticReportCreateComponent } from './main/patient/observations/diagnostic-report-create/diagnostic-report-create.component';
 import { ActivityDefinitionComponent } from './main/Management/activity-definition/activity-definition.component';
 import { ActivityDefinitionDetailComponent } from './main/Management/activity-definition-detail/activity-definition-detail.component';
+import {ProcedureComponent} from "./main/patient/summary/procedure/procedure.component";
+import {ImmunisationComponent} from "./main/patient/summary/immunisation/immunisation.component";
 
 const modules = [
   MatIconModule,
@@ -192,7 +194,9 @@ const modules = [
     AboutComponent,
     DiagnosticReportCreateComponent,
     ActivityDefinitionComponent,
-    ActivityDefinitionDetailComponent
+    ActivityDefinitionDetailComponent,
+      ProcedureComponent,
+      ImmunisationComponent
   ],
     imports: [
         BrowserModule,

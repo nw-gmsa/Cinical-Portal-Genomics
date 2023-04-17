@@ -1,4 +1,6 @@
-
+table {
+    width: 100%;
+}
 .mat-card.scrollable-content {
     overflow-y: auto;
 }
