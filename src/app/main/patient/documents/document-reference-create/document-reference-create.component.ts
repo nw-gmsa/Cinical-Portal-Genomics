@@ -104,8 +104,8 @@ export class DocumentReferenceCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsExpansion(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getPatients', []));
+
+    ), catchError(this.dlgSrv.handleError('getPatients', [])));
     this.practitioner$ = this.searchTermsDoc.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -116,8 +116,8 @@ export class DocumentReferenceCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsPractitoner(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
     this.types$ = this.searchTypes.pipe(
         debounceTime(300),
@@ -129,8 +129,8 @@ export class DocumentReferenceCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsExpansion(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getPatients', []));
+
+    ), catchError(this.dlgSrv.handleError('getPatients', [])));
 
     this.organisation$ = this.searchTermsOrg.pipe(
         debounceTime(300),
@@ -143,8 +143,8 @@ export class DocumentReferenceCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsOrganisation(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
   }
 
   checkSubmit(): void {

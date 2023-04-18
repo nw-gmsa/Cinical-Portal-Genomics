@@ -63,8 +63,9 @@ export class CareTeamCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsExpansion(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+        ),
+        catchError(this.dlgSrv.handleError('getReasons', [])))
+    ;
     this.organisation$ = this.searchTermsOrg.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -76,8 +77,8 @@ export class CareTeamCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsOrganisation(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
     this.practitioner$ = this.searchTermsDoc.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -88,8 +89,8 @@ export class CareTeamCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsPractitoner(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
   }
 

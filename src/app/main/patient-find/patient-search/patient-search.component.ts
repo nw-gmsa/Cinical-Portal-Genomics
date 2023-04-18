@@ -45,13 +45,19 @@ export class PatientSearchComponent implements OnInit {
   // Push a search term into the observable stream.
   search(term: string): void {
     if (term.length>3) {
-      this.searchTerms.next(term);
+      try {
+        this.searchTerms.next(term);
+      } catch (error) {
+        this._loadingService.resolve('overlayStarSyntax');
+        console.log(error)
+      }
     }
   }
 
 
 
   ngOnInit(): void {
+
     this.patients$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -61,8 +67,10 @@ export class PatientSearchComponent implements OnInit {
 
       // switch to new search observable each time the term changes
       switchMap((term: string) => {
+
         this._loadingService.register('overlayStarSyntax');
-         return this.fhirService.searchPatients(term); }
+          return this.fhirService.searchPatients(term.replace(',', ''));
+      }
 
       ),
 
@@ -77,26 +85,15 @@ export class PatientSearchComponent implements OnInit {
             }
           }
           return pat$; }
-        )
-    ), catchError(this.handleError('getPatients', []));
-
+        ),
+        catchError(err => {
+          console.log('Handling error locally ...', err);
+          this._loadingService.resolve('overlayStarSyntax');
+          return of([]);
+        })
+    )
   }
 
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      console.log('patient search ERROR');
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
 
   selectPatient(patient: Patient): void {
 
@@ -104,23 +101,4 @@ export class PatientSearchComponent implements OnInit {
     this.patientSelected.emit(patient);
   }
 
-
-
-  logError(title: string): (message: any) => Observable<never> {
-      return (message: any) => {
-        if(message instanceof HttpErrorResponse) {
-          if (message.status === 401) {
-            // this.authService.logout();
-            // this.messageService.add(title + ": 401 Unauthorised");
-          }
-          if (message.status === 403) {
-            // this.messageService.add(title + ": 403 Forbidden (insufficient scope)");
-          }
-        }
-        console.log('Patient Search error handling ' + message);
-
-        return NEVER;
-
-    }
-  }
 }

@@ -77,7 +77,7 @@
     <mat-form-field class="example-half-width">
       <mat-label>Reason (Conditions and Reports)</mat-label>
       <mat-select [(ngModel)]="planConditions" multiple>
-        <mat-option *ngFor="let condition of conditions" [value]="condition">{{fhirService.getCodeableConceptResourceValue(condition)}}</mat-option>
+        <mat-option *ngFor="let condition of conditions" [value]="condition">{{dlgSrv.getResourceDisplay(condition)}}</mat-option>
       </mat-select>
       <mat-hint align="end"> Explanation/Justification for procedure or service</mat-hint>
     </mat-form-field>

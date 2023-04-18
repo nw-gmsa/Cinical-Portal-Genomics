@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {
   ActivityDefinition,
-  Bundle, CarePlan, CareTeam, DocumentReference, Goal,
+  Bundle, CarePlan, CareTeam, Condition, DiagnosticReport, DocumentReference, Goal,
   Organization,
   Practitioner,
   Questionnaire, QuestionnaireResponse,
@@ -27,10 +27,12 @@ export class DialogService {
 
 
   getResourceDisplay(resource: Resource): string{
+
     if (resource.resourceType === 'Questionnaire') {
       const questionnaire = resource as Questionnaire;
       if (questionnaire.title !== null) return <string>questionnaire.title;
     }
+
     if (resource.resourceType === 'ServiceRequest') {
       const serviceRequest = resource as ServiceRequest;
       if (serviceRequest.code !== undefined) return this.fhirService.getCodeableConceptValue(serviceRequest.code)
@@ -76,6 +78,21 @@ export class DialogService {
       if (organization.identifier === undefined) { return <string>organization.name; }
       return organization.name + ' (' + organization.identifier[0].value + ')';
     }
+    if (resource.resourceType === 'Condition') {
+      const condition = resource as Condition;
+
+      if (condition.code !== undefined) {
+        if (condition.code.text !== undefined) return <string>condition.code.text;
+        if (condition.code.coding !== undefined && condition.code.coding[0].display !== undefined) return condition.code.coding[0].display
+      }
+    }
+    if (resource.resourceType === 'DiagnosticReport') {
+      const diagnosticReport = resource as DiagnosticReport;
+      if (diagnosticReport.code !== undefined) {
+        if (diagnosticReport.code.text !== undefined) return <string>diagnosticReport.code.text;
+        if (diagnosticReport.code.coding !== undefined && diagnosticReport.code.coding[0].display !== undefined) return diagnosticReport.code.coding[0].display
+      }
+    }
     if (resource.resourceType === 'CareTeam') {
       const careTeam = resource as CareTeam;
       if (careTeam.name !== null) return <string>careTeam.name;
@@ -84,6 +101,7 @@ export class DialogService {
       const activityDefinition = resource as ActivityDefinition;
       if (activityDefinition.title !== null) return <string>activityDefinition.title;
     }
+    console.log(resource)
     return this.fhirService.getCodeableConceptResourceValue(resource)
   }
 

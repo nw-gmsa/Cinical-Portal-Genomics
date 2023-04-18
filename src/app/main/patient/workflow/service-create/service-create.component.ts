@@ -3,7 +3,7 @@ import {Observable, Subject} from 'rxjs';
 import {
   CarePlan,
   CareTeam,
-  Coding, Condition, DiagnosticReport,
+  Coding,
   Organization,
   Practitioner,
   Reference, Resource,
@@ -163,8 +163,8 @@ export class ServiceCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsExpansion(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPatients', []));
+
+    ), catchError(this.dlgSrv.handleError('getPatients', [])));
 
     this.performer$ = this.searchPerformers.pipe(
       debounceTime(300),
@@ -176,8 +176,8 @@ export class ServiceCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsExpansion(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPatients', []));
+
+    ), catchError(this.dlgSrv.handleError('getPatients', [])));
 
     this.reason$ = this.searchReasons.pipe(
       debounceTime(300),
@@ -189,8 +189,8 @@ export class ServiceCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsExpansion(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+
+    ), catchError(this.dlgSrv.handleError('getReasons', [])));
 
     this.practitioner$ = this.searchTermsDoc.pipe(
       debounceTime(300),
@@ -202,8 +202,8 @@ export class ServiceCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsPractitoner(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
     this.organisation$ = this.searchTermsOrg.pipe(
       debounceTime(300),
@@ -216,8 +216,8 @@ export class ServiceCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsOrganisation(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
   }
 
@@ -343,7 +343,8 @@ export class ServiceCreateComponent implements OnInit {
     }
     if (this.organisation !== undefined && serviceRequest.performer !== undefined) {
       const reference: Reference = {
-        reference: 'Organization/' + this.organisation.id
+        reference: 'Organization/' + this.organisation.id,
+        display: this.dlgSrv.getResourceDisplay(this.organisation)
       };
       if (this.organisation.identifier !== undefined && this.organisation.identifier.length > 0) {
         reference.identifier = this.organisation.identifier[0];
@@ -352,7 +353,8 @@ export class ServiceCreateComponent implements OnInit {
     }
     if (this.practitioner !== undefined && serviceRequest.performer !== undefined) {
       const reference: Reference = {
-        reference: 'Practitioner/' + this.practitioner.id
+        reference: 'Practitioner/' + this.practitioner.id,
+        display: this.dlgSrv.getResourceDisplay(this.practitioner)
       };
       if (this.practitioner.identifier !== undefined && this.practitioner.identifier.length > 0) {
         reference.identifier = this.practitioner.identifier[0];
@@ -513,20 +515,12 @@ export class ServiceCreateComponent implements OnInit {
     }
     if (this.planConditions !== undefined && this.planConditions.length > 0 && serviceRequest.reasonReference !== undefined) {
       for (const carePlan of this.planConditions) {
-        if (carePlan.resourceType === 'Condition') {
-          const reference: Reference = {
-            display: this.fhirService.getCodeableConceptValue((carePlan as Condition).code),
-            reference: carePlan.resourceType + '/' + carePlan.id
-          };
-          serviceRequest.reasonReference.push(reference);
-        }
-        if (carePlan.resourceType === 'DiagnosticReport') {
-          const reference: Reference = {
-            display: this.fhirService.getCodeableConceptValue((carePlan as DiagnosticReport).code),
-            reference: carePlan.resourceType + '/' + carePlan.id
-          };
-          serviceRequest.reasonReference.push(reference);
-        }
+        const reference: Reference = {
+          display: this.dlgSrv.getResourceDisplay(carePlan),
+          type: carePlan.resourceType,
+          reference: carePlan.resourceType + '/' + carePlan.id
+        };
+        serviceRequest.reasonReference.push(reference);
       }
     }
 

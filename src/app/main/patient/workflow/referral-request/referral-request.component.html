@@ -129,8 +129,15 @@
 
           <span *ngIf="element.reasonCode !== undefined || element.reasonReference !== undefined">
             <h4>Reason</h4>
-            <span [innerHTML]="fhirService.getCodeableConcepts(element.reasonCode)"></span>
-            <span [innerHTML]="fhirService.getReferences(element.reasonReference)"></span>
+             <span *ngIf="element.reasonCode !== undefined">
+                <span [innerHTML]="fhirService.getCodeableConcepts(element.reasonCode)"></span>
+             </span>
+            <span *ngIf="element.reasonReference !== undefined">
+              <mat-card style="width: 25%;" *ngFor="let reason of element.reasonReference" (click)="onClick(reason)">
+              <p style="color:blue;font-size:11px;">{{reason.type}}</p>
+              <span [innerHTML]="fhirService.getReference(reason)"></span>
+            </mat-card>
+            </span>
           </span>
 
           <span *ngIf="element.supportingInfo !== undefined">

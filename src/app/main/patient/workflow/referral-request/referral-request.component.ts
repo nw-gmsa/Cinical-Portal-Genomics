@@ -188,12 +188,13 @@ export class ReferralRequestComponent implements OnInit {
         })
     }
 
-    onClick(supportingInfo: Reference) {
-        if (supportingInfo.type !== undefined && supportingInfo.reference !== undefined) {
-            const id = supportingInfo.reference.split('/')[1];
+    onClick(reference: Reference) {
+        if (reference.type !== undefined && reference.reference !== undefined) {
+            const id = reference.reference.split('/')[1];
             console.log(id);
-            if (supportingInfo.type === 'DocumentReference') this.router.navigate(['/patient', this.patientId, 'documents', id])
-            if (supportingInfo.type === 'QuestionnaireResponse') this.router.navigate(['/patient', this.patientId, 'forms', id])
+            if (reference.type === 'DocumentReference') this.router.navigate(['/patient', this.patientId, 'documents', id])
+            if (reference.type === 'QuestionnaireResponse') this.router.navigate(['/patient', this.patientId, 'forms', id])
+            if (reference.type === 'DiagnosticReport') this.router.navigate(['/patient', this.patientId, 'report', id])
         }
     }
 }

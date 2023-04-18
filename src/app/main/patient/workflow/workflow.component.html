@@ -13,7 +13,7 @@
 
                 <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                     <mat-list-item>
-                        <button mat-icon-button color="accent"  (click)="addServiceRequest()"><mat-icon>assignment</mat-icon> Add Service Request</button>
+                        <button mat-button color="accent"  (click)="addServiceRequest()">Add Service Request</button>
                     </mat-list-item>
                 </mat-nav-list>
                 <span *ngIf="requests.length>0">

@@ -94,8 +94,8 @@ export class GoalCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsExpansion(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+
+    ), catchError(this.dlgSrv.handleError('getReasons', [])));
     this.target$ = this.searchTargets.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -107,8 +107,8 @@ export class GoalCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsExpansion(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+
+    ), catchError(this.dlgSrv.handleError('getReasons', [])));
   }
 
 

@@ -80,8 +80,8 @@ export class DiagnosticReportCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsExpansion(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+
+    ), catchError(this.dlgSrv.handleError('getReasons', [])));
 
     this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
@@ -101,8 +101,8 @@ export class DiagnosticReportCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsPractitoner(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
     this.organisation$ = this.searchTermsOrg.pipe(
         debounceTime(300),
@@ -115,8 +115,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
         map(resource    => {
               return this.dlgSrv.getContainsOrganisation(resource);
             }
-        )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+            ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
   }
 

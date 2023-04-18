@@ -106,8 +106,8 @@ export class EpisodeOfCareCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsOrganisation(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
     this.practitioner$ = this.searchTermsDoc.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -118,8 +118,8 @@ export class EpisodeOfCareCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsPractitoner(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
   }
   searchOrg(value: string): void {

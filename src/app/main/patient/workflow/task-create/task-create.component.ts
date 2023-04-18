@@ -213,8 +213,8 @@ export class TaskCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsExpansion(resource);
       }
-      )
-    ), catchError(this.dlgSrv.handleError('getPatients', []));
+
+    ), catchError(this.dlgSrv.handleError('getPatients', [])));
 
     this.reason$ = this.searchReasons.pipe(
       // wait 300ms after each keystroke before considering the term
@@ -231,8 +231,8 @@ export class TaskCreateComponent implements OnInit {
       map(resource    => {
         return this.dlgSrv.getContainsExpansion(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+
+    ), catchError(this.dlgSrv.handleError('getReasons', [])));
 
 
     this.practitioner$ = this.searchTermsDoc.pipe(
@@ -246,8 +246,8 @@ export class TaskCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsPractitoner(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
     this.organisation$ = this.searchTermsOrg.pipe(
       debounceTime(300),
@@ -259,8 +259,8 @@ export class TaskCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsOrganisation(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+
+    ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
   }
 
   search(term: string): void {

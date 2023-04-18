@@ -131,8 +131,7 @@ export class CarePlanCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsExpansion(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+        ), catchError(this.dlgSrv.handleError('getReasons', [])));
 
     this.conditions$ = this.searchConditions.pipe(
       debounceTime(300),
@@ -144,8 +143,7 @@ export class CarePlanCreateComponent implements OnInit {
       map(resource    => {
           return this.dlgSrv.getContainsExpansion(resource);
         }
-      )
-    ), catchError(this.dlgSrv.handleError('getReasons', []));
+    ), catchError(this.dlgSrv.handleError('getReasons', [])));
   }
 
   selectedStatus(status: any): void {

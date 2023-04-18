@@ -73,7 +73,7 @@ export class CommunicationCreateComponent implements OnInit {
           return this.dlgSrv.getContainsPractitoner(resource);
         }
       )
-    ), catchError(this.dlgSrv.handleError('getPractitioner', []));
+    , catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
     this.organisation$ = this.searchTermsOrg.pipe(
       debounceTime(300),
