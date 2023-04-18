@@ -13,7 +13,7 @@
             <td-markdown>Data models [UKCore-DocumentReference]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DocumentReference')}}) and [NHSDigital-DocumentReference](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-DocumentReference).</td-markdown>
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
-                    <button mat-icon-button color="accent"  (click)="addDocumentMetadata()"><mat-icon>view_timeline</mat-icon> Add Document</button>
+                    <button mat-button color="accent"  (click)="addDocumentMetadata()">Add Document</button>
                 </mat-list-item>
             </mat-nav-list>
             <span *ngIf="documents.length>0">

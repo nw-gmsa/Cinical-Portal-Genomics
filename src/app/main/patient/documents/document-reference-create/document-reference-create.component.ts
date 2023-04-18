@@ -18,6 +18,10 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Moment} from "moment/moment";
 import {MatSelectChange} from "@angular/material/select";
 import {environment} from "../../../../../environments/environment";
+import {TdDialogService} from "@covalent/core/dialogs";
+import * as moment from "moment";
+
+
 
 var Fhir = require('fhir').Fhir;
 
@@ -54,6 +58,7 @@ export class DocumentReferenceCreateComponent implements OnInit {
   categories: ValueSetExpansionContains[] | undefined;
   metadataCreated: Moment | undefined;
   url: string | undefined;
+  mime: string | undefined;
   private metadataSetting: Coding | undefined;
   files: File | FileList | undefined;
   public fileLoaded: EventEmitter<any> = new EventEmitter();
@@ -62,6 +67,7 @@ export class DocumentReferenceCreateComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
               public dlgSrv: DialogService,
+              public _dialogService: TdDialogService,
               private diaglogRef: MatDialogRef<DocumentReferenceCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
@@ -232,7 +238,6 @@ export class DocumentReferenceCreateComponent implements OnInit {
     };
 
 
-
       switch (this.metadataStatus) {
         case 'current' : {
           metadata.status = 'current';
@@ -284,10 +289,11 @@ export class DocumentReferenceCreateComponent implements OnInit {
         ]
       });
     }
-    if (this.url !== undefined) {
+    if (this.url !== undefined && this.mime !== undefined) {
       metadata.content = [{
         attachment: {
-          url: this.url
+          url: this.url,
+          contentType: this.mime
         }
       }];
     }
@@ -336,7 +342,6 @@ export class DocumentReferenceCreateComponent implements OnInit {
           value: this.practitioner.identifier[0].value,
         }
       }
-      console.log(reference);
       metadata.author= [ reference ];
     }
 
@@ -357,7 +362,7 @@ export class DocumentReferenceCreateComponent implements OnInit {
   postBinary(file : File) {
     const reader = new FileReader();
     reader.readAsBinaryString(file);
-    this.fileLoaded.subscribe( (data) => {
+    this.fileLoaded.subscribe( (data: any) => {
           var binary : Binary = {
             resourceType: 'Binary',
             contentType: file.type,
@@ -367,8 +372,14 @@ export class DocumentReferenceCreateComponent implements OnInit {
             // This is probably a fault on the backend server. It needs to be able to post json
             binary.contentType = 'text/plain'
           }
+          console.log(binary.contentType)
           this.fhirService.postTIE('/Binary',binary).subscribe(response => {
+            this.mime = file.type
             this.url = environment.tieServer + '/Binary/'+ response.id
+            if (this.metadataCreated === undefined) {
+              this.metadataCreated = moment(file.lastModified)
+            }
+            this.checkSubmit()
           });
         }
     );
@@ -386,6 +397,12 @@ export class DocumentReferenceCreateComponent implements OnInit {
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
+      me._dialogService.openAlert({
+        title: 'Alert',
+        disableClose: true,
+        message:
+            'Failed to process file. Try smaller example?',
+      });
     };
   }
 

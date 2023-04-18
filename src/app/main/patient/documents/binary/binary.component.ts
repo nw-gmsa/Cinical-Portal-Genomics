@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnInit, ViewContainerRef} from '@angular/core'
 
 import {ActivatedRoute} from '@angular/router';
 import { TdDialogService} from '@covalent/core/dialogs';
-import {Binary, Bundle, Composition, DocumentReference, FhirResource} from "fhir/r4";
+import {Binary, Bundle, Composition, DocumentReference, FhirResource, Patient} from "fhir/r4";
 import {EprService} from "../../../../services/epr.service";
 import {FhirService} from "../../../../services/fhir.service";
 
@@ -117,35 +117,35 @@ export class BinaryComponent implements OnInit {
           var document = JSON.parse(jsonString)
           if (document.resourceType === 'Bundle') {
              const bundle = document as Bundle;
-             if (bundle.entry !== undefined) {
-               bundle.entry.forEach(entry => {
-                 if (entry.resource !== undefined) {
-                   console.log(entry.resource.resourceType)
-                   if (entry.resource.resourceType === 'Composition') {
-                     var html = '';
-                     var composition = entry.resource as Composition
-                     if (composition.section !== undefined) {
-                       // possibly swap back to this? https://github.com/nhsconnect/careconnect-document-viewer/blob/master/web/src/app/component/binary/composition-view-section/view-document-section.component.html
-                       composition.section.forEach(section => {
-                         if (section.title !== undefined) {
-                            html += '<h3>'+ section.title + '</h3>'
-                         }
-
-                         if (section.text !== undefined && section.text.div !== undefined) {
-                           html += section.text.div
-                         }
-                       })
-                     }
-                     console.log(html)
-                     this.docType = 'html'
-                     this.html = html
-                     this.json = bundle
-                   }
-                 }
-               })
+             var html = '';
+             let resource = this.getResource(bundle,'Patient')
+             if (resource !== undefined) {
+               const patient = resource as Patient
+               if (patient.text !== undefined) html += patient.text.div
              }
+             resource = this.getResource(bundle,'Composition')
+             if (resource !== undefined) {
+                 var composition = resource as Composition
+                if (composition.text !== undefined) html += composition.text.div
+                 if (composition.section !== undefined) {
+                   // possibly swap back to this? https://github.com/nhsconnect/careconnect-document-viewer/blob/master/web/src/app/component/binary/composition-view-section/view-document-section.component.html
+                   composition.section.forEach(section => {
+                     if (section.title !== undefined) {
+                        html += '<h3>'+ section.title + '</h3>'
+                     }
+                     if (section.text !== undefined && section.text.div !== undefined) {
+                       html += section.text.div
+                     }
+                   })
+                 }
+                // console.log(html)
+                 this.docType = 'html'
+                 this.html = html
+                 this.json = bundle
+               }
+             }
+
           }
-        }
         //this.docType = 'fhir';
       } else if (this.binary.contentType === 'application/pdf') {
         if (this.document.content[0].attachment.url !== undefined) this.pdfSrc = this.document.content[0].attachment.url;
@@ -181,6 +181,15 @@ export class BinaryComponent implements OnInit {
       if (node.match( /^<?\w[^>]*[^\/]$/ )) indent += tab;              // increase indent
     });
     return formatted.substring(1, formatted.length-3);
+  }
+
+  getResource(bundle : Bundle, type: string): FhirResource | undefined {
+    if (bundle.entry !== undefined) {
+      for (let entry of bundle.entry) {
+        if (entry.resource !== undefined && entry.resource.resourceType === type) return entry.resource;
+      }
+    }
+    return undefined
   }
 
   protected readonly JSON = JSON;

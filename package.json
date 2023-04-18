@@ -28,6 +28,7 @@
     "@swimlane/ngx-charts": "^20.1.2",
     "@types/fhir": "^0.0.36",
     "fhir": "^4.11.2",
+    "moment": "^2.29.4",
     "ng2-pdf-viewer": "^9.1.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
