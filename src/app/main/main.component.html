@@ -28,6 +28,7 @@
                 <td-dynamic-menu
                         [trigger]="triggerApps"
                         [items]="itemsApps"
+                        (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu>
                 <button mat-icon-button routerLink="/about"><mat-icon>help</mat-icon></button>
                 <td-dynamic-menu

@@ -11,7 +11,7 @@
 
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
-                    <button mat-icon-button color="accent"  (click)="addCarePlan()"><mat-icon>map</mat-icon> Add Care Plan</button>
+                    <button mat-button color="accent"  (click)="addCarePlan()">Add Care Plan</button>
                 </mat-list-item>
             </mat-nav-list>
             <span *ngIf="carePlans.length>0">
@@ -28,7 +28,7 @@
 
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
-                    <button mat-icon-button color="accent"  (click)="addGoal()"><mat-icon>stars</mat-icon> Add Goal</button>
+                    <button mat-button color="accent"  (click)="addGoal()">Add Goal</button>
                 </mat-list-item>
             </mat-nav-list>
             <span *ngIf="goals.length>0">
@@ -45,7 +45,7 @@
             </div>
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
-                    <button mat-icon-button color="accent"  (click)="addCareTeam()"><mat-icon>contacts</mat-icon> Add Care Team</button>
+                    <button mat-button color="accent"  (click)="addCareTeam()">Add Care Team</button>
                 </mat-list-item>
             </mat-nav-list>
             <span *ngIf="careTeams.length>0">
@@ -63,7 +63,7 @@
             </div>
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
-                    <button mat-icon-button color="accent"  (click)="addStay()"><mat-icon>inventory</mat-icon> Add Episode/Stay</button>
+                    <button mat-button color="accent"  (click)="addStay()">Add Episode/Stay</button>
                 </mat-list-item>
             </mat-nav-list>
             <span *ngIf="episodes.length>0">

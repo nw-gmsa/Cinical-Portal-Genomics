@@ -102,7 +102,8 @@ export class MainComponent implements OnInit {
     {
       id: 'activityDefinition',
       text: 'Activity Definitions',
-      link: '../activity'
+      icon: 'view_cozy',
+      action: 'activity'
     },
   ];
   itemsCare: IMenuItem[] = [
