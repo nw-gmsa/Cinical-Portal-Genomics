@@ -173,6 +173,7 @@ export class FhirService {
     if (code === undefined) { return ''; }
     const result = '';
     if (code.display !== undefined) { return code.display; }
+    if (code.code !== undefined) { return code.code; }
     return result;
   }
 

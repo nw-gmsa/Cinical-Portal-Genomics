@@ -101,9 +101,9 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'activityDefinition',
-      text: 'Activity Definitions',
+      text: 'Pathways',
       icon: 'view_cozy',
-      action: 'activity'
+      action: 'pathways'
     },
   ];
   itemsCare: IMenuItem[] = [
@@ -206,7 +206,12 @@ export class MainComponent implements OnInit {
 
     //console.log(event)
     if (event.action !== undefined) {
-
+    switch (event.action) {
+      case 'pathways': {
+        this.router.navigateByUrl('/pathways');
+        break;
+      }
+    }
     if (this.patientId !== undefined) {
       switch (event.action) {
         case 'observations': {
@@ -247,10 +252,6 @@ export class MainComponent implements OnInit {
         }
         case 'device': {
           this.router.navigateByUrl('/device');
-          break;
-        }
-        case 'activity': {
-          this.router.navigateByUrl('/activity');
           break;
         }
         case 'roles': {

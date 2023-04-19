@@ -1,0 +1,90 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+       multiTemplateDataRows
+       matSort
+       matSortActive="date" matSortDirection="desc">
+
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let activity"> {{activity.id}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef > Status </th>
+        <td mat-cell *matCellDef="let activity"> {{activity.status}} </td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef > Title </th>
+        <td mat-cell *matCellDef="let activity"> {{activity.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef > Type </th>
+        <td mat-cell *matCellDef="let activity"> <span [innerHTML]="fhirService.getCodeableConceptValue(activity.code)"></span> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef > Description </th>
+        <td mat-cell *matCellDef="let activity">
+            <td-markdown [innerHTML]="activity.description"></td-markdown> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="resource">
+        <th mat-header-cell *matHeaderCellDef style="min-width: 40px;"></th>
+        <td mat-cell *matCellDef="let activity">
+            <!-- TODO reenable when completed <button mat-icon-button color="accent" matTooltip="Edit" (click)="edit(referral)"><mat-icon>mode_edit</mat-icon></button>
+            <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(referral)"><mat-icon>delete</mat-icon></button>-->
+            <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(activity)"><mat-icon>code</mat-icon></button>  </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef style="min-width: 40px;" aria-label="row actions">&nbsp;</th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+            <div class="example-element-detail"
+                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                <h3>Related</h3>
+                <span *ngIf="element.relatedArtifact !== undefined">
+                    <span *ngFor="let doc of element.relatedArtifact">
+                        <a [href]="doc.url" target="_blank">{{doc.display}}</a>
+                    </span>
+                </span>
+                <br/>
+                <h3>Usage</h3>
+                <span *ngIf="element.usage !== undefined">
+                    <td-markdown [innerHTML]="element.usage"></td-markdown>
+                </span>
+                <br/>
+                <span *ngIf="element.observationResultRequirement !== undefined">
+                     <h3>Result Requirement </h3>
+                    <span *ngFor="let reference of element.observationResultRequirement">
+                        <td-markdown [innerHTML]="reference.display"></td-markdown>
+                    </span>
+                </span>
+            </div>
+        </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="this.expandedElement = this.expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+
+

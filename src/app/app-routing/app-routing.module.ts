@@ -26,7 +26,7 @@ import {
 } from "../main/patient/forms/questionnaire-response-view/questionnaire-response-view.component";
 import {BinaryComponent} from "../main/patient/documents/binary/binary.component";
 import {AboutComponent} from "../main/about/about.component";
-import {ActivityDefinitionComponent} from "../main/Management/activity-definition/activity-definition.component";
+import {ActivityDefinitionComponent} from "../main/journey/activity-definition.component";
 
 
 const routes: Routes = [
@@ -37,7 +37,7 @@ const routes: Routes = [
       { path: '', component: PatientFindComponent},
       { path: 'search', component: PatientFindComponent},
       { path: 'device', component: PersonalHealthDeviceComponent},
-      { path: 'activity', component: ActivityDefinitionComponent},
+      { path: 'pathways', component: ActivityDefinitionComponent},
       { path: 'about', component: AboutComponent},
       {
         path: 'patient/:patientid', component: PatientMainComponent,
