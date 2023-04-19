@@ -54,9 +54,11 @@
             <div class="example-element-detail"
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-               <span *ngIf="element.action !== undefined">
+               <mat-card *ngIf="element.action !== undefined">
+                   <h3>Actions</h3>
+                   <br/>
                    <app-plan-definition-action [actions]="element.action"></app-plan-definition-action>
-               </span>
+               </mat-card>
             </div>
         </td>
     </ng-container>
