@@ -1,12 +1,10 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ActivityDefinition} from "fhir/r4";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
-import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
 import {FhirService} from "../../../services/fhir.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
+import {TdDialogService} from "@covalent/core/dialogs";
+import {EprService} from "../../../services/epr.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-activity-definition-detail',
@@ -22,51 +20,44 @@ import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@cova
 })
 export class ActivityDefinitionDetailComponent implements OnInit {
 
-  @Input() activities: ActivityDefinition[] =[];
+  @Input()
+  activity : ActivityDefinition | undefined;
 
-  expandedElement: null | ActivityDefinition | undefined;
-
-
-  // @ts-ignore
-  dataSource: MatTableDataSource<ActivityDefinition>;
-  @ViewChild(MatSort) sort: MatSort | undefined;
-
-  displayedColumns = [ 'status', 'title', 'code', 'description',  'resource'];
-
-  columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-
-  loadingMode = LoadingMode;
-  loadingStrategy = LoadingStrategy;
-  loadingType = LoadingType;
-
+  activityid: string | undefined;
+  patientId: string = '';
   constructor(
-      private _loadingService: TdLoadingService,
-      public dialog: MatDialog,
-      public fhirService: FhirService) { }
+      private _dialogService: TdDialogService,
+      private _viewContainerRef: ViewContainerRef,
+      public fhirService: FhirService,
+      private eprService: EprService,
+      private route: ActivatedRoute) {
+  }
 
-  ngOnInit(): void {
-    this.fhirService.getTIE('/ActivityDefinition').subscribe(bundle => {
-      this._loadingService.resolve('overlayStarSyntax');
-      if (bundle.entry !== undefined) {
-        for (const entry of bundle.entry) {
-          if (entry.resource !== undefined && entry.resource.resourceType === 'ActivityDefinition') {
-            this.activities.push(entry.resource as ActivityDefinition); }
-        }
-        this.dataSource = new MatTableDataSource<ActivityDefinition>(this.activities);
+  ngOnInit() {
+    const activityid= this.route.snapshot.paramMap.get('activity');
+    if (activityid != null) {
+      this.activityid = activityid;
+      this.getRecords()
+    }
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
       }
+    }
+    this.eprService.patientChangeEvent.subscribe(patient => {
+      if (patient.id !== undefined) this.patientId = patient.id
     });
   }
 
-  select(resource: any): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      id: 1,
-      resource
-    };
-    const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
+  private getRecords() {
+    this.fhirService.getTIE('/ActivityDefinition/'+this.activityid).subscribe(result => {
+          if (result !== undefined) {
+            this.activity = result;
+          }
+        }
+    );
   }
+
 
 }

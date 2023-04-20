@@ -1,0 +1,17 @@
+<mat-card class="fullscreen scrollable-content">
+    <td-breadcrumbs>
+        <a td-breadcrumb [routerLink]="['/pathways']">Pathways</a>
+    </td-breadcrumbs>
+    <mat-card-header>Patient Pathway</mat-card-header>
+    <mat-card-content>
+        <br/>
+        <h3>Plan Definition</h3>
+        <br/>
+        <app-plan-definition></app-plan-definition>
+    </mat-card-content>
+    <mat-card-content>
+        <h3>Activity Definition</h3>
+        <br/>
+        <app-activity-definition></app-activity-definition>
+    </mat-card-content>
+</mat-card>

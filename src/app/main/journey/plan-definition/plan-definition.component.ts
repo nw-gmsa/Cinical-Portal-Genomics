@@ -7,6 +7,7 @@ import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@cova
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {FhirService} from "../../../services/fhir.service";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-plan-definition',
@@ -39,6 +40,7 @@ export class PlanDefinitionComponent implements OnInit {
   loadingType = LoadingType;
 
   constructor(
+      private router: Router,
       private _loadingService: TdLoadingService,
       public dialog: MatDialog,
       public fhirService: FhirService) { }
@@ -68,4 +70,10 @@ export class PlanDefinitionComponent implements OnInit {
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
   }
 
+  selectPlan(plan: PlanDefinition) {
+
+      console.log(document)
+      this.router.navigate(['/plan', plan.id])
+
+  }
 }

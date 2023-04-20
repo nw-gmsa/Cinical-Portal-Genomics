@@ -10,6 +10,7 @@ import {TaskCreateComponent} from "../task-create/task-create.component";
 import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 import {EprService} from "../../../../services/epr.service";
 import {DialogService} from "../../../../services/dialog.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-task',
@@ -54,7 +55,9 @@ export class TaskComponent implements OnInit {
   displayedColumns = ['authored', 'lastModified', 'status', 'intent', 'code', 'focus',  'owner', 'resource'];
   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
   showHeader = true;
-  constructor(public fhirService: FhirService,
+  constructor(
+      private router: Router,
+      public fhirService: FhirService,
               public dialog: MatDialog,
               public dlgSrv: DialogService,
               private eprService: EprService) { }
@@ -188,9 +191,11 @@ export class TaskComponent implements OnInit {
         this.dataSource.paginator.firstPage();
       }
     } else {
-      this.dataSource.filter = this.taskStatus.trim().toLowerCase();
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
+      if (this.dataSource !== undefined) {
+        this.dataSource.filter = this.taskStatus.trim().toLowerCase();
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.firstPage();
+        }
       }
     }
   }
@@ -292,5 +297,14 @@ export class TaskComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Task>(this.tasks);
       }
     })
+  }
+
+  click(focus: any) {
+    if (focus.reference !== undefined) {
+      if (focus.type === 'ActivityDefinition') {
+        console.log(focus)
+        this.router.navigate(['/activity', focus.reference.split('/')[1]])
+      }
+    }
   }
 }

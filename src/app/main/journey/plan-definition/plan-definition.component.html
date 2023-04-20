@@ -31,11 +31,10 @@
     </ng-container>
 
     <ng-container matColumnDef="resource">
-        <th mat-header-cell *matHeaderCellDef style="min-width: 40px;"></th>
+        <th mat-header-cell *matHeaderCellDef style="min-width: 80px;"></th>
         <td mat-cell *matCellDef="let plan">
-            <!-- TODO reenable when completed <button mat-icon-button color="accent" matTooltip="Edit" (click)="edit(referral)"><mat-icon>mode_edit</mat-icon></button>
-            <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(referral)"><mat-icon>delete</mat-icon></button>-->
-            <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(plan)"><mat-icon>code</mat-icon></button>  </td>
+            <button mat-icon-button color="accent" matTooltip="View plan definition" (click)="selectPlan(plan)"><mat-icon>open_in_browser</mat-icon></button>
+           <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(plan)"><mat-icon>code</mat-icon></button>  </td>
     </ng-container>
 
     <ng-container matColumnDef="expand">
@@ -54,32 +53,7 @@
             <div class="example-element-detail"
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-                <span *ngIf="element.goal !== undefined">
-                     <h3>Goals</h3>
-                     <span *ngFor="let goal of element.goal">
-                        <span *ngIf="goal.target !== undefined">
-                            <p *ngFor="let target of goal.target">
-                                <span *ngIf="target.measure !== undefined && target.measure.coding !== undefined">
-                                    {{target.measure.coding[0].display}} ({{target.measure.coding[0].code}} - {{target.measure.coding[0].system}})
-                                </span>
 
-                            <span *ngIf="target.detailRange !== undefined">
-                                <span *ngIf="target.detailRange.low !== undefined">
-                                <i>Range low</i> {{target.detailRange.low.value}} {{target.detailRange.low.unit}}
-                                </span>
-                                  <span *ngIf="target.detailRange.high !== undefined">
-                                <i>Range high</i> {{target.detailRange.high.value}} {{target.detailRange.high.unit}}
-                                </span>
-                            </span>
-                            </p>
-                        </span>
-                     </span>
-                 </span>
-               <mat-card *ngIf="element.action !== undefined">
-                   <h3>Actions</h3>
-                   <br/>
-                   <app-plan-definition-action [actions]="element.action"></app-plan-definition-action>
-               </mat-card>
             </div>
         </td>
     </ng-container>

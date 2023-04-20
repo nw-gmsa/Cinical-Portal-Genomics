@@ -104,12 +104,14 @@ import { DeleteComponent } from './dialogs/delete/delete.component';
 import {A11yModule} from "@angular/cdk/a11y";
 import { AboutComponent } from './main/about/about.component';
 import { DiagnosticReportCreateComponent } from './main/patient/observations/diagnostic-report-create/diagnostic-report-create.component';
-import { ActivityDefinitionComponent } from './main/journey/activity-definition.component';
+import { ActivityDefinitionComponent } from './main/journey/activity-definition/activity-definition.component';
 import { ActivityDefinitionDetailComponent } from './main/journey/activity-definition-detail/activity-definition-detail.component';
 import {ProcedureComponent} from "./main/patient/summary/procedure/procedure.component";
 import {ImmunisationComponent} from "./main/patient/summary/immunisation/immunisation.component";
 import { PlanDefinitionComponent } from './main/journey/plan-definition/plan-definition.component';
 import { PlanDefinitionActionComponent } from './main/journey/plan-definition-action/plan-definition-action.component';
+import { PlanDefinitionDetailComponent } from './main/journey/plan-definition-detail/plan-definition-detail.component';
+import { PathwayComponent } from './main/journey/pathway.component';
 
 const modules = [
   MatIconModule,
@@ -200,7 +202,9 @@ const modules = [
       ProcedureComponent,
       ImmunisationComponent,
       PlanDefinitionComponent,
-      PlanDefinitionActionComponent
+      PlanDefinitionActionComponent,
+      PlanDefinitionDetailComponent,
+      PathwayComponent
   ],
     imports: [
         BrowserModule,

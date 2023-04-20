@@ -54,7 +54,7 @@
 
     <ng-container matColumnDef="focus">
       <th mat-header-cell *matHeaderCellDef > Focus </th>
-      <td mat-cell *matCellDef="let task">
+      <td mat-cell *matCellDef="let task" (click)="click(task.focus)">
         <span *ngIf="task.focus !== undefined">
             <p style="color:blue;font-size:11px;">{{task.focus.type}}</p>
             <span [innerHTML]="fhirService.getReference(task.focus)"></span>
