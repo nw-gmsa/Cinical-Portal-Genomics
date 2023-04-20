@@ -5,30 +5,30 @@
     </td-breadcrumbs>
 <span *ngIf="plan!== undefined">
     <span *ngIf="plan.goal !== undefined">
-                         <h3>Goals</h3>
-                         <span *ngFor="let goal of plan.goal">
-                            <span *ngIf="goal.target !== undefined">
-                                <p *ngFor="let target of goal.target">
-                                    <span *ngIf="target.measure !== undefined && target.measure.coding !== undefined">
-                                        {{target.measure.coding[0].display}} ({{target.measure.coding[0].code}} - {{target.measure.coding[0].system}})
-                                    </span>
+         <h3>Goals</h3>
+         <span *ngFor="let goal of plan.goal">
+            <span *ngIf="goal.target !== undefined">
+                <p *ngFor="let target of goal.target">
+                    <span *ngIf="target.measure !== undefined && target.measure.coding !== undefined">
+                        {{target.measure.coding[0].display}} ({{target.measure.coding[0].code}} - {{target.measure.coding[0].system}})
+                    </span>
 
-                                <span *ngIf="target.detailRange !== undefined">
-                                    <span *ngIf="target.detailRange.low !== undefined">
-                                    <i>Range low</i> {{target.detailRange.low.value}} {{target.detailRange.low.unit}}
-                                    </span>
-                                      <span *ngIf="target.detailRange.high !== undefined">
-                                    <i>Range high</i> {{target.detailRange.high.value}} {{target.detailRange.high.unit}}
-                                    </span>
-                                </span>
-                                </p>
-                            </span>
-                         </span>
-                     </span>
+                <span *ngIf="target.detailRange !== undefined">
+                    <span *ngIf="target.detailRange.low !== undefined">
+                    <i>Range low</i> {{target.detailRange.low.value}} {{target.detailRange.low.unit}}
+                    </span>
+                      <span *ngIf="target.detailRange.high !== undefined">
+                    <i>Range high</i> {{target.detailRange.high.value}} {{target.detailRange.high.unit}}
+                    </span>
+                </span>
+                </p>
+            </span>
+         </span>
+     </span>
     <mat-card *ngIf="plan.action !== undefined">
         <h3>Actions</h3>
         <br/>
-        <app-plan-definition-action [actions]="plan.action"></app-plan-definition-action>
+        <app-plan-definition-action [actions]="plan.action" [expandedElement]="plan.action[0]"></app-plan-definition-action>
     </mat-card>
 </span>
 </mat-card>

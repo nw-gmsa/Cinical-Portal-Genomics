@@ -25,6 +25,7 @@ export class PlanDefinitionActionComponent implements OnInit {
   @Input()
   actions: PlanDefinitionAction[] = []
 
+  @Input()
   expandedElement: null | PlanDefinitionAction | undefined;
 
 

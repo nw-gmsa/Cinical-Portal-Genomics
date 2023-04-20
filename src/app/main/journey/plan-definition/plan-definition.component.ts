@@ -24,6 +24,7 @@ import {Router} from "@angular/router";
 export class PlanDefinitionComponent implements OnInit {
   @Input() planDefinitions: PlanDefinition[] =[];
 
+
   expandedElement: null | PlanDefinition | undefined;
 
 
