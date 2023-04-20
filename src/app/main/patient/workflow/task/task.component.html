@@ -3,7 +3,17 @@
     <button mat-button color="accent"  (click)="addTask(2)"> Add Referral Task</button>
   </mat-list-item>
 </mat-nav-list>
+<mat-form-field class="example-half-width">
+  <mat-label>Status</mat-label>
+  <mat-select name="taskStatus" [(ngModel)]="taskStatus" (selectionChange)="applyFilter()">
+    <mat-option  value="">
+    </mat-option>
+    <mat-option *ngFor="let stat of statuses" [value]="stat.code">
+      {{stat.display}}
+    </mat-option>
+  </mat-select>
 
+</mat-form-field>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
          multiTemplateDataRows
          matSort

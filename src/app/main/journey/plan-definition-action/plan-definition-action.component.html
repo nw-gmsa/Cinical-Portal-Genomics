@@ -12,11 +12,7 @@
         <th mat-header-cell *matHeaderCellDef > Title </th>
         <td mat-cell *matCellDef="let plan"> {{plan.title}} </td>
     </ng-container>
-    <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef > Description </th>
-        <td mat-cell *matCellDef="let plan">
-            <td-markdown [innerHTML]="plan.description"></td-markdown> </td>
-    </ng-container>
+
     <ng-container matColumnDef="code">
         <th mat-header-cell *matHeaderCellDef > Type </th>
         <td mat-cell *matCellDef="let plan">
@@ -36,6 +32,7 @@
                     <span *ngIf="plan._definitionCanonical !== undefined &&  plan._definitionCanonical.extension !== undefined && plan._definitionCanonical.extension.length>0">({{
                         plan._definitionCanonical.extension[0].valueReference.display
                         }})</span>
+                     <span [innerHTML]="getDefinition(input.extension)"></span>
                 </p>
             </span>
     </ng-container>
@@ -45,6 +42,7 @@
             <span *ngIf="plan.output !== undefined">
                 <p *ngFor="let output of plan.output">
                     {{output.type}}
+                    <span [innerHTML]="getDefinition(output.extension)"></span>
                 </p>
             </span>
     </ng-container>
@@ -72,7 +70,8 @@
         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
             <div class="example-element-detail"
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-
+                <br/>
+                <td-markdown [innerHTML]="element.description"></td-markdown>
                <span *ngIf="element.action !== undefined">
                    <app-plan-definition-action [actions]="element.action"></app-plan-definition-action>
                </span>

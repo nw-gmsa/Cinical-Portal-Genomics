@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {PlanDefinitionAction} from "fhir/r4";
+import {Extension, PlanDefinitionAction} from "fhir/r4";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -59,5 +59,15 @@ export class PlanDefinitionActionComponent implements OnInit {
       resource
     };
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
+  }
+
+  getDefinition(extensions: Extension[]) {
+    if (extensions === undefined) return "";
+    for(let extension of extensions) {
+      if (extension.url === 'http://england.nhs.uk/fhir/StructureDefinition/workflow-supportingInfo') {
+        return '(' +extension.valueReference?.display +')';
+      }
+    }
+    return "(nowt)"
   }
 }

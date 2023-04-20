@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {Patient, ServiceRequest, Task} from 'fhir/r4';
+import {Patient, ServiceRequest, Task, ValueSetExpansionContains} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
@@ -9,6 +9,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TaskCreateComponent} from "../task-create/task-create.component";
 import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 import {EprService} from "../../../../services/epr.service";
+import {DialogService} from "../../../../services/dialog.service";
 
 @Component({
   selector: 'app-task',
@@ -37,15 +38,14 @@ export class TaskComponent implements OnInit {
 
   @Output() task = new EventEmitter<any>();
 
-
-
   @Input() patientId: string | undefined;
 
   private nhsNumber: string | undefined;
 
-
   @Input() useBundle = false;
 
+  taskStatus: string = '';
+  statuses: ValueSetExpansionContains[] = [];
   // @ts-ignore
   dataSource: MatTableDataSource<Task>;
   @ViewChild(MatSort) sort: MatSort | undefined;
@@ -56,6 +56,7 @@ export class TaskComponent implements OnInit {
   showHeader = true;
   constructor(public fhirService: FhirService,
               public dialog: MatDialog,
+              public dlgSrv: DialogService,
               private eprService: EprService) { }
 
   ngOnInit(): void {
@@ -78,7 +79,12 @@ export class TaskComponent implements OnInit {
     } else {
       this.dataSource = new MatTableDataSource<Task>(this.tasks);
     }
+    this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/task-status').subscribe(
+        resource  => {
+          this.statuses = this.dlgSrv.getContainsExpansion(resource);
 
+        }
+    );
     let displayedColumns;
     this.refreshResults()
 
@@ -104,6 +110,7 @@ export class TaskComponent implements OnInit {
       });
       if (this.dataSource !== undefined) {
         this.dataSource.sort = this.sort;
+        this.applyFilter()
         // @ts-ignore
         this.dataSource.sortingDataAccessor = (item, property) => {
           switch (property) {
@@ -169,6 +176,22 @@ export class TaskComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Task>(this.tasks);
     } else {
     //  console.log(changes)
+    }
+  }
+
+  applyFilter(event?: Event) {
+    if (event !== undefined) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    } else {
+      this.dataSource.filter = this.taskStatus.trim().toLowerCase();
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
     }
   }
 
