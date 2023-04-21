@@ -112,6 +112,9 @@ import { PlanDefinitionComponent } from './main/journey/plan-definition/plan-def
 import { PlanDefinitionActionComponent } from './main/journey/plan-definition-action/plan-definition-action.component';
 import { PlanDefinitionDetailComponent } from './main/journey/plan-definition-detail/plan-definition-detail.component';
 import { PathwayComponent } from './main/journey/pathway.component';
+import {CovalentBaseEchartsModule} from "@covalent/echarts/base";
+import {CovalentTreeEchartsModule} from "@covalent/echarts/tree";
+import {CovalentTooltipEchartsModule} from "@covalent/echarts/tooltip";
 
 const modules = [
   MatIconModule,
@@ -206,34 +209,39 @@ const modules = [
       PlanDefinitionDetailComponent,
       PathwayComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        RouterModule,
-        ...modules,
-        ReactiveFormsModule,
-        FormsModule,
-        NgxChartsModule,
-        HttpClientModule,
-        LayoutModule,
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    RouterModule,
+    ...modules,
+    ReactiveFormsModule,
+    FormsModule,
+    NgxChartsModule,
+    HttpClientModule,
+    LayoutModule,
 
-        CovalentLayoutModule,
-        CovalentMarkdownModule,
-        CovalentDynamicFormsModule,
-        CovalentFileModule,
-        CovalentJsonFormatterModule,
-        CovalentDialogsModule,
-        CovalentMessageModule,
-        CovalentLoadingModule,
-        CovalentDynamicMenuModule,
+    CovalentLayoutModule,
+    CovalentMarkdownModule,
+    CovalentDynamicFormsModule,
+    CovalentBaseEchartsModule,
+    CovalentFileModule,
+    CovalentJsonFormatterModule,
+    CovalentDialogsModule,
+    CovalentMessageModule,
+    CovalentLoadingModule,
+    CovalentDynamicMenuModule,
 
-        PdfViewerModule,
-        MatPaginatorModule,
-        CovalentCommonModule,
-        CovalentBreadcrumbsModule,
-        A11yModule
-    ],
+
+    PdfViewerModule,
+    MatPaginatorModule,
+    CovalentCommonModule,
+    CovalentBreadcrumbsModule,
+    A11yModule,
+    CovalentTreeEchartsModule,
+    CovalentTooltipEchartsModule,
+
+  ],
   exports: [...modules],
   providers: [
     EprService,
