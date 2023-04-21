@@ -148,6 +148,9 @@ MIT
 @covalent/dynamic-forms
 MIT
 
+@covalent/echarts
+MIT
+
 @covalent/markdown
 MIT
 

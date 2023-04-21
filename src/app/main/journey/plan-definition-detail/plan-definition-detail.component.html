@@ -10,55 +10,60 @@
     <td-chart [style.height.px]="400" >
    <td-chart-tooltip [trigger]="'item'">
    <ng-template let-params let-ticket="ticket" tdTooltipFormatter>
-     <ng-container *ngIf="params">
-       <div layout="row" layout-align="start center">
-         <mat-icon class="push-right-sm">
-           <span class="tc-blue-300">info</span>
-         </mat-icon>
-         <span>{{ params.value.id }}
-         <br/>
-             Code: {{params.value.code[0].coding[0].display}}
-             <br/>
-             Input:
-             <span *ngIf="params.value.input !== undefined">
-                 <p *ngFor="let input of params.value.input">
-                     {{input.type}}
-                 </p>
-             </span>
-             <br/>
-             Output:
-             <span *ngIf="params.value.output !== undefined">
-                 <p *ngFor="let output of params.value.output">
-                     {{output.type}}
-                 </p>
-             </span>
-         </span>
-       </div>
-     </ng-container>
-   </ng-template>
- </td-chart-tooltip>
- <td-chart-series
-         td-tree
-         [top]="'10%'"
-         [left]="'10%'"
-         [bottom]="'10%'"
-         [right]="'30%'"
-         [data]=data
-         [initialTreeDepth]="5"
-         [symbolSize]="10"
-         [leaves]="{
-     label: { padding: 5, fontSize: 9, distance: 5, position: 'right' }
-   }"
-         [label]="{
-     padding: 5,
-     borderRadius: 10,
-     fontSize: 9,
-     distance: 5,
-     position: 'left'
-   }"
- ></td-chart-series>
-</td-chart>
+         <ng-container *ngIf="params">
+           <div layout="row" layout-align="start center">
 
+             <span>{{ params.value.id }}
+             <br/>
+                 Code: {{params.value.code[0].coding[0].display}}
+                 <br/>
+                 Input:
+                 <span *ngIf="params.value.input !== undefined">
+                     <p *ngFor="let input of params.value.input">
+                         {{input.type}}
+                     </p>
+                 </span>
+                 <br/>
+                 Output:
+                 <span *ngIf="params.value.output !== undefined">
+                     <p *ngFor="let output of params.value.output">
+                         {{output.type}}
+                     </p>
+                 </span>
+             </span>
+           </div>
+         </ng-container>
+       </ng-template>
+     </td-chart-tooltip>
+     <td-chart-series
+             td-tree
+             [top]="'10%'"
+             [left]="'10%'"
+             [bottom]="'10%'"
+             [right]="'30%'"
+             [data]=data
+             [initialTreeDepth]="5"
+             [symbolSize]="10"
+             [leaves]="{
+         label: { padding: 5, fontSize: 9, distance: 5, position: 'right' }
+       }"
+             [label]="{
+         padding: 5,
+         borderRadius: 10,
+         fontSize: 9,
+         distance: 5,
+         position: 'left'
+       }"
+     ></td-chart-series>
+    </td-chart>
+    <h3>Related</h3>
+    <span *ngIf="plan.relatedArtifact !== undefined">
+                        <p *ngFor="let doc of plan.relatedArtifact">
+                            <a *ngIf="doc.document !== undefined" [href]="doc.document.url" target="_blank">{{doc.display}}</a>
+
+                        </p>
+                    </span>
+    <br/>
     <span *ngIf="plan.goal !== undefined">
          <h3>Goals</h3>
          <span *ngFor="let goal of plan.goal">
