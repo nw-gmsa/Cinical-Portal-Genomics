@@ -164,11 +164,14 @@ export class CareTeamCreateComponent implements OnInit {
     }
     if (this.organisation !== undefined) {
       const reference: Reference = {
-        reference: 'Organization/' + this.organisation.id
+        reference: 'Organization/' + this.organisation.id,
+        type: this.organisation.resourceType,
+        display: this.dlgSrv.getResourceDisplay(this.organisation)
       };
       if (this.organisation.identifier !== undefined && this.organisation.identifier.length > 0) {
         reference.identifier = this.organisation.identifier[0];
       }
+
       if (careTeam.managingOrganization !== undefined) {careTeam.managingOrganization.push(reference);}
     }
     if (this.practitioner !== undefined) {
