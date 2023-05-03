@@ -57,7 +57,7 @@ export class PersonalHealthDeviceComponent implements OnInit {
               return throwError(err)
             }),
             tap(response => {
-              if (response.IPv4 === '86.27.236.161') {
+              if (response.IPv4 === '86.27.236.161' || response.IPv4 === '86.27.237.181') {
                 this.visible = true;
             //    console.log(response.IPv4);
               }
