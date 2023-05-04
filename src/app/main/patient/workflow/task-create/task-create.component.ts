@@ -19,6 +19,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import * as uuid from 'uuid';
 import {DialogService} from '../../../../services/dialog.service';
 import {MatSelectChange} from "@angular/material/select";
+import {TdDialogService} from "@covalent/core/dialogs";
 
 @Component({
   selector: 'app-task-create',
@@ -73,6 +74,7 @@ export class TaskCreateComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
               public dlgSrv: DialogService,
+              private _dialogService: TdDialogService,
               private diaglogRef: MatDialogRef<TaskCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
@@ -611,12 +613,28 @@ export class TaskCreateComponent implements OnInit {
     if (this.task === undefined || this.task.identifier === undefined || this.task.identifier.length ===0) {
       this.fhirService.postTIE('/Task', task).subscribe(result => {
         this.diaglogRef.close(result);
-       });
+       },  error => {
+        console.log(JSON.stringify(error))
+        this._dialogService.openAlert({
+          title: 'Alert',
+          disableClose: true,
+          message:
+              this.fhirService.getErrorMessage(error),
+        });
+      });
     } else {
       this.fhirService.putTIE('/Task?identifier='+encodeURI(this.task.identifier[0].system + '|' + this.task.identifier[0].value) , task).subscribe(result => {
 
         this.diaglogRef.close(result);
 
+      }, error => {
+        console.log(JSON.stringify(error))
+        this._dialogService.openAlert({
+          title: 'Alert',
+          disableClose: true,
+          message:
+              this.fhirService.getErrorMessage(error),
+        });
       });
     }
   }

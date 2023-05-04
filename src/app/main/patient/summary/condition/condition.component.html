@@ -67,8 +67,9 @@
 
 
     <ng-container matColumnDef="resource">
-      <th mat-header-cell *matHeaderCellDef style="width: 80px;">FHIR</th>
+      <th mat-header-cell *matHeaderCellDef style="width: 120px;">FHIR</th>
       <td mat-cell *matCellDef="let condition">
+        <button mat-icon-button color="accent" matTooltip="Edit" (click)="edit(condition)"><mat-icon>mode_edit</mat-icon></button>
         <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(condition)"><mat-icon>delete</mat-icon></button>
         <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(condition)"><mat-icon>code</mat-icon></button>
       </td>

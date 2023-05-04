@@ -231,4 +231,28 @@ export class CoordinatedCareComponent implements OnInit {
       }
     })
   }
+
+  getResultsEvent(condition: Condition) {
+    console.log('Condition update received')
+    console.log(condition)
+    if (condition !== undefined) {
+      let taskCopy = this.conditions;
+      this.conditions = [];
+      // check if present
+      let found = undefined;
+      taskCopy.forEach((taskIt,index)=> {
+        if (taskIt.id === condition.id) {
+          found = index;
+        }
+      })
+      if (found == undefined) {
+        taskCopy.push(condition)
+      } else {
+        // replace
+        taskCopy[found] = condition;
+      }
+      this.conditions = Object.assign([], taskCopy)
+      // console.log(this.tasks)
+    }
+  }
 }

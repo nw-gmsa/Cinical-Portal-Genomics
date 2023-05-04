@@ -15,7 +15,7 @@
                 </mat-list-item>
             </mat-nav-list>
             <span *ngIf="conditions.length>0">
-                <app-condition [conditions]="conditions"> </app-condition>
+                <app-condition [conditions]="conditions" (condition)="getResultsEvent($event)"> </app-condition>
              </span>
             <span *ngIf="conditions.length==0">
                  No problems found.

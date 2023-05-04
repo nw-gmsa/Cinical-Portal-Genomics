@@ -14,6 +14,7 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import * as uuid from "uuid";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {Moment} from "moment/moment";
+import {createTask} from "echarts/types/src/core/task";
 
 @Component({
   selector: 'app-condition-create-edit',
@@ -21,6 +22,8 @@ import {Moment} from "moment/moment";
   styleUrls: ['./condition-create-edit.component.scss']
 })
 export class ConditionCreateEditComponent implements OnInit {
+  edit = false;
+  condition: Condition;
   disabled: boolean = true;
   patientId = undefined;
   nhsNumber = undefined;
@@ -29,10 +32,10 @@ export class ConditionCreateEditComponent implements OnInit {
   severities: ValueSetExpansionContains[] | undefined;
   organisation$: Observable<Organization[]> | undefined;
   practitioner$: Observable<Practitioner[]> | undefined;
-  private clinicalStatus: Coding | undefined;
-  private verificationStatus: Coding | undefined;
-  private severity: Coding | undefined;
-  private reasonCode: Coding | undefined;
+  clinicalStatus: Coding | undefined;
+  verificationStatus: Coding | undefined;
+  severity: Coding | undefined;
+  reasonCode: Coding | undefined;
   reason$: Observable<ValueSetExpansionContains[]> | undefined;
   private searchReasons = new Subject<string>();
   onsetDate: Moment | undefined;
@@ -46,9 +49,34 @@ export class ConditionCreateEditComponent implements OnInit {
               private diaglogRef: MatDialogRef<ConditionCreateEditComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
+    this.condition = data.condition;
+
+    if (this.condition !== undefined) {
+      console.log(this.condition)
+      this.edit = true;
+    }
+
   }
 
   ngOnInit(): void {
+
+    if (this.condition !== undefined) {
+
+      // leave for now.... allow new new notes if (this.task.note !== undefined && this.task.note.length > 0)
+      if (this.condition.code !== undefined && this.condition.code.coding !== undefined) {
+        this.reasonCode = this.condition.code.coding[0]
+
+        console.log(this.reasonCode)
+      }
+      if (this.condition.clinicalStatus !== undefined && this.condition.clinicalStatus.coding !== undefined) {
+        this.clinicalStatus = this.condition.clinicalStatus.coding[0]
+      }
+      if (this.condition.verificationStatus !== undefined && this.condition.verificationStatus.coding !== undefined) {
+        this.verificationStatus = this.condition.verificationStatus.coding[0]
+      }
+    }
+
+
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/condition-clinical').subscribe(
         resource  => {
           this.status = this.dlgSrv.getContainsExpansion(resource);
@@ -180,8 +208,24 @@ export class ConditionCreateEditComponent implements OnInit {
     }
       console.log(JSON.stringify(condition));
 
+
+    if (!this.edit) {
       this.fhirService.postTIE('/Condition', condition).subscribe((condition) => {
-        this.diaglogRef.close(condition);
+            this.diaglogRef.close(condition);
+          },
+          error => {
+            console.log(JSON.stringify(error))
+            this._dialogService.openAlert({
+              title: 'Alert',
+              disableClose: true,
+              message:
+                  this.fhirService.getErrorMessage(error),
+            });
+          });
+    } else {
+      condition.id = this.condition.id
+      this.fhirService.putTIE('/Condition/'+condition.id , condition).subscribe(result => {
+        this.diaglogRef.close(result);
       },
           error => {
             console.log(JSON.stringify(error))
@@ -192,7 +236,9 @@ export class ConditionCreateEditComponent implements OnInit {
                   this.fhirService.getErrorMessage(error),
             });
           });
-  ;
+    }
+
+
 
   }
 

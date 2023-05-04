@@ -6,6 +6,8 @@ import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resou
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
+import {TaskCreateComponent} from "../../workflow/task-create/task-create.component";
+import {ConditionCreateEditComponent} from "../condition-create-edit/condition-create-edit.component";
 
 @Component({
   selector: 'app-condition',
@@ -95,5 +97,28 @@ export class ConditionComponent implements OnInit {
         })
       }
     });
+  }
+
+  edit(condition: Condition) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '85%';
+    dialogConfig.width = '50%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      condition: condition
+    };
+    const dialogRef = this.dialog.open( ConditionCreateEditComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      //console.log(result)
+      if (result !== undefined && result.resourceType !== undefined) {
+        // TODO need to update the local copy of this event
+          this.condition.emit(result)
+      }
+    })
   }
 }
