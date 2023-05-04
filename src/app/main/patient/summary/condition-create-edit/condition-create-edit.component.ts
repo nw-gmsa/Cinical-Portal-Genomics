@@ -14,7 +14,6 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import * as uuid from "uuid";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {Moment} from "moment/moment";
-import {createTask} from "echarts/types/src/core/task";
 
 @Component({
   selector: 'app-condition-create-edit',
