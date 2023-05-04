@@ -8,6 +8,7 @@ import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import * as uuid from 'uuid';
 import {Moment} from 'moment';
+import {TdDialogService} from "@covalent/core/dialogs";
 
 @Component({
   selector: 'app-care-team-create',
@@ -41,6 +42,7 @@ export class CareTeamCreateComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
               public dlgSrv: DialogService,
+              private _dialogService: TdDialogService,
               private diaglogRef: MatDialogRef<CareTeamCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
@@ -133,7 +135,7 @@ export class CareTeamCreateComponent implements OnInit {
   checkSubmit(): void {
     this.disabled = true;
     if (
-      this.careTeamStatus !== undefined) {
+      this.reasonCode !== undefined) {
       this.disabled = false;
     }
   }
@@ -251,7 +253,16 @@ export class CareTeamCreateComponent implements OnInit {
 
       this.fhirService.postTIE('/CareTeam', careTeam).subscribe((careTeam) => {
         this.diaglogRef.close(careTeam);
-      });
+      },
+          error => {
+              console.log(JSON.stringify(error))
+            this._dialogService.openAlert({
+              title: 'Alert',
+              disableClose: true,
+              message:
+                  this.fhirService.getErrorMessage(error),
+            });
+          });
     }
   }
 }

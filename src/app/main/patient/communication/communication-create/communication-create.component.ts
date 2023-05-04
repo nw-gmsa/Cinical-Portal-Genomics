@@ -16,6 +16,7 @@ import {DialogService} from '../../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {TdDialogService} from "@covalent/core/dialogs";
 
 @Component({
   selector: 'app-communication-create',
@@ -41,7 +42,11 @@ export class CommunicationCreateComponent implements OnInit {
   private searchTermsDoc = new Subject<string>();
   selectedFoods: any;
   // @ts-ignore
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) data, public fhirService: FhirService, public dlgSrv: DialogService, private diaglogRef: MatDialogRef<CommunicationCreateComponent>) {
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) data,
+              public fhirService: FhirService,
+              public dlgSrv: DialogService,
+              private _dialogService: TdDialogService,
+              private diaglogRef: MatDialogRef<CommunicationCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
   }
@@ -236,7 +241,16 @@ export class CommunicationCreateComponent implements OnInit {
     this.fhirService.postTIE('/Communication', communication).subscribe(result => {
       this.diaglogRef.close();
       this.dialog.closeAll();
-    });
+    },
+        error => {
+          console.log(JSON.stringify(error))
+          this._dialogService.openAlert({
+            title: 'Alert',
+            disableClose: true,
+            message:
+                this.fhirService.getErrorMessage(error),
+          });
+        });
 
   }
 

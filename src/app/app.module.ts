@@ -115,6 +115,7 @@ import { PathwayComponent } from './main/journey/pathway.component';
 import {CovalentBaseEchartsModule} from "@covalent/echarts/base";
 import {CovalentTreeEchartsModule} from "@covalent/echarts/tree";
 import {CovalentTooltipEchartsModule} from "@covalent/echarts/tooltip";
+import { ConditionCreateEditComponent } from './main/patient/summary/condition-create-edit/condition-create-edit.component';
 
 const modules = [
   MatIconModule,
@@ -207,7 +208,8 @@ const modules = [
       PlanDefinitionComponent,
       PlanDefinitionActionComponent,
       PlanDefinitionDetailComponent,
-      PathwayComponent
+      PathwayComponent,
+      ConditionCreateEditComponent
   ],
   imports: [
     BrowserModule,

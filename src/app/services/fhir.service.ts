@@ -619,4 +619,16 @@ export class FhirService {
     })
     return questionnaire;
   }
+
+    getErrorMessage(error: any) {
+    var errorMsg = ''
+      if (error.error !== undefined){
+
+         if (error.error.issue !== undefined) {
+          errorMsg += ' ' + error.error.issue[0].diagnostics
+        }
+      }
+      errorMsg += '\n\n ' + error.message
+        return errorMsg;
+    }
 }

@@ -10,6 +10,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rx
 import {Observable, Subject} from "rxjs";
 import {Moment} from "moment";
 import {MatTableDataSource} from "@angular/material/table";
+import {TdDialogService} from "@covalent/core/dialogs";
 
 @Component({
   selector: 'app-goal-create',
@@ -55,6 +56,7 @@ export class GoalCreateComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
               public dlgSrv: DialogService,
+              private _dialogService: TdDialogService,
               private diaglogRef: MatDialogRef<GoalCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
@@ -248,7 +250,16 @@ export class GoalCreateComponent implements OnInit {
     this.fhirService.postTIE('/Goal', goal).subscribe(goal => {
 
       this.diaglogRef.close(goal);
-    });
+    },
+        error => {
+          console.log(JSON.stringify(error))
+          this._dialogService.openAlert({
+            title: 'Alert',
+            disableClose: true,
+            message:
+                this.fhirService.getErrorMessage(error),
+          });
+        });
   }
 
 

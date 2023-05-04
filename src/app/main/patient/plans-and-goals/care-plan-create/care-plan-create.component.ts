@@ -17,6 +17,7 @@ import {Observable, Subject} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import * as uuid from 'uuid';
+import {TdDialogService} from "@covalent/core/dialogs";
 
 
 @Component({
@@ -60,6 +61,7 @@ export class CarePlanCreateComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
               public dlgSrv: DialogService,
+              private _dialogService: TdDialogService,
               private diaglogRef: MatDialogRef<CarePlanCreateComponent>) {
     this.patientId = data.patientId;
    // this.nhsNumber = data.nhsNumber;
@@ -364,6 +366,15 @@ export class CarePlanCreateComponent implements OnInit {
     this.fhirService.postTIE('/CarePlan', carePlan).subscribe(result => {
       this.diaglogRef.close(result);
 
-    });
+    },
+        error => {
+          console.log(JSON.stringify(error))
+          this._dialogService.openAlert({
+            title: 'Alert',
+            disableClose: true,
+            message:
+                this.fhirService.getErrorMessage(error),
+          });
+        });
   }
 }

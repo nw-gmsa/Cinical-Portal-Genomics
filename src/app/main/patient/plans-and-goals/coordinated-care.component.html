@@ -5,6 +5,23 @@
             <td-breadcrumb>Plans and Goals</td-breadcrumb>
         </td-breadcrumbs>
         <mat-card-content>
+            <div>
+                <h3>Problems</h3>
+                <span flex></span>
+            </div>
+            <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-button color="accent"  (click)="addCondition()">Add Condition</button>
+                </mat-list-item>
+            </mat-nav-list>
+            <span *ngIf="conditions.length>0">
+                <app-condition [conditions]="conditions"> </app-condition>
+             </span>
+            <span *ngIf="conditions.length==0">
+                 No problems found.
+             </span>
+        </mat-card-content>
+        <mat-card-content>
 
                 <h3>Care Plans</h3>
                 <span flex></span>

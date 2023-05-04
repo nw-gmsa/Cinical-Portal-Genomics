@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Condition, Reference} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 
 @Component({
   selector: 'app-condition',
@@ -27,7 +28,7 @@ export class ConditionComponent implements OnInit {
   dataSource : MatTableDataSource<Condition>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns = ['asserted','onset','clinicalstatus', 'code','category', 'verificationstatus', 'asserter', 'resource'];
+  displayedColumns = ['recorded','onset','abatement', 'clinicalstatus', 'code','verificationstatus', 'resource'];
 
   constructor(
               public dialog: MatDialog,
@@ -52,6 +53,15 @@ export class ConditionComponent implements OnInit {
       console.log('SORT UNDEFINED');
     }
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['conditions'] !== undefined) {
+      this.dataSource = new MatTableDataSource<Condition>(this.conditions);
+    } else {
+
+    }
+  }
   select(resource: any) {
     const dialogConfig = new MatDialogConfig();
 
@@ -65,5 +75,25 @@ export class ConditionComponent implements OnInit {
   }
 
 
-
+  delete(condition: Condition) {
+    let dialogRef = this.dialog.open(DeleteComponent, {
+      width: '250px',
+      data:  condition
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('The dialog was closed ' + result);
+        this.fhirService.deleteTIE('/Condition/'+condition.id).subscribe(result => {
+          // @ts-ignore
+          this.conditions.forEach((taskIt,index)=> {
+            if (taskIt.id === condition.id) {
+              // @ts-ignore
+              this.conditions.splice(index, 1);
+            }
+          })
+          this.dataSource = new MatTableDataSource<Condition>(this.conditions);
+        })
+      }
+    });
+  }
 }

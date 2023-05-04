@@ -349,7 +349,16 @@ export class DocumentReferenceCreateComponent implements OnInit {
     this.fhirService.postTIE('/DocumentReference', metadata).subscribe(result => {
       this.diaglogRef.close(result);
 
-    });
+    },
+        error => {
+          console.log(JSON.stringify(error))
+          this._dialogService.openAlert({
+            title: 'Alert',
+            disableClose: true,
+            message:
+                this.fhirService.getErrorMessage(error),
+          });
+        });
   }
   selectEvent(files: FileList | File): void {
     // see also https://github.com/nhsconnect/careconnect-document-viewer/blob/master/web/src/app/modules/document-load/load-document.component.ts

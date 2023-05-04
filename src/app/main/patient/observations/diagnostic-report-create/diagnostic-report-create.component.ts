@@ -18,6 +18,7 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Moment} from "moment";
 import {environment} from "../../../../../environments/environment";
 import {MatSelectChange} from "@angular/material/select";
+import {TdDialogService} from "@covalent/core/dialogs";
 
 @Component({
   selector: 'app-diagnostic-report-create',
@@ -56,6 +57,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data: any,
               public fhirService: FhirService,
               public dlgSrv: DialogService,
+              private _dialogService: TdDialogService,
               private diaglogRef: MatDialogRef<DiagnosticReportCreateComponent>) {
     this.patientId = data.patientId;
     this.nhsNumber = data.nhsNumber;
@@ -253,7 +255,16 @@ export class DiagnosticReportCreateComponent implements OnInit {
     this.fhirService.postTIE('/DiagnosticReport', diagnosticReport).subscribe(diagnosticReport => {
 
       this.diaglogRef.close(diagnosticReport);
-    });
+    },
+        error => {
+          console.log(JSON.stringify(error))
+          this._dialogService.openAlert({
+            title: 'Alert',
+            disableClose: true,
+            message:
+                this.fhirService.getErrorMessage(error),
+          });
+        });
   }
 
   searchCodes(value: string) {

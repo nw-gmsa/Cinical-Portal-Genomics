@@ -3,11 +3,13 @@ import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {CarePlan, CareTeam, EpisodeOfCare, Goal, Patient} from "fhir/r4";
+import {CarePlan, CareTeam, Condition, EpisodeOfCare, Goal, Patient} from "fhir/r4";
 import {CareTeamCreateComponent} from "./care-team-create/care-team-create.component";
 import {CarePlanCreateComponent} from "./care-plan-create/care-plan-create.component";
 import {EpisodeOfCareCreateComponent} from "./episode-of-care-create/episode-of-care-create.component";
 import {GoalCreateComponent} from "./goal-create/goal-create.component";
+import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
+import {ConditionCreateEditComponent} from "../summary/condition-create-edit/condition-create-edit.component";
 
 @Component({
   selector: 'app-coordinated-care',
@@ -15,17 +17,23 @@ import {GoalCreateComponent} from "./goal-create/goal-create.component";
   styleUrls: ['./coordinated-care.component.scss']
 })
 export class CoordinatedCareComponent implements OnInit {
+  conditions: Condition[] = [];
   episodes: EpisodeOfCare[] = [];
   careTeams: CareTeam[] = [];
   carePlans: CarePlan[] = [];
   patientId: string | undefined = undefined;
   private nhsNumber: string | undefined;
   goals: Goal[] = [];
+
+  loadingMode = LoadingMode;
+  loadingStrategy = LoadingStrategy;
+  loadingType = LoadingType;
   constructor( private fhirService: FhirService,
                private eprService: EprService,
                private dialogService: TdDialogService,
                public dialog: MatDialog,
-               private viewContainerRef: ViewContainerRef) { }
+               private viewContainerRef: ViewContainerRef,
+               private _loadingService: TdLoadingService) { }
 
   ngOnInit(): void {
 
@@ -54,6 +62,16 @@ export class CoordinatedCareComponent implements OnInit {
         }
       }
     }
+    this.conditions = [];
+    this.fhirService.get('/Condition?patient=' + this.patientId).subscribe(bundle => {
+          this._loadingService.resolve('overlayStarSyntax');
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'Condition') { this.conditions.push(entry.resource as Condition); }
+            }
+          }
+        }
+    );
     this.episodes = [];
     this.fhirService.get('/EpisodeOfCare?patient=' + this.patientId + '&status=active,waitlist').subscribe(bundle => {
           if (bundle.entry !== undefined) {
@@ -187,4 +205,30 @@ export class CoordinatedCareComponent implements OnInit {
         }
       })
     }
+
+  protected readonly undefined = undefined;
+
+  addCondition() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '80%';
+    dialogConfig.width = '50%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      nhsNumber: this.nhsNumber
+    };
+    const dialogRef = this.dialog.open( ConditionCreateEditComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.conditions.push(result);
+        this.conditions = Object.assign([], this.conditions)
+      }
+    })
+  }
 }
