@@ -145,10 +145,6 @@ export class ConditionCreateEditComponent implements OnInit {
   submit(): void {
     const condition: Condition = {
       subject: {},
-      identifier: [{
-        system: 'https://tools.ietf.org/html/rfc4122',
-        value: uuid.v4()
-      }],
       category: [],
       resourceType: 'Condition',
       clinicalStatus: {
@@ -186,6 +182,10 @@ export class ConditionCreateEditComponent implements OnInit {
         coding : [this.severity]
       };
     }
+    if (this.edit) {
+      condition.subject = this.condition.subject
+      condition.identifier = this.condition.identifier
+    } else {
       condition.subject = {
         reference: 'Patient/' + this.patientId,
         identifier: {
@@ -193,6 +193,11 @@ export class ConditionCreateEditComponent implements OnInit {
           value: this.nhsNumber
         }
       };
+      condition.identifier = [{
+        system: 'https://tools.ietf.org/html/rfc4122',
+        value: uuid.v4()
+      }]
+    }
     if (this.onsetDate !== undefined) {
       console.log(this.onsetDate);
       condition.onsetDateTime = this.onsetDate.toISOString();
