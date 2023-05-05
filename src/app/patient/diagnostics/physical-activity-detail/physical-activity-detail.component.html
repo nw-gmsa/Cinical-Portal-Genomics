@@ -1,0 +1,74 @@
+<mat-card class="fullscreen scrollable-content">
+
+    <div *ngIf="patientId !== ''" >
+        <td-breadcrumbs>
+            <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+            <a td-breadcrumb [routerLink]="['/patient', patientId, 'observations']">Observations</a>
+            <td-breadcrumb>Physical Activity</td-breadcrumb>
+        </td-breadcrumbs>
+
+        <form class="example-form">
+            <mat-form-field>
+              <mat-label>Range</mat-label>
+              <mat-select [(ngModel)]="selectedValue" name="selectedValue" (selectionChange)="selected($event)">
+                <mat-option [value]=12>Year</mat-option>
+                <mat-option [value]=6>6 months</mat-option>
+                <mat-option [value]=3>3 Months</mat-option>
+                <mat-option [value]=2>2 Months</mat-option>
+                <mat-option [value]=1>1 Month</mat-option>
+              </mat-select>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <mat-label>Start date</mat-label>
+              <input matInput [matDatepicker]="start" name="start" [(ngModel)]="startDate" (ngModelChange)="functionStartName()">
+              <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+              <mat-datepicker #start></mat-datepicker>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <mat-label>End date</mat-label>
+              <input matInput [matDatepicker]="endpicker" name="endpicker" [(ngModel)]="endDate" (ngModelChange)="functionEndName()">
+              <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+              <mat-datepicker #endpicker></mat-datepicker>
+            </mat-form-field>
+          </form>
+
+        <div *tdLoading="
+        'overlayStarSyntax';
+        mode: loadingMode.Indeterminate;
+        type: loadingType.Circular;
+        strategy: loadingStrategy.Overlay;
+        color: 'accent'
+        ">
+      <!--      <mat-grid-list cols="2" >
+                <mat-grid-tile> -->
+            <!--  calories -->
+            <app-observation-chart style="width: 100%; height: 90%" [showLegend]="true" [patentId]="patientId"
+                                   observationCode="55424-6" title="Calories" [showGrid]=false
+            ></app-observation-chart>
+
+            <!-- Resting Heart Rate -->
+
+            <app-observation-chart style="width: 100%; height: 90%" [showLegend]="true" [patentId]="patientId" observationCode="66440-9" title="Average Heart Rate" [showGrid]=false></app-observation-chart>
+
+            <app-observation-chart style="width: 100%; height: 90%" [showLegend]="true" [patentId]="patientId" observationCode="444981005" title="Resting Heart Rate" [showGrid]=false></app-observation-chart>
+
+            <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" [showLegend]="true" observationCode="276885007" title="Body Temp"></app-observation-chart>
+            <app-observation-chart style="width: 100%; height: 90%;" [patentId]="patientId" [showLegend]="true" observationCode="27113001" title="Body Weight"></app-observation-chart>
+
+                <!-- HRV -->
+
+            <app-observation-chart style="width: 100%; height: 90%"  [patentId]="patientId" observationCode="80404-7" title="HRV" [showGrid]=false></app-observation-chart>
+            <!-- muscle mass -->
+            <app-observation-chart style="width: 100%; height: 90%" [showLegend]="true" [patentId]="patientId" observationCode="73964-9" title="Muscle Mass" [showGrid]=false></app-observation-chart>
+
+            <app-observation-chart style="width: 100%; height: 90%" [showLegend]="true" [patentId]="patientId" observationCode="73708-0" title="Fat Mass" [showGrid]=false></app-observation-chart>
+
+            <app-observation-chart style="width: 100%; height: 90%" [showLegend]="true" [patentId]="patientId" observationCode="41950-7" title="Number of Steps" [showGrid]=false></app-observation-chart>
+          <!--
+            <app-observation-chart style="width: 100%; height: 90%" [showLegend]="true" [patentId]="patientId" observationCode="73706-4" title="Body Water" [showGrid]=false></app-observation-chart>
+-->
+        </div>
+    </div>
+</mat-card>

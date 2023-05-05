@@ -1,0 +1,40 @@
+<mat-drawer-container class="fullscreen">
+    <mat-drawer-content>
+    <span *ngIf="patient !== undefined">
+    <mat-card>
+        <mat-card-content>
+            <div class="container" layout="row" layout-align="start center" flex>
+
+                <!-- put back TODO <button mat-icon-button (click)="onToggle($event)" color="accent">
+                    <mat-icon>menu</mat-icon>
+                </button>-->
+                <span> &nbsp; <b>{{ getLastName(patient)}}</b>{{getFirstName(patient)}}</span>
+                <span flex></span>
+
+                &nbsp; <i>DOB:</i><b>&nbsp;{{patient.birthDate | date: 'dd-MMM-yyyy'}}</b>
+
+                <span flex></span>
+                <span>
+                    &nbsp;<i>Gender:</i><b>&nbsp; {{ patient.gender }}</b>
+                </span>
+                <span flex></span>
+
+                &nbsp;<i>NHS No:</i><b>&nbsp;{{ getNHSIdentifier(patient) }}</b>
+                <span flex></span>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+</span>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>
+
+
+
+
+
+
+
+
+

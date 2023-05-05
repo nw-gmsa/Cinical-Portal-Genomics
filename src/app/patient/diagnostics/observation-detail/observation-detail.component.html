@@ -1,0 +1,20 @@
+
+<mat-card class="fullscreen scrollable-content">
+
+    <div *ngIf="patientId !== '' && code!==''" >
+        <td-breadcrumbs>
+            <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+            <a td-breadcrumb [routerLink]="['/patient', patientId, 'observations']">Observations</a>
+            <td-breadcrumb>Current</td-breadcrumb>
+        </td-breadcrumbs>
+        <div *tdLoading="
+        'overlayStarSyntax';
+        mode: loadingMode.Indeterminate;
+        type: loadingType.Circular;
+        strategy: loadingStrategy.Overlay;
+        color: 'accent'
+        ">
+        <app-observation-chart style="width: 100%; height: 70%" [showLegend]=true [showRange]="true" [showGrid]="true" [patentId]="patientId" [observationCode]="code" ></app-observation-chart>
+        </div>
+    </div>
+</mat-card>

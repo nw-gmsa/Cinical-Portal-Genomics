@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Condition</h2>
+<mat-dialog-content #chart >
+
+    <form class="example-form">
+
+        <mat-form-field class="example-half-width">
+            <mat-label>Clinical Status</mat-label>
+            <mat-select id="status" required [(ngModel)]="medicationStatus" (selectionChange)="checkSubmit()">
+                <mat-option *ngFor="let stat of statuses" [value]="stat">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-half-width">
+            <mat-label>Intent</mat-label>
+            <mat-select id="intent" required [(ngModel)]="medicationIntent" (selectionChange)="checkSubmit()">
+                <mat-option *ngFor="let stat of intents" [value]="stat">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-half-width">
+            <mat-label>Intent</mat-label>
+            <mat-select id="therapy" required [(ngModel)]="medicationTherapy" (selectionChange)="checkSubmit()">
+                <mat-option *ngFor="let stat of therapies" [value]="stat">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-half-width">
+            <mat-label>Category</mat-label>
+            <mat-select id="category" required [(ngModel)]="medicationCategory" (selectionChange)="checkSubmit()">
+                <mat-option *ngFor="let stat of categories" [value]="stat">
+                    {{stat.display}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <input #searchBoxMedication required matInput placeholder="Code" [value]="medicationCode?.display" (keyup)="searchMedication(searchBoxMedication.value)" [matAutocomplete]="autoReason">
+            <mat-autocomplete #autoReason="matAutocomplete" (optionSelected)="selectedMedication($event)" [displayWith]="dlgSrv.getDisplay">
+                <mat-option *ngFor="let reason of medication$ | async" [value]="reason" >
+                    {{dlgSrv.getDisplay(reason)}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint align="end">A coded concept identifying substance or product that can be ordered.</mat-hint>
+        </mat-form-field>
+
+        <span *ngIf="!edit">
+
+            <mat-form-field class="example-half-width">
+                <mat-label>Authorised</mat-label>
+                <input matInput [matDatepicker]="onset"  [(ngModel)]="authorisedDate">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="onset"></mat-datepicker-toggle>
+                <mat-datepicker #onset></mat-datepicker>
+                <mat-hint align="end">When request was initially authored</mat-hint>
+            </mat-form-field>
+        </span>
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="accent" [mat-dialog-close]="true" autoFocus>Cancel</button>
+    <button mat-raised-button color="accent" [disabled]="disabled" (click)="submit()">Submit</button>
+</mat-dialog-actions>

@@ -1,0 +1,84 @@
+<div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+           matSort
+           matSortActive="start" matSortDirection="desc">
+
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let goal"> {{goal.id}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="start">
+            <th mat-header-cell *matHeaderCellDef> Start </th>
+            <td mat-cell *matCellDef="let goal">  <span *ngIf="goal.startDate !== undefined"> {{goal.startDate | date: 'dd-MMM-yyyy'}} </span> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Lifecycle Status </th>
+            <td mat-cell *matCellDef="let goal"> {{goal.lifecycleStatus}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="achievement">
+            <th mat-header-cell *matHeaderCellDef> Achievement </th>
+            <td mat-cell *matCellDef="let goal">  <span *ngIf="goal.achievementStatus !== undefined">
+                <span [innerHTML]="fhirService.getCodeableConcept(goal.achievementStatus)"></span>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef> Categories </th>
+            <td mat-cell *matCellDef="let goal">  <span *ngIf="goal.category !== undefined">
+                <span [innerHTML]="fhirService.getCodeableConcepts(goal.category)"></span>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef> Priority </th>
+            <td mat-cell *matCellDef="let goal">  <span *ngIf="goal.priority !== undefined">
+                <span [innerHTML]="fhirService.getCodeableConcept(goal.priority)"></span>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let goal">  <span *ngIf="goal.description !== undefined">
+                <span [innerHTML]="fhirService.getCodeableConcept(goal.description)"></span>
+                </span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="targets">
+            <th mat-header-cell *matHeaderCellDef style="width: 30%"> Targets </th>
+            <td mat-cell *matCellDef="let goal">  <span *ngIf="goal.target !== undefined">
+                <app-goal-target [goalTarget]="goal.target" [patientId]="patientId"></app-goal-target>
+            </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="addresses">
+            <th mat-header-cell *matHeaderCellDef> Addresses </th>
+            <td mat-cell *matCellDef="let goal">
+                <span [innerHTML]="fhirService.getReferences(goal.addresses)"></span>
+            </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="resource">
+            <th mat-header-cell *matHeaderCellDef style="width: 80px;"></th>
+            <td mat-cell *matCellDef="let goal">
+                <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(goal)"><mat-icon>delete</mat-icon></button>
+                <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(goal)"><mat-icon>code</mat-icon></button>
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+</div>

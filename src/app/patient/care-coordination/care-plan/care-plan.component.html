@@ -1,0 +1,142 @@
+<div>
+  <table fxFill="100" mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+         multiTemplateDataRows
+         matSort
+         matSortActive="start" matSortDirection="desc">
+
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef width="8%"> View </th>
+      <td mat-cell *matCellDef="let carePlan">
+        <button mat-icon-button color="accent"  matTooltip="View Care Plan" (click)="view(carePlan)"><mat-icon>chrome_reader_mode</mat-icon></button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef> Created </th>
+      <td mat-cell *matCellDef="let carePlan">  <span *ngIf="carePlan.created !== undefined"> {{carePlan.created | date: 'dd-MMM-yyyy'}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="start">
+      <th mat-header-cell *matHeaderCellDef> Start </th>
+      <td mat-cell *matCellDef="let carePlan">  <span *ngIf="carePlan.period !== undefined  && carePlan.period.start !== undefined"> {{carePlan.period.start | date: 'dd-MMM-yyyy'}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="end">
+      <th mat-header-cell *matHeaderCellDef> End </th>
+      <td mat-cell *matCellDef="let carePlan">  <span *ngIf="carePlan.period !== undefined && carePlan.period.end !== undefined"> {{carePlan.period.end | date: 'dd-MMM-yyyy'}} </span> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Category </th>
+      <td mat-cell *matCellDef="let carePlan">  <span *ngIf="carePlan.category !== undefined">
+        <span [innerHTML]="fhirService.getCodeableConcepts(carePlan.category)"></span>
+      </span> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef> Care Team </th>
+      <td mat-cell *matCellDef="let carePlan">
+         <span *ngIf="carePlan.careTeam !== undefined && carePlan.careTeam.length>0">
+        <button mat-button *ngFor="let service of carePlan.careTeam" [matTooltip]="service.reference">
+          {{fhirService.getReference(service)}}
+        </button>
+        </span>
+      </td>
+    </ng-container>
+
+
+
+
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.status}} </td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.description}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="intent">
+      <th mat-header-cell *matHeaderCellDef> Intent </th>
+      <td mat-cell *matCellDef="let carePlan"> {{carePlan.intent}} </td>
+    </ng-container>
+
+
+
+
+    <ng-container matColumnDef="resource">
+      <th mat-header-cell *matHeaderCellDef style="width: 80px;"></th>
+      <td mat-cell *matCellDef="let carePlan">
+        <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(carePlan)"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(carePlan)"><mat-icon>code</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef style="min-width: 40px;" aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+        <div class="example-element-detail"
+             [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+
+          <h3>Addresses</h3>
+          <span [innerHTML]="fhirService.getReferences(element.addresses)"></span>
+          <h3>Goals</h3>
+          <div style="display: flex; align-items: flex-start; width: 100%;" *ngIf="element.goal !== undefined">
+            <span style="width: 100px"></span>
+            &nbsp;
+            <app-goal [goals]="getTasks(element)"></app-goal>
+          </div>
+
+          <h3>Supporting Information</h3>
+          <div *ngIf="element.supportingInfo !== undefined" style="display: flex; align-items: flex-start; width: 100%;">
+            <span style="width: 100px"></span>
+            &nbsp;
+            <div style="width: 100%;">
+            <mat-card  *ngFor="let supportingInfo of element.supportingInfo" (click)="onClick(supportingInfo)">
+              <p style="color:blue;font-size:11px;">{{supportingInfo.type}}</p>
+              <span [innerHTML]="fhirService.getReference(supportingInfo)"></span>
+            </mat-card>
+            </div>
+          </div>
+
+          <span *ngIf="element.note !== undefined">
+            <h4>Notes</h4>
+            <app-task-note [annotations]="element.note"></app-task-note>
+          </span>
+
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="this.expandedElement = this.expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
+
+</div>
