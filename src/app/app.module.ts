@@ -55,7 +55,7 @@ import {QuestionnaireResponseComponent} from './main/patient/forms/questionnaire
 import { TaskComponent } from './patient/workflow/task/task.component';
 import {ReferralRequestComponent} from './patient/workflow/referral-request/referral-request.component';
 import {AllergyIntoleranceComponent} from './patient/summary/allergy-intolerance/allergy-intolerance.component';
-import {MedicationRequestComponent} from './patient/summary/medication-request/medication-request.component';
+import {MedicationRequestComponent} from './patient/medications/medication-request/medication-request.component';
 import { DiagnosticReportComponent } from './patient/diagnostics/diagnostic-report/diagnostic-report.component';
 import {CovalentDialogsModule} from '@covalent/core/dialogs';
 import {BinaryComponent} from './main/patient/documents/binary/binary.component';
@@ -107,7 +107,7 @@ import { DiagnosticReportCreateComponent } from './patient/diagnostics/diagnosti
 import { ActivityDefinitionComponent } from './main/journey/activity-definition/activity-definition.component';
 import { ActivityDefinitionDetailComponent } from './main/journey/activity-definition-detail/activity-definition-detail.component';
 import {ProcedureComponent} from "./patient/summary/procedure/procedure.component";
-import {ImmunisationComponent} from "./patient/summary/immunisation/immunisation.component";
+import {ImmunisationComponent} from "./patient/medications/immunisation/immunisation.component";
 import { PlanDefinitionComponent } from './main/journey/plan-definition/plan-definition.component';
 import { PlanDefinitionActionComponent } from './main/journey/plan-definition-action/plan-definition-action.component';
 import { PlanDefinitionDetailComponent } from './main/journey/plan-definition-detail/plan-definition-detail.component';
@@ -116,7 +116,7 @@ import {CovalentBaseEchartsModule} from "@covalent/echarts/base";
 import {CovalentTreeEchartsModule} from "@covalent/echarts/tree";
 import {CovalentTooltipEchartsModule} from "@covalent/echarts/tooltip";
 import { ConditionCreateEditComponent } from './patient/summary/condition-create-edit/condition-create-edit.component';
-import { MedicationRequestCreateEditComponent } from './patient/summary/medication-request-create-edit/medication-request-create-edit.component';
+import { MedicationRequestCreateEditComponent } from './patient/medications/medication-request-create-edit/medication-request-create-edit.component';
 
 const modules = [
   MatIconModule,

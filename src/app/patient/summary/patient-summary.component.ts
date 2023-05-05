@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatChip} from '@angular/material/chips';
 import {
@@ -9,7 +9,7 @@ import {
 import {FhirService} from '../../services/fhir.service';
 import {EprService} from '../../services/epr.service';
 import { TdDialogService} from '@covalent/core/dialogs';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {StravaService} from '../../services/strava.service';
 import {Athlete} from '../../models/athlete';
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from '@covalent/core/loading';
@@ -17,7 +17,7 @@ import {WithingsService} from '../../services/withings.service';
 import {delay} from 'rxjs/operators';
 import {
     MedicationRequestCreateEditComponent
-} from "./medication-request-create-edit/medication-request-create-edit.component";
+} from "../medications/medication-request-create-edit/medication-request-create-edit.component";
 
 
 
@@ -85,13 +85,15 @@ export class PatientSummaryComponent implements OnInit {
       if (patient !== undefined) {
           if (patient.id !== undefined) {
               this.patientId = patient.id
-              this.getRecords();
+              this.getRecords(patient);
           }
-    }
-    this.eprService.patientChangeEvent.subscribe(patient => {
-      if (patient.id !== undefined) this.patientId = patient.id
-      this.getRecords();
-    });
+
+      }
+      this.eprService.patientChangeEvent.subscribe(patient => {
+          if (patient.id !== undefined) this.patientId = patient.id
+
+          this.getRecords(patient);
+      });
       this.route.queryParams.subscribe(params => {
         const code = params['code'];
         const state = params['state'];
@@ -157,7 +159,16 @@ export class PatientSummaryComponent implements OnInit {
 
   }
 
-  getRecords(){
+  getRecords(patient : Patient){
+      if (patient !== undefined) {
+          if (patient.identifier !== undefined) {
+              for (const identifier of patient.identifier) {
+                  if (identifier.system !== undefined && identifier.system.includes('nhs-number')) {
+                      this.nhsNumber = identifier.value;
+                  }
+              }
+          }
+      }
       this._loadingService.register('overlayStarSyntax');
       this.conditions = [];
       this.fhirService.get('/Condition?patient=' + this.patientId).subscribe(bundle => {
@@ -257,19 +268,8 @@ export class PatientSummaryComponent implements OnInit {
         this.conditions = [];
     }
 
-    selectEncounter(encounter: Reference): void {
-      if (encounter.reference !== undefined) {
-        const str = encounter.reference.split('/');
-        console.log(this.route.root);
-        this.router.navigate(['..', 'encounter', str[1]], {relativeTo: this.route});
-      }
-    }
 
-    selectCarePlan(carePlan: Reference): void {
 
-        this.router.navigate(['..', 'careplan', carePlan.id] , { relativeTo : this.route});
-
-    }
 
 
   doStravaSetup(authorisationCode: string): void  {
@@ -278,7 +278,7 @@ export class PatientSummaryComponent implements OnInit {
 
     // Subscribe to the token change
     this.strava.tokenChange.subscribe(
-      token => {
+      () => {
         this.router.navigateByUrl('/patient/' + this.patientId);
       }
     );
@@ -290,7 +290,7 @@ export class PatientSummaryComponent implements OnInit {
 
     console.log(authorisationCode);
     this.withings.tokenChange.subscribe(
-      token => {
+      () => {
         this.router.navigateByUrl('/patient/' + this.patientId);
       }
     );
