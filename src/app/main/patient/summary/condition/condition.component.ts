@@ -30,7 +30,7 @@ export class ConditionComponent implements OnInit {
   dataSource : MatTableDataSource<Condition>;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns = ['recorded','onset','abatement', 'clinicalstatus', 'code','verificationstatus', 'resource'];
+  displayedColumns = ['recorded','onset','abatement', 'clinicalstatus', 'code','severity', 'verificationstatus', 'resource'];
 
   constructor(
               public dialog: MatDialog,
