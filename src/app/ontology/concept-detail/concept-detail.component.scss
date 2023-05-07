@@ -7,3 +7,13 @@
 .third-width {
   width: 32%;
 }
+
+.mat-card.scrollable-content {
+  overflow-y: auto;
+}
+
+mat-list {
+  flex-grow: 1;
+  border: 1px solid;
+  overflow: auto;
+}

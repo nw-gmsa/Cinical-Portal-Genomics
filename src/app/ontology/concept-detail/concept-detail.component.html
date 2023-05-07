@@ -1,4 +1,4 @@
-<span *ngIf="concept !== undefined">
+<mat-card *ngIf="concept !== undefined">
     <mat-form-field class="example-full-width">
         <input disabled=true matInput placeholder="System" value="{{concept.system}}">
     </mat-form-field>
@@ -9,11 +9,29 @@
         <input disabled=true matInput placeholder="Display" value="{{concept.display}}">
     </mat-form-field>
     <span *ngIf="parameters !== undefined">
+          <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(parameters)"><mat-icon>code</mat-icon> ($lookup)</button>
          <mat-form-field class="example-full-width">
-            <input disabled=true matInput placeholder="Module" [value]="getParameter('name')">
+            <input disabled=true matInput placeholder="Module" [value]="getParameter('name',this.parameters)">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input disabled=true matInput placeholder="Inactive" [value]="getParameter('inactive')">
+            <input disabled=true matInput placeholder="Effective Date" [value]="getParameter('effectiveTime',this.parameters)">
         </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input disabled=true matInput placeholder="Inactive" [value]="getParameter('inactive',this.parameters)">
+        </mat-form-field>
+        <mat-grid-list cols="2" rowHeight="1:1">
+            <mat-grid-tile>
+
+                 <mat-list *ngIf="parentList.length > 0">
+                    <mat-list-item *ngFor="let parent of parentList">{{parent.display}}</mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+            <mat-grid-tile>
+
+                <mat-list *ngIf="childList.length > 0">
+                    <mat-list-item *ngFor="let child of childList">{{child.display}}</mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+        </mat-grid-list>
     </span>
-</span>
+</mat-card>
