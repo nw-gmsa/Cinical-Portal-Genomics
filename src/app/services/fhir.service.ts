@@ -4,6 +4,7 @@ import {Observable, Subscription} from 'rxjs';
 import {
   Binary,
   Bundle,
+    Parameters,
   CapabilityStatement,
   CodeableConcept,
   Coding, Condition,
@@ -492,6 +493,17 @@ export class FhirService {
         `/ValueSet/$expand?url=${valueSet}&filter=${term}`);
   }
 
+  searchSNOMEDConcepts(term: string): Observable<ValueSet> {
+    const url = this.conformanceUrl;
+    return this.http.get<ValueSet>(url +
+        `/ValueSet/$expandSCT?filter=${term}&includeDesignations=true`);
+  }
+  lookup(system: string , code: string ): Observable<Parameters> {
+    const url = this.conformanceUrl;
+    return this.http.get<Parameters>(url +
+        `/CodeSystem/$lookup?system=${system}&code=${code}`);
+  }
+
   private getTIEUrl(): string {
      return this.tieUrl;
   }
@@ -631,4 +643,7 @@ export class FhirService {
       errorMsg += '\n\n ' + error.message
         return errorMsg;
     }
+
+
+
 }

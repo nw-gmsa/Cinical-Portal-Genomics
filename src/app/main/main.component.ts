@@ -94,7 +94,19 @@ export class MainComponent implements OnInit {
       text: 'NLM Form Builder',
       link: 'https://lhcformbuilder.nlm.nih.gov/',
       newTab: true
-    }, {
+    },
+    {
+      // Grouping label
+      id: 'ontology',
+      text: 'Clinical Coding',
+    },
+    {
+      id: 'ontoBrowser',
+      text: 'SNOMED and dm+d',
+      icon: 'view_cozy',
+      action: 'ontology'
+    },
+    {
       // Grouping label
       id: 'management',
       text: 'Care Management',
@@ -209,6 +221,10 @@ export class MainComponent implements OnInit {
     switch (event.action) {
       case 'pathways': {
         this.router.navigateByUrl('/pathways');
+        break;
+      }
+      case 'ontology': {
+        this.router.navigateByUrl('/ontology');
         break;
       }
     }

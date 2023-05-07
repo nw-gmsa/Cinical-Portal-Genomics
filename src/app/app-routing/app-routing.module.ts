@@ -31,6 +31,7 @@ import {
   ActivityDefinitionDetailComponent
 } from "../main/journey/activity-definition-detail/activity-definition-detail.component";
 import {PlanDefinitionDetailComponent} from "../main/journey/plan-definition-detail/plan-definition-detail.component";
+import {OntologyBrowserComponent} from "../ontology/ontology-browser/ontology-browser.component";
 
 
 const routes: Routes = [
@@ -42,6 +43,7 @@ const routes: Routes = [
       { path: 'search', component: PatientFindComponent},
       { path: 'device', component: PersonalHealthDeviceComponent},
       { path: 'pathways', component: PathwayComponent},
+      { path: 'ontology', component: OntologyBrowserComponent},
       {path: 'activity/:activity', component: ActivityDefinitionDetailComponent},
       {path: 'plan/:plan', component: PlanDefinitionDetailComponent},
       { path: 'about', component: AboutComponent },

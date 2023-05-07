@@ -117,6 +117,9 @@ import {CovalentTreeEchartsModule} from "@covalent/echarts/tree";
 import {CovalentTooltipEchartsModule} from "@covalent/echarts/tooltip";
 import { ConditionCreateEditComponent } from './patient/summary/condition-create-edit/condition-create-edit.component';
 import { MedicationRequestCreateEditComponent } from './patient/medications/medication-request-create-edit/medication-request-create-edit.component';
+import { OntologyBrowserComponent } from './ontology/ontology-browser/ontology-browser.component';
+import { ConceptListComponent } from './ontology/concept-list/concept-list.component';
+import { ConceptDetailComponent } from './ontology/concept-detail/concept-detail.component';
 
 const modules = [
   MatIconModule,
@@ -211,7 +214,10 @@ const modules = [
       PlanDefinitionDetailComponent,
       PathwayComponent,
       ConditionCreateEditComponent,
-      MedicationRequestCreateEditComponent
+      MedicationRequestCreateEditComponent,
+      OntologyBrowserComponent,
+      ConceptListComponent,
+      ConceptDetailComponent
   ],
   imports: [
     BrowserModule,

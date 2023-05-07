@@ -1,0 +1,38 @@
+<mat-card class="fullscreen">
+<mat-grid-list cols="4" rowHeight="100%" >
+    <mat-grid-tile>
+        <mat-card class="fullscreen">
+        <form class="example-form">
+            <mat-checkbox [(ngModel)]="snomed">UK SNOMED CT</mat-checkbox>
+            <span *ngIf="!snomed">
+                <!--
+                <mat-form-field class="example-full-width">
+                  <mat-label>ValueSet</mat-label>
+                  <select >
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                  </select>
+                </mat-form-field>
+                -->
+            </span>
+            <mat-form-field class="example-full-width">
+                <input #searchBox matInput placeholder="Concept" (keyup)="search(searchBox.value)" >
+                <mat-hint align="end">Concept Term</mat-hint>
+            </mat-form-field>
+        </form>
+        <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
+            <span *ngIf="concepts$ !== undefined">
+            <app-concept-list [concepts]="concepts$" (concept)="selected($event)"></app-concept-list>
+                </span>
+        </div>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+        <span *ngIf="concept !== undefined">
+        <app-concept-detail [concept]="concept"></app-concept-detail>
+            </span>
+    </mat-grid-tile>
+</mat-grid-list>
+</mat-card>

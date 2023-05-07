@@ -1,0 +1,19 @@
+<span *ngIf="concept !== undefined">
+    <mat-form-field class="example-full-width">
+        <input disabled=true matInput placeholder="System" value="{{concept.system}}">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <input disabled=true matInput placeholder="Concept" value="{{concept.code}}">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <input disabled=true matInput placeholder="Display" value="{{concept.display}}">
+    </mat-form-field>
+    <span *ngIf="parameters !== undefined">
+         <mat-form-field class="example-full-width">
+            <input disabled=true matInput placeholder="Module" [value]="getParameter('name')">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input disabled=true matInput placeholder="Inactive" [value]="getParameter('inactive')">
+        </mat-form-field>
+    </span>
+</span>
