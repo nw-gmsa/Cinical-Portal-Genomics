@@ -70,7 +70,7 @@ export class OntologyBrowserComponent implements OnInit {
 
     getMenuDisplay(item: ValueSetExpansionContains) {
         //console.log(item)
-        if (item.inactive) return '<i>'+item.display+'</i>'
+        if (item.inactive) return '<i><small>'+item.display+' [inactive]</small></i>'
         return item.display
     }
 }
