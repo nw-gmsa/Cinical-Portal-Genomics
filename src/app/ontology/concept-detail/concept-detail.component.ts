@@ -29,6 +29,7 @@ export class ConceptDetailComponent implements OnInit {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
+      data: node.code,
       level: level,
     };
   };
@@ -45,6 +46,7 @@ export class ConceptDetailComponent implements OnInit {
       node => node.children,
   );
 
+  // @ts-ignore
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
@@ -81,28 +83,66 @@ export class ConceptDetailComponent implements OnInit {
 
         this.parameters = params
         this.getPropertyRoles()
+        var parentConcept :Concept = {
+          code: {
+          },
+          name: 'Parent',
+          children: []
+        }
+        var childConcept :Concept = {
+          code: {
+          },
+          name: 'Child',
+          children: []
+        }
+        this.conceptData.push(parentConcept)
+        this.conceptData.push(childConcept)
         var children = this.getParameters("child")
         for(let child of children) {
           // @ts-ignore
           this.fhirService.lookup(this.concept.system, child).subscribe(params => {
+            /*
             this.childList.push( {
               system: this.concept?.system,
               code: child,
               display: this.getParameter("display", params)
             })
 
+             */
+            // @ts-ignore
+            childConcept.children.push({ name: this.getParameter("display", params),
+              code: {
+                system: 'http://snomed.info/sct',
+                code: child,
+                display: this.getParameter("display", params)
+              },
+              children:[]
+            })
+            this.dataSource.data = this.conceptData
           })
         }
         var parents = this.getParameters("parent")
         for(let parent of parents) {
           // @ts-ignore
           this.fhirService.lookup(this.concept.system, parent).subscribe(params => {
+            /*
             this.parentList.push( {
               system: this.concept?.system,
               code: parent,
               display: this.getParameter("display", params)
             })
 
+             */
+            // @ts-ignore
+            parentConcept.children.push({ name: this.getParameter("display", params),
+              code: {
+                system: 'http://snomed.info/sct',
+                code: parent,
+                display : this.getParameter("display", params)
+              },
+              children:[]
+            })
+            this.dataSource.data = this.conceptData
           })
         }
 
@@ -271,4 +311,12 @@ export class ConceptDetailComponent implements OnInit {
         this.concept = parent
         this.getData()
     }
+
+  selectedN(node :any) {
+
+    if (node.data.system !== undefined) {
+      this.concept = node.data
+      this.getData()
+    }
+  }
 }
