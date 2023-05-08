@@ -496,7 +496,7 @@ export class FhirService {
   searchSNOMEDConcepts(term: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
-        `/ValueSet/$expandSCT?filter=${term}&includeDesignations=true`);
+        `/ValueSet/$expandSCT?filter=${term}&includeDesignations=true&activeOnly=true`);
   }
   lookup(system: string , code: string ): Observable<Parameters> {
     const url = this.conformanceUrl;

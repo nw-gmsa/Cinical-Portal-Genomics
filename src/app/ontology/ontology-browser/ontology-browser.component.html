@@ -23,7 +23,9 @@
         </form>
         <span *ngIf="concepts$ !== undefined">
             <mat-list *ngFor="let item of concepts$ | async" class="mat-list-test">
-                <mat-list-item class="mat-list-item-test"  (click)="selected(item)">{{item.display}}</mat-list-item>
+                <span *ngIf="!item.inactive">
+                <mat-list-item class="mat-list-item-test"  (click)="selected(item)" [innerHTML]="getMenuDisplay(item)"></mat-list-item>
+                    </span>
             </mat-list>
         </span>
     </mat-drawer>

@@ -68,4 +68,9 @@ export class OntologyBrowserComponent implements OnInit {
         this.concept = event
     }
 
+    getMenuDisplay(item: ValueSetExpansionContains) {
+        //console.log(item)
+        if (item.inactive) return '<i>'+item.display+'</i>'
+        return item.display
+    }
 }
