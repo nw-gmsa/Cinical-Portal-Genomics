@@ -1,9 +1,16 @@
 
-
-.mat-mdc-form-field {
-  font-size: 14px;
-  width: 100%;
+.mat-list-test {
+  display: flex;
+  flex-grow: 1;
+  overflow: auto;
 }
+
+.mat-list-base .mat-list-item.mat-list-item-test {
+  display: table;
+  width: 250px;
+  height: auto;
+}
+
 .mat-card.scrollable-content {
   overflow-y: auto;
 }
@@ -11,20 +18,25 @@
 .example-full-width {
   width: 100%;
 }
-.example-half-width {
-  width: 48%;
-}
-.third-width {
-  width: 32%;
-}
 
 .example-form-fields {
   display: flex;
   align-items: flex-start;
 }
 
+.example-container {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
 
-
-.fullscreen {
+.example-sidenav-content {
+  display: flex;
   height: 100%;
 }
+
+
+.example-sidenav {
+  padding: 20px;
+}
+

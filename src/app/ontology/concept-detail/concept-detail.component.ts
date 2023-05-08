@@ -13,7 +13,9 @@ import {ResourceDialogComponent} from "../../dialogs/resource-dialog/resource-di
 export class ConceptDetailComponent implements OnInit {
 
   @Input()
-  concept : ValueSetExpansionContains | undefined
+  concept : ValueSetExpansionContains = {
+
+  }
   parameters: Parameters | undefined;
   parentList: ValueSetExpansionContains[]=[];
   childList: ValueSetExpansionContains[]=[];
@@ -145,4 +147,9 @@ export class ConceptDetailComponent implements OnInit {
     };
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
   }
+
+    selected(parent: ValueSetExpansionContains) {
+        this.concept = parent
+        this.getData()
+    }
 }

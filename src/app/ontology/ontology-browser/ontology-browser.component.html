@@ -1,7 +1,6 @@
-<mat-card class="fullscreen">
-<mat-grid-list cols="4" rowHeight="100%" >
-    <mat-grid-tile>
-        <mat-card class="fullscreen">
+
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer opened="true" class="example-sidenav" mode="side">
         <form class="example-form">
             <mat-checkbox [(ngModel)]="snomed">UK SNOMED CT</mat-checkbox>
             <span *ngIf="!snomed">
@@ -22,17 +21,16 @@
                 <mat-hint align="end">Concept Term</mat-hint>
             </mat-form-field>
         </form>
-        <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
-            <span *ngIf="concepts$ !== undefined">
-            <app-concept-list [concepts]="concepts$" (concept)="selected($event)"></app-concept-list>
-                </span>
-        </div>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="3">
-        <span *ngIf="concept !== undefined">
+        <span *ngIf="concepts$ !== undefined">
+            <mat-list *ngFor="let item of concepts$ | async" class="mat-list-test">
+                <mat-list-item class="mat-list-item-test"  (click)="selected(item)">{{item.display}}</mat-list-item>
+            </mat-list>
+        </span>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
         <app-concept-detail [concept]="concept"></app-concept-detail>
-            </span>
-    </mat-grid-tile>
-</mat-grid-list>
-</mat-card>
+    </div>
+
+</mat-drawer-container>
+

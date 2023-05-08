@@ -1,37 +1,47 @@
-<mat-card *ngIf="concept !== undefined">
-    <mat-form-field class="example-full-width">
-        <input disabled=true matInput placeholder="System" value="{{concept.system}}">
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
+<mat-card class="fullscreen scrollable-content">
+      <span *ngIf="parameters !== undefined">
+          <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(parameters)"><mat-icon>code</mat-icon> ($lookup)</button>
+          <br/>
+      </span>
+    <mat-form-field class="example-half-width">
         <input disabled=true matInput placeholder="Concept" value="{{concept.code}}">
     </mat-form-field>
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="example-half-width">
+        <input disabled=true matInput placeholder="System" value="{{concept.system}}">
+    </mat-form-field>
+
+    <mat-form-field class="example-half-width">
         <input disabled=true matInput placeholder="Display" value="{{concept.display}}">
     </mat-form-field>
+
     <span *ngIf="parameters !== undefined">
-          <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(parameters)"><mat-icon>code</mat-icon> ($lookup)</button>
-         <mat-form-field class="example-full-width">
+          <mat-form-field class="example-half-width">
             <input disabled=true matInput placeholder="Module" [value]="getParameter('name',this.parameters)">
         </mat-form-field>
-        <mat-form-field class="example-full-width">
-            <input disabled=true matInput placeholder="Effective Date" [value]="getParameter('effectiveTime',this.parameters)">
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="example-half-width">
             <input disabled=true matInput placeholder="Inactive" [value]="getParameter('inactive',this.parameters)">
         </mat-form-field>
-        <mat-grid-list cols="2" rowHeight="1:1">
-            <mat-grid-tile>
 
-                 <mat-list *ngIf="parentList.length > 0">
-                    <mat-list-item *ngFor="let parent of parentList">{{parent.display}}</mat-list-item>
+        <mat-form-field class="example-half-width">
+            <input disabled=true matInput placeholder="Effective Date" [value]="getParameter('effectiveTime',this.parameters)">
+        </mat-form-field>
+        <table>
+             <tr>
+                <th style="width: 50%;">Parent Concept</th>
+                <th>Child Concept</th>
+             </tr>
+            <tr>
+            <td>
+                <mat-list class="mat-list-test" *ngFor="let parent of parentList">
+                    <mat-list-item class="mat-list-item-test" (click)="selected(parent)">{{parent.display}}</mat-list-item>
                 </mat-list>
-            </mat-grid-tile>
-            <mat-grid-tile>
-
-                <mat-list *ngIf="childList.length > 0">
-                    <mat-list-item *ngFor="let child of childList">{{child.display}}</mat-list-item>
+            </td>
+            <td>
+                    <mat-list class="mat-list-test" *ngFor="let child of childList">
+                    <mat-list-item class="mat-list-item-test" (click)="selected(child)">{{child.display}}</mat-list-item>
                 </mat-list>
-            </mat-grid-tile>
-        </mat-grid-list>
+            </td>
+            </tr>
+        </table>
     </span>
 </mat-card>

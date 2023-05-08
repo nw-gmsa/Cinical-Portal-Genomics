@@ -1,3 +1,10 @@
+.mat-card.scrollable-content {
+  overflow-y: auto;
+}
+.fullscreen {
+  height: 100%;
+}
+
 .example-full-width {
   width: 100%;
 }
@@ -8,12 +15,19 @@
   width: 32%;
 }
 
-.mat-card.scrollable-content {
-  overflow-y: auto;
+table {
+  width: 100%;
 }
 
-mat-list {
+.mat-list-test {
+  display: flex;
   flex-grow: 1;
-  border: 1px solid;
   overflow: auto;
 }
+
+.mat-list-base .mat-list-item.mat-list-item-test {
+  width: 250px;
+  height: auto;
+}
+
+

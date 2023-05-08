@@ -5,8 +5,7 @@ import {ValueSetExpansionContains} from "fhir/r4";
 import {FhirService} from "../../services/fhir.service";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {DialogService} from "../../services/dialog.service";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {MatCheckboxChange} from "@angular/material/checkbox";
+
 
 @Component({
   selector: 'app-ontology-browser',
@@ -14,7 +13,7 @@ import {MatCheckboxChange} from "@angular/material/checkbox";
   styleUrls: ['./ontology-browser.component.scss']
 })
 export class OntologyBrowserComponent implements OnInit {
-
+    showFiller = true;
   loadingMode = LoadingMode;
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
@@ -22,7 +21,11 @@ export class OntologyBrowserComponent implements OnInit {
   snomed = true;
   concepts$: Observable<ValueSetExpansionContains[]> | undefined;
   private searchConcepts = new Subject<string>();
-    concept: ValueSetExpansionContains | undefined;
+    concept: ValueSetExpansionContains = {
+        system: 'http://snomed.info/sct',
+        code: '138875005',
+        display: 'SNOMED CT Concept'
+    };
 
   constructor(private _loadingService: TdLoadingService,
               public fhirService: FhirService,
