@@ -63,10 +63,10 @@
 
          <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                 <!-- This is the tree node template for leaf nodes -->
-                <mat-tree-node *matTreeNodeDef="let node" (click)="selectedN(node)" matTreeNodePadding>
+                <mat-tree-node *matTreeNodeDef="let node"  matTreeNodePadding>
                     <!-- use a disabled button to provide padding for tree leaf -->
                     <button mat-icon-button disabled></button>
-                    {{node.name}}
+                    {{node.name}} <span *ngIf="node.data !== undefined && node.data.system"><mat-icon color="accent" (click)="selectedN(node)">file_open</mat-icon></span>
                 </mat-tree-node>
                      <!-- This is the tree node template for expandable nodes -->
                 <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
