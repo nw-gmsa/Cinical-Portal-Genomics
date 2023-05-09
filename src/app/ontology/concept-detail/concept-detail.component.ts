@@ -59,6 +59,10 @@ export class ConceptDetailComponent implements OnInit {
   parameters: Parameters | undefined;
   parentList: ValueSetExpansionContains[]=[];
   childList: ValueSetExpansionContains[]=[];
+  synonyms: string[] = [];
+  fullName: string | undefined
+  preferred: string | undefined
+  tags: string | undefined
 
   conceptData : Concept[] = [];
   constructor(public fhirService: FhirService,
@@ -98,28 +102,43 @@ export class ConceptDetailComponent implements OnInit {
         this.conceptData.push(parentConcept)
         this.conceptData.push(childConcept)
         var children = this.getParameters("child")
+        var maxCodes = 20;
         for(let child of children) {
-          // @ts-ignore
-          this.fhirService.lookup(this.concept.system, child).subscribe(params => {
-            /*
-            this.childList.push( {
-              system: this.concept?.system,
-              code: child,
-              display: this.getParameter("display", params)
-            })
-
-             */
+          maxCodes--;
+          if (maxCodes>0) {
             // @ts-ignore
-            childConcept.children.push({ name: this.getParameter("display", params),
+            this.fhirService.lookup(this.concept.system, child).subscribe(params => {
+              /*
+              this.childList.push( {
+                system: this.concept?.system,
+                code: child,
+                display: this.getParameter("display", params)
+              })
+
+               */
+              // @ts-ignore
+              childConcept.children.push({name: this.getParameter("display", params),
+                code: {
+                  system: 'http://snomed.info/sct',
+                  code: child,
+                  display: this.getParameter("display", params)
+                },
+                children: []
+              })
+              this.dataSource.data = this.conceptData
+            })
+          } else {
+            // @ts-ignore
+            childConcept.children.push({name: child,
               code: {
                 system: 'http://snomed.info/sct',
                 code: child,
-                display: this.getParameter("display", params)
+                display: child
               },
-              children:[]
+              children: []
             })
             this.dataSource.data = this.conceptData
-          })
+          }
         }
         var parents = this.getParameters("parent")
         for(let parent of parents) {
@@ -158,6 +177,10 @@ export class ConceptDetailComponent implements OnInit {
     this.dataSource.data = this.conceptData
   }
   getProperty(parameters : ParametersParameter[], concepts : Concept[]) {
+    this.fullName = undefined
+    this.preferred = undefined
+    this.synonyms = []
+    this.tags = undefined
     for (let parameter of parameters) {
       if ((parameter.name === 'property' || parameter.name === 'subproperty') && parameter.part !== undefined) {
         var role: any | undefined = undefined
@@ -212,6 +235,30 @@ export class ConceptDetailComponent implements OnInit {
             this.getName(valueConcept)
           }
         }
+      }
+      if (parameter.name === 'designation') {
+         if (parameter.part !== undefined) {
+           var use: string | undefined
+           var value : string | undefined
+           for (let part of parameter.part) {
+             if (part.name=='use' && part.valueCoding !== undefined) {
+               use = part.valueCoding.code
+             }
+             if (part.name=='value' && part.valueString !== undefined) {
+               value = part.valueString
+             }
+           }
+           if (use !== undefined && value !== undefined) {
+              if (use === '900000000000003001') {
+                this.fullName = value
+                var strings = value.split('(')
+                this.tags = strings[strings.length-1].replace(')','')
+              }
+             if (use === '900000000000013009') this.synonyms.push(value)
+             if (use === 'preferredForLanguage') this.preferred = value
+
+           }
+         }
       }
     }
   }

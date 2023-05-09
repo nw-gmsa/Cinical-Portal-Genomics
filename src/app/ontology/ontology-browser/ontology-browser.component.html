@@ -2,19 +2,21 @@
 <mat-drawer-container class="example-container" autosize>
     <mat-drawer #drawer opened="true" class="example-sidenav" mode="side">
         <form class="example-form">
-            <mat-checkbox [(ngModel)]="snomed">UK SNOMED CT</mat-checkbox>
+
+            <mat-checkbox [(ngModel)]="snomed">CodeSystem (UK SNOMED CT)</mat-checkbox>
+            <br/>
+            <mat-hint align="end">Untick for ValueSets (UK)</mat-hint>
             <span *ngIf="!snomed">
-                <!--
                 <mat-form-field class="example-full-width">
-                  <mat-label>ValueSet</mat-label>
-                  <select >
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
-                  </select>
+                    <mat-label>ValueSet (UK)</mat-label>
+                    <mat-select required name="status" [(ngModel)]="valueSet">
+                        <mat-option *ngFor="let vs of valuesSets" [value]="vs">
+                            {{vs.title}}
+                            <span *ngIf="vs.status ==='draft'">&nbsp;<i>draft</i></span>
+                            <span *nfIf="vs.title === undefined">{{vs.name}}</span>
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
-                -->
             </span>
             <mat-form-field class="example-full-width">
                 <input #searchBox matInput placeholder="Concept" (keyup)="search(searchBox.value)" >

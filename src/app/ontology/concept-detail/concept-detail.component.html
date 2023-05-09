@@ -3,12 +3,18 @@
           <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(parameters)"><mat-icon>code</mat-icon> ($lookup)</button>
           <br/>
       </span>
+    <h2>{{concept.display}}</h2>
+    <span *ngIf="tags !== undefined">
+        <mat-chip-list>
+            <mat-chip>{{tags}}</mat-chip>
+        </mat-chip-list>
+    </span>
     <table style="width: 100%;">
         <tr>
             <td style="width: 50%;">
-                <small>Display</small>
+                <small>Preferred</small>
                 <br/>
-                {{concept.display}}
+                {{preferred}}
 
             </td>
             <td> <small>System</small>
@@ -37,6 +43,17 @@
             <td> <small>Effective Date</small>
                 <br/>
                 {{getParameter('effectiveTime',this.parameters)}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <small>Synonym</small>
+                <br/>
+                <p *ngFor="let syn of synonyms">{{syn}}</p>
+            </td>
+            <td> <small>Fully Specified Name</small>
+                <br/>
+                {{fullName}}
             </td>
         </tr>
     </table>

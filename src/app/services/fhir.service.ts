@@ -484,7 +484,7 @@ export class FhirService {
   searchConcepts(term: string, valueSet: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
-      `/ValueSet/$expand?url=${valueSet}&filter=${term}`);
+      `/ValueSet/$expand?url=${valueSet}&filter=${term}&includeDesignations=true`);
   }
 
   searchConceptsInternational(term: string, valueSet: string): Observable<ValueSet> {

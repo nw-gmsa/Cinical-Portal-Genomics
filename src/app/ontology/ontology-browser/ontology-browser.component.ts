@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {Observable, Subject} from "rxjs";
-import {ValueSetExpansionContains} from "fhir/r4";
+import {Bundle, ValueSet, ValueSetExpansionContains} from "fhir/r4";
 import {FhirService} from "../../services/fhir.service";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {DialogService} from "../../services/dialog.service";
@@ -20,6 +20,8 @@ export class OntologyBrowserComponent implements OnInit {
 
   snomed = true;
   concepts$: Observable<ValueSetExpansionContains[]> | undefined;
+  valuesSets: ValueSet[] = []
+    valueSet: ValueSet | undefined;
   private searchConcepts = new Subject<string>();
     concept: ValueSetExpansionContains = {
         system: 'http://snomed.info/sct',
@@ -32,6 +34,22 @@ export class OntologyBrowserComponent implements OnInit {
               public dlgSrv: DialogService) { }
 
   ngOnInit(): void {
+      this.valuesSets = []
+      this.fhirService.getConf('/ValueSet').subscribe(
+          resource  => {
+              console.log(resource)
+              if (resource.resourceType === 'Bundle') {
+                  var bundle = resource as Bundle
+                  if (bundle.entry !== undefined) {
+                      for(let entry of bundle.entry) {
+                          if (entry.resource !== undefined && entry.resource.resourceType === 'ValueSet') {
+                              this.valuesSets.push(entry.resource)
+                          }
+                      }
+                  }
+              }
+          }
+      );
     this.concepts$ = this.searchConcepts.pipe(
         // wait 300ms after each keystroke before considering the term
         debounceTime(300),
@@ -41,10 +59,11 @@ export class OntologyBrowserComponent implements OnInit {
         // switch to new search observable each time the term changes
         switchMap((term: string) => {
 
-            if (this.snomed) {
+            if (this.snomed || this.valueSet === undefined) {
                 return this.fhirService.searchSNOMEDConcepts(term);
             } else {
-                return this.fhirService.searchConcepts(term, 'https://fhir.hl7.org.uk/ValueSet/UKCore-ServiceRequestReasonCode');
+                // @ts-ignore
+                return this.fhirService.searchConcepts(term, this.valueSet.url);
             }
         }
         ),
@@ -56,9 +75,12 @@ export class OntologyBrowserComponent implements OnInit {
 
   }
   search(term: string): void {
-    if (term.length > 3) {
+    if (this.snomed && term.length > 3) {
       this.searchConcepts.next(term);
     }
+      if (!this.snomed && term.length > 1) {
+          this.searchConcepts.next(term);
+      }
   }
 
 
