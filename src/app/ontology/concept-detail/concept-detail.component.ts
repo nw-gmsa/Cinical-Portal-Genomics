@@ -65,6 +65,7 @@ export class ConceptDetailComponent implements OnInit {
   tags: string | undefined
 
   conceptData : Concept[] = [];
+  dmd: string | undefined;
   constructor(public fhirService: FhirService,
               public dialog: MatDialog,) { }
 
@@ -82,89 +83,53 @@ export class ConceptDetailComponent implements OnInit {
 
     this.parentList = []
     this.childList = []
+    this.dmd = undefined
     if (this.concept !== undefined && this.concept.system !== undefined && this.concept.code !== undefined) {
       this.fhirService.lookup(this.concept.system, this.concept.code).subscribe( params => {
 
         this.parameters = params
         this.getPropertyRoles()
-        var parentConcept :Concept = {
-          code: {
-          },
-          name: 'Parent',
-          children: []
-        }
+
         var childConcept :Concept = {
           code: {
           },
           name: 'Child',
           children: []
         }
-        this.conceptData.push(parentConcept)
+
         this.conceptData.push(childConcept)
         var children = this.getParameters("child")
-        var maxCodes = 20;
+        var maxCodes = 25;
         for(let child of children) {
           maxCodes--;
-          if (maxCodes>0) {
-            // @ts-ignore
-            this.fhirService.lookup(this.concept.system, child).subscribe(params => {
-              /*
-              this.childList.push( {
-                system: this.concept?.system,
-                code: child,
-                display: this.getParameter("display", params)
-              })
-
-               */
-              // @ts-ignore
-              childConcept.children.push({name: this.getParameter("display", params),
+          // @ts-ignore
+          var childCT = {name: child,
                 code: {
                   system: 'http://snomed.info/sct',
                   code: child,
-                  display: this.getParameter("display", params)
+                  display: child
                 },
                 children: []
-              })
-              this.dataSource.data = this.conceptData
-            })
-          } else {
-            // @ts-ignore
-            childConcept.children.push({name: child,
-              code: {
-                system: 'http://snomed.info/sct',
-                code: child,
-                display: child
-              },
-              children: []
-            })
-            this.dataSource.data = this.conceptData
+              }
+          childConcept.children.push(childCT)
+          if (maxCodes>0) {
+            this.getName(childCT)
           }
         }
         var parents = this.getParameters("parent")
         for(let parent of parents) {
           // @ts-ignore
-          this.fhirService.lookup(this.concept.system, parent).subscribe(params => {
-            /*
-            this.parentList.push( {
-              system: this.concept?.system,
+          var parentConcept : Concept = { name: this.getParameter("display", params),
+            code: {
+              system: 'http://snomed.info/sct',
               code: parent,
-              display: this.getParameter("display", params)
-            })
-
-             */
-            // @ts-ignore
-            parentConcept.children.push({ name: this.getParameter("display", params),
-              code: {
-                system: 'http://snomed.info/sct',
-                code: parent,
-                display : this.getParameter("display", params)
-              },
-              children:[]
-            })
-            this.dataSource.data = this.conceptData
-          })
+              display : this.getParameter("display", params)
+            },
+            children:[]
+          }
+          this.conceptData.push(parentConcept)
+          this.getName(parentConcept)
         }
-
       } )
     }
   }
@@ -265,10 +230,42 @@ export class ConceptDetailComponent implements OnInit {
 
   getName(concept : Concept) {
     if (concept.code.code !== undefined) {
+
+      switch (concept.code.code) {
+        case '10363801000001108': {
+
+          concept.name = 'Virtual medicinal product'
+          concept.code.display = concept.name
+          this.dmd = 'VMP'
+          return
+        }
+        case '10363901000001102': {
+            concept.name = 'Actual medicinal product'
+          concept.code.display = concept.name
+            this.dmd = 'AMP'
+            return
+          }
+        case '8653601000001108': {
+          concept.name = 'Virtual medicinal product pack'
+          concept.code.display = concept.name
+          this.dmd = 'VMPP'
+          return
+        }
+        case '10364001000001104': {
+          concept.name = 'Actual medicinal product pack'
+          concept.code.display = concept.name
+          this.dmd = 'AMPP'
+          return
+        }
+        default:
+        //  console.log(concept.code.code)
+      }
+
       this.fhirService.lookup('http://snomed.info/sct', concept.code.code).subscribe(params => {
         var display = this.getParameter("display", params)
         if (display !== undefined) {
-          concept.name = display + ' ('+concept.code.code +')'
+          concept.name = display
+          concept.code.display = concept.name
           this.dataSource.data = this.conceptData
         }
       })
@@ -362,6 +359,7 @@ export class ConceptDetailComponent implements OnInit {
   selectedN(node :any) {
 
     if (node.data.system !== undefined) {
+      console.log(node)
       this.concept = node.data
       this.getData()
     }

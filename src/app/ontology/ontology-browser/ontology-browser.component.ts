@@ -93,16 +93,19 @@ export class OntologyBrowserComponent implements OnInit {
     getMenuDisplay(item: ValueSetExpansionContains) {
         //console.log(item)
         if (item.inactive) return '<i><small>'+item.display+' [inactive]</small></i>'
+        return item.display
+    }
+    getChip(item: ValueSetExpansionContains) {
         if (item.designation !== undefined) {
             for (let designation of item.designation) {
                 if (designation.use !== undefined && designation.use.code === '900000000000003001') {
 
                     var strings = designation.value.split('(')
                     var type = strings[strings.length-1].replace(')','')
-                    return item.display + ' <small>('+type+')</small>'
+                    return type
                 }
             }
         }
-        return item.display
+        return undefined
     }
 }

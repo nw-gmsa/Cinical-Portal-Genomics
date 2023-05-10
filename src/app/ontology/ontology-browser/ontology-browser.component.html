@@ -23,9 +23,10 @@
                 <mat-hint align="end">Concept Term</mat-hint>
             </mat-form-field>
         </form>
-        <span *ngIf="concepts$ !== undefined">
+        <span *ngIf="concepts$ !== undefined" >
             <mat-list *ngFor="let item of concepts$ | async" class="mat-list-test">
-                <mat-list-item class="mat-list-item-test"  (click)="selected(item)" [innerHTML]="getMenuDisplay(item)"></mat-list-item>
+                <mat-list-item class="mat-list-item-test" (click)="selected(item)" [innerHTML]="getMenuDisplay(item)"></mat-list-item>
+                <mat-chip-list *ngIf="!item.inactive" (click)="selected(item)"><mat-chip>{{getChip(item)}}</mat-chip></mat-chip-list>
             </mat-list>
         </span>
     </mat-drawer>

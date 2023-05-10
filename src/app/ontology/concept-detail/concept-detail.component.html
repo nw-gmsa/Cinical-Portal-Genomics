@@ -4,11 +4,17 @@
           <br/>
       </span>
     <h2>{{concept.display}}</h2>
-    <span *ngIf="tags !== undefined">
+
         <mat-chip-list>
-            <mat-chip>{{tags}}</mat-chip>
+            <span *ngIf="tags !== undefined">
+                <mat-chip>{{tags}}</mat-chip>
+            </span>
+            <span *ngIf="dmd !== undefined">
+                <mat-chip>dm+d</mat-chip>
+                <mat-chip>{{dmd}}</mat-chip>
+            </span>
         </mat-chip-list>
-    </span>
+
     <table style="width: 100%;">
         <tr>
             <td style="width: 50%;">
