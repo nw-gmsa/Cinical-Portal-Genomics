@@ -8,6 +8,7 @@ import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@cova
 import {Router} from "@angular/router";
 import {GoalCreateComponent} from "../care-coordination/goal-create/goal-create.component";
 import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagnostic-report-create.component";
+import {EventCreateComponent} from "./event-create/event-create.component";
 
 @Component({
   selector: 'app-observations',
@@ -115,4 +116,30 @@ export class ObservationsComponent implements OnInit {
       }
     })
   }
+
+  addEvent() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '40%';
+    dialogConfig.width = '40%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      nhsNumber: this.nhsNumber
+    };
+    const dialogRef = this.dialog.open( EventCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.observations.push(result);
+        this.observations = Object.assign([], this.observations)
+      }
+    })
+  }
+
+
 }

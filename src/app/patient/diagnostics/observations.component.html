@@ -12,6 +12,11 @@
                 <h3>Observations (Last 7 days)</h3>
                 <span flex></span>
             </div>
+            <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
+                <mat-list-item>
+                    <button mat-button color="accent"  (click)="addEvent()">Add Event</button>
+                </mat-list-item>
+            </mat-nav-list>
             <td-markdown>Data models [UKCore-Observation]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation')}}) and [NHSDigital-Observation](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Observation).</td-markdown>
             <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
                 <span *ngIf="observations.length>0">

@@ -119,6 +119,7 @@ import { ConditionCreateEditComponent } from './patient/summary/condition-create
 import { MedicationRequestCreateEditComponent } from './patient/medications/medication-request-create-edit/medication-request-create-edit.component';
 import { OntologyBrowserComponent } from './ontology/ontology-browser/ontology-browser.component';
 import { ConceptDetailComponent } from './ontology/concept-detail/concept-detail.component';
+import { EventCreateComponent } from './patient/diagnostics/event-create/event-create.component';
 
 const modules = [
   MatIconModule,
@@ -215,7 +216,8 @@ const modules = [
       ConditionCreateEditComponent,
       MedicationRequestCreateEditComponent,
       OntologyBrowserComponent,
-      ConceptDetailComponent
+      ConceptDetailComponent,
+      EventCreateComponent
   ],
   imports: [
     BrowserModule,
