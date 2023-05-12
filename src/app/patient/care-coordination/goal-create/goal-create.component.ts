@@ -225,12 +225,12 @@ export class GoalCreateComponent implements OnInit {
     if (this.goalStart !== undefined) {
 
       // @ts-ignore
-      goal.startDate = this.goalStart.toISOString().split('T')[0];
+      goal.startDate = this.dlgSrv.getFHIRDateString(this.goalStart).split('T')[0];
     }
     if (this.goalStatusDate !== undefined) {
 
       // @ts-ignore
-      goal.statusDate = this.goalStatusDate.toISOString().split('T')[0];
+      goal.statusDate = this.dlgSrv.getFHIRDateString(this.goalStatusDate).split('T')[0];
     }
     if (this.statusReason !== undefined) {
       goal.statusReason = this.statusReason.trim()

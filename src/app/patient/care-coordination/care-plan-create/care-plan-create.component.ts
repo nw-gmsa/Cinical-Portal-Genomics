@@ -314,7 +314,7 @@ export class CarePlanCreateComponent implements OnInit {
     if (this.notes !== undefined && this.notes.trim() !== '') {
       carePlan.note = [
         {
-          time: new Date().toISOString().split('T')[0],
+          time: this.dlgSrv.getFHIRDateString(new Date()).split('T')[0],
           text: this.notes.trim()
         }
       ];
@@ -328,12 +328,12 @@ export class CarePlanCreateComponent implements OnInit {
     if (this.periodStart !== undefined) {
       console.log(this.periodStart);
       // @ts-ignore
-      carePlan.period.start = this.periodStart.toISOString();
+      carePlan.period.start = this.dlgSrv.getFHIRDateString(this.periodStart);
     }
     if (this.periodEnd !== undefined) {
       console.log(this.periodEnd);
       // @ts-ignore
-      carePlan.period.end = this.periodEnd.toISOString();
+      carePlan.period.end = this.dlgSrv.getFHIRDateString(this.periodEnd);
     }
     if (this.supporting !== undefined && this.supporting.length>0) {
       carePlan.supportingInfo = [];
@@ -362,7 +362,7 @@ export class CarePlanCreateComponent implements OnInit {
       })
     }
     console.log(carePlan);
-    carePlan.created = new Date().toISOString();
+    carePlan.created = this.dlgSrv.getFHIRDateString(new Date());
     this.fhirService.postTIE('/CarePlan', carePlan).subscribe(result => {
       this.diaglogRef.close(result);
 

@@ -221,7 +221,7 @@ export class MedicationRequestCreateEditComponent implements OnInit {
         ]
       if (this.authorisedDate !== undefined) {
 
-        medicationRequest.authoredOn = this.authorisedDate.toISOString();
+        medicationRequest.authoredOn = this.dlgSrv.getFHIRDateString(this.authorisedDate.toDate());
       }
 
     }

@@ -51,7 +51,7 @@ export class ObservationDetailComponent implements OnInit {
     const from = new Date();
     from.setDate(end.getDate() - 7 );
     this.fhirService.get('/Observation?patient=' + this.patientid
-        + '&date=gt' + from.toISOString().split('T')[0]
+        + '&date=gt' + fromthis.dlgSrv.getFHIRDateString().split('T')[0]
         + '&_count=400&_sort=-date').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {

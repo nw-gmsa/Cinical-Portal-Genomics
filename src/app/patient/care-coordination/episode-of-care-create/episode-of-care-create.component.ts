@@ -237,10 +237,10 @@ export class EpisodeOfCareCreateComponent implements OnInit {
         };
     }
     if (this.periodStart !== undefined && stay.period !== undefined) {
-      stay.period.start = this.periodStart.toISOString();
+      stay.period.start = this.dlgSrv.getFHIRDateString(this.periodStart.toDate());
     }
     if (this.periodEnd !== undefined && stay.period !== undefined) {
-      stay.period.end = this.periodEnd.toISOString();
+      stay.period.end = this.dlgSrv.getFHIRDateString(this.periodEnd.toDate());
     }
     if (this.stayServiceRequest !== undefined && this.stayServiceRequest.length > 0 && stay.referralRequest !== undefined) {
       for (const team of this.stayServiceRequest) {

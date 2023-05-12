@@ -119,10 +119,10 @@ export class EventCreateComponent implements OnInit {
         value: uuid.v4()
       }]
       if (this.effectiveDate !== undefined) {
-        console.log(this.effectiveDate);
-        observation.effectiveDateTime = this.effectiveDate.toISOString();
+
+        observation.effectiveDateTime = this.dlgSrv.getFHIRDateString(this.effectiveDate.toDate());
       } else {
-        observation.effectiveDateTime = new Date().toISOString();
+        observation.effectiveDateTime = this.dlgSrv.getFHIRDateString(new Date())
       }
     }
 

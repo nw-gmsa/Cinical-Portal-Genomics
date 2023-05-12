@@ -237,7 +237,7 @@ export class CommunicationCreateComponent implements OnInit {
     }
 
     console.log(communication);
-    communication.sent = new Date().toISOString();
+    communication.sent = this.dlgSrv.getFHIRDateString(new Date());
     this.fhirService.postTIE('/Communication', communication).subscribe(result => {
       this.diaglogRef.close();
       this.dialog.closeAll();

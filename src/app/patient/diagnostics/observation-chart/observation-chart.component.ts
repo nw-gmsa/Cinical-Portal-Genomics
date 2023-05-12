@@ -9,6 +9,7 @@ import {EprService} from "../../../services/epr.service";
 // import {curveCardinal} from "d3-shape";
 /// import {curveLinear} from "d3-shape";
 import {curveCardinal} from "d3-shape";
+import {DialogService} from "../../../services/dialog.service";
 
 
 @Component({
@@ -69,6 +70,7 @@ export class ObservationChartComponent implements OnInit {
   showRefLines = false;
   constructor(public fhirService: FhirService,
               private eprService: EprService,
+              private dlgSrv: DialogService,
               private _loadingService: TdLoadingService) {
   }
 
@@ -98,8 +100,8 @@ export class ObservationChartComponent implements OnInit {
     if (end !== undefined && from !== undefined) {
       this._loadingService.register('overlayStarSyntax');
       this.fhirService.get('/Observation?patient=' + this.patentId + '&code=' + this.observationCode
-          + '&date=gt' + from.toISOString().split('T')[0]
-          + '&date=lt' + end.toISOString().split('T')[0]
+          + '&date=gt' + this.dlgSrv.getFHIRDateString(from.toDate()).split('T')[0]
+          + '&date=lt' + this.dlgSrv.getFHIRDateString(end.toDate()).split('T')[0]
           + '&_count=400').subscribe(
           bundle => {
             //   console.log(bundle);

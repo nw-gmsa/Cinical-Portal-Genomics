@@ -208,7 +208,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
     diagnosticReport.subject = {
       reference: 'Patient/' + this.patientId,
     };
-    diagnosticReport.issued = new Date().toISOString();
+    diagnosticReport.issued = this.dlgSrv.getFHIRDateString(new Date());
     if (this.nhsNumber !== undefined) {
       diagnosticReport.subject.identifier = {
         system: 'https://fhir.nhs.uk/Id/nhs-number',
@@ -217,11 +217,11 @@ export class DiagnosticReportCreateComponent implements OnInit {
     }
     if (this.periodStartM !== undefined) {
       // @ts-ignore
-      diagnosticReport.effectivePeriod.start = this.periodStartM.toISOString().split('T')[0];
+      diagnosticReport.effectivePeriod.start = this.dlgSrv.getFHIRDateString(this.periodStartM).split('T')[0];
     }
     if (this.periodEndM !== undefined) {
       // @ts-ignore
-      diagnosticReport.effectivePeriod.end = this.periodEndM.toISOString().split('T')[0];
+      diagnosticReport.effectivePeriod.end = this.dlgSrv.getFHIRDateString(this.periodEndM).split('T')[0];
     }
 
     if (this.binary !== undefined) {

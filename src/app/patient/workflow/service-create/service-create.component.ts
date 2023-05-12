@@ -463,7 +463,7 @@ export class ServiceCreateComponent implements OnInit {
     if (this.notes !== undefined && this.notes.trim() !== '') {
       serviceRequest.note = [
         {
-          time: new Date().toISOString().split('T')[0],
+          time: this.dlgSrv.getFHIRDateString(new Date()).split('T')[0],
           text: this.notes.trim()
         }
       ];
@@ -525,7 +525,7 @@ export class ServiceCreateComponent implements OnInit {
     }
 
     console.log(serviceRequest);
-    serviceRequest.authoredOn = new Date().toISOString();
+    serviceRequest.authoredOn = this.dlgSrv.getFHIRDateString(new Date());
     this.fhirService.postTIE('/ServiceRequest', serviceRequest).subscribe((result) => {
       this.diaglogRef.close(result);
     });

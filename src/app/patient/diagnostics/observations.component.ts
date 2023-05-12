@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {GoalCreateComponent} from "../care-coordination/goal-create/goal-create.component";
 import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagnostic-report-create.component";
 import {EventCreateComponent} from "./event-create/event-create.component";
+import {DialogService} from "../../services/dialog.service";
 
 @Component({
   selector: 'app-observations',
@@ -29,7 +30,7 @@ export class ObservationsComponent implements OnInit {
                private eprService: EprService,
                private dialogService: TdDialogService,
                private _loadingService: TdLoadingService,
-               private router: Router,
+               private dlgSrv: DialogService,
                public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class ObservationsComponent implements OnInit {
     this._loadingService.register('overlayStarSyntax');
     this.observations = [];
       this.fhirService.get('/Observation?patient=' + this.patientId
-          + '&date=gt' + from.toISOString().split('T')[0]
+          + '&date=gt' + this.dlgSrv.getFHIRDateString(from).split('T')[0]
           + '&_count=400&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {

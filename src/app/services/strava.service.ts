@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {Bundle, BundleEntry, DiagnosticReport, Observation, Reference} from 'fhir/r4';
 import {FhirService} from './fhir.service';
 import * as uuid from 'uuid';
+import {DialogService} from "./dialog.service";
 
 
 @Injectable({
@@ -37,7 +38,9 @@ export class StravaService {
 
 
 
-  constructor(private http: HttpClient, private fhirService: FhirService) {
+  constructor(private http: HttpClient,
+              private fhirService: FhirService,
+              private dlgSrv : DialogService) {
   }
 
   getFromDate(): Date {
@@ -79,7 +82,7 @@ export class StravaService {
     // Filters out duplcates
     const activities: SummaryActivity[] = [];
     for (const activity of result) {
-      const date = new Date(activity.start_date).toISOString();
+      const date = this.dlgSrv.getFHIRDateString(new Date(activity.start_date));
       activity.intensity = this.intensity(activity.weighted_average_watts);
       if (this.activityMap.get(activity.id) === undefined) {
         this.activityMap.set(activity.id, activity);
@@ -299,8 +302,8 @@ export class StravaService {
         text : activity.name
       };
       activityReport.effectivePeriod = {
-        start : new Date(activity.start_date).toISOString(),
-        end: this.fhirService.getEndDate(activity).toISOString()
+        start : this.dlgSrv.getFHIRDateString(new Date(activity.start_date)),
+        end: this.dlgSrv.getFHIRDateString(this.fhirService.getEndDate(activity))
       };
       activityReport.subject = patientRefernce;
 

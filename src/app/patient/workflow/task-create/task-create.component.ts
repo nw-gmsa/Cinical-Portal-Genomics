@@ -570,7 +570,7 @@ export class TaskCreateComponent implements OnInit {
      // console.log('Adding new note '+ this.notes.trim())
       task.note?.push(
         {
-          time: new Date().toISOString(),
+          time: this.dlgSrv.getFHIRDateString(new Date()),
           text: this.notes.trim()
         });
     } else {
@@ -578,7 +578,7 @@ export class TaskCreateComponent implements OnInit {
       //  console.log('Adding updated note')
         task.note?.push(
             {
-              time: new Date().toISOString(),
+              time: this.dlgSrv.getFHIRDateString(new Date()),
               text: 'Task updated ('+this.taskStatus+')'
             });
       }
@@ -602,12 +602,12 @@ export class TaskCreateComponent implements OnInit {
       }
     }
 
-    task.lastModified = new Date().toISOString();
+    task.lastModified = this.dlgSrv.getFHIRDateString(new Date());
 
     if (this.task !== undefined && this.task.authoredOn !== undefined) {
       task.authoredOn = this.task.authoredOn
     } else {
-      task.authoredOn = new Date().toISOString();
+      task.authoredOn = this.dlgSrv.getFHIRDateString(new Date());
     }
 
     if (this.task === undefined || this.task.identifier === undefined || this.task.identifier.length ===0) {

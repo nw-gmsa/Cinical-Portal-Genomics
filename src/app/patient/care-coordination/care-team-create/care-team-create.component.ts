@@ -243,11 +243,11 @@ export class CareTeamCreateComponent implements OnInit {
       }
       if (this.periodStart !== undefined) {
         console.log(this.periodStart);
-        if (careTeam.period !== undefined) careTeam.period.start = this.periodStart.toISOString();
+        if (careTeam.period !== undefined) careTeam.period.start = this.dlgSrv.getFHIRDateString(this.periodStart.toDate());
       }
       if (this.periodEnd !== undefined) {
         console.log(this.periodEnd);
-        if (careTeam.period !== undefined) careTeam.period.end = this.periodEnd.toISOString();
+        if (careTeam.period !== undefined) careTeam.period.end = this.dlgSrv.getFHIRDateString(this.periodEnd.toDate());
       }
       console.log(careTeam);
 

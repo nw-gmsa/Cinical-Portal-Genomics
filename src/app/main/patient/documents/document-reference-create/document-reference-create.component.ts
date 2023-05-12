@@ -326,7 +326,7 @@ export class DocumentReferenceCreateComponent implements OnInit {
       }
     }
     if (this.metadataCreated !== undefined) {
-      metadata.date = this.metadataCreated.toISOString();
+      metadata.date = this.dlgSrv.getFHIRDateString(this.metadataCreated.toDate());
     }
     if (this.practitioner !== undefined ) {
       const reference : Reference = {

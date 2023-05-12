@@ -13,6 +13,7 @@ import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators
 import {HttpClient} from '@angular/common/http';
 import {FhirService} from './fhir.service';
 import {Observable, of} from 'rxjs';
+import {DatePipe} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -147,6 +148,14 @@ export class DialogService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  getFHIRDateString(date : Date) : string {
+    var datePipe = new DatePipe('en-GB');
+    //2023-05-12T13:22:31.964Z
+    var utc = datePipe.transform(date, 'yyyy-MM-ddTHH:mm:ss.SSSZZZZZ');
+    if (utc!= null) return utc
+    return date.toISOString()
   }
 
 }

@@ -261,16 +261,16 @@ export class ConditionCreateEditComponent implements OnInit {
       }]
       if (this.onsetDate !== undefined) {
         console.log(this.onsetDate);
-        condition.onsetDateTime = this.onsetDate.toISOString();
+        condition.onsetDateTime = this.dlgSrv.getFHIRDateString(this.onsetDate.toDate());
       }
       if (this.recordedDate !== undefined) {
         console.log(this.recordedDate);
-        condition.recordedDate = this.recordedDate.toISOString();
+        condition.recordedDate = this.dlgSrv.getFHIRDateString(this.recordedDate.toDate());
       }
     }
     if (this.abatementDate !== undefined) {
       console.log(this.abatementDate);
-      condition.abatementDateTime = this.abatementDate.toISOString();
+      condition.abatementDateTime = this.dlgSrv.getFHIRDateString(this.abatementDate.toDate());
     }
     console.log(JSON.stringify(condition));
 

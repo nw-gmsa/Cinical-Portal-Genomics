@@ -11,6 +11,7 @@ import * as uuid from 'uuid';
 import {delay} from 'rxjs/operators';
 import {MeasurementSetting} from '../models/enums/MeasurementSetting';
 import {DeviceSetting} from '../models/enums/DeviceSetting';
+import {DialogService} from "./dialog.service";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class WithingsService {
   url = 'https://wbsapi.withings.net';
   private redirect: string | undefined;
   constructor(private http: HttpClient,
-
+              private dlgSrv: DialogService,
               private fhir: FhirService,
               private datePipe: DatePipe) { }
 
@@ -125,8 +126,8 @@ export class WithingsService {
 
     let bodge = 'action=getactivity'
         + '&data_fields=steps,hr_average,hr_min,hr_max,totalcalories,calories,active'
-        + '&startdateymd=' + this.fhir.getFromDate().toISOString().split('T')[0]
-        + '&enddateymd=' + this.fhir.getNextToDay().toISOString().split('T')[0];
+        + '&startdateymd=' + this.dlgSrv.getFHIRDateString(this.fhir.getFromDate()).split('T')[0]
+        + '&enddateymd=' + this.dlgSrv.getFHIRDateString(this.fhir.getNextToDay()).split('T')[0];
     //  + '&lastupdate='+Math.floor(lastUpdate.getTime()/1000);
     if (offset !== undefined) {
       bodge = bodge + '&offset=' + Math.floor(offset);
@@ -146,8 +147,8 @@ export class WithingsService {
 
     let bodge = 'action=getworkouts'
       + '&data_fields=steps,hr_average,hr_min,hr_max,calories,spo2_average'
-      + '&startdateymd=' + this.fhir.getFromDate().toISOString().split('T')[0]
-      + '&enddateymd=' + this.fhir.getToDate().toISOString().split('T')[0];
+      + '&startdateymd=' + this.fhir.getFromDate()this.dlgSrv.getFHIRDateString().split('T')[0]
+      + '&enddateymd=' + this.fhir.getToDate()this.dlgSrv.getFHIRDateString().split('T')[0];
     //  + '&lastupdate='+Math.floor(lastUpdate.getTime()/1000);
     if (offset !== undefined) {
       bodge = bodge + '&offset=' + Math.floor(offset);
@@ -250,7 +251,7 @@ export class WithingsService {
     let count = this.fhir.pageOn * this.fhir.measurePageMod;
     for (const grp of measures) {
       count--;
-      const date = new Date(+grp.date * 1000).toISOString();
+      const date = this.dlgSrv.getFHIRDateString(new Date(+grp.date * 1000));
 
       const obs: Obs = {
         obsDate: new Date(date),
@@ -463,7 +464,7 @@ export class WithingsService {
         this.sleepLoaded.emit(observations);
       }
     } else {
-      console.log(startdate.toISOString() + ' + ' + enddate.toISOString());
+      console.log(this.dlgSrv.getFHIRDateString(startdate) + ' + ' + this.dlgSrv.getFHIRDateString(enddate));
       console.log(sleepData);
     }
   }
@@ -709,11 +710,11 @@ export class WithingsService {
     }
     if (obs.obsEndDate !== undefined) {
       fhirObs.effectivePeriod = {
-        start:obs.obsDate.toISOString(),
-        end: obs.obsEndDate.toISOString()
+        start:this.dlgSrv.getFHIRDateString(obs.obsDate),
+        end: this.dlgSrv.getFHIRDateString(obs.obsEndDate)
       }
     } else {
-      fhirObs.effectiveDateTime = obs.obsDate.toISOString();
+      fhirObs.effectiveDateTime = this.dlgSrv.getFHIRDateString(obs.obsDate);
     }
     if (value !== undefined && unitdisplay !== undefined) {
       fhirObs.valueQuantity = {
