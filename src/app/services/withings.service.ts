@@ -248,12 +248,17 @@ export class WithingsService {
       return;
     }
     let observations: Obs[] = [];
+    let tObservations: Obs[] = [];
     let count = this.fhir.pageOn * this.fhir.measurePageMod;
     for (const grp of measures) {
       count--;
       const date = this.dlgSrv.getFHIRDateString(new Date(+grp.date * 1000));
 
       const obs: Obs = {
+        obsDate: new Date(date),
+        measurementSetting: MeasurementSetting.home
+      };
+      const tobs: Obs = {
         obsDate: new Date(date),
         measurementSetting: MeasurementSetting.home
       };
@@ -288,7 +293,7 @@ export class WithingsService {
             obs.skintemp = +measure.value / 1000;
             break;
           case 91:
-            obs.pwv = +measure.value / 1000;
+            tobs.pwv = +measure.value / 1000;
             break;
           case 9 :
             obs.diastolic = +measure.value / 1000;
@@ -305,12 +310,19 @@ export class WithingsService {
       }
 
       observations.push(obs);
+      if (tobs.pwv !== undefined) {
+        tObservations.push(tobs)
+      }
       if (count < 1) {
         await this.delay(this.fhir.throttle);
         this.measuresLoaded.emit(observations);
         observations = [];
         count = this.fhir.pageOn * this.fhir.measurePageMod;
       }
+    }
+    if (tObservations.length>0) {
+      console.log(JSON.stringify(tObservations))
+      this.measuresLoaded.emit(tObservations);
     }
     await this.delay(this.fhir.throttle);
     this.measuresLoaded.emit(observations);
@@ -812,7 +824,7 @@ export class WithingsService {
 
 
   getAccessToken(): string | undefined {
-    console.log('Get Access token');
+  //  console.log('Get Access token');
     if (localStorage.getItem('withingsToken') !== undefined) {
       // @ts-ignore
       const token: any = JSON.parse(localStorage.getItem('withingsToken'));

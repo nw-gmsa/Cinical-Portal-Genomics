@@ -99,7 +99,7 @@ export class PatientSummaryComponent implements OnInit {
         const state = params['state'];
         if (code !== undefined) {
           if (state !== undefined && state === 'withings') {
-            console.log('Withings detected');
+           // console.log('Withings detected');
             this.doWithingsSetup(code, state);
           } else {
             this.doStravaSetup(code);
@@ -108,20 +108,20 @@ export class PatientSummaryComponent implements OnInit {
       });
       this.clearDown();
       this.strava.tokenChange.subscribe(token => {
-        console.log('Strava Token Received');
+      //  console.log('Strava Token Received');
         if (token !== undefined) { this.stravaConnect = false; }
         this.stravaLoad();
       });
       this.withings.tokenChange.subscribe(
       token => {
-        console.log('Withings Token Received');
+      //  console.log('Withings Token Received');
         if (token !== undefined) { this.withingsConnect = false; }
         this.withingsLoad();
       }
     );
       this.strava.loaded.subscribe(activities => {
-        console.log('Strava Loaded Received');
-        console.log(activities)
+    //    console.log('Strava Loaded Received');
+    //    console.log(activities)
         const patientRef: Reference = {
           reference: 'Patient/' + this.patientId
         };
@@ -129,7 +129,7 @@ export class PatientSummaryComponent implements OnInit {
         this.fhirService.sendTransaction(transaction, 'Strava');
       });
       this.withings.activityLoaded.subscribe(result => {
-        console.log('Withings Activity Loaded Received');
+   //     console.log('Withings Activity Loaded Received');
         const patientRef: Reference = {
           reference: 'Patient/' + this.patientId
         };
@@ -138,7 +138,7 @@ export class PatientSummaryComponent implements OnInit {
         this.fhirService.sendTransaction(transaction, 'Withings Activity');
       });
       this.withings.sleepLoaded.subscribe(result => {
-        console.log('Withings Sleep Loaded Received');
+     //   console.log('Withings Sleep Loaded Received');
         const patientRef: Reference = {
           reference: 'Patient/' + this.patientId
         };
@@ -147,7 +147,7 @@ export class PatientSummaryComponent implements OnInit {
         this.fhirService.sendTransaction(transaction, 'Withings Sleep');
       });
       this.withings.measuresLoaded.subscribe(result => {
-        console.log('Withings Measures Loaded Received');
+      //  console.log('Withings Measures Loaded Received');
         const patientRef: Reference = {
           reference: 'Patient/' + this.patientId
         };
@@ -274,7 +274,7 @@ export class PatientSummaryComponent implements OnInit {
 
   doStravaSetup(authorisationCode: string): void  {
 
-    console.log(authorisationCode);
+ //   console.log(authorisationCode);
 
     // Subscribe to the token change
     this.strava.tokenChange.subscribe(
@@ -288,7 +288,7 @@ export class PatientSummaryComponent implements OnInit {
 
   doWithingsSetup(authorisationCode: string, state: any): void {
 
-    console.log(authorisationCode);
+  //  console.log(authorisationCode);
     this.withings.tokenChange.subscribe(
       () => {
         this.router.navigateByUrl('/patient/' + this.patientId);
@@ -359,7 +359,7 @@ export class PatientSummaryComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
 
             if (result !== undefined && result.resourceType !== undefined) {
-                console.log(result)
+              //  console.log(result)
                 this.medicationRequests.push(result);
                 this.medicationRequests = Object.assign([], this.medicationRequests)
             }
