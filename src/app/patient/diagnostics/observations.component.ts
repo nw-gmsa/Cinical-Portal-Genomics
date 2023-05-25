@@ -60,7 +60,7 @@ export class ObservationsComponent implements OnInit {
     }
     const end = this.fhirService.getToDate();
     const from = new Date();
-    from.setDate(end.getDate() - 7 );
+    from.setDate(end.getDate() - 100 );
     this._loadingService.register('overlayStarSyntax');
     this.observations = [];
       this.fhirService.get('/Observation?patient=' + this.patientId

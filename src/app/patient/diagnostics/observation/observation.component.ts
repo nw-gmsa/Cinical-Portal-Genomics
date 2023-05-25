@@ -9,6 +9,7 @@ import {MatSort, Sort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {Router} from "@angular/router";
+import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 
 
 
@@ -203,4 +204,28 @@ export class ObservationComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+  delete(observation : Observation) {
+      let dialogRef = this.dialog.open(DeleteComponent, {
+        width: '250px',
+        data:  observation
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+
+          this.fhirService.deleteTIE('/Observation/'+observation.id).subscribe(result => {
+
+            if (this.observations !== undefined) {
+              this.observations.forEach((taskIt, index) => {
+                if (taskIt.id === observation.id) {
+                  // @ts-ignore
+                  this.observations.splice(index, 1);
+                }
+              })
+              this.dataSource = new MatTableDataSource<Observation>(this.observations);
+            }
+          })
+        }
+      });
+    }
 }
