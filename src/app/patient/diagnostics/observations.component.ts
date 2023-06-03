@@ -5,8 +5,6 @@ import {EprService} from "../../services/epr.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
-import {Router} from "@angular/router";
-import {GoalCreateComponent} from "../care-coordination/goal-create/goal-create.component";
 import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagnostic-report-create.component";
 import {EventCreateComponent} from "./event-create/event-create.component";
 import {DialogService} from "../../services/dialog.service";
@@ -17,6 +15,7 @@ import {DialogService} from "../../services/dialog.service";
   styleUrls: ['./observations.component.scss']
 })
 export class ObservationsComponent implements OnInit {
+  searchRange = 14;
   observations: Observation[] = [];
   // @ts-ignore
   diagnosticReports: DiagnosticReport[] = [];
@@ -60,7 +59,7 @@ export class ObservationsComponent implements OnInit {
     }
     const end = this.fhirService.getToDate();
     const from = new Date();
-    from.setDate(end.getDate() - 100 );
+    from.setDate(end.getDate() -  this.searchRange);
     this._loadingService.register('overlayStarSyntax');
     this.observations = [];
       this.fhirService.get('/Observation?patient=' + this.patientId
@@ -78,7 +77,9 @@ export class ObservationsComponent implements OnInit {
           }
       );
       this.diagnosticReports = [];
-      this.fhirService.get('/DiagnosticReport?patient=' + this.patientId + '&_count=50&_sort=-date').subscribe(bundle => {
+      this.fhirService.get('/DiagnosticReport?patient=' + this.patientId
+          + '&date=gt' + this.dlgSrv.getFHIRDateString(from).split('T')[0]
+          + '&_count=50&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
                 if (entry.resource !== undefined && entry.resource.resourceType === 'DiagnosticReport') {
