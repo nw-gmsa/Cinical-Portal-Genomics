@@ -6,7 +6,8 @@ import {Binary, Bundle, Composition, DocumentReference, FhirResource, Patient} f
 import {EprService} from "../../../../services/epr.service";
 import {FhirService} from "../../../../services/fhir.service";
 
-var Fhir = require('fhir').Fhir;
+// JULY2023
+//var Fhir = require('fhir').Fhir;
 @Component({
   selector: 'app-binary',
   templateUrl: './binary.component.html',
@@ -109,11 +110,12 @@ export class BinaryComponent implements OnInit {
                 + '|<[?][^>]*>?',  // A pseudo-comment
                 'g');
             xml = xml.replace(COMMENT_PSEUDO_COMMENT_OR_LT_BANG, "")
-            var fhir = new Fhir();
-            jsonString = fhir.xmlToJson(xml);
+           // JULY2023 var fhir = new Fhir();
+            // JULY2023 jsonString = fhir.xmlToJson(xml);
           } else {
             jsonString = xml
           }
+          // @ts-ignore
           var document = JSON.parse(jsonString)
           if (document.resourceType === 'Bundle') {
              const bundle = document as Bundle;
@@ -165,10 +167,13 @@ export class BinaryComponent implements OnInit {
       }
     }
   }
+
   getXML(resource: FhirResource) {
-    var fhir = new Fhir();
-    return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
+  // JULY 2023   var fhir = new Fhir();
+  // JULY 2023   return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
   }
+
+
 
   formatXml(xml: string, tab?: string) { // tab = optional indent value, default is tab (\t)
     var formatted = '', indent= '';

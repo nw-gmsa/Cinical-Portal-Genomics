@@ -23,7 +23,7 @@ import * as moment from "moment";
 
 
 
-var Fhir = require('fhir').Fhir;
+// JULY 2023  var Fhir = require('fhir').Fhir;
 
 @Component({
   selector: 'app-document-reference-create',
