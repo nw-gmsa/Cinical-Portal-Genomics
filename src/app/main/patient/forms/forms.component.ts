@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig} from "@angular/material/legacy-dialog";
 import {Patient, QuestionnaireResponse} from "fhir/r4";
 import {environment} from "../../../../environments/environment";
 import {TaskCreateComponent} from "../../../patient/workflow/task-create/task-create.component";

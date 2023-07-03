@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DiagnosticReport, Observation, Patient} from "fhir/r4";
 import {FhirService} from "../../services/fhir.service";
 import {EprService} from "../../services/epr.service";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig} from "@angular/material/legacy-dialog";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagnostic-report-create.component";

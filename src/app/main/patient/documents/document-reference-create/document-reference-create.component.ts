@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {FhirService} from "../../../../services/fhir.service";
 import {DialogService} from "../../../../services/dialog.service";
 import {
@@ -14,9 +14,9 @@ import {
 import * as uuid from "uuid";
 import {Observable, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {Moment} from "moment/moment";
-import {MatSelectChange} from "@angular/material/select";
+import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
 import {environment} from "../../../../../environments/environment";
 import {TdDialogService} from "@covalent/core/dialogs";
 import * as moment from "moment";

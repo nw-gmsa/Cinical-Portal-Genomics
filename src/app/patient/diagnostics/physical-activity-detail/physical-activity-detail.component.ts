@@ -4,7 +4,7 @@ import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {ActivatedRoute} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {Observation} from "fhir/r4";
 import {Moment} from "moment/moment";
 import * as moment from "moment/moment";

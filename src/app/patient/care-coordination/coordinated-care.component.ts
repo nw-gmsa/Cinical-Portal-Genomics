@@ -2,7 +2,7 @@ import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FhirService} from "../../services/fhir.service";
 import {EprService} from "../../services/epr.service";
 import {TdDialogService} from "@covalent/core/dialogs";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig} from "@angular/material/legacy-dialog";
 import {CarePlan, CareTeam, Condition, EpisodeOfCare, Goal, Patient} from "fhir/r4";
 import {CareTeamCreateComponent} from "./care-team-create/care-team-create.component";
 import {CarePlanCreateComponent} from "./care-plan-create/care-plan-create.component";

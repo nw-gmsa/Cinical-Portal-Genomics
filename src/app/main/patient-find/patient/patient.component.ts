@@ -1,6 +1,6 @@
 
 import {Component, OnInit, Input, EventEmitter, Output, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {Observable} from 'rxjs';
 import {Patient} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';

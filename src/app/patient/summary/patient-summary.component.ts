@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatChip} from '@angular/material/chips';
+import {MatLegacyChip as MatChip} from '@angular/material/legacy-chips';
 import {
     AllergyIntolerance, Condition,
     Encounter,
@@ -9,7 +9,7 @@ import {
 import {FhirService} from '../../services/fhir.service';
 import {EprService} from '../../services/epr.service';
 import { TdDialogService} from '@covalent/core/dialogs';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig} from '@angular/material/legacy-dialog';
 import {StravaService} from '../../services/strava.service';
 import {Athlete} from '../../models/athlete';
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from '@covalent/core/loading';

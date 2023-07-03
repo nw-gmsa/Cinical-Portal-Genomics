@@ -14,11 +14,11 @@ import {
   ValueSetExpansionContains
 } from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from '@angular/material/legacy-autocomplete';
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import * as uuid from 'uuid';
 import {DialogService} from '../../../services/dialog.service';
-import {MatSelectChange} from "@angular/material/select";
+import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
 import {TdDialogService} from "@covalent/core/dialogs";
 
 @Component({

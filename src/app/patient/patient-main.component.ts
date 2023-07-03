@@ -1,7 +1,7 @@
 import {Component,  OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {MatChip} from '@angular/material/chips';
+import {MatLegacyChip as MatChip} from '@angular/material/legacy-chips';
 import {Bundle, FhirResource, Patient} from 'fhir/r4';
 import {FhirService} from '../services/fhir.service';
 import {EprService} from '../services/epr.service';

@@ -3,7 +3,7 @@ import {LoadingMode, LoadingStrategy, LoadingType} from "@covalent/core/loading"
 import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {ActivatedRoute} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 
 @Component({
   selector: 'app-vitals-detail',

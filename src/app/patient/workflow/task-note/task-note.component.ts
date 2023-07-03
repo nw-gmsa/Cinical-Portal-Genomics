@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Annotation} from "fhir/r4";
-import {MatTableDataSource} from "@angular/material/table";
+import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 
 @Component({
   selector: 'app-task-note',

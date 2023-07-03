@@ -5,7 +5,7 @@ import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 
 @Component({
   selector: 'app-diagnostic-report-detail',
