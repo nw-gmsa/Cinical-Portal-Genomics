@@ -1,10 +1,9 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {FhirResource} from "fhir/r4";
-
+import {Fhir} from "fhir";
 
 declare var $: any;
-// JULY 2023 var Fhir = require('fhir').Fhir;
 
 @Component({
   selector: 'app-resource-viewer',
@@ -46,8 +45,8 @@ export class ResourceDialogComponent implements OnInit {
     protected readonly JSON = JSON;
 
     getXML(resource: FhirResource) {
-      // JULY 2023   var fhir = new Fhir();
-      // JULY 2023    return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
+      var fhir = new Fhir();
+      return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
     }
 
   formatXml(xml: string, tab?: string) { // tab = optional indent value, default is tab (\t)

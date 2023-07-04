@@ -68,7 +68,7 @@ export class PatientSearchComponent implements OnInit {
       // switch to new search observable each time the term changes
       switchMap((term: string) => {
 
-        this._loadingService.register('overlayStarSyntax');
+      //  this._loadingService.register('overlayStarSyntax');
           return this.fhirService.searchPatients(term.replace(',', ''));
       }
 

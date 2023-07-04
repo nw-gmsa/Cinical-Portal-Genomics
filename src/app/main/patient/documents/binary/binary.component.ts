@@ -5,9 +5,8 @@ import { TdDialogService} from '@covalent/core/dialogs';
 import {Binary, Bundle, Composition, DocumentReference, FhirResource, Patient} from "fhir/r4";
 import {EprService} from "../../../../services/epr.service";
 import {FhirService} from "../../../../services/fhir.service";
+import {Fhir} from "fhir";
 
-// JULY2023
-//var Fhir = require('fhir').Fhir;
 @Component({
   selector: 'app-binary',
   templateUrl: './binary.component.html',
@@ -110,12 +109,11 @@ export class BinaryComponent implements OnInit {
                 + '|<[?][^>]*>?',  // A pseudo-comment
                 'g');
             xml = xml.replace(COMMENT_PSEUDO_COMMENT_OR_LT_BANG, "")
-           // JULY2023 var fhir = new Fhir();
-            // JULY2023 jsonString = fhir.xmlToJson(xml);
+            var fhir = new Fhir();
+            jsonString = fhir.xmlToJson(xml);
           } else {
             jsonString = xml
           }
-          // @ts-ignore
           var document = JSON.parse(jsonString)
           if (document.resourceType === 'Bundle') {
              const bundle = document as Bundle;
@@ -169,8 +167,8 @@ export class BinaryComponent implements OnInit {
   }
 
   getXML(resource: FhirResource) {
-  // JULY 2023   var fhir = new Fhir();
-  // JULY 2023   return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
+    var fhir = new Fhir();
+    return this.formatXml(fhir.jsonToXml(JSON.stringify(resource)));
   }
 
 
