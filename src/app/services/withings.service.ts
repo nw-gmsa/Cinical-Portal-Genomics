@@ -512,10 +512,21 @@ export class WithingsService {
         const fhirFat = this.getObservation(patient, bundle, obs, false, '73708-0',
             'kg', obs.measurementSetting, 'Body fat [Mass] Calculated', obs.fat_mass, 'kilogram',
             undefined, undefined, DeviceSetting.floorScale);
+        if (obs.weight !== undefined && obs.weight>0) {
+          const fhirFat = this.getObservation(patient, bundle, obs, false, '41982-0',
+              '%', obs.measurementSetting, 'Percentage of body fat Measured', (obs.fat_mass / obs.weight) * 100, 'percentage',
+              undefined, undefined, DeviceSetting.floorScale);
+        }
+
       }
       if (obs.muscle_mass !== undefined) {
         const fhirMuscle = this.getObservation(patient, bundle, obs, false, '73964-9', 'kg',
             obs.measurementSetting, 'Body muscle mass', obs.muscle_mass, 'kilogram', undefined, undefined, DeviceSetting.floorScale);
+        if (obs.weight !== undefined && obs.weight>0) {
+          const fhirFat = this.getObservation(patient, bundle, obs, false, '73965-6',
+              '%', obs.measurementSetting, 'Body muscle mass/Body weight Measured', (obs.muscle_mass / obs.weight) * 100, 'percentage',
+              undefined, undefined, DeviceSetting.floorScale);
+        }
       }
       if (obs.hydration !== undefined) {
         const fhirMuscle = this.getObservation(patient, bundle, obs, false, '73706-4', 'kg',
