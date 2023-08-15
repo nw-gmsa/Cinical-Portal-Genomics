@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
+
+declare var $: any;
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit  {
   title = 'FHIR-R4-OAS';
   constructor(private router: Router) {
 
@@ -28,5 +31,10 @@ export class AppComponent {
       }
     });
 
+  }
+
+  ngOnInit(): void {
+    // @ts-ignore
+    LForms = window["LForms"]
   }
 }

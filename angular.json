@@ -35,7 +35,14 @@
               "src/theme.scss"
             ],
             "scripts": [
-              "node_modules/echarts/dist/echarts.js"x
+              "node_modules/echarts/dist/echarts.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/lforms/dist/lforms/webcomponent/assets/lib/zone.min.js",
+              "node_modules/lforms/dist/lforms/webcomponent/scripts.js",
+              "node_modules/lforms/dist/lforms/webcomponent/runtime.js",
+              "node_modules/lforms/dist/lforms/webcomponent/polyfills.js",
+              "node_modules/lforms/dist/lforms/webcomponent/main.js",
+              "node_modules/lforms/dist/lforms/fhir/R4/lformsFHIR.min.js"
             ]
           },
           "configurations": {
