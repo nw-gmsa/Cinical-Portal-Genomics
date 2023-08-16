@@ -53,4 +53,12 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
   }
 
 
+  selected($event: Event) {
+    console.log($event)
+    let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(
+        $event, "R4");
+    console.log(formDef)
+    LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
+    console.log('LForms.Util.addFormToPage')
+  }
 }
