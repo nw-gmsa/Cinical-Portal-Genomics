@@ -3,7 +3,9 @@ import {FhirService} from "../../../services/fhir.service";
 import {MatDialog} from "@angular/material/dialog";
 import {client} from "fhirclient";
 import {EprService} from "../../../services/epr.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {QuestionnaireResponse} from "fhir/r4";
+import {TdDialogService} from "@covalent/core/dialogs";
 
 
 declare var LForms: any;
@@ -23,7 +25,9 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
       public dialog: MatDialog,
       public fhirService: FhirService,
       private eprService: EprService,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private router: Router,
+      private _dialogService: TdDialogService
   ) { }
 
   ngAfterViewInit(): void {
@@ -64,5 +68,69 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
         $event, "R4");
     LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
 
+  }
+
+  submit() {
+    // results = LForms.Util.getUserData(this.mydiv?.nativeElement)
+
+    let results =  LForms.Util.getFormFHIRData("QuestionnaireResponse", "R4", this.mydiv?.nativeElement)
+
+    if (results.resourceType === "QuestionnaireResponse") {
+      let questionnaireResponse : QuestionnaireResponse = results
+      questionnaireResponse.subject = {
+        reference: "Patient/"+this.patientId
+      }
+      questionnaireResponse.questionnaire = "Questionnaire/" + this.questionnaireId
+      console.log(questionnaireResponse)
+      this.fhirService.postTIE('/QuestionnaireResponse', questionnaireResponse).subscribe((condition) => {
+           // this.diaglogRef.close(condition);
+            this._dialogService.openAlert({
+              title: 'Info',
+              disableClose: true,
+              message:
+                  'Form submitted ok',
+            });
+            this.fhirService.postTIE('/QuestionnaireResponse/$extract', questionnaireResponse).subscribe((bundle) => {
+              console.log(bundle)
+              if (bundle !== undefined && bundle.entry !== undefined) {
+                this.fhirService.postTIE('/', bundle).subscribe((bundle) => {
+
+
+                  this.router.navigate(['/patient', this.patientId, 'forms'])
+                },
+                    error => {
+                      console.log(JSON.stringify(error))
+                      this._dialogService.openAlert({
+                        title: 'Alert',
+                        disableClose: true,
+                        message:
+                            this.fhirService.getErrorMessage(error),
+                      });
+                    })
+              } else {
+                this.router.navigate(['/patient', this.patientId, 'forms'])
+              }
+            },
+            error => {
+              console.log(JSON.stringify(error))
+              this._dialogService.openAlert({
+                title: 'Alert',
+                disableClose: true,
+                message:
+                    this.fhirService.getErrorMessage(error),
+              });
+            })
+
+          },
+          error => {
+            console.log(JSON.stringify(error))
+            this._dialogService.openAlert({
+              title: 'Alert',
+              disableClose: true,
+              message:
+                  this.fhirService.getErrorMessage(error),
+            });
+          });
+    }
   }
 }
