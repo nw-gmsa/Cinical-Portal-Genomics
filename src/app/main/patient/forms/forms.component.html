@@ -1,6 +1,5 @@
 
-    <!-- http://lhncbc.github.io/lforms/ -->
-    <div #myFormContainer ></div>
+
 
     <mat-card class="fullscreen scrollable-content">
         <td-breadcrumbs>
@@ -19,7 +18,11 @@
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
                 <mat-list-item>
                     <button mat-button color="accent"  (click)="addForms()">
-                        <!-- <mat-icon>filter</mat-icon>--> Add Forms</button>
+                        <!-- <mat-icon>filter</mat-icon>--> Add Forms (NLM)</button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-button color="accent"  (click)="addFormsNew()">
+                        <!-- <mat-icon>filter</mat-icon>--> Add Forms (NHS England)</button>
                 </mat-list-item>
                 <mat-list-item>
                     <button mat-button color="accent"  (click)="addTask()">Add Form CompletionTask</button>

@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
 
-declare var $: any;
-
+declare var LForms: any;
 
 @Component({
   selector: 'app-root',

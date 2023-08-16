@@ -120,6 +120,7 @@ import { MedicationRequestCreateEditComponent } from './patient/medications/medi
 import { OntologyBrowserComponent } from './ontology/ontology-browser/ontology-browser.component';
 import { ConceptDetailComponent } from './ontology/concept-detail/concept-detail.component';
 import { EventCreateComponent } from './patient/diagnostics/event-create/event-create.component';
+import { StructuredDataCaptueComponent } from './main/patient/forms/structured-data-captue/structured-data-captue.component';
 
 const modules = [
   MatIconModule,
@@ -217,7 +218,8 @@ const modules = [
       MedicationRequestCreateEditComponent,
       OntologyBrowserComponent,
       ConceptDetailComponent,
-      EventCreateComponent
+      EventCreateComponent,
+      StructuredDataCaptueComponent
   ],
   imports: [
     BrowserModule,

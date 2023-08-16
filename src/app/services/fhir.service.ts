@@ -427,6 +427,21 @@ export class FhirService {
     }
   }
 
+  public getTIEResource(search: string): Observable<any> {
+
+    const url = this.getTIEUrl() + search;
+    let headers = new HttpHeaders(
+    );
+
+    if (this.format === 'xml') {
+      headers = headers.append('Content-Type', 'application/fhir+xml');
+      headers = headers.append('Accept', 'application/fhir+xml');
+      return this.http.get(url, {headers, responseType: 'blob' as 'blob'});
+    } else {
+      return this.http.get<any>(url, {headers: this.getHeaders(true)});
+    }
+  }
+
 
 
   public getResults(url: string): Observable<Bundle> {

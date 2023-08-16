@@ -32,6 +32,9 @@ import {
 } from "../main/journey/activity-definition-detail/activity-definition-detail.component";
 import {PlanDefinitionDetailComponent} from "../main/journey/plan-definition-detail/plan-definition-detail.component";
 import {OntologyBrowserComponent} from "../ontology/ontology-browser/ontology-browser.component";
+import {
+  StructuredDataCaptueComponent
+} from "../main/patient/forms/structured-data-captue/structured-data-captue.component";
 
 
 const routes: Routes = [
@@ -61,6 +64,7 @@ const routes: Routes = [
           {path: 'documents', component: DocumentsComponent},
           {path: 'documents/:docid', component: BinaryComponent},
           {path: 'forms', component: FormsComponent},
+          {path: 'sdc', component: StructuredDataCaptueComponent},
           {path: 'forms/:form', component: QuestionnaireResponseViewComponent},
           {path: 'workflow', component: WorkflowComponent},
           {path: 'coordination', component: CoordinatedCareComponent},
