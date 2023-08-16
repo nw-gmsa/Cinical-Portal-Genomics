@@ -519,7 +519,7 @@ export class FhirService {
         `/CodeSystem/$lookup?system=${system}&code=${code}`);
   }
 
-  private getTIEUrl(): string {
+  public getTIEUrl(): string {
      return this.tieUrl;
   }
 

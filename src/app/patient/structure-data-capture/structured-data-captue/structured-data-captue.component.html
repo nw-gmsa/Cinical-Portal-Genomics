@@ -1,20 +1,13 @@
 <mat-card class="fullscreen scrollable-content">
     <td-breadcrumbs>
-        <a td-breadcrumb [routerLink]="['/patient', '123TODO']">Patient</a>
+        <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+        <a td-breadcrumb [routerLink]="['/patient', patientId, 'forms']">Forms</a>
         <td-breadcrumb>Structured Data Capture</td-breadcrumb>
     </td-breadcrumbs>
     <td-markdown>This is not currently performing automatic form prepopulation (using Observation API) or the extraction of Observations (use the [US NLM version](https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/events/FHIR/R4) instead).
         It using FHIR based terminology using NHS England Ontology Server lookups (via a facade which handles authentication)</td-markdown>
 
-    <form class="example-form">
 
-        <mat-form-field class="example-half-width">
-            <mat-label>Sample Form</mat-label>
-            <mat-select [(ngModel)]="form" (ngModelChange)="selected($event)">
-                <mat-option *ngFor="let questionnaire of forms" [value]="questionnaire">{{questionnaire.title}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </form>
     <!-- http://lhncbc.github.io/lforms/ -->
     <div #myFormContainer ></div>
 </mat-card>

@@ -21,3 +21,17 @@ mat-nav-list.list-horizontal {
   right: 0;
   background: #eee;
 }
+.example-full-width {
+  width: 100%;
+}
+.example-half-width {
+  width: 48%;
+}
+.third-width {
+  width: 32%;
+}
+
+.example-form-fields {
+  display: flex;
+  align-items: flex-start;
+}

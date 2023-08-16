@@ -2,7 +2,8 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {FhirService} from "../../../services/fhir.service";
 import {MatDialog} from "@angular/material/dialog";
 import {client} from "fhirclient";
-import {CareTeam, Questionnaire} from "fhir/r4";
+import {EprService} from "../../../services/epr.service";
+import {ActivatedRoute} from "@angular/router";
 
 
 declare var LForms: any;
@@ -15,25 +16,27 @@ declare var LForms: any;
 export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
 
   @ViewChild('myFormContainer', { static: false }) mydiv: ElementRef | undefined;
-  form: Questionnaire | undefined;
-  forms: Questionnaire[] = [];
+  patientId: string | null = null;
+  questionnaireId = '7e09e96a-f1c8-4d8b-ad01-8eed9ff132ca'; // initial value if called directly
+
   constructor(
       public dialog: MatDialog,
-      public fhirService: FhirService
+      public fhirService: FhirService,
+      private eprService: EprService,
+      private route: ActivatedRoute
   ) { }
 
   ngAfterViewInit(): void {
-    var questionnaire = this.fhirService.getTIEResource("/Questionnaire/7e09e96a-f1c8-4d8b-ad01-8eed9ff132ca").subscribe(
+
+    var questionnaire = this.fhirService.getTIEResource("/Questionnaire/"+this.questionnaireId).subscribe(
         result => {
           if (result.resourceType === 'Questionnaire') {
             const ctx = client({
-              serverUrl: "https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/events/FHIR/R4"
+              serverUrl: this.fhirService.getTIEUrl()
             });
-            console.log("set FHIR Context")
             LForms.Util.setFHIRContext(ctx)
             let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(
                 result, "R4");
-            console.log(formDef)
             LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
             console.log('LForms.Util.addFormToPage')
           }
@@ -42,14 +45,16 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.fhirService.getTIE('/Questionnaire').subscribe(bundle => {
-          if (bundle.entry !== undefined) {
-            for (const entry of bundle.entry) {
-              if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') { this.forms.push(entry.resource as Questionnaire); }
-            }
-          }
-        }
-    );
+    let patient = this.eprService.getPatient()
+    if (patient !== undefined) {
+      if (patient.id !== undefined) {
+        this.patientId = patient.id
+      }
+    }
+    const form= this.route.snapshot.paramMap.get('form');
+    if (form != null) {
+      this.questionnaireId = form;
+    }
   }
 
 
@@ -57,8 +62,7 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
     console.log($event)
     let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(
         $event, "R4");
-    console.log(formDef)
     LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
-    console.log('LForms.Util.addFormToPage')
+
   }
 }

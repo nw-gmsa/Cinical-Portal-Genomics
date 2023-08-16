@@ -65,6 +65,7 @@ const routes: Routes = [
           {path: 'documents/:docid', component: BinaryComponent},
           {path: 'forms', component: FormsComponent},
           {path: 'sdc', component: StructuredDataCaptueComponent},
+          {path: 'sdc/:form', component: StructuredDataCaptueComponent},
           {path: 'forms/:form', component: QuestionnaireResponseViewComponent},
           {path: 'workflow', component: WorkflowComponent},
           {path: 'coordination', component: CoordinatedCareComponent},

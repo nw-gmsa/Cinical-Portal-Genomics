@@ -18,6 +18,9 @@ export class FormsComponent implements OnInit {
   patientId: string | null = null;
   private nhsNumber: string | undefined;
 
+  form: Questionnaire | undefined;
+  questionnaires: Questionnaire[] = [];
+
   constructor( public fhirService: FhirService,
                private eprService: EprService,
                private router: Router,
@@ -38,6 +41,15 @@ export class FormsComponent implements OnInit {
 
       this.getRecords(patient);
     });
+
+    this.fhirService.getTIE('/Questionnaire').subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') { this.questionnaires.push(entry.resource as Questionnaire); }
+            }
+          }
+        }
+    );
   }
 
   getRecords(patient: Patient){
@@ -89,6 +101,11 @@ export class FormsComponent implements OnInit {
         // TODO review if required
       }
     })
+  }
+
+  selected(questionnaire : Questionnaire) {
+    console.log(questionnaire)
+    this.router.navigate(['/patient', this.patientId, 'sdc', questionnaire.id])
   }
 
 

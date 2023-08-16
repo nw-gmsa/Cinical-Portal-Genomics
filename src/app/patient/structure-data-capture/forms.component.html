@@ -15,14 +15,19 @@
                 <span flex></span>
             </div>
             <td-markdown>Data models [UKCore-QuestionnaireResponse]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-QuestionnaireResponse')}}) and [NHSDigital-QuestionnaireResponse](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-QuestionnaireResponse).</td-markdown>
+
             <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
+
+                    <mat-form-field class="third-width">
+                        <mat-label>Add Form (NHS England demo)</mat-label>
+                        <mat-select [(ngModel)]="form" (ngModelChange)="selected($event)">
+                            <mat-option *ngFor="let questionnaire of questionnaires" [value]="questionnaire">{{questionnaire.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
                 <mat-list-item>
                     <button mat-button color="accent"  (click)="addForms()">
                         <!-- <mat-icon>filter</mat-icon>--> Add Forms (NLM)</button>
-                </mat-list-item>
-                <mat-list-item>
-                    <button mat-button color="accent"  (click)="addFormsNew()">
-                        <!-- <mat-icon>filter</mat-icon>--> Add Forms (NHS England)</button>
                 </mat-list-item>
                 <mat-list-item>
                     <button mat-button color="accent"  (click)="addTask()">Add Form CompletionTask</button>
