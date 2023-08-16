@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FhirService} from "../../../../services/fhir.service";
+import {FhirService} from "../../../services/fhir.service";
 import {MatDialog} from "@angular/material/dialog";
 import {client} from "fhirclient";
+import {CareTeam, Questionnaire} from "fhir/r4";
 
 
 declare var LForms: any;
@@ -14,7 +15,8 @@ declare var LForms: any;
 export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
 
   @ViewChild('myFormContainer', { static: false }) mydiv: ElementRef | undefined;
-
+  form: Questionnaire | undefined;
+  forms: Questionnaire[] = [];
   constructor(
       public dialog: MatDialog,
       public fhirService: FhirService
@@ -40,7 +42,14 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    this.fhirService.getTIE('/Questionnaire').subscribe(bundle => {
+          if (bundle.entry !== undefined) {
+            for (const entry of bundle.entry) {
+              if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') { this.forms.push(entry.resource as Questionnaire); }
+            }
+          }
+        }
+    );
   }
 
 

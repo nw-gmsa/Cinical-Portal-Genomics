@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FhirService} from "../../../services/fhir.service";
-import {EprService} from "../../../services/epr.service";
+import {FhirService} from "../../services/fhir.service";
+import {EprService} from "../../services/epr.service";
 import {Patient, Questionnaire, QuestionnaireResponse} from "fhir/r4";
-import {environment} from "../../../../environments/environment";
-import {TaskCreateComponent} from "../../../patient/workflow/task-create/task-create.component";
+import {environment} from "../../../environments/environment";
+import {TaskCreateComponent} from "../workflow/task-create/task-create.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 

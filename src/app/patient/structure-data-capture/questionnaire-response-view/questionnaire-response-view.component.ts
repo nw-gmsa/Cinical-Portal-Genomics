@@ -3,9 +3,9 @@ import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legac
 import {QuestionnaireResponse, QuestionnaireResponseItem} from 'fhir/r4';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {NestedTreeControl} from '@angular/cdk/tree';
-import {FhirService} from '../../../../services/fhir.service';
+import {FhirService} from '../../../services/fhir.service';
 import {ActivatedRoute} from "@angular/router";
-import {EprService} from "../../../../services/epr.service";
+import {EprService} from "../../../services/epr.service";
 
 @Component({
   selector: 'app-questionnaire-response-view',

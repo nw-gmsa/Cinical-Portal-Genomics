@@ -8,7 +8,7 @@ import {PatientMainComponent} from '../patient/patient-main.component';
 import {ExchangeTokenComponent} from '../exchange-token/exchange-token.component';
 import {ObservationsComponent} from "../patient/diagnostics/observations.component";
 import {DocumentsComponent} from "../main/patient/documents/documents.component";
-import {FormsComponent} from "../main/patient/forms/forms.component";
+import {FormsComponent} from "../patient/structure-data-capture/forms.component";
 import {WorkflowComponent} from "../patient/workflow/workflow.component";
 import {
   PatientCommunicationComponent
@@ -23,7 +23,7 @@ import {
 } from "../patient/diagnostics/diagnostic-report-detail/diagnostic-report-detail.component";
 import {
   QuestionnaireResponseViewComponent
-} from "../main/patient/forms/questionnaire-response-view/questionnaire-response-view.component";
+} from "../patient/structure-data-capture/questionnaire-response-view/questionnaire-response-view.component";
 import {BinaryComponent} from "../main/patient/documents/binary/binary.component";
 import {AboutComponent} from "../main/about/about.component";
 import {PathwayComponent} from "../main/journey/pathway.component";
@@ -34,7 +34,7 @@ import {PlanDefinitionDetailComponent} from "../main/journey/plan-definition-det
 import {OntologyBrowserComponent} from "../ontology/ontology-browser/ontology-browser.component";
 import {
   StructuredDataCaptueComponent
-} from "../main/patient/forms/structured-data-captue/structured-data-captue.component";
+} from "../patient/structure-data-capture/structured-data-captue/structured-data-captue.component";
 
 
 const routes: Routes = [

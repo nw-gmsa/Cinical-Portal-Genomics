@@ -51,7 +51,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {ResourceDialogComponent} from './dialogs/resource-dialog/resource-dialog.component';
 import {MatLegacyTabsModule as MatTabsModule} from '@angular/material/legacy-tabs';
 import {DocumentReferenceComponent} from './main/patient/documents/document-reference/document-reference.component';
-import {QuestionnaireResponseComponent} from './main/patient/forms/questionnaire-response/questionnaire-response.component';
+import {QuestionnaireResponseComponent} from './patient/structure-data-capture/questionnaire-response/questionnaire-response.component';
 import { TaskComponent } from './patient/workflow/task/task.component';
 import {ReferralRequestComponent} from './patient/workflow/referral-request/referral-request.component';
 import {AllergyIntoleranceComponent} from './patient/summary/allergy-intolerance/allergy-intolerance.component';
@@ -59,8 +59,8 @@ import {MedicationRequestComponent} from './patient/medications/medication-reque
 import { DiagnosticReportComponent } from './patient/diagnostics/diagnostic-report/diagnostic-report.component';
 import {CovalentDialogsModule} from '@covalent/core/dialogs';
 import {BinaryComponent} from './main/patient/documents/binary/binary.component';
-import { QuestionnaireResponseViewComponent } from './main/patient/forms/questionnaire-response-view/questionnaire-response-view.component';
-import { QuestionnaireResponseViewItemComponent } from './main/patient/forms/questionnaire-response-view-item/questionnaire-response-view-item.component';
+import { QuestionnaireResponseViewComponent } from './patient/structure-data-capture/questionnaire-response-view/questionnaire-response-view.component';
+import { QuestionnaireResponseViewItemComponent } from './patient/structure-data-capture/questionnaire-response-view-item/questionnaire-response-view-item.component';
 import {CovalentMessageModule} from '@covalent/core/message';
 import {DatePipe} from '@angular/common';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
@@ -83,7 +83,7 @@ import { ObservationsComponent } from './patient/diagnostics/observations.compon
 import {CovalentDynamicMenuModule} from "@covalent/core/dynamic-menu";
 import {MatLegacySnackBarModule as MatSnackBarModule} from "@angular/material/legacy-snack-bar";
 import { DocumentsComponent } from './main/patient/documents/documents.component';
-import { FormsComponent } from './main/patient/forms/forms.component';
+import { FormsComponent } from './patient/structure-data-capture/forms.component';
 import { WorkflowComponent } from './patient/workflow/workflow.component';
 import { CoordinatedCareComponent } from './patient/care-coordination/coordinated-care.component';
 import { PatientCommunicationComponent } from './main/patient/communication/patient-communication.component';
@@ -120,7 +120,7 @@ import { MedicationRequestCreateEditComponent } from './patient/medications/medi
 import { OntologyBrowserComponent } from './ontology/ontology-browser/ontology-browser.component';
 import { ConceptDetailComponent } from './ontology/concept-detail/concept-detail.component';
 import { EventCreateComponent } from './patient/diagnostics/event-create/event-create.component';
-import { StructuredDataCaptueComponent } from './main/patient/forms/structured-data-captue/structured-data-captue.component';
+import { StructuredDataCaptueComponent } from './patient/structure-data-capture/structured-data-captue/structured-data-captue.component';
 
 const modules = [
   MatIconModule,

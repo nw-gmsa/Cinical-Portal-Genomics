@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { QuestionnaireResponseItem} from 'fhir/r4';
-import {FhirService} from '../../../../services/fhir.service';
+import {FhirService} from '../../../services/fhir.service';
 
 @Component({
   selector: 'app-questionnaire-response-view-item',
