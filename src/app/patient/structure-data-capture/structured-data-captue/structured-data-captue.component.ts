@@ -49,12 +49,17 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
+    // This triggers the service to get the Patient
     let patient = this.eprService.getPatient()
     if (patient !== undefined) {
       if (patient.id !== undefined) {
         this.patientId = patient.id
       }
     }
+    this.eprService.patientChangeEvent.subscribe(patient => {
+      // this is the callback event from the get patient request
+      if (patient.id !== undefined) this.patientId = patient.id
+    });
     const form= this.route.snapshot.paramMap.get('form');
     if (form != null) {
       this.questionnaireId = form;
