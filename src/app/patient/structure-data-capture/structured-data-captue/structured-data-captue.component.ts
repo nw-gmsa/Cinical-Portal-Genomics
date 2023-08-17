@@ -4,7 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {client} from "fhirclient";
 import {EprService} from "../../../services/epr.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {QuestionnaireResponse} from "fhir/r4";
+import {Parameters, QuestionnaireResponse} from "fhir/r4";
 import {TdDialogService} from "@covalent/core/dialogs";
 
 
@@ -32,17 +32,49 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    var questionnaire = this.fhirService.getTIEResource("/Questionnaire/"+this.questionnaireId).subscribe(
-        result => {
-          if (result.resourceType === 'Questionnaire') {
+    var result = this.fhirService.getTIEResource("/Questionnaire/"+this.questionnaireId).subscribe(
+        questionnaire => {
+          if (questionnaire.resourceType === 'Questionnaire') {
             const ctx = client({
               serverUrl: this.fhirService.getTIEUrl()
             });
             LForms.Util.setFHIRContext(ctx)
-            let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(
-                result, "R4");
-            LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
-            console.log('LForms.Util.addFormToPage')
+
+            // Can also just to this LForms.Util.addFormToPage(questionnaire, this.mydiv?.nativeElement, {prepopulate: false});
+            var parameters : Parameters = {
+              resourceType: "Parameters",
+              parameter: []
+            }
+            parameters.parameter?.push({
+              "name": "subject",
+              "valueReference": {
+                "reference": "Patient/" + this.patientId
+              }
+            })
+            parameters.parameter?.push({
+              "name": "questionnaireRef",
+              "valueReference": {
+                "reference": "Questionnaire/" + this.questionnaireId
+              }
+            })
+            this.fhirService.postTIE("/Questionnaire/$populate",parameters).subscribe(response => {
+               if (response.resourceType ==='Parameters') {
+                 for (var param of response.parameter) {
+                   if (param.name === 'response') {
+                     let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(questionnaire, "R4");
+                     var newFormData = (new LForms.LFormsData(formDef));
+                     try {
+                       formDef = LForms.Util.mergeFHIRDataIntoLForms('QuestionnaireResponse', param.resource, newFormData, "R4");
+                       LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
+                     }
+                     catch (e) {
+                      console.log(e)
+                       formDef = null;
+                     }
+                   }
+                 }
+               }
+            })
           }
         }
     );
