@@ -92,8 +92,7 @@ export class MainComponent implements OnInit {
     {
       id: 'quickstartlink',
       text: 'NLM Form Builder',
-      link: 'https://lhcformbuilder.nlm.nih.gov/',
-      newTab: true
+      action: 'formbuilder'
     },
     {
       // Grouping label
@@ -227,9 +226,14 @@ export class MainComponent implements OnInit {
         this.router.navigateByUrl('/ontology');
         break;
       }
+      case 'formbuilder': {
+        this.router.navigateByUrl('/formbuilder');
+        break;
+      }
     }
     if (this.patientId !== undefined) {
       switch (event.action) {
+
         case 'observations': {
           this.router.navigateByUrl('/patient/'+this.patientId+'/observations');
           break;

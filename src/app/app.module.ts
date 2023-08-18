@@ -121,6 +121,7 @@ import { OntologyBrowserComponent } from './ontology/ontology-browser/ontology-b
 import { ConceptDetailComponent } from './ontology/concept-detail/concept-detail.component';
 import { EventCreateComponent } from './patient/diagnostics/event-create/event-create.component';
 import { StructuredDataCaptueComponent } from './patient/structure-data-capture/structured-data-captue/structured-data-captue.component';
+import { FormBuilderComponent } from './main/form-builder/form-builder.component';
 
 const modules = [
   MatIconModule,
@@ -219,7 +220,8 @@ const modules = [
       OntologyBrowserComponent,
       ConceptDetailComponent,
       EventCreateComponent,
-      StructuredDataCaptueComponent
+      StructuredDataCaptueComponent,
+      FormBuilderComponent
   ],
   imports: [
     BrowserModule,
