@@ -119,7 +119,7 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
       }
       questionnaireResponse.questionnaire = "Questionnaire/" + this.questionnaireId
       console.log(questionnaireResponse)
-      this.fhirService.postTIE('/QuestionnaireResponse', questionnaireResponse).subscribe((condition) => {
+      this.fhirService.postTIE('/QuestionnaireResponse', questionnaireResponse).subscribe((newQuestionnaireResponse) => {
            // this.diaglogRef.close(condition);
             this._dialogService.openAlert({
               title: 'Info',
@@ -127,36 +127,38 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
               message:
                   'Form submitted ok',
             });
-            this.fhirService.postTIE('/QuestionnaireResponse/$extract', questionnaireResponse).subscribe((bundle) => {
-              console.log(bundle)
-              if (bundle !== undefined && bundle.entry !== undefined) {
-                this.fhirService.postTIE('/', bundle).subscribe((bundle) => {
+            if (newQuestionnaireResponse.resourceType === 'QuestionnaireResponse') {
+              this.fhirService.postTIE('/QuestionnaireResponse/$extract', newQuestionnaireResponse).subscribe((bundle) => {
+                    console.log(bundle)
+                    if (bundle !== undefined && bundle.entry !== undefined) {
+                      this.fhirService.postTIE('/', bundle).subscribe((bundle) => {
 
 
-                  this.router.navigate(['/patient', this.patientId, 'forms'])
-                },
-                    error => {
-                      console.log(JSON.stringify(error))
-                      this._dialogService.openAlert({
-                        title: 'Alert',
-                        disableClose: true,
-                        message:
-                            this.fhirService.getErrorMessage(error),
-                      });
-                    })
-              } else {
-                this.router.navigate(['/patient', this.patientId, 'forms'])
-              }
-            },
-            error => {
-              console.log(JSON.stringify(error))
-              this._dialogService.openAlert({
-                title: 'Alert',
-                disableClose: true,
-                message:
-                    this.fhirService.getErrorMessage(error),
-              });
-            })
+                            this.router.navigate(['/patient', this.patientId, 'forms'])
+                          },
+                          error => {
+                            console.log(JSON.stringify(error))
+                            this._dialogService.openAlert({
+                              title: 'Alert',
+                              disableClose: true,
+                              message:
+                                  this.fhirService.getErrorMessage(error),
+                            });
+                          })
+                    } else {
+                      this.router.navigate(['/patient', this.patientId, 'forms'])
+                    }
+                  },
+                  error => {
+                    console.log(JSON.stringify(error))
+                    this._dialogService.openAlert({
+                      title: 'Alert',
+                      disableClose: true,
+                      message:
+                          this.fhirService.getErrorMessage(error),
+                    });
+                  })
+            }
 
           },
           error => {
