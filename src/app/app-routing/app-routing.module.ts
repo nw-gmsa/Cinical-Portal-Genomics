@@ -35,6 +35,7 @@ import {OntologyBrowserComponent} from "../ontology/ontology-browser/ontology-br
 import {
   StructuredDataCaptueComponent
 } from "../patient/structure-data-capture/structured-data-captue/structured-data-captue.component";
+import {FormBuilderComponent} from "../main/form-builder/form-builder.component";
 
 
 const routes: Routes = [
@@ -50,6 +51,7 @@ const routes: Routes = [
       {path: 'activity/:activity', component: ActivityDefinitionDetailComponent},
       {path: 'plan/:plan', component: PlanDefinitionDetailComponent},
       { path: 'about', component: AboutComponent },
+      { path: 'formbuilder', component: FormBuilderComponent },
       {
         path: 'patient/:patientid', component: PatientMainComponent,
         children: [
