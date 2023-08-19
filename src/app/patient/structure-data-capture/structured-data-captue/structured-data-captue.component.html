@@ -4,8 +4,8 @@
         <a td-breadcrumb [routerLink]="['/patient', patientId, 'forms']">Forms</a>
         <td-breadcrumb>Structured Data Capture</td-breadcrumb>
     </td-breadcrumbs>
-    <td-markdown>This is not currently performing automatic form prepopulation (using Observation API) (use the [US NLM version](https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/events/FHIR/R4) instead).
-        It using FHIR based terminology using NHS England Ontology Server lookups (via a facade which handles authentication)</td-markdown>
+    <td-markdown>Form [Automatic population](https://build.fhir.org/ig/HL7/sdc/populate.html) and [Extaction](https://build.fhir.org/ig/HL7/sdc/extraction.html) of Obsevations is at early stages of development (see also [US National Library of Medicine SDC Questionnaire App](https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/events/FHIR/R4)).
+        This form is using both UK Core FHIR based terminologies and the NHS England Ontology Server lookups (via a [HAPI FHIR](https://hapifhir.io/) Server facade)</td-markdown>
 
     <button mat-raised-button color="accent"  (click)="submit()">Submit</button>
     <!-- http://lhncbc.github.io/lforms/ -->
