@@ -42,7 +42,7 @@ export class FormsComponent implements OnInit {
       this.getRecords(patient);
     });
 
-    this.fhirService.getTIE('/Questionnaire').subscribe(bundle => {
+    this.fhirService.getTIE('/Questionnaire?_count=50').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
               if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') { this.questionnaires.push(entry.resource as Questionnaire); }
