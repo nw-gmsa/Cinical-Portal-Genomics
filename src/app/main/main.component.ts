@@ -5,6 +5,7 @@ import {IMenuItem, IMenuTrigger, ITdDynamicMenuLinkClickEvent} from "@covalent/c
 import {MatLegacySnackBar as MatSnackBar} from "@angular/material/legacy-snack-bar";
 import {EprService} from "../services/epr.service";
 import {FhirService} from "../services/fhir.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-main',
@@ -27,6 +28,14 @@ export class MainComponent implements OnInit {
     icon: 'apps',
     text: 'Apps',
   };
+
+  triggerSmartApps: IMenuTrigger = {
+    id: 'triggerSmartApps',
+    icon: 'apps',
+    text: 'SMART Apps',
+  };
+
+
   triggerCare: IMenuTrigger = {
     id: 'triggerbutton',
     icon: 'list',
@@ -82,6 +91,21 @@ export class MainComponent implements OnInit {
       action: 'search'
     }
     ];
+
+  itemsSmartApps: IMenuItem[] = [
+    {
+      // Grouping label
+      id: 'sdc-viewwer',
+      text: 'SDC Questionnaire App',
+      action: 'sdcviewer',
+    },
+    {
+      // Grouping label
+      id: 'bmi',
+      text: 'BMI Smart On FHIR Demo',
+      action: 'bmi',
+    },
+      ];
 
   itemsApps: IMenuItem[] = [
     {
@@ -233,7 +257,14 @@ export class MainComponent implements OnInit {
     }
     if (this.patientId !== undefined) {
       switch (event.action) {
-
+        case 'sdcviewer': {
+          window.open('https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=' + environment.tieServer, '_blank');
+          break;
+        }
+        case 'bmi': {
+          window.open('https://nhsdigital.github.io/IOPS-SMART-Demo-BMI/?iss=' + environment.tieServer, '_blank');
+          break;
+        }
         case 'observations': {
           this.router.navigateByUrl('/patient/'+this.patientId+'/observations');
           break;
