@@ -32,7 +32,7 @@ export class MainComponent implements OnInit {
   triggerSmartApps: IMenuTrigger = {
     id: 'triggerSmartApps',
     icon: 'apps',
-    text: 'SMART Apps',
+    text: 'SMART Apps (Mock)',
   };
 
 
@@ -95,6 +95,12 @@ export class MainComponent implements OnInit {
   itemsSmartApps: IMenuItem[] = [
     {
       // Grouping label
+      id: 'bmi',
+      text: 'BMI Smart On FHIR Demo',
+      action: 'bmi',
+    },
+    {
+      // Grouping label
       id: 'sdc-viewer',
       text: 'SDC Questionnaire App (US NLM)',
       action: 'sdc-viewer',
@@ -104,13 +110,8 @@ export class MainComponent implements OnInit {
       id: 'smart-forms',
       text: 'Smart Forms',
       action: 'smart-forms'
-    },
-    {
-      // Grouping label
-      id: 'bmi',
-      text: 'BMI Smart On FHIR Demo',
-      action: 'bmi',
-    },
+    }
+
       ];
 
   itemsApps: IMenuItem[] = [
@@ -268,7 +269,8 @@ export class MainComponent implements OnInit {
           break;
         }
         case 'smart-forms': {
-          window.open('https://www.smartforms.io/launch/?iss=' + environment.tieServer, '_blank');
+          window.open('https://www.smartforms.io/', '_blank');
+          //window.open('https://launch.smarthealthit.org/?iss=' + environment.tieServer + '&launch_url=https://www.smartforms.io/launch/' + '&patient='+this.patientId, '_blank');
           break;
         }
         case 'bmi': {

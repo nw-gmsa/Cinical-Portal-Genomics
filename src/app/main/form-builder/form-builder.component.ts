@@ -27,6 +27,6 @@ export class FormBuilderComponent {
   `;
 
   launch() {
-    window.open('https://lhcformbuilder.nlm.nih.gov//?server=' + environment.tieServer, '_blank');
+    window.open('https://lhcformbuilder.nlm.nih.gov//', '_blank');
   }
 }
