@@ -95,9 +95,15 @@ export class MainComponent implements OnInit {
   itemsSmartApps: IMenuItem[] = [
     {
       // Grouping label
-      id: 'sdc-viewwer',
-      text: 'SDC Questionnaire App',
-      action: 'sdcviewer',
+      id: 'sdc-viewer',
+      text: 'SDC Questionnaire App (US NLM)',
+      action: 'sdc-viewer',
+    },
+    {
+      // Grouping label
+      id: 'smart-forms',
+      text: 'Smart Forms',
+      action: 'smart-forms'
     },
     {
       // Grouping label
@@ -257,12 +263,16 @@ export class MainComponent implements OnInit {
     }
     if (this.patientId !== undefined) {
       switch (event.action) {
-        case 'sdcviewer': {
+        case 'sdc-viewer': {
           window.open('https://lhcforms.nlm.nih.gov/lforms-fhir-app/?server=' + environment.tieServer, '_blank');
           break;
         }
+        case 'smart-forms': {
+          window.open('https://www.smartforms.io/launch/?iss=' + environment.tieServer, '_blank');
+          break;
+        }
         case 'bmi': {
-          window.open('https://nhsdigital.github.io/IOPS-SMART-Demo-BMI/?iss=' + environment.tieServer, '_blank');
+          window.open('https://nhsdigital.github.io/IOPS-SMART-Demo-BMI/?iss=' + environment.tieServer + '&patient='+this.patientId, '_blank');
           break;
         }
         case 'observations': {
