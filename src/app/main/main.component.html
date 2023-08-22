@@ -27,6 +27,7 @@
                         [items]="itemsSmartApps"
                         (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu>
+                    <button mat-button routerLink="/patient/{{patientId}}/device"><mat-icon>app_shortcut</mat-icon> Health Device</button>
             </span>
           <span flex>
             </span>
@@ -36,11 +37,11 @@
                         (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu>
                 <button mat-icon-button routerLink="/about"><mat-icon>help</mat-icon></button>
-                <td-dynamic-menu
+               <!-- <td-dynamic-menu
                         [trigger]="triggerAccount"
                         [items]="itemsAccount"
                         (itemClicked)="reportClick($event)"
-                ></td-dynamic-menu>
+                ></td-dynamic-menu> -->
 
             </div>
         </div>

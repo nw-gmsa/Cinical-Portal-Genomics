@@ -87,7 +87,7 @@ import { FormsComponent } from './patient/structure-data-capture/forms.component
 import { WorkflowComponent } from './patient/workflow/workflow.component';
 import { CoordinatedCareComponent } from './patient/care-coordination/coordinated-care.component';
 import { PatientCommunicationComponent } from './main/patient/communication/patient-communication.component';
-import { PersonalHealthDeviceComponent } from './main/account/personal-health-device/personal-health-device.component';
+import { PersonalHealthDeviceComponent } from './patient/personal-health-device/personal-health-device.component';
 import {MatLegacyPaginatorModule as MatPaginatorModule} from "@angular/material/legacy-paginator";
 import {CovalentCommonModule} from "@covalent/core/common";
 import { DocumentReferenceCreateComponent } from './main/patient/documents/document-reference-create/document-reference-create.component';

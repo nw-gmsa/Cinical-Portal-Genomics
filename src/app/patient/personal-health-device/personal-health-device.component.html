@@ -1,0 +1,42 @@
+
+    <mat-card class="fullscreen">
+        <mat-card-content>
+
+            <td-breadcrumbs>
+                <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+                <td-breadcrumb>Personal Health and Point of Care Device</td-breadcrumb>
+            </td-breadcrumbs>
+            <br/>
+            <td-markdown [content]="markdown">
+            </td-markdown>
+
+            <td-message
+                    label="Warning"
+                    sublabel="These integrations can and will import live data. DO NOT CLICK UNLESS YOU UNDERSTAND THIS. They are currently only enabled for developers who have agreed to share their data. "
+                    color="warn"
+                    icon="warning"
+            ></td-message>
+            <span *ngIf="visible">
+                <span *ngIf="patientId !== null && patientId !== undefined">
+                <mat-list>
+                    <mat-list-item  (click)="connectStrava()" >
+                        <img class="img-responsive" src="../../../assets/btn_strava_connectwith_orange.png" alt="image">
+                    </mat-list-item>
+
+                    <mat-list-item (click)="connectWithings()">
+                        <img class="img-responsive" width="25" height="25" src="../../../assets/withings.png" alt="image"> Withings
+                    </mat-list-item >
+
+                </mat-list>
+                    </span>
+                <span *ngIf="patientId === null ||  patientId === undefined">
+                 <td-message
+                         label="Warning"
+                         sublabel="At present these connectors relate to the currently selected patient (not user). Please select a patient first"
+                         color="accent"
+                         icon="warning"
+                 ></td-message>
+                </span>
+            </span>
+        </mat-card-content>
+    </mat-card>
