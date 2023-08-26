@@ -5,9 +5,15 @@
   overflow: auto;
 }
 
-.mat-list-base .mat-list-item.mat-list-item-test {
+.mat-list-base .mat-list-item .mat-list-item-test {
   display: table;
-  width: 250px;
+  width: 200px;
+  height: auto;
+}
+
+.mat-list-item-test {
+  display: table;
+  width: 200px;
   height: auto;
 }
 

@@ -14,7 +14,7 @@ import {DialogService} from '../../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {TdDialogService} from "@covalent/core/dialogs";
-import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSelectChange} from "@angular/material/select";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 

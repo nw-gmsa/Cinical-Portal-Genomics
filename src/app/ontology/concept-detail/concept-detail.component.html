@@ -1,6 +1,6 @@
 <mat-card class="fullscreen scrollable-content">
       <span *ngIf="parameters !== undefined">
-          <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(parameters)"><mat-icon>code</mat-icon> ($lookup)</button>
+          <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(parameters)"><mat-icon>code</mat-icon></button>
           <br/>
       </span>
     <h2>{{concept.display}}</h2>
@@ -85,25 +85,7 @@
                     {{node.name}}
                 </mat-tree-node>
             </mat-tree>
-<!---
-        <table>
-             <tr>
-                <th style="width: 50%;">Parent Concept</th>
-                <th>Child Concept</th>
-             </tr>
-            <tr>
-            <td>
-                <mat-list class="mat-list-test" *ngFor="let parent of parentList">
-                    <mat-list-item class="mat-list-item-test" (click)="selected(parent)">{{parent.display}}</mat-list-item>
-                </mat-list>
-            </td>
-            <td>
-                    <mat-list class="mat-list-test" *ngFor="let child of childList">
-                    <mat-list-item class="mat-list-item-test" (click)="selected(child)">{{child.display}}</mat-list-item>
-                </mat-list>
-            </td>
-            </tr>
-        </table> -->
+
     </span>
 
 </mat-card>

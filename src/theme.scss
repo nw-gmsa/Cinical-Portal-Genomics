@@ -22,6 +22,8 @@ $typography: mat.define-legacy-typography-config(
         $headline: mat.define-typography-level(32px, 48px, 700)
 );
 
+@include mat.core();
+
 $primary: mat.define-palette(mat.$blue-palette, 700);
 $accent: mat.define-palette(mat.$orange-palette, 800, A100, A400);
 
@@ -38,8 +40,9 @@ $theme: mat.define-light-theme((
         density: 0,
 ));
 
-@include mat.legacy-core-theme($theme);
-@include mat.all-legacy-component-themes($theme);
+
+@include mat.core-theme($theme);
+
 @include angular-material-theme($theme);
 @include covalent-theme(
                 $theme,
