@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {FhirService} from "../../../../services/fhir.service";
 import {DialogService} from "../../../../services/dialog.service";
 import {
@@ -20,7 +19,7 @@ import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy
 import {environment} from "../../../../../environments/environment";
 import {TdDialogService} from "@covalent/core/dialogs";
 import * as moment from "moment";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 
 // JULY 2023  var Fhir = require('fhir').Fhir;

@@ -6,7 +6,6 @@ import {
   ValueSetExpansionContains
 } from "fhir/r4";
 import {Observable, Subject} from "rxjs";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {FhirService} from "../../../services/fhir.service";
 import {DialogService} from "../../../services/dialog.service";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
@@ -14,7 +13,7 @@ import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from
 import * as uuid from "uuid";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {Moment} from "moment/moment";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-condition-create-edit',
   templateUrl: './condition-create-edit.component.html',

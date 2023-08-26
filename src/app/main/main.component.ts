@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {TestingService} from '../services/testing.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IMenuItem, IMenuTrigger, ITdDynamicMenuLinkClickEvent} from "@covalent/core/dynamic-menu";
-import {MatLegacySnackBar as MatSnackBar} from "@angular/material/legacy-snack-bar";
 import {EprService} from "../services/epr.service";
 import {FhirService} from "../services/fhir.service";
 import {environment} from "../../environments/environment";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-main',

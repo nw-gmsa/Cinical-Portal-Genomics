@@ -3,9 +3,8 @@ import {Communication} from 'fhir/r4';
 import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
 import {FhirService} from '../../../../services/fhir.service';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
-
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-communication',
   templateUrl: './communication.component.html',

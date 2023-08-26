@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Coding, Organization, Practitioner, Reference, CareTeam, ValueSetExpansionContains, ContactPoint} from 'fhir/r4';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {FhirService} from '../../../services/fhir.service';
 import {DialogService} from '../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
@@ -9,6 +8,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
 import * as uuid from 'uuid';
 import {Moment} from 'moment';
 import {TdDialogService} from "@covalent/core/dialogs";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-care-team-create',

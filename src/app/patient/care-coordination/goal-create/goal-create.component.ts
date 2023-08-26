@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Coding, Goal, GoalTarget, ValueSetExpansionContains} from "fhir/r4";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {FhirService} from "../../../services/fhir.service";
 import {DialogService} from "../../../services/dialog.service";
 import * as uuid from "uuid";
@@ -11,7 +10,7 @@ import {Observable, Subject} from "rxjs";
 import {Moment} from "moment";
 import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import {TdDialogService} from "@covalent/core/dialogs";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-goal-create',
   templateUrl: './goal-create.component.html',

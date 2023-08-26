@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 
 import {FhirService} from '../../../services/fhir.service';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
@@ -10,7 +9,7 @@ import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Router} from "@angular/router";
 import {EprService} from "../../../services/epr.service";
-
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-care-plan',

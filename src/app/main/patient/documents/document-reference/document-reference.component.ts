@@ -9,15 +9,13 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import {Router} from "@angular/router";
-
-
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {DocumentReference} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-document-reference',

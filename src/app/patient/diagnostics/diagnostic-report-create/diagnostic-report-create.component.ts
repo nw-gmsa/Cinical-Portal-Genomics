@@ -9,7 +9,6 @@ import {
   ValueSetExpansionContains
 } from "fhir/r4";
 import * as uuid from "uuid";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {FhirService} from "../../../services/fhir.service";
 import {DialogService} from "../../../services/dialog.service";
 import {Observable, Subject} from "rxjs";
@@ -19,7 +18,7 @@ import {Moment} from "moment";
 import {environment} from "../../../../environments/environment";
 import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
 import {TdDialogService} from "@covalent/core/dialogs";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-diagnostic-report-create',
   templateUrl: './diagnostic-report-create.component.html',

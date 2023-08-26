@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import { QuestionnaireResponse} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {FhirService} from '../../../services/fhir.service';
@@ -7,7 +6,7 @@ import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/
 import {MatSort} from '@angular/material/sort';
 import {Router} from "@angular/router";
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-questionnaire-response',
   templateUrl: './questionnaire-response.component.html',

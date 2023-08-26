@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {Immunization, Resource} from "fhir/r4";
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {FhirService} from "../../../services/fhir.service";
 import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-immunisation',

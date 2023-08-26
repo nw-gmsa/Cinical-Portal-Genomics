@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { Encounter, Patient} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({

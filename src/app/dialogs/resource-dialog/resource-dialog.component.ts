@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {FhirResource} from "fhir/r4";
 import {Fhir} from "fhir";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 declare var $: any;
 

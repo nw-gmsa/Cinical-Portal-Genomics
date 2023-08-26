@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {Goal, Patient} from "fhir/r4";
 import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import {MatSort} from "@angular/material/sort";
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
 import {FhirService} from "../../../services/fhir.service";
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {EprService} from "../../../services/epr.service";
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-goal',

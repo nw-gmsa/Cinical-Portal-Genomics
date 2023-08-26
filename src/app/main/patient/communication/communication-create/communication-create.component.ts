@@ -10,13 +10,13 @@ import {
 import {MatLegacySelectChange as MatSelectChange} from '@angular/material/legacy-select';
 // @ts-ignore
 import * as uuid from 'uuid';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {FhirService} from '../../../../services/fhir.service';
 import {DialogService} from '../../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from '@angular/material/legacy-autocomplete';
 import {TdDialogService} from "@covalent/core/dialogs";
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-communication-create',

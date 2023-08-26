@@ -65,7 +65,6 @@ import {CovalentLoadingModule} from '@covalent/core/loading';
 import { ObservationChartComponent } from './patient/diagnostics/observation-chart/observation-chart.component';
 import { CommunicationComponent } from './main/patient/communication/communication/communication.component';
 import {MatTreeModule} from '@angular/material/tree';
-import {MatLegacyCheckboxModule as MatCheckboxModule} from '@angular/material/legacy-checkbox';
 import { TaskCreateComponent } from './patient/workflow/task-create/task-create.component';
 import {MatLegacyAutocompleteModule as MatAutocompleteModule} from '@angular/material/legacy-autocomplete';
 import { ServiceCreateComponent } from './patient/workflow/service-create/service-create.component';
@@ -77,7 +76,6 @@ import { CommunicationCreateComponent } from './main/patient/communication/commu
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import { ObservationsComponent } from './patient/diagnostics/observations.component';
 import {CovalentDynamicMenuModule} from "@covalent/core/dynamic-menu";
-import {MatLegacySnackBarModule as MatSnackBarModule} from "@angular/material/legacy-snack-bar";
 import { DocumentsComponent } from './main/patient/documents/documents.component';
 import { FormsComponent } from './patient/structure-data-capture/forms.component';
 import { WorkflowComponent } from './patient/workflow/workflow.component';
@@ -123,6 +121,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const modules = [
   MatIconModule,

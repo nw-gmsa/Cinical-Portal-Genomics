@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
-
 import {Patient, Reference, ServiceRequest} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
@@ -11,7 +9,7 @@ import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {ServiceCreateComponent} from "../service-create/service-create.component";
 import {EprService} from "../../../services/epr.service";
 import {Router} from "@angular/router";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({

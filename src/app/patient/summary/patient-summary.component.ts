@@ -9,7 +9,6 @@ import {
 import {FhirService} from '../../services/fhir.service';
 import {EprService} from '../../services/epr.service';
 import { TdDialogService} from '@covalent/core/dialogs';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig} from '@angular/material/legacy-dialog';
 import {StravaService} from '../../services/strava.service';
 import {Athlete} from '../../models/athlete';
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from '@covalent/core/loading';
@@ -18,7 +17,7 @@ import {delay} from 'rxjs/operators';
 import {
     MedicationRequestCreateEditComponent
 } from "../medications/medication-request-create-edit/medication-request-create-edit.component";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({

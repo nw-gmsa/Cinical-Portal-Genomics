@@ -2,7 +2,6 @@ import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FhirService} from "../../services/fhir.service";
 import {EprService} from "../../services/epr.service";
 import {TdDialogService} from "@covalent/core/dialogs";
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig} from "@angular/material/legacy-dialog";
 import {CarePlan, CareTeam, Condition, EpisodeOfCare, Goal, Patient} from "fhir/r4";
 import {CareTeamCreateComponent} from "./care-team-create/care-team-create.component";
 import {CarePlanCreateComponent} from "./care-plan-create/care-plan-create.component";
@@ -10,6 +9,7 @@ import {EpisodeOfCareCreateComponent} from "./episode-of-care-create/episode-of-
 import {GoalCreateComponent} from "./goal-create/goal-create.component";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {ConditionCreateEditComponent} from "../summary/condition-create-edit/condition-create-edit.component";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-coordinated-care',
@@ -30,9 +30,7 @@ export class CoordinatedCareComponent implements OnInit {
   loadingType = LoadingType;
   constructor( private fhirService: FhirService,
                private eprService: EprService,
-               private dialogService: TdDialogService,
                public dialog: MatDialog,
-               private viewContainerRef: ViewContainerRef,
                private _loadingService: TdLoadingService) { }
 
   ngOnInit(): void {

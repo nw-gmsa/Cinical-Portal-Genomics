@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import { Procedure, Reference, Resource} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-procedure',
   templateUrl: './procedure.component.html',

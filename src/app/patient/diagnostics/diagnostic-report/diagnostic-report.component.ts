@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DiagnosticReport} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
@@ -9,7 +8,7 @@ import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-pagin
 import {Router} from "@angular/router";
 import {DialogService} from "../../../services/dialog.service";
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
-
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-diagnostic-report',
   templateUrl: './diagnostic-report.component.html',
