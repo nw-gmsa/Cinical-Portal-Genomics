@@ -10,4 +10,7 @@
     <button mat-raised-button color="accent"  (click)="submit()">Submit</button>
     <!-- http://lhncbc.github.io/lforms/ -->
     <div #myFormContainer ></div>
+    <span *ngIf="questionnaire !== undefined">
+    <app-questionnaire [questionnaire]="questionnaire"></app-questionnaire>
+        </span>
 </mat-card>

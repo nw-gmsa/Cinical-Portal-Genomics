@@ -1,8 +1,7 @@
 import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
-import {Parameters, QuestionnaireResponse, QuestionnaireResponseItem} from 'fhir/r4';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
-import {NestedTreeControl} from '@angular/cdk/tree';
+import {QuestionnaireResponse} from 'fhir/r4';
+
 import {FhirService} from '../../../services/fhir.service';
 import {ActivatedRoute} from "@angular/router";
 import {EprService} from "../../../services/epr.service";
@@ -17,10 +16,7 @@ declare var LForms: any;
 })
 export class QuestionnaireResponseViewComponent implements OnInit {
   patientId: string = '';
-  dataSource = new MatTreeNestedDataSource<QuestionnaireResponseItem>();
-  treeControl = new NestedTreeControl<QuestionnaireResponseItem>(node => node.item);
   @Input() resource: QuestionnaireResponse | undefined;
-  hasChild = (_: number, node: QuestionnaireResponseItem) => !!node.item && node.item.length > 0;
   private form: any;
   @ViewChild('myFormContainer', { static: false }) mydiv: ElementRef | undefined;
   constructor(public fhir: FhirService,
@@ -49,7 +45,7 @@ export class QuestionnaireResponseViewComponent implements OnInit {
 
     this.fhir.getTIE('/QuestionnaireResponse/' + this.form).subscribe(resource => {
           if (resource !== undefined && resource.resourceType === 'QuestionnaireResponse') {
-            this.dataSource.data = resource.item;
+
             var questionnaireResponse: QuestionnaireResponse = resource;
             console.log(questionnaireResponse)
             if (questionnaireResponse.questionnaire !== undefined) {

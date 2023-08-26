@@ -4,7 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {client} from "fhirclient";
 import {EprService} from "../../../services/epr.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Parameters, QuestionnaireResponse} from "fhir/r4";
+import {Parameters, Questionnaire, QuestionnaireResponse} from "fhir/r4";
 import {TdDialogService} from "@covalent/core/dialogs";
 
 
@@ -20,7 +20,7 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
   @ViewChild('myFormContainer', { static: false }) mydiv: ElementRef | undefined;
   patientId: string | null = null;
   questionnaireId = '7e09e96a-f1c8-4d8b-ad01-8eed9ff132ca'; // initial value if called directly
-
+  questionnaire: Questionnaire | undefined;
   constructor(
       public dialog: MatDialog,
       public fhirService: FhirService,
@@ -35,6 +35,7 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
     var result = this.fhirService.getTIEResource("/Questionnaire/"+this.questionnaireId).subscribe(
         questionnaire => {
           if (questionnaire.resourceType === 'Questionnaire') {
+            this.questionnaire = questionnaire
             const ctx = client({
               serverUrl: this.fhirService.getTIEUrl()
             });

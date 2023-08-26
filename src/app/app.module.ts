@@ -24,11 +24,9 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} fro
 import {HttpClientModule} from '@angular/common/http';
 import {CovalentJsonFormatterModule} from '@covalent/core/json-formatter';
 import {MatSortModule} from '@angular/material/sort';
-import {MatLegacyChipsModule as MatChipsModule} from '@angular/material/legacy-chips';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatLegacyRadioModule as MatRadioModule} from '@angular/material/legacy-radio';
 import {PatientSearchComponent} from './main/patient-find/patient-search/patient-search.component';
@@ -39,13 +37,12 @@ import {PatientMainComponent} from './patient/patient-main.component';
 import {PatientSummaryComponent} from './patient/summary/patient-summary.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {ConditionComponent} from './patient/summary/condition/condition.component';
-import {MatLegacyMenuModule as MatMenuModule} from '@angular/material/legacy-menu';
+
 import {EncounterComponent} from './patient/summary/encounter/encounter.component';
 import {CarePlanComponent} from './patient/care-coordination/care-plan/care-plan.component';
 import {CareTeamComponent} from './patient/care-coordination/care-team/care-team.component';
 import { EpisodeOfCareComponent } from './patient/care-coordination/episode-of-care/episode-of-care.component';
 import {ObservationComponent} from './patient/diagnostics/observation/observation.component';
-import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {ResourceDialogComponent} from './dialogs/resource-dialog/resource-dialog.component';
@@ -60,7 +57,6 @@ import { DiagnosticReportComponent } from './patient/diagnostics/diagnostic-repo
 import {CovalentDialogsModule} from '@covalent/core/dialogs';
 import {BinaryComponent} from './main/patient/documents/binary/binary.component';
 import { QuestionnaireResponseViewComponent } from './patient/structure-data-capture/questionnaire-response-view/questionnaire-response-view.component';
-import { QuestionnaireResponseViewItemComponent } from './patient/structure-data-capture/questionnaire-response-view-item/questionnaire-response-view-item.component';
 import {CovalentMessageModule} from '@covalent/core/message';
 import {DatePipe} from '@angular/common';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
@@ -122,6 +118,11 @@ import { ConceptDetailComponent } from './ontology/concept-detail/concept-detail
 import { EventCreateComponent } from './patient/diagnostics/event-create/event-create.component';
 import { StructuredDataCaptueComponent } from './patient/structure-data-capture/structured-data-captue/structured-data-captue.component';
 import { FormBuilderComponent } from './main/form-builder/form-builder.component';
+import { QuestionnaireComponent } from './patient/structure-data-capture/questionnaire/questionnaire.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatDialogModule} from "@angular/material/dialog";
 
 const modules = [
   MatIconModule,
@@ -178,7 +179,6 @@ const modules = [
     DiagnosticReportComponent,
     BinaryComponent,
     QuestionnaireResponseViewComponent,
-    QuestionnaireResponseViewItemComponent,
     ExchangeTokenComponent,
     ObservationChartComponent,
     CommunicationComponent,
@@ -221,7 +221,8 @@ const modules = [
       ConceptDetailComponent,
       EventCreateComponent,
       StructuredDataCaptueComponent,
-      FormBuilderComponent
+      FormBuilderComponent,
+      QuestionnaireComponent
   ],
   imports: [
     BrowserModule,
@@ -254,6 +255,7 @@ const modules = [
     A11yModule,
     CovalentTreeEchartsModule,
     CovalentTooltipEchartsModule,
+    MatChipsModule,
 
   ],
   exports: [...modules],
