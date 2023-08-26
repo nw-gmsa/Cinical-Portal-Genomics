@@ -13,13 +13,13 @@ import {
 import * as uuid from "uuid";
 import {Observable, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {Moment} from "moment/moment";
-import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
 import {environment} from "../../../../../environments/environment";
 import {TdDialogService} from "@covalent/core/dialogs";
 import * as moment from "moment";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatSelectChange} from "@angular/material/select";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 
 // JULY 2023  var Fhir = require('fhir').Fhir;

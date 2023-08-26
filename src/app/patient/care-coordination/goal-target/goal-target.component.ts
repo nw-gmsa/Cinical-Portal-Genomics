@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GoalTarget} from "fhir/r4";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import {FhirService} from "../../../services/fhir.service";
 import {Router} from "@angular/router";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-goal-target',

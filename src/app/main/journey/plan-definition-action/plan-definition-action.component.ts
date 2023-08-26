@@ -1,12 +1,13 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Extension, PlanDefinitionAction} from "fhir/r4";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import {MatSort} from "@angular/material/sort";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {FhirService} from "../../../services/fhir.service";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatTableDataSource} from "@angular/material/table";
+
 @Component({
   selector: 'app-plan-definition-action',
   templateUrl: './plan-definition-action.component.html',

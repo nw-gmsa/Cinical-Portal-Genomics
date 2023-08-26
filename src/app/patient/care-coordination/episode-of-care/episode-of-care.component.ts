@@ -2,9 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {EpisodeOfCare, Patient} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatTableDataSource} from "@angular/material/table";
+
 @Component({
   selector: 'app-episode-of-care',
   templateUrl: './episode-of-care.component.html',

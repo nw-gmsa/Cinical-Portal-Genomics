@@ -3,13 +3,13 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {FhirService} from '../../../services/fhir.service';
 import {Extension, Observation} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort, Sort} from '@angular/material/sort';
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {Router} from "@angular/router";
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-observation',

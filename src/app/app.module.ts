@@ -10,15 +10,8 @@ import {RouterModule} from '@angular/router';
 import { MainComponent } from './main/main.component';
 import {MatIconModule} from '@angular/material/icon';
 import {AppRoutingModule} from './app-routing/app-routing.module';
-import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
-import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/legacy-form-field';
-import {MatLegacySelectModule as MatSelectModule} from '@angular/material/legacy-select';
-import {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';
-import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
 import {CovalentFileModule} from '@covalent/core/file';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
-import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
 import {MatStepperModule} from '@angular/material/stepper';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {HttpClientModule} from '@angular/common/http';
@@ -28,7 +21,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatLegacyRadioModule as MatRadioModule} from '@angular/material/legacy-radio';
 import {PatientSearchComponent} from './main/patient-find/patient-search/patient-search.component';
 import {PatientComponent} from './main/patient-find/patient/patient.component';
 import {EprService} from './services/epr.service';
@@ -37,7 +29,6 @@ import {PatientMainComponent} from './patient/patient-main.component';
 import {PatientSummaryComponent} from './patient/summary/patient-summary.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {ConditionComponent} from './patient/summary/condition/condition.component';
-
 import {EncounterComponent} from './patient/summary/encounter/encounter.component';
 import {CarePlanComponent} from './patient/care-coordination/care-plan/care-plan.component';
 import {CareTeamComponent} from './patient/care-coordination/care-team/care-team.component';
@@ -46,7 +37,6 @@ import {ObservationComponent} from './patient/diagnostics/observation/observatio
 import {MatGridListModule} from '@angular/material/grid-list';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {ResourceDialogComponent} from './dialogs/resource-dialog/resource-dialog.component';
-import {MatLegacyTabsModule as MatTabsModule} from '@angular/material/legacy-tabs';
 import {DocumentReferenceComponent} from './main/patient/documents/document-reference/document-reference.component';
 import {QuestionnaireResponseComponent} from './patient/structure-data-capture/questionnaire-response/questionnaire-response.component';
 import { TaskComponent } from './patient/workflow/task/task.component';
@@ -66,7 +56,6 @@ import { ObservationChartComponent } from './patient/diagnostics/observation-cha
 import { CommunicationComponent } from './main/patient/communication/communication/communication.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { TaskCreateComponent } from './patient/workflow/task-create/task-create.component';
-import {MatLegacyAutocompleteModule as MatAutocompleteModule} from '@angular/material/legacy-autocomplete';
 import { ServiceCreateComponent } from './patient/workflow/service-create/service-create.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { CareTeamCreateComponent } from './patient/care-coordination/care-team-create/care-team-create.component';
@@ -82,7 +71,6 @@ import { WorkflowComponent } from './patient/workflow/workflow.component';
 import { CoordinatedCareComponent } from './patient/care-coordination/coordinated-care.component';
 import { PatientCommunicationComponent } from './main/patient/communication/patient-communication.component';
 import { PersonalHealthDeviceComponent } from './patient/personal-health-device/personal-health-device.component';
-import {MatLegacyPaginatorModule as MatPaginatorModule} from "@angular/material/legacy-paginator";
 import {CovalentCommonModule} from "@covalent/core/common";
 import { DocumentReferenceCreateComponent } from './main/patient/documents/document-reference-create/document-reference-create.component';
 import { ObservationDetailComponent } from './patient/diagnostics/observation-detail/observation-detail.component';
@@ -123,6 +111,17 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatTableModule} from "@angular/material/table";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatListModule} from "@angular/material/list";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatInputModule} from "@angular/material/input";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 const modules = [
   MatIconModule,
@@ -246,8 +245,6 @@ const modules = [
     CovalentMessageModule,
     CovalentLoadingModule,
     CovalentDynamicMenuModule,
-
-
     PdfViewerModule,
     MatPaginatorModule,
     CovalentCommonModule,
@@ -255,7 +252,7 @@ const modules = [
     A11yModule,
     CovalentTreeEchartsModule,
     CovalentTooltipEchartsModule,
-    MatChipsModule,
+    MatChipsModule
 
   ],
   exports: [...modules],

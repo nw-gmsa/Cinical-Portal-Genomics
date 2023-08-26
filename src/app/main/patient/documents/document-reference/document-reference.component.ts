@@ -12,10 +12,10 @@ import {Router} from "@angular/router";
 import {DocumentReference} from 'fhir/r4';
 import {FhirService} from '../../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../../dialogs/resource-dialog/resource-dialog.component';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../../dialogs/delete/delete.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-document-reference',

@@ -3,14 +3,15 @@ import {Coding, Goal, GoalTarget, ValueSetExpansionContains} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {DialogService} from "../../../services/dialog.service";
 import * as uuid from "uuid";
-import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {Observable, Subject} from "rxjs";
 import {Moment} from "moment";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSelectChange} from "@angular/material/select";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+
 @Component({
   selector: 'app-goal-create',
   templateUrl: './goal-create.component.html',

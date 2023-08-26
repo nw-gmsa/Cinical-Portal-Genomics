@@ -7,16 +7,16 @@ import {
   Reference,
   ValueSetExpansionContains
 } from 'fhir/r4';
-import {MatLegacySelectChange as MatSelectChange} from '@angular/material/legacy-select';
 // @ts-ignore
 import * as uuid from 'uuid';
 import {FhirService} from '../../../../services/fhir.service';
 import {DialogService} from '../../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from '@angular/material/legacy-autocomplete';
 import {TdDialogService} from "@covalent/core/dialogs";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatSelectChange} from "@angular/material/select";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-communication-create',

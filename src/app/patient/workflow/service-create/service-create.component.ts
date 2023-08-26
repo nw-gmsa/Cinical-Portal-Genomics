@@ -14,9 +14,9 @@ import {FhirService} from '../../../services/fhir.service';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from '@angular/material/legacy-autocomplete';
 import * as uuid from 'uuid';
-import {MatLegacySelectChange as MatSelectChange} from '@angular/material/legacy-select';
 import {DialogService} from '../../../services/dialog.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatSelectChange} from "@angular/material/select";
 @Component({
   selector: 'app-service-create',
   templateUrl: './service-create.component.html',

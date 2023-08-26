@@ -14,10 +14,10 @@ import {FhirService} from '../../../services/fhir.service';
 import {DialogService} from '../../../services/dialog.service';
 import {Observable, Subject} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from '@angular/material/legacy-autocomplete';
 import * as uuid from 'uuid';
 import {TdDialogService} from "@covalent/core/dialogs";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 
 @Component({

@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {Patient, ServiceRequest, Task, ValueSetExpansionContains} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TaskCreateComponent} from "../task-create/task-create.component";
@@ -11,6 +10,7 @@ import {EprService} from "../../../services/epr.service";
 import {DialogService} from "../../../services/dialog.service";
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatTableDataSource} from "@angular/material/table";
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',

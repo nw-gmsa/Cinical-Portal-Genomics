@@ -6,9 +6,9 @@ import {FhirService} from "../../../services/fhir.service";
 import {DialogService} from "../../../services/dialog.service";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import * as uuid from "uuid";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-medication-request-create-edit',

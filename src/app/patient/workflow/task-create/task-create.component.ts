@@ -17,9 +17,9 @@ import {FhirService} from '../../../services/fhir.service';
 import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from '@angular/material/legacy-autocomplete';
 import * as uuid from 'uuid';
 import {DialogService} from '../../../services/dialog.service';
-import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-task-create',

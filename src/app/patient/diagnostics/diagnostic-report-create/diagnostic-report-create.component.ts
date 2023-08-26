@@ -13,12 +13,11 @@ import {FhirService} from "../../../services/fhir.service";
 import {DialogService} from "../../../services/dialog.service";
 import {Observable, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {Moment} from "moment";
-import {environment} from "../../../../environments/environment";
-import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
 import {TdDialogService} from "@covalent/core/dialogs";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatSelectChange} from "@angular/material/select";
 @Component({
   selector: 'app-diagnostic-report-create',
   templateUrl: './diagnostic-report-create.component.html',
