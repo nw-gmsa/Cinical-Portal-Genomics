@@ -9,7 +9,14 @@
     <div style="width: 15%" >
         <small *ngIf="item.code !== undefined">Question Code</small>
         <div *ngIf="item.code !== undefined">
-            <button mat-stroked-button color="primary" (click)="selectConcept(item.code[0])"> {{item.code[0].code}}</button>
+             <span *ngFor="let coding of item.code">
+                     <span *ngIf="coding.system !== undefined && coding.system === 'http://snomed.info/sct'; else templateCode">
+                          <button mat-stroked-button color="primary"  (click)="selectConcept(coding)"> {{coding.code}}</button>
+                     </span>
+                      <ng-template #templateCode>
+                       <button mat-stroked-button>LOINC? {{coding.code}}</button>
+                    </ng-template>
+                 </span>
         </div>
     </div>
 

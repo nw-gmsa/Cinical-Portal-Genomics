@@ -8,7 +8,15 @@
         <mat-card-subtitle>
              <div *ngIf="questionnaire !== undefined && questionnaire.code !== undefined && questionnaire.code.length> 0">
                 <small>Code</small> &nbsp;
-                <button mat-stroked-button color="primary"  (click)="selectConcept(questionnaire.code[0])"> {{questionnaire.code[0].code}}</button>
+                 <span *ngFor="let coding of questionnaire.code">
+                     <span *ngIf="coding.system !== undefined && coding.system === 'http://snomed.info/sct'; else templateName">
+                          <button mat-stroked-button color="primary"  (click)="selectConcept(coding)"> {{coding.code}}</button>
+                     </span>
+                      <ng-template #templateName>
+                       <button mat-stroked-button>{{coding.code}}</button>
+                    </ng-template>
+                 </span>
+
             </div>
             {{questionnaire.description}}
         </mat-card-subtitle>
