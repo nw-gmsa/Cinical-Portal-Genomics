@@ -11,11 +11,11 @@
                 <h3>Referrals and Interventions</h3>
                 <span flex></span>
 
-                <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
-                    <mat-list-item>
-                        <button mat-button color="accent"  (click)="addServiceRequest()">Add Service Request</button>
-                    </mat-list-item>
-                </mat-nav-list>
+                <div *ngIf="patientId !== undefined" class="list-horizontal">
+
+                        <button mat-stroked-button color="accent"  (click)="addServiceRequest()">Add Service Request</button>
+
+                </div>
                 <span *ngIf="requests.length>0">
                       <app-referral-request [referrals]="requests" (taskChange)="getResultsEvent($event)"> </app-referral-request>
                        </span>
@@ -27,13 +27,13 @@
                     <h3>Tasks</h3>
                     <span flex></span>
 
-                <mat-nav-list *ngIf="patientId !== undefined" class="list-horizontal">
-                    <mat-list-item>
-                        <button mat-button color="accent"  (click)="addTask(0)"> Add Task</button>
-                        <button mat-button color="accent"  (click)="addTask(3)"> Add Activity Request</button>
-                        <button mat-button color="accent"  (click)="addTask(1)"> Add Form Completion Task</button>
-                    </mat-list-item>
-                </mat-nav-list>
+                <div *ngIf="patientId !== undefined" class="list-horizontal">
+
+                        <button mat-stroked-button color="accent"  (click)="addTask(0)"> Add Task</button>
+                        <button mat-stroked-button color="accent"  (click)="addTask(3)"> Add Activity Request</button>
+                        <button mat-stroked-button color="accent"  (click)="addTask(1)"> Add Form Completion Task</button>
+
+                </div>
                 <span *ngIf="tasks.length>0">
                       <app-task [tasks]="tasks" (task)="getResultsEvent($event)"> </app-task>
                        </span>

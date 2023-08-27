@@ -125,7 +125,17 @@ export class ObservationComponent implements OnInit {
           return this.fhirService.getCodeableConcept(observation.valueCodeableConcept);
       }
 
-    if (observation.component === undefined || observation.component.length < 2) {
+    if (observation.valueString !== undefined ) {
+      return observation.valueString
+    }
+    if (observation.valueDateTime !== undefined ) {
+      return observation.valueDateTime
+    }
+    if (observation.valueBoolean !== undefined ) {
+      return String(observation.valueBoolean)
+    }
+
+      if (observation.component === undefined || observation.component.length < 2) {
         return '';
     }
     // Only coded for blood pressures at present

@@ -2,15 +2,15 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DatePipe} from '@angular/common';
-import {Obs} from '../models/obs';
+import {Obs} from './models/obs';
 import {FhirService} from './fhir.service';
 import {Bundle, Coding, Extension, Observation, Reference} from 'fhir/r4';
 import {environment} from '../../environments/environment';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import * as uuid from 'uuid';
 import {delay} from 'rxjs/operators';
-import {MeasurementSetting} from '../models/enums/MeasurementSetting';
-import {DeviceSetting} from '../models/enums/DeviceSetting';
+import {MeasurementSetting} from './models/enums/MeasurementSetting';
+import {DeviceSetting} from './models/enums/DeviceSetting';
 import {DialogService} from "./dialog.service";
 
 @Injectable({

@@ -16,10 +16,6 @@ export class PatientMainComponent implements OnInit {
 
     sidenavopen = false;
 
-    lhcrcolor = 'info';
-    acutecolor = 'info';
-    gpcolor = 'info';
-    nrlscolor = 'info';
 
     bscolour = 'accent';
     bocolour = 'info';
@@ -51,7 +47,6 @@ export class PatientMainComponent implements OnInit {
       this.fhirService.getResource('/Patient/' + patientid ).subscribe(patient => {
               if (patient.resourceType == 'Patient') {
                     this.patient = <Patient> patient;
-                    console.log(patient.id)
                     this.eprService.setPatient(this.patient)
               }
           }

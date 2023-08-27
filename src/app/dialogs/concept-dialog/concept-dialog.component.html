@@ -1,0 +1,42 @@
+<span *ngIf="preferred != null">
+<h2 mat-dialog-title>
+    {{preferred}}
+</h2>
+<mat-dialog-content>
+    <div>
+    <small>Concept</small>
+        {{concept?.code}}
+    </div>
+     <div>
+        <small>Preferred</small>
+         {{preferred}}
+    </div>
+    <div>
+        <small>Fully Specified Name</small>
+        {{fullName}}
+    </div>
+    <div *nfIf="synonyms.length>0">
+        <small>Synonyms</small>
+        <span *nfFor="let syn of synonyms">
+            {{syn}}
+        </span>
+    </div>
+    <div>
+    <small>Inactive</small>
+        {{getParameter('inactive',this.parameters)}}
+    </div>
+    <div>
+        <small>Effective Date</small>
+        {{getParameter('effectiveTime',this.parameters)}}
+    </div>
+    <br/>
+    <div *ngIf="tags!==undefined">
+        <mat-chip-row>
+            <mat-chip>{{tags}}</mat-chip>
+        </mat-chip-row>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button [mat-dialog-close]="true" autoFocus>OK</button>
+</mat-dialog-actions>
+</span>

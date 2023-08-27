@@ -15,7 +15,7 @@ import {
   ValueSet
 } from 'fhir/r4';
 import {environment} from '../../environments/environment';
-import {SummaryActivity} from '../models/summary-activity';
+import {SummaryActivity} from './models/summary-activity';
 
 
 export enum Formats {
@@ -496,6 +496,13 @@ export class FhirService {
     }
   }
 
+  searchQuestionnaire(term: string): Observable<Bundle> {
+    const url = this.getTIEUrl();
+
+    return this.http.get<Bundle>(url + `/Questionnaire?_content=${term}`, {headers: this.getEPRHeaders()});
+
+  }
+
   searchConcepts(term: string, valueSet: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
@@ -525,10 +532,11 @@ export class FhirService {
 
   getQuantity(valueQuantity: Quantity): string {
     let unit = '';
-    if (valueQuantity.unit !== undefined) {
-      unit = valueQuantity.unit;
-    }
     var str = valueQuantity.value?.toLocaleString('fullwide', { useGrouping: false });
+    if (valueQuantity.unit !== undefined) {
+      str = str + ' ' + valueQuantity.unit;
+    }
+
   //  console.log(str);
     return <string>str;
   }

@@ -10,7 +10,7 @@ import {FhirService} from '../../services/fhir.service';
 import {EprService} from '../../services/epr.service';
 import { TdDialogService} from '@covalent/core/dialogs';
 import {StravaService} from '../../services/strava.service';
-import {Athlete} from '../../models/athlete';
+import {Athlete} from '../../services/models/athlete';
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from '@covalent/core/loading';
 import {WithingsService} from '../../services/withings.service';
 import {delay} from 'rxjs/operators';

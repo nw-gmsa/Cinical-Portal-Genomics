@@ -1,0 +1,108 @@
+<div>
+  <table fxFill="100" mat-table [dataSource]="dataSource"
+         class="mat-elevation-z8"
+         matSort
+         matSortActive="notes" matSortDirection="desc">
+
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let communication"> {{communication.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sent">
+      <th mat-header-cell *matHeaderCellDef  width="10%"> Sent </th>
+      <td mat-cell *matCellDef="let communication">  {{communication.sent | date: 'dd-MMM-yyyy HH:mm'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef  width="5%"> Category </th>
+      <td mat-cell *matCellDef="let communication">
+        <span *ngIf="communication.category !== undefined">
+
+          <span *ngIf="communication.category[0].coding[0].code === 'alert'"><mat-icon>error</mat-icon></span>
+          <span *ngIf="communication.category[0].coding[0].code === 'reminder'"><mat-icon>warning</mat-icon></span>
+          <span *ngIf="communication.category[0].coding[0].code === 'notification'"><mat-icon>notification_important</mat-icon></span>
+
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef width="10%"> Status </th>
+      <td mat-cell *matCellDef="let communication"> {{communication.status}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="patientmsg">
+      <th mat-header-cell *matHeaderCellDef> Person </th>
+      <td mat-cell *matCellDef="let communication">
+        <span *ngIf="isPatient(communication)">
+           <mat-card style="background-color:lightcyan;padding:5px" *ngFor="let content of communication.payload">
+             {{content.contentString}}
+           </mat-card>
+           <span *ngFor="let content of communication.payload">
+                <span *ngIf="content.contentReference !== undefined">
+                  <mat-icon>attach_file</mat-icon> {{content.contentReference.display}}
+                </span>
+           </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="message">
+      <th mat-header-cell *matHeaderCellDef> Provider </th>
+      <td mat-cell *matCellDef="let communication">
+        <span *ngIf="!isPatient(communication)">
+          <span style="text-align:right;display:flex;justify-content: flex-end;" [innerHTML]="fhirService.getReference(communication.sender)"></span>
+          <mat-card style="background-color:lightgreen;padding:5px" *ngFor="let content of communication.payload">
+             {{content.contentString}}
+           </mat-card>
+          <span *ngFor="let content of communication.payload">
+                <span *ngIf="content.contentReference !== undefined">
+                  <mat-icon>attach_file</mat-icon> {{content.contentReference.display}}
+                </span>
+           </span>
+        </span>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="recipients">
+      <th mat-header-cell *matHeaderCellDef width="10%"> Recipient </th>
+      <td mat-cell *matCellDef="let communication">
+        <span *ngFor="let participant of communication.recipient">
+         <p>
+           <span [innerHTML]="fhirService.getReference(participant)"></span>
+         </p>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sender">
+      <th mat-header-cell *matHeaderCellDef width="10%"> Sender </th>
+      <td mat-cell *matCellDef="let communication">
+        <span [innerHTML]="fhirService.getReference(communication.sender)"></span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="notes">
+      <th mat-header-cell *matHeaderCellDef width="10%"> Notes </th>
+      <td mat-cell *matCellDef="let communication">
+        <span *ngIf="communication.note !== null">
+            <p *ngFor="let annotation of communication.note">{{annotation.text}}</p>
+            </span>
+
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="resource">
+      <th mat-header-cell *matHeaderCellDef width="5%">FHIR</th>
+      <td mat-cell *matCellDef="let communication">  <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(communication)"><mat-icon>code</mat-icon></button>  </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>

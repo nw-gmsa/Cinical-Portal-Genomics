@@ -122,6 +122,11 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'quickstartlink',
+      text: 'Form Definitions',
+      action: 'formdefinition'
+    },
+    {
+      id: 'quickstartlink',
       text: 'NLM Form Builder',
       action: 'formbuilder'
     },
@@ -259,6 +264,10 @@ export class MainComponent implements OnInit {
       }
       case 'formbuilder': {
         this.router.navigateByUrl('/formbuilder');
+        break;
+      }
+      case 'formdefinition': {
+        this.router.navigateByUrl('/form');
         break;
       }
     }

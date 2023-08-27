@@ -1,8 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subscription} from 'rxjs';
-import {Athlete} from '../models/athlete';
-import {SummaryActivity} from '../models/summary-activity';
+import {Athlete} from './models/athlete';
+import {SummaryActivity} from './models/summary-activity';
 import {environment} from '../../environments/environment';
 import {Bundle, BundleEntry, DiagnosticReport, Observation, Reference} from 'fhir/r4';
 import {FhirService} from './fhir.service';

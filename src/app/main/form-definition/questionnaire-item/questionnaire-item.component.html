@@ -1,0 +1,64 @@
+<div class="row">
+
+    <div style="width: 15%" >
+        <small>Question</small>
+        <div>
+            &nbsp;{{item.text}}&nbsp;
+        </div>
+    </div>
+    <div style="width: 15%" >
+        <small *ngIf="item.code !== undefined">Question Code</small>
+        <div *ngIf="item.code !== undefined">
+            <button mat-stroked-button color="primary" (click)="selectConcept(item.code[0])"> {{item.code[0].code}}</button>
+        </div>
+    </div>
+
+    <div style="width: 20%" >
+        <small>Answer</small>
+        <mat-chip-grid>
+            <span *ngIf="item.type !== undefined"> <mat-chip-row color="warn">{{item.type}}</mat-chip-row> </span>
+            <span *ngIf="item.required"> <mat-chip-row color="warn">Required</mat-chip-row> </span>
+            <span *ngIf="item.repeats"> <mat-chip-row color="warn">Repeats</mat-chip-row> </span>
+        </mat-chip-grid>
+    </div>
+    <div style="width: 25%" >
+        <span *ngIf="getUnitOption().length >0">
+
+            <small>Answer Units</small>
+            <mat-chip-grid >
+                <mat-chip-row *ngFor="let unit of getUnitOption()" >
+                    {{unit.display}}
+                </mat-chip-row>
+            </mat-chip-grid>
+        </span>
+        <span *ngIf="item.answerValueSet">
+            <small>ValueSet</small>
+            <div>
+                <a mat-button mat-stroked-button color="primary" href="https://simplifier.net/resolve?scope=&canonical={{item.answerValueSet}}" target="_blank" [matTooltip]="item.answerValueSet">{{getName(item.answerValueSet)}}</a>
+            </div>
+        </span>
+        <span *ngIf="item.answerOption !== undefined && item.answerOption.length>0">
+            <small>Answer Choices (coded)</small>
+            <span *ngFor="let option of item.answerOption">
+                <div *ngIf="option.valueCoding !== undefined">
+                    <span *ngIf="option.valueCoding?.system !== undefined && option.valueCoding?.system === 'http://snomed.info/sct' else templateName ">
+                         <button mat-stroked-button color="primary"
+                                 (click)="selectConcept(option.valueCoding)"
+                         >{{option.valueCoding.display}}</button>
+                    </span>
+                    <ng-template #templateName>
+                       <button mat-stroked-button>{{option.valueCoding.display}}</button>
+                    </ng-template>
+                </div>
+            </span>
+        </span>
+    </div>
+
+    <div *ngIf="getSDCExtract() || getSDCPopulate() !== undefined " style="width: 15%">
+        <small>Structured Data Capture</small>
+        <mat-chip-grid >
+            <mat-chip-row *ngIf="getSDCExtract()" (click)="extractOpen()">$extract</mat-chip-row>
+            <mat-chip-row *ngIf="getSDCPopulate() !== undefined"  (click)="populateOpen()">{{getSDCPopulate()}}</mat-chip-row>
+        </mat-chip-grid>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+<mat-card class="fullscreen scrollable-content example-full-width">
+  <td-breadcrumbs>
+    <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
+    <a td-breadcrumb [routerLink]="['/patient', patientId, 'documents']">Documents</a>
+    <td-breadcrumb>Document</td-breadcrumb>
+  </td-breadcrumbs>
+  <mat-card-content>
+  <h2 mat-dialog-title>
+     Document
+ </h2>
+  <table *ngIf="document !== undefined" style="flex: auto">
+      <tr>
+          <td>Created</td>
+          <td>{{document.date | date: 'dd-MMM-yyyy HH:mm'}}</td>
+      </tr>
+      <tr>
+          <td>Type</td>
+          <td> <span [innerHTML]="fhirService.getCodeableConcept(document.type)"></span></td>
+      </tr>
+      <tr *ngIf="document.category !== undefined" >
+          <td>Category</td>
+          <td><span [innerHTML]="fhirService.getCodeableConcepts(document.category)"></span></td>
+      </tr>
+      <tr *ngIf="document.custodian !== undefined">
+          <td>Custodian</td>
+          <td><span [innerHTML]="fhirService.getReference(document.custodian)"></span></td>
+      </tr>
+      <tr *ngIf="document.context !== undefined">
+          <td>Setting</td>
+          <td><span *ngIf="document.context !== undefined" [innerHTML]="fhirService.getCodeableConcept(document.context.practiceSetting)"></span></td>
+      </tr>
+  </table>
+
+      <span *ngIf="binary === undefined">
+
+
+<td-message
+        label="Warning"
+        sublabel="No document found, reference does not contain url or (cors) error."
+        color="accent"
+        icon="warning"
+>
+</td-message>
+      </span>
+
+  <span *ngIf="docType === undefined">
+  <td-json-formatter *ngIf="binary !== undefined" [data]="binary" key="root" [levelsOpen]="4">
+  </td-json-formatter>
+    </span>
+  <span *ngIf="docType === 'html'">
+       <mat-card>
+          <mat-tab-group>
+          <mat-tab label="HTML"> <span [innerHTML]="html"></span> </mat-tab>
+          <span *ngIf="json !== undefined">
+              <mat-tab label="JSON (Rendered)">
+                  <td-json-formatter [data]="json" key="root" [levelsOpen]="4">
+                        </td-json-formatter>
+              </mat-tab>
+               <mat-tab label="JSON">
+                  <pre>{{JSON.stringify(json,null, 2)}}</pre>
+              </mat-tab>
+               <mat-tab label="XML">
+                  <pre>{{getXML(json)}}</pre>
+              </mat-tab>
+          </span>
+        </mat-tab-group>
+    </mat-card>
+  </span>
+
+  <span *ngIf="docType === 'image'">
+    <img class="oversize" [src]="image" alt="Nowt here"/>
+  </span>
+  <span *ngIf="docType === 'pdf'">
+
+    <div *ngIf="isLoaded" style="text-align: center;">
+       <pdf-viewer [src]="pdfSrc"
+                   [render-text]="true"
+                   [show-all]="false"
+                   [page]="page"
+                   (after-load-complete)="afterLoadComplete($event)"
+                   [original-size]="false"
+                   style="width: 600px; height: 800px"
+       ></pdf-viewer>
+      <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+      <span>{{ page }} / {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+    </div>
+  </span>
+  </mat-card-content>
+</mat-card>
+
+
+

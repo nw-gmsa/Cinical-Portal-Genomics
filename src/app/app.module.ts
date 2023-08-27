@@ -9,7 +9,7 @@ import {CovalentDynamicFormsModule} from '@covalent/dynamic-forms';
 import {RouterModule} from '@angular/router';
 import { MainComponent } from './main/main.component';
 import {MatIconModule} from '@angular/material/icon';
-import {AppRoutingModule} from './app-routing/app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 import {CovalentFileModule} from '@covalent/core/file';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -21,10 +21,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {PatientSearchComponent} from './main/patient-find/patient-search/patient-search.component';
-import {PatientComponent} from './main/patient-find/patient/patient.component';
+import {PatientSearchComponent} from './patient/patient-find/patient-search/patient-search.component';
+import {PatientComponent} from './patient/patient-find/patient/patient.component';
 import {EprService} from './services/epr.service';
-import {PatientFindComponent} from './main/patient-find/patient-find.component';
+import {PatientFindComponent} from './patient/patient-find/patient-find.component';
 import {PatientMainComponent} from './patient/patient-main.component';
 import {PatientSummaryComponent} from './patient/summary/patient-summary.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -37,23 +37,23 @@ import {ObservationComponent} from './patient/diagnostics/observation/observatio
 import {MatGridListModule} from '@angular/material/grid-list';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {ResourceDialogComponent} from './dialogs/resource-dialog/resource-dialog.component';
-import {DocumentReferenceComponent} from './main/patient/documents/document-reference/document-reference.component';
-import {QuestionnaireResponseComponent} from './patient/structure-data-capture/questionnaire-response/questionnaire-response.component';
+import {DocumentReferenceComponent} from './patient/documents/document-reference/document-reference.component';
+import {QuestionnaireResponseComponent} from './patient/forms/questionnaire-response/questionnaire-response.component';
 import { TaskComponent } from './patient/workflow/task/task.component';
 import {ReferralRequestComponent} from './patient/workflow/referral-request/referral-request.component';
 import {AllergyIntoleranceComponent} from './patient/summary/allergy-intolerance/allergy-intolerance.component';
 import {MedicationRequestComponent} from './patient/medications/medication-request/medication-request.component';
 import { DiagnosticReportComponent } from './patient/diagnostics/diagnostic-report/diagnostic-report.component';
 import {CovalentDialogsModule} from '@covalent/core/dialogs';
-import {BinaryComponent} from './main/patient/documents/binary/binary.component';
-import { QuestionnaireResponseViewComponent } from './patient/structure-data-capture/questionnaire-response-view/questionnaire-response-view.component';
+import {BinaryComponent} from './patient/documents/binary/binary.component';
+import { QuestionnaireResponseViewComponent } from './patient/forms/questionnaire-response-view/questionnaire-response-view.component';
 import {CovalentMessageModule} from '@covalent/core/message';
 import {DatePipe} from '@angular/common';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import {ExchangeTokenComponent} from './exchange-token/exchange-token.component';
+import {ExchangeTokenComponent} from './services/exchange-token/exchange-token.component';
 import {CovalentLoadingModule} from '@covalent/core/loading';
 import { ObservationChartComponent } from './patient/diagnostics/observation-chart/observation-chart.component';
-import { CommunicationComponent } from './main/patient/communication/communication/communication.component';
+import { CommunicationComponent } from './patient/communication/communication/communication.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { TaskCreateComponent } from './patient/workflow/task-create/task-create.component';
 import { ServiceCreateComponent } from './patient/workflow/service-create/service-create.component';
@@ -61,18 +61,18 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { CareTeamCreateComponent } from './patient/care-coordination/care-team-create/care-team-create.component';
 import { CarePlanCreateComponent } from './patient/care-coordination/care-plan-create/care-plan-create.component';
 import { EpisodeOfCareCreateComponent } from './patient/care-coordination/episode-of-care-create/episode-of-care-create.component';
-import { CommunicationCreateComponent } from './main/patient/communication/communication-create/communication-create.component';
+import { CommunicationCreateComponent } from './patient/communication/communication-create/communication-create.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import { ObservationsComponent } from './patient/diagnostics/observations.component';
 import {CovalentDynamicMenuModule} from "@covalent/core/dynamic-menu";
-import { DocumentsComponent } from './main/patient/documents/documents.component';
-import { FormsComponent } from './patient/structure-data-capture/forms.component';
+import { DocumentsComponent } from './patient/documents/documents.component';
+import { FormsComponent } from './patient/forms/forms.component';
 import { WorkflowComponent } from './patient/workflow/workflow.component';
 import { CoordinatedCareComponent } from './patient/care-coordination/coordinated-care.component';
-import { PatientCommunicationComponent } from './main/patient/communication/patient-communication.component';
+import { PatientCommunicationComponent } from './patient/communication/patient-communication.component';
 import { PersonalHealthDeviceComponent } from './patient/personal-health-device/personal-health-device.component';
 import {CovalentCommonModule} from "@covalent/core/common";
-import { DocumentReferenceCreateComponent } from './main/patient/documents/document-reference-create/document-reference-create.component';
+import { DocumentReferenceCreateComponent } from './patient/documents/document-reference-create/document-reference-create.component';
 import { ObservationDetailComponent } from './patient/diagnostics/observation-detail/observation-detail.component';
 import {CovalentBreadcrumbsModule} from "@covalent/core/breadcrumbs";
 import { PhysicalActivityDetailComponent } from './patient/diagnostics/physical-activity-detail/physical-activity-detail.component';
@@ -99,12 +99,12 @@ import {CovalentTreeEchartsModule} from "@covalent/echarts/tree";
 import {CovalentTooltipEchartsModule} from "@covalent/echarts/tooltip";
 import { ConditionCreateEditComponent } from './patient/summary/condition-create-edit/condition-create-edit.component';
 import { MedicationRequestCreateEditComponent } from './patient/medications/medication-request-create-edit/medication-request-create-edit.component';
-import { OntologyBrowserComponent } from './ontology/ontology-browser/ontology-browser.component';
-import { ConceptDetailComponent } from './ontology/concept-detail/concept-detail.component';
+import { OntologyBrowserComponent } from './main/ontology/ontology-browser/ontology-browser.component';
+import { ConceptDetailComponent } from './main/ontology/concept-detail/concept-detail.component';
 import { EventCreateComponent } from './patient/diagnostics/event-create/event-create.component';
-import { StructuredDataCaptueComponent } from './patient/structure-data-capture/structured-data-captue/structured-data-captue.component';
+import { StructuredDataCaptueComponent } from './patient/forms/structured-data-captue/structured-data-captue.component';
 import { FormBuilderComponent } from './main/form-builder/form-builder.component';
-import { QuestionnaireComponent } from './patient/structure-data-capture/questionnaire/questionnaire.component';
+import { QuestionnaireComponent } from './main/form-definition/questionnaire/questionnaire.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatMenuModule} from "@angular/material/menu";
@@ -122,6 +122,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { QuestionnaireItemComponent } from './main/form-definition/questionnaire-item/questionnaire-item.component';
+import { FormDefinitionComponent } from './main/form-definition/form-definition.component';
+import { ConceptDialogComponent } from './dialogs/concept-dialog/concept-dialog.component';
 
 const modules = [
   MatIconModule,
@@ -221,7 +224,10 @@ const modules = [
       EventCreateComponent,
       StructuredDataCaptueComponent,
       FormBuilderComponent,
-      QuestionnaireComponent
+      QuestionnaireComponent,
+      QuestionnaireItemComponent,
+      FormDefinitionComponent,
+      ConceptDialogComponent
   ],
   imports: [
     BrowserModule,

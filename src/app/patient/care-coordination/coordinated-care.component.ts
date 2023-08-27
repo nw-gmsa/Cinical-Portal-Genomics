@@ -71,6 +71,7 @@ export class CoordinatedCareComponent implements OnInit {
         }
     );
     this.episodes = [];
+    /*
     this.fhirService.get('/EpisodeOfCare?patient=' + this.patientId + '&status=active,waitlist').subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
@@ -79,6 +80,8 @@ export class CoordinatedCareComponent implements OnInit {
           }
         }
     );
+
+     */
 
     this.carePlans = [];
     this.fhirService.getTIE('/CarePlan?patient=' + this.patientId).subscribe(bundle => {
@@ -211,7 +214,7 @@ export class CoordinatedCareComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.height = '50%';
+    dialogConfig.height = '80%';
     dialogConfig.width = '50%';
 
     dialogConfig.data = {
