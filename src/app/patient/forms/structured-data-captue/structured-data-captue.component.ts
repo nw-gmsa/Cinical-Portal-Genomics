@@ -119,7 +119,6 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
         reference: "Patient/"+this.patientId
       }
       questionnaireResponse.questionnaire = "Questionnaire/" + this.questionnaireId
-      console.log(questionnaireResponse)
       this.fhirService.postTIE('/QuestionnaireResponse', questionnaireResponse).subscribe((newQuestionnaireResponse) => {
            // this.diaglogRef.close(condition);
             this._dialogService.openAlert({
@@ -130,7 +129,7 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
             });
             if (newQuestionnaireResponse.resourceType === 'QuestionnaireResponse') {
               this.fhirService.postTIE('/QuestionnaireResponse/$extract', newQuestionnaireResponse).subscribe((bundle) => {
-                    console.log(bundle)
+
                     if (bundle !== undefined && bundle.entry !== undefined) {
                       this.fhirService.postTIE('/', bundle).subscribe((bundle) => {
 

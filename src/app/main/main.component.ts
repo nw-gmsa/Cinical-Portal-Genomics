@@ -241,7 +241,7 @@ export class MainComponent implements OnInit {
         this.patientId = undefined;
       }
     })
-    this.fhirService.getTIE('/Questionnaire').subscribe(bundle => {
+    this.fhirService.getTIE('/Questionnaire?_count=50').subscribe(bundle => {
       this.fhirService.setQuestionnaires(bundle);
     })
   }

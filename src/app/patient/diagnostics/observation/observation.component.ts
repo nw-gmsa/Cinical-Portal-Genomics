@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 import {FhirService} from '../../../services/fhir.service';
-import {Extension, Observation} from 'fhir/r4';
+import {Coding, Extension, Observation} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatSort, Sort} from '@angular/material/sort';
 import {LiveAnnouncer} from "@angular/cdk/a11y";
@@ -10,6 +10,7 @@ import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
 
 @Component({
   selector: 'app-observation',
@@ -235,4 +236,16 @@ export class ObservationComponent implements OnInit {
         }
       });
     }
+  selectConcept(concept: Coding | undefined) {
+    if (concept !== undefined) {
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        concept
+      };
+      const resourceDialog: MatDialogRef<ConceptDialogComponent> = this.dialog.open(ConceptDialogComponent, dialogConfig);
+    }
+  }
 }

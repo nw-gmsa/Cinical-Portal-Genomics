@@ -125,6 +125,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import { QuestionnaireItemComponent } from './main/form-definition/questionnaire-item/questionnaire-item.component';
 import { FormDefinitionComponent } from './main/form-definition/form-definition.component';
 import { ConceptDialogComponent } from './dialogs/concept-dialog/concept-dialog.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 const modules = [
   MatIconModule,
@@ -258,7 +259,8 @@ const modules = [
     A11yModule,
     CovalentTreeEchartsModule,
     CovalentTooltipEchartsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule
 
   ],
   exports: [...modules],

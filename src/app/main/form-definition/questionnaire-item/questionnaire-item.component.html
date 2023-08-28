@@ -3,7 +3,7 @@
     <div style="width: 15%" >
         <small>Question</small>
         <div>
-            &nbsp;{{item.text}}&nbsp;
+            {{item.prefix}}&nbsp;{{item.text}}&nbsp;
         </div>
     </div>
     <div style="width: 15%" >
@@ -27,6 +27,9 @@
             <span *ngIf="item.required"> <mat-chip-row color="warn">Required</mat-chip-row> </span>
             <span *ngIf="item.repeats"> <mat-chip-row color="warn">Repeats</mat-chip-row> </span>
         </mat-chip-grid>
+        <mat-slide-toggle [checked]="item.repeats ? true : false" disabled>Repeats</mat-slide-toggle>
+        &nbsp;
+        <mat-slide-toggle [checked]="item.required ? true : false" disabled>Required</mat-slide-toggle>
     </div>
     <div style="width: 25%" >
         <span *ngIf="getUnitOption().length >0">

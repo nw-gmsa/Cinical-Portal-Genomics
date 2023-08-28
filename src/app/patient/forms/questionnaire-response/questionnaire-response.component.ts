@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { QuestionnaireResponse} from 'fhir/r4';
+import {Coding, QuestionnaireResponse} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {FhirService} from '../../../services/fhir.service';
 import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
@@ -7,6 +7,7 @@ import {MatSort} from '@angular/material/sort';
 import {Router} from "@angular/router";
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
 @Component({
   selector: 'app-questionnaire-response',
   templateUrl: './questionnaire-response.component.html',
@@ -94,11 +95,32 @@ export class QuestionnaireResponseComponent implements OnInit {
 
   getName(url: string ): string {
       var questionnaire = this.fhirService.getQuestionnaire(url);
+
       if (questionnaire !== undefined) {
           if (questionnaire.title) return questionnaire.title
       }
       return 'Not found';
   }
+    getCode(url: string ): Coding | undefined {
+        var questionnaire = this.fhirService.getQuestionnaire(url);
+
+        if (questionnaire !== undefined) {
+            if (questionnaire.code && questionnaire.code.length >0) return questionnaire.code[0]
+        }
+        return undefined;
+    }
+    getCodeDisplay(url: string ): String | undefined {
+        var questionnaire = this.fhirService.getQuestionnaire(url);
+
+        if (questionnaire !== undefined) {
+            if (questionnaire.code && questionnaire.code.length >0) {
+                if (questionnaire.code[0].display !== undefined) return questionnaire.code[0].display
+
+                return questionnaire.code[0].code
+            }
+        }
+        return undefined;
+    }
     delete(questionnaireResponse: QuestionnaireResponse) {
         let dialogRef = this.dialog.open(DeleteComponent, {
             width: '250px',
@@ -120,5 +142,18 @@ export class QuestionnaireResponseComponent implements OnInit {
                 })
             }
         });
+    }
+    selectConcept(url: string) {
+        var concept = this.getCode(url)
+        if (concept !== undefined && concept.system === 'http://snomed.info/sct') {
+            const dialogConfig = new MatDialogConfig();
+
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+            dialogConfig.data = {
+                concept
+            };
+            const resourceDialog: MatDialogRef<ConceptDialogComponent> = this.dialog.open(ConceptDialogComponent, dialogConfig);
+        }
     }
 }
