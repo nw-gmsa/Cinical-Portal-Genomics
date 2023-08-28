@@ -1,26 +1,32 @@
 <mat-card class="fullscreen scrollable-content">
-    <td-breadcrumbs>
-        <a td-breadcrumb [routerLink]="['/pathways']">Pathways</a>
-        <td-breadcrumb>Activity Definition</td-breadcrumb>
-    </td-breadcrumbs>
-<span *ngIf="activity !== undefined">
-    <h3>Related</h3>
-    <span *ngIf="activity.relatedArtifact !== undefined">
-                        <span *ngFor="let doc of activity.relatedArtifact">
-                            <a [href]="doc.url" target="_blank">{{doc.display}}</a>
-                        </span>
-                    </span>
-    <br/>
-    <h3>Usage</h3>
-    <span *ngIf="activity.usage !== undefined">
-                        <td-markdown [innerHTML]="activity.usage"></td-markdown>
-                    </span>
-    <br/>
-    <span *ngIf="activity.observationResultRequirement !== undefined">
-                         <h3>Result Requirement </h3>
-                        <span *ngFor="let reference of activity.observationResultRequirement">
-                            <td-markdown [innerHTML]="reference.display"></td-markdown>
-                        </span>
-    </span>
-</span>
+    <mat-card-header>
+        <mat-card-title>{{activity?.title}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <td-breadcrumbs>
+            <a td-breadcrumb [routerLink]="['/pathways']">Pathways</a>
+            <td-breadcrumb>Activity Definition</td-breadcrumb>
+        </td-breadcrumbs>
+        <span *ngIf="activity !== undefined">
+
+            <h3>Related</h3>
+            <span *ngIf="activity.relatedArtifact !== undefined">
+                                <span *ngFor="let doc of activity.relatedArtifact">
+                                    <a [href]="doc.url" target="_blank">{{doc.display}}</a>
+                                </span>
+                            </span>
+            <br/>
+            <h3>Usage</h3>
+            <span *ngIf="activity.usage !== undefined">
+                                <td-markdown [innerHTML]="activity.usage"></td-markdown>
+                            </span>
+            <br/>
+            <span *ngIf="activity.observationResultRequirement !== undefined">
+                                 <h3>Result Requirement </h3>
+                                <span *ngFor="let reference of activity.observationResultRequirement">
+                                    <td-markdown [innerHTML]="reference.display"></td-markdown>
+                                </span>
+            </span>
+        </span>
+    </mat-card-content>
 </mat-card>

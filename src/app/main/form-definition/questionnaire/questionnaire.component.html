@@ -1,10 +1,6 @@
 <span *ngIf="questionnaire !== undefined">
 <mat-card>
     <mat-card-header>
-        <mat-card-title>
-            {{questionnaire.title}}
-
-        </mat-card-title>
         <mat-card-subtitle>
              <div *ngIf="questionnaire !== undefined && questionnaire.code !== undefined && questionnaire.code.length> 0">
                 <small>Code</small> &nbsp;
@@ -26,13 +22,7 @@
             <small>id</small>
             {{questionnaire.id}}
         </div>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(questionnaire)"><mat-icon>code</mat-icon></button>
-    </mat-card-actions>
-</mat-card>
-
-<h2>Items</h2>
+        <h2>Items</h2>
 
     <mat-tree  [dataSource]="dataSource" [treeControl]="treeControl" >
 
@@ -56,11 +46,18 @@
                    <app-questionnaire-item [item]="item"></app-questionnaire-item>
                 </div>
                 <ul [class.example-tree-invisible]="!treeControl.isExpanded(item)"
-                     role="group">
+                    role="group">
 
                     <ng-container matTreeNodeOutlet></ng-container>
                 </ul>
 
         </mat-nested-tree-node>
     </mat-tree>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(questionnaire)"><mat-icon>code</mat-icon></button>
+    </mat-card-actions>
+</mat-card>
+
+
 </span>

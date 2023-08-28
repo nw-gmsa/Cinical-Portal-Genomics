@@ -1,3 +1,4 @@
+<div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
        multiTemplateDataRows
        matSort
@@ -70,5 +71,5 @@
     <!--  (click)="this.expandedElement = this.expandedElement === element ? null : element" -->
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
-
+</div>
 

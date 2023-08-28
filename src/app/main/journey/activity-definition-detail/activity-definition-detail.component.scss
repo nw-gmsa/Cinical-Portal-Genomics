@@ -2,6 +2,10 @@
   overflow-y: auto;
 }
 
+:host {
+  width: 100%;
+}
+
 .fullscreen {
   height: 100%;
 }
