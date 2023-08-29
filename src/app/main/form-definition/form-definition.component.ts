@@ -15,9 +15,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class FormDefinitionComponent implements OnInit{
   questionnaire$: Observable<Questionnaire[]> | undefined;
+  questionnaireLOINC$: Observable<Questionnaire[]> | undefined;
   searchString: string = '';
   questionnaire : Questionnaire | undefined
+  questionnaireLOINC : Questionnaire | undefined
   private searchQuestionnaires = new Subject<string>();
+  private searchQuestionnairesLOINC = new Subject<string>();
 
   constructor(
               private fhirService: FhirService,
@@ -47,16 +50,76 @@ export class FormDefinitionComponent implements OnInit{
     }
   }
 
+  searchQuestionnaireLOINC(value: string) {
+
+    if (value.length>1) {
+      try {
+        this.searchQuestionnairesLOINC.next(value);
+      } catch (error) {
+        this._loadingService.resolve('overlayStarSyntax');
+        console.log(error)
+      }
+    }
+  }
+
   ngOnInit(): void {
 
     const formid= this.route.snapshot.paramMap.get('formid');
     if (formid != null) {
-       this.fhirService.getTIEResource('/Questionnaire/'+formid).subscribe(resource => {
+      if (formid.length > 10) {
+        this.fhirService.getTIEResource('/Questionnaire/' + formid).subscribe(resource => {
           if (resource !== undefined && resource.resourceType === 'Questionnaire') {
             this.questionnaire = resource
           }
-       })
+        })
+      } else {
+        this.fhirService.getLOINCResource('/Questionnaire/' + formid).subscribe(resource => {
+          if (resource !== undefined && resource.resourceType === 'Questionnaire') {
+            this.questionnaire = resource
+          }
+        })
+      }
     }
+
+    this.questionnaireLOINC$ = this.searchQuestionnairesLOINC.pipe(
+        // wait 300ms after each keystroke before considering the term
+        debounceTime(300),
+
+        // ignore new term if same as previous term
+        distinctUntilChanged(),
+
+        // switch to new search observable each time the term changes
+        switchMap((term: string) => {
+
+              //  this._loadingService.register('overlayStarSyntax');
+              return this.fhirService.searchQuestionnaireLOINC(term.replace(',', ''));
+            }
+
+        ),
+
+        map(resource    => {
+          this._loadingService.resolve('overlayStarSyntax');
+          const bundle = resource as Bundle;
+          const temp: Questionnaire[] = [];
+          if (bundle !== undefined && bundle.entry !== undefined) {
+            // @ts-ignore
+            for (let entry of bundle.entry) {
+              {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') {
+
+                  temp.push(entry.resource as Questionnaire);
+                }
+              }
+            }
+          }
+          return temp; }
+        ),
+        catchError(err => {
+          console.log('Handling error locally ...', err);
+          this._loadingService.resolve('overlayStarSyntax');
+          return of([]);
+        })
+    )
 
     this.questionnaire$ = this.searchQuestionnaires.pipe(
         // wait 300ms after each keystroke before considering the term

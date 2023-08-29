@@ -51,14 +51,16 @@ export class QuestionnaireComponent implements OnInit {
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
   }
   selectConcept(concept: Coding) {
-    const dialogConfig = new MatDialogConfig();
+    if (concept !== undefined && concept.system !== undefined && (concept.system === 'http://snomed.info/sct' || concept.system === 'http://loinc.org')) {
+      const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      concept
-    };
-    const resourceDialog: MatDialogRef<ConceptDialogComponent> = this.dialog.open( ConceptDialogComponent, dialogConfig);
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        concept
+      };
+      const resourceDialog: MatDialogRef<ConceptDialogComponent> = this.dialog.open(ConceptDialogComponent, dialogConfig);
+    }
   }
 
 }

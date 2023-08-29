@@ -54,7 +54,7 @@ export class ConceptDialogComponent implements OnInit{
       if (this.concept.system === 'http://loinc.org') {
         this.international = true
         this.fhirService.lookupInt(this.concept.system, this.concept.code).subscribe( params => {
-
+          console.log(JSON.stringify(params))
           this.parameters = params
 
           this.getPropertyRoles()

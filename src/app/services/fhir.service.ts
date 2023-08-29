@@ -60,6 +60,7 @@ export class FhirService {
 
   private rootUrl: string | undefined;
   private ontoUrl ='https://r4.ontoserver.csiro.au/fhir' ;
+  private loincUrl: string = 'https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/Conformance/LOINC/R4';
 
   getToDate(): Date {
     return <Date>this.to;
@@ -317,7 +318,12 @@ export class FhirService {
 
     return headers;
   }
+  getLOINCHeaders(contentType: boolean = true): HttpHeaders {
 
+    const headers = this.getHeaders(contentType);
+
+    return headers;
+  }
   public setOutputFormat(outputFormat: Formats): void {
     this.format = outputFormat;
     this.formatChange.emit(outputFormat);
@@ -441,6 +447,20 @@ export class FhirService {
       return this.http.get<any>(url, {headers: this.getHeaders(true)});
     }
   }
+  public getLOINCResource(search: string): Observable<any> {
+
+    const url = this.getLOINCUrl() + search;
+    let headers = new HttpHeaders(
+    );
+
+    if (this.format === 'xml') {
+      headers = headers.append('Content-Type', 'application/fhir+xml');
+      headers = headers.append('Accept', 'application/fhir+xml');
+      return this.http.get(url, {headers, responseType: 'blob' as 'blob'});
+    } else {
+      return this.http.get<any>(url, {headers: this.getHeaders(true)});
+    }
+  }
 
 
 
@@ -503,6 +523,13 @@ export class FhirService {
 
   }
 
+  searchQuestionnaireLOINC(term: string): Observable<Bundle> {
+    const url = this.getLOINCUrl();
+
+    return this.http.get<Bundle>(url + `/Questionnaire?_content=${term}`, {headers: this.getLOINCHeaders()});
+
+  }
+
   searchConcepts(term: string, valueSet: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
@@ -534,7 +561,9 @@ export class FhirService {
   public getTIEUrl(): string {
      return this.tieUrl;
   }
-
+  public getLOINCUrl(): string {
+    return this.loincUrl;
+  }
   getQuantity(valueQuantity: Quantity): string {
     let unit = '';
     var str = valueQuantity.value?.toLocaleString('fullwide', { useGrouping: false });

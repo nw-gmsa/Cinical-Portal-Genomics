@@ -9,7 +9,7 @@
                           <button mat-stroked-button color="primary"  (click)="selectConcept(coding)"> {{coding.code}}</button>
                      </span>
                       <ng-template #templateName>
-                       <button mat-stroked-button>{{coding.code}}</button>
+                       <button mat-stroked-button (click)="selectConcept(coding)">{{coding.code}}</button>
                     </ng-template>
                  </span>
 
