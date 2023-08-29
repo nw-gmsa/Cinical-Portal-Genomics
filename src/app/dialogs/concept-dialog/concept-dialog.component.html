@@ -1,7 +1,11 @@
-<span *ngIf="preferred != null">
+<h3 *ngIf="!international" mat-dialog-title>UK SNOMED CT</h3>
+<h3 *ngIf="international" mat-dialog-title>LOINC</h3>
+
+
 <h2 mat-dialog-title>
     {{preferred}}
 </h2>
+<span *ngIf="preferred != null">
 <mat-dialog-content>
     <div>
     <small>Concept</small>
@@ -11,15 +15,25 @@
         <small>Preferred</small>
          {{preferred}}
     </div>
+     <div>
+        <small>Display</small>
+         {{display}}
+    </div>
     <div>
         <small>Fully Specified Name</small>
         {{fullName}}
     </div>
-    <div *nfIf="synonyms.length>0">
+    <div *ngIf="synonyms.length>0">
         <small>Synonyms</small>
-        <span *nfFor="let syn of synonyms">
+        <span *ngFor="let syn of synonyms">
             {{syn}}
         </span>
+    </div>
+    <div *ngIf="units.length>0">
+        <small>Example UCUM Units</small>
+        <mat-chip-row *ngFor="let syn of units">
+            <mat-chip-option>{{syn}}</mat-chip-option>
+        </mat-chip-row>
     </div>
     <div>
     <small>Inactive</small>
@@ -36,7 +50,8 @@
         </mat-chip-row>
     </div>
 </mat-dialog-content>
+    </span>
 <mat-dialog-actions>
     <button mat-raised-button [mat-dialog-close]="true" autoFocus>OK</button>
 </mat-dialog-actions>
-</span>
+

@@ -26,7 +26,10 @@ export class ConceptDialogComponent implements OnInit{
   synonyms: string[] = [];
   fullName: string | undefined
   preferred: string | undefined
+  display: string | undefined
   tags: string | undefined
+  international = false;
+  units: string[] =[]
 
   conceptData : Concept[] = [];
   constructor(
@@ -37,20 +40,34 @@ export class ConceptDialogComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
     if (this.concept !== undefined && this.concept.system !== undefined && this.concept.code !== undefined) {
-      this.fhirService.lookup(this.concept.system, this.concept.code).subscribe( params => {
 
-        this.parameters = params
+      if (this.concept.system === 'http://snomed.info/sct') {
+        this.fhirService.lookup(this.concept.system, this.concept.code).subscribe( params => {
 
-        this.getPropertyRoles()
-      } )
+          this.parameters = params
+
+          this.getPropertyRoles()
+        } )
+      }
+      if (this.concept.system === 'http://loinc.org') {
+        this.international = true
+        this.fhirService.lookupInt(this.concept.system, this.concept.code).subscribe( params => {
+
+          this.parameters = params
+
+          this.getPropertyRoles()
+        } )
+      }
     }
   }
   getPropertyRoles() {
 
     if (this.parameters!==undefined && this.parameters.parameter!==undefined) {
       this.getProperty(this.parameters.parameter, this.conceptData)
-      console.log(this.parameters)
+
+      this.units = this.getParameters("EXAMPLE_UCUM_UNITS")
     }
 
   }
@@ -58,7 +75,6 @@ export class ConceptDialogComponent implements OnInit{
   getProperty(parameters : ParametersParameter[], concepts : Concept[]) {
     this.fullName = undefined
     this.preferred = undefined
-    this.synonyms = []
     this.tags = undefined
     for (let parameter of parameters) {
       if ((parameter.name === 'property' || parameter.name === 'subproperty') && parameter.part !== undefined) {
@@ -119,6 +135,7 @@ export class ConceptDialogComponent implements OnInit{
         if (parameter.part !== undefined) {
           var use: string | undefined
           var value : string | undefined
+          var english = false
           for (let part of parameter.part) {
             if (part.name=='use' && part.valueCoding !== undefined) {
               use = part.valueCoding.code
@@ -126,15 +143,27 @@ export class ConceptDialogComponent implements OnInit{
             if (part.name=='value' && part.valueString !== undefined) {
               value = part.valueString
             }
+            if (part.name=='language' && part.valueCode !== undefined && part.valueCode == 'en') {
+
+              english = true
+            }
           }
-          if (use !== undefined && value !== undefined) {
+
+          if (use !== undefined && value !== undefined && english) {
+
             if (use === '900000000000003001') {
               this.fullName = value
               var strings = value.split('(')
               this.tags = strings[strings.length-1].replace(')','')
             }
-            if (use === '900000000000013009') this.synonyms.push(value)
+            if ( use === '900000000000013009') {
+              this.synonyms.push(value)
+            }
             if (use === 'preferredForLanguage') this.preferred = value
+            if (use === 'display' && this.preferred === undefined) {
+              this.preferred = value
+              this.display = value
+            }
 
           }
         }
@@ -144,15 +173,26 @@ export class ConceptDialogComponent implements OnInit{
 
   getName(concept : Concept) {
     if (concept.code.code !== undefined) {
+      if (!this.international) {
+        this.fhirService.lookup('http://snomed.info/sct', concept.code.code).subscribe(params => {
+          var display = this.getParameter("display", params)
+          if (display !== undefined) {
+            concept.name = display
+            concept.code.display = concept.name
+            //  this.dataSource.data = this.conceptData
+          }
+        })
+      } else {
+        this.fhirService.lookupInt('http://loinc.org', concept.code.code).subscribe(params => {
+          var display = this.getParameter("display", params)
+          if (display !== undefined) {
+            concept.name = display
+            concept.code.display = concept.name
+            //  this.dataSource.data = this.conceptData
+          }
+        })
+      }
 
-      this.fhirService.lookup('http://snomed.info/sct', concept.code.code).subscribe(params => {
-        var display = this.getParameter("display", params)
-        if (display !== undefined) {
-          concept.name = display
-          concept.code.display = concept.name
-        //  this.dataSource.data = this.conceptData
-        }
-      })
     }
   }
 

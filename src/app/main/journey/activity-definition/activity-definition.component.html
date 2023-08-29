@@ -62,7 +62,7 @@
     <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
         class="example-element-row"
         [class.example-expanded-row]="expandedElement === element"
-        (click)="this.expandedElement = this.expandedElement === element ? null : element">
+        (click)="selectActivity(element)">
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>

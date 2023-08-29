@@ -523,7 +523,12 @@ export class FhirService {
   lookup(system: string , code: string ): Observable<Parameters> {
     const url = this.conformanceUrl;
     return this.http.get<Parameters>(url +
-        `/CodeSystem/$lookup?system=${system}&code=${code}`);
+        `/CodeSystem/$lookup?system=${system}&code=${code}&property=*`);
+  }
+  lookupInt(system: string , code: string ): Observable<Parameters> {
+    const url = this.ontoUrl;
+    return this.http.get<Parameters>(url +
+        `/CodeSystem/$lookup?system=${system}&code=${code}&property=*`);
   }
 
   public getTIEUrl(): string {

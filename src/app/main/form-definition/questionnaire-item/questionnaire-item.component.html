@@ -3,7 +3,7 @@
     <div style="width: 15%" >
         <small>Question</small>
         <div>
-            {{item.prefix}}&nbsp;{{item.text}}&nbsp;
+            &nbsp;{{item.prefix}}&nbsp;{{item.text}}&nbsp;
         </div>
     </div>
     <div style="width: 15%" >
@@ -14,7 +14,7 @@
                           <button mat-stroked-button color="primary"  (click)="selectConcept(coding)"> {{coding.code}}</button>
                      </span>
                       <ng-template #templateCode>
-                       <button mat-stroked-button>LOINC? {{coding.code}}</button>
+                       <button mat-stroked-button (click)="selectConcept(coding)">LOINC? {{coding.code}}</button>
                     </ng-template>
                  </span>
         </div>
@@ -37,7 +37,7 @@
             <small>Answer Units</small>
             <mat-chip-grid >
                 <mat-chip-row *ngFor="let unit of getUnitOption()" >
-                    {{unit.display}}
+                    {{unit.code}}
                 </mat-chip-row>
             </mat-chip-grid>
         </span>

@@ -75,7 +75,7 @@ export class QuestionnaireItemComponent {
   }
 
     selectConcept(concept: Coding | undefined) {
-      if (concept !== undefined) {
+      if (concept !== undefined && concept.system !== undefined && (concept.system === 'http://snomed.info/sct' || concept.system === 'http://loinc.org')) {
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
