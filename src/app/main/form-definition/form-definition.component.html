@@ -13,17 +13,17 @@
                         {{questionnaire.title}}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-hint align="end">Forms, Templates and whatever other name.</mat-hint>
+                <mat-hint align="end">Forms and Templates Examples.</mat-hint>
             </mat-form-field>
             &nbsp;
             <mat-form-field class="example-half-width">
-                <input #searchBoxQuestionnaireLOINC matInput placeholder="Description" [value]="getTitle()" (keyup)="searchQuestionnaireLOINC(searchBoxQuestionnaireLOINC.value)" [matAutocomplete]="autoReasonLOINC">
-                <mat-autocomplete #autoReasonLOINC="matAutocomplete" (optionSelected)="selectedQuestionnaire($event)" >
+                <input #searchBoxQuestionnaireLOINC matInput placeholder="Description" [value]="getTitleLOINC()" (keyup)="searchQuestionnaireLOINC(searchBoxQuestionnaireLOINC.value)" [matAutocomplete]="autoReasonLOINC">
+                <mat-autocomplete #autoReasonLOINC="matAutocomplete" (optionSelected)="selectedQuestionnaireLOINC($event)" >
                     <mat-option *ngFor="let questionnaire of questionnaireLOINC$ | async" [value]="questionnaire" >
                         {{questionnaire.title}}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-hint align="end">Forms, Templates and whatever other name.</mat-hint>
+                <mat-hint align="end">LOINC Panels</mat-hint>
             </mat-form-field>
         </form>
         <span *ngIf="questionnaire !== undefined">

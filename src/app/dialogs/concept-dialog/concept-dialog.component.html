@@ -1,3 +1,4 @@
+<span *ngIf="preferred != null">
 <h3 *ngIf="!international" mat-dialog-title>UK SNOMED CT</h3>
 <h3 *ngIf="international" mat-dialog-title>LOINC</h3>
 
@@ -5,7 +6,7 @@
 <h2 mat-dialog-title>
     {{preferred}}
 </h2>
-<span *ngIf="preferred != null">
+
 <mat-dialog-content>
     <div>
     <small>Concept</small>
@@ -50,8 +51,8 @@
         </mat-chip-row>
     </div>
 </mat-dialog-content>
-    </span>
+
 <mat-dialog-actions>
     <button mat-raised-button [mat-dialog-close]="true" autoFocus>OK</button>
 </mat-dialog-actions>
-
+ </span>

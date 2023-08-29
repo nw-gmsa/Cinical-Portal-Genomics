@@ -18,9 +18,9 @@ export class FormDefinitionComponent implements OnInit{
   questionnaireLOINC$: Observable<Questionnaire[]> | undefined;
   searchString: string = '';
   questionnaire : Questionnaire | undefined
-  questionnaireLOINC : Questionnaire | undefined
   private searchQuestionnaires = new Subject<string>();
   private searchQuestionnairesLOINC = new Subject<string>();
+  private loinc: boolean = false;
 
   constructor(
               private fhirService: FhirService,
@@ -32,6 +32,14 @@ export class FormDefinitionComponent implements OnInit{
 
 
   selectedQuestionnaire(event: MatAutocompleteSelectedEvent) {
+    this.loinc = false;
+    this.questionnaire = event.option.value
+    // @ts-ignore
+    this.router.navigate(['form', this.questionnaire.id])
+
+  }
+  selectedQuestionnaireLOINC(event: MatAutocompleteSelectedEvent) {
+    this.loinc = true;
     this.questionnaire = event.option.value
     // @ts-ignore
     this.router.navigate(['form', this.questionnaire.id])
@@ -67,12 +75,14 @@ export class FormDefinitionComponent implements OnInit{
     const formid= this.route.snapshot.paramMap.get('formid');
     if (formid != null) {
       if (formid.length > 10) {
+        this.loinc = false;
         this.fhirService.getTIEResource('/Questionnaire/' + formid).subscribe(resource => {
           if (resource !== undefined && resource.resourceType === 'Questionnaire') {
             this.questionnaire = resource
           }
         })
       } else {
+        this.loinc = true;
         this.fhirService.getLOINCResource('/Questionnaire/' + formid).subscribe(resource => {
           if (resource !== undefined && resource.resourceType === 'Questionnaire') {
             this.questionnaire = resource
@@ -163,7 +173,11 @@ export class FormDefinitionComponent implements OnInit{
   }
 
   getTitle() {
-    if (this.questionnaire !== undefined && this.questionnaire.title !== undefined) return this.questionnaire.title
+    if (!this.loinc && this.questionnaire !== undefined && this.questionnaire.title !== undefined) return this.questionnaire.title
+    return '';
+  }
+  getTitleLOINC() {
+    if (this.loinc && this.questionnaire !== undefined && this.questionnaire.title !== undefined) return this.questionnaire.title
     return '';
   }
 }
