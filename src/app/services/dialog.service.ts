@@ -25,7 +25,12 @@ export class DialogService {
     return <string>concept.display;
   }
 
-
+  public getSystem(system: string | undefined) : string {
+    if (system === 'http://loinc.org') return 'LOINC'
+    if (system === 'http://read.info/readv2') return 'Read v2'
+    if (system === 'http://snomed.info/sct') return 'SCT'
+    return '?'
+  }
 
   getResourceDisplay(resource: Resource): string{
 

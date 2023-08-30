@@ -11,6 +11,7 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
+import {DialogService} from "../../../services/dialog.service";
 
 @Component({
   selector: 'app-observation',
@@ -39,6 +40,7 @@ export class ObservationComponent implements OnInit {
 
   constructor(public fhirService: FhirService,
               public dialog: MatDialog,
+              public dlgservice: DialogService,
               private router: Router,
               private _liveAnnouncer: LiveAnnouncer) { }
 
@@ -252,4 +254,10 @@ export class ObservationComponent implements OnInit {
   }
 
   protected readonly cancelIdleCallback = cancelIdleCallback;
+
+  getSystem(system: string | undefined) : string {
+    if (system === 'http://loinc.org') return 'LOINC'
+    if (system === 'http://read.info/readv2') return 'Read v2'
+    return '?'
+  }
 }

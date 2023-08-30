@@ -8,6 +8,7 @@ import {FhirService} from "../../../services/fhir.service";
 import {Router} from "@angular/router";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
+import {DialogService} from "../../../services/dialog.service";
 
 @Component({
   selector: 'app-questionnaire',
@@ -23,7 +24,7 @@ export class QuestionnaireComponent implements OnInit {
   treeControl = new NestedTreeControl<QuestionnaireItem>(node => node.item);
   hasChild = (_: number, node: QuestionnaireItem) => !!node.item && node.item.length > 0;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,public dlgservice: DialogService) { }
 
   ngOnInit(): void {
     if (this.questionnaire !== undefined && this.questionnaire.item !== undefined) {

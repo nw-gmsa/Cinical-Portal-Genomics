@@ -26,7 +26,7 @@ export class ObservationsComponent implements OnInit {
   loadingType = LoadingType;
   constructor( public fhirService: FhirService,
                private eprService: EprService,
-               private dialogService: TdDialogService,
+               private dialogService:DialogService,
                private _loadingService: TdLoadingService,
                private dlgSrv: DialogService,
                public dialog: MatDialog) { }

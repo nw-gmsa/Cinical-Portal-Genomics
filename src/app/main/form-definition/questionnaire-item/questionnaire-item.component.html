@@ -14,7 +14,7 @@
                           <button mat-stroked-button color="primary"  (click)="selectConcept(coding)"> {{coding.code}}</button>
                      </span>
                       <ng-template #templateCode>
-                       <button mat-stroked-button (click)="selectConcept(coding)">LOINC? {{coding.code}}</button>
+                       <button mat-stroked-button (click)="selectConcept(coding)">{{dlgservice.getSystem(coding.system)}} {{coding.code}}</button>
                     </ng-template>
                  </span>
         </div>

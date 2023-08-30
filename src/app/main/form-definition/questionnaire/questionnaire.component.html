@@ -6,10 +6,10 @@
                 <small>Code</small> &nbsp;
                  <span *ngFor="let coding of questionnaire.code">
                      <span *ngIf="coding.system !== undefined && coding.system === 'http://snomed.info/sct'; else templateName">
-                          <button mat-stroked-button color="primary"  (click)="selectConcept(coding)"> {{coding.code}}</button>
+                          <button mat-stroked-button color="primary"  (click)="selectConcept(coding)">{{dlgservice.getSystem(coding.system)}} {{coding.code}}</button>
                      </span>
                       <ng-template #templateName>
-                       <button mat-stroked-button (click)="selectConcept(coding)">{{coding.code}}</button>
+                       <button mat-stroked-button (click)="selectConcept(coding)">{{dlgservice.getSystem(coding.system)}} {{coding.code}}</button>
                     </ng-template>
                  </span>
 

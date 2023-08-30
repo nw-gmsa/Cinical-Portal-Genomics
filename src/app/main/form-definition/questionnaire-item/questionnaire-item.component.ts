@@ -3,6 +3,7 @@ import {Coding, Questionnaire, QuestionnaireItem} from "fhir/r4";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
+import {DialogService} from "../../../services/dialog.service";
 
 @Component({
   selector: 'app-questionnaire-item',
@@ -13,7 +14,9 @@ export class QuestionnaireItemComponent {
   // @ts-ignore
   @Input() item: QuestionnaireItem;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              public dlgservice: DialogService
+  ){ }
   getUnitOption() : Coding[] {
     var answer:Coding[] = []
     if (this.item !== undefined && this.item.extension !== undefined) {
