@@ -77,6 +77,10 @@ export class ConceptDialogComponent implements OnInit{
     this.preferred = undefined
     this.tags = undefined
     for (let parameter of parameters) {
+      if (parameter.name === 'display') {
+        this.preferred = parameter.valueString
+        this.fullName = parameter.valueString
+      }
       if ((parameter.name === 'property' || parameter.name === 'subproperty') && parameter.part !== undefined) {
         var role: any | undefined = undefined
         var subProperty : ParametersParameter[] = []
@@ -84,6 +88,10 @@ export class ConceptDialogComponent implements OnInit{
         for (let it of parameter.part) {
           if (it.name === 'subproperty') {
             subProperty.push(it)
+          }
+          if (it.name === 'display') {
+            this.preferred = it.valueString
+            this.fullName = it.valueString
           }
           if (it.name === 'valueCode') {
             valueCode = it

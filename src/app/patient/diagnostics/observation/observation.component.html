@@ -41,7 +41,7 @@
                           <button mat-button color="primary"  (click)="selectConcept(coding)"> {{coding.display}}</button>
                      </span>
                       <ng-template #templateValueCode>
-                       <button mat-button>LOINC?
+                       <button mat-button (click)="selectConcept(coding)">LOINC?
                          {{coding.display}}</button>
                     </ng-template>
         </span>
@@ -60,10 +60,10 @@
       <span *ngIf="observation.code !== undefined && observation.code.coding !== undefined">
         <span *ngFor="let coding of observation.code.coding">
            <span *ngIf="coding.system !== undefined && coding.system === 'http://snomed.info/sct'; else templateCode">
-                          <button mat-button color="primary"  (click)="selectConcept(coding)"> {{coding.display}}</button>
+                          <button mat-button color="primary"  (click)="selectConcept(coding)"> {{coding.display}} <span *ngIf="coding.display === undefined">{{coding.code}}</span> </button>
                      </span>
                       <ng-template #templateCode>
-                       <button mat-button>LOINC?
+                       <button mat-button (click)="selectConcept(coding)">LOINC?
                          {{coding.display}}</button>
                     </ng-template>
         </span>

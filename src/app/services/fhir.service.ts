@@ -59,7 +59,7 @@ export class FhirService {
   formatChange: EventEmitter<any> = new EventEmitter();
 
   private rootUrl: string | undefined;
-  private ontoUrl ='https://r4.ontoserver.csiro.au/fhir' ;
+  private ontoUrl ='https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/Conformance/LOINC/R4' ;
   private loincUrl: string = 'https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/Conformance/LOINC/R4';
 
   getToDate(): Date {
@@ -569,6 +569,10 @@ export class FhirService {
     var str = valueQuantity.value?.toLocaleString('fullwide', { useGrouping: false });
     if (valueQuantity.unit !== undefined) {
       str = str + ' ' + valueQuantity.unit;
+    } else {
+      if (valueQuantity.code !== undefined) {
+        str = str + ' ' + valueQuantity.code;
+      }
     }
 
   //  console.log(str);

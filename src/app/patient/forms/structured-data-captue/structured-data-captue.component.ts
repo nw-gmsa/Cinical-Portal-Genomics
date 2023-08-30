@@ -53,12 +53,13 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
                   "reference": "Patient/" + this.patientId
                 }
               })
-              parameters.parameter?.push({
-                "name": "questionnaireRef",
-                "valueReference": {
-                  "reference": "Questionnaire/" + this.questionnaireId
-                }
-              })
+
+                parameters.parameter?.push({
+                  "name": "questionnaireRef",
+                  "valueReference": {
+                    "reference": "Questionnaire/" + this.questionnaireId
+                  }
+                })
               this.fhirService.postTIE("/Questionnaire/$populate", parameters).subscribe(response => {
                 if (response.resourceType === 'Parameters') {
                   for (var param of response.parameter) {
@@ -87,8 +88,46 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
               const ctx = client({
                 serverUrl: this.fhirService.getTIEUrl()
               });
+              if (this.questionnaire?.item !== undefined) {
+                for (let item of this.questionnaire.item) {
+                  item.initial = []
+                }
+              }
               LForms.Util.setFHIRContext(ctx)
-              LForms.Util.addFormToPage(LForms.Util.convertFHIRQuestionnaireToLForms(questionnaire, "R4"),this.mydiv?.nativeElement, {prepopulate: false});
+              // Can also just to this LForms.Util.addFormToPage(questionnaire, this.mydiv?.nativeElement, {prepopulate: false});
+              var parameters: Parameters = {
+                resourceType: "Parameters",
+                parameter: []
+              }
+              parameters.parameter?.push({
+                "name": "subject",
+                "valueReference": {
+                  "reference": "Patient/" + this.patientId
+                }
+              })
+
+              parameters.parameter?.push({
+                "name": "questionnaire",
+                "resource": this.questionnaire
+              })
+
+              this.fhirService.postTIE("/Questionnaire/$populate", parameters).subscribe(response => {
+                if (response.resourceType === 'Parameters') {
+                  for (var param of response.parameter) {
+                    if (param.name === 'response') {
+                      let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(questionnaire, "R4");
+                      var newFormData = (new LForms.LFormsData(formDef));
+                      try {
+                        formDef = LForms.Util.mergeFHIRDataIntoLForms('QuestionnaireResponse', param.resource, newFormData, "R4");
+                        LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
+                      } catch (e) {
+                        console.log(e)
+                        formDef = null;
+                      }
+                    }
+                  }
+                }
+              })
             }
           }
       );
@@ -164,6 +203,7 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
                     }
                   },
                   error => {
+                    console.log(JSON.stringify(newQuestionnaireResponse))
                     console.log(JSON.stringify(error))
                     this._dialogService.openAlert({
                       title: 'Alert',

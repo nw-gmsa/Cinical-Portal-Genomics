@@ -237,7 +237,9 @@ export class ObservationComponent implements OnInit {
       });
     }
   selectConcept(concept: Coding | undefined) {
-    if (concept !== undefined) {
+    if (concept !== undefined && concept.system !== undefined &&(
+        concept.system === 'http://snomed.info/sct' || concept.system === 'http://loinc.org'
+    )) {
       const dialogConfig = new MatDialogConfig();
 
       dialogConfig.disableClose = true;
@@ -248,4 +250,6 @@ export class ObservationComponent implements OnInit {
       const resourceDialog: MatDialogRef<ConceptDialogComponent> = this.dialog.open(ConceptDialogComponent, dialogConfig);
     }
   }
+
+  protected readonly cancelIdleCallback = cancelIdleCallback;
 }
