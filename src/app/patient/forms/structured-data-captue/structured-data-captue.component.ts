@@ -32,53 +32,67 @@ export class StructuredDataCaptueComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    var result = this.fhirService.getTIEResource("/Questionnaire/"+this.questionnaireId).subscribe(
-        questionnaire => {
-          if (questionnaire.resourceType === 'Questionnaire') {
-            this.questionnaire = questionnaire
-            const ctx = client({
-              serverUrl: this.fhirService.getTIEUrl()
-            });
-            LForms.Util.setFHIRContext(ctx)
+    if (this.questionnaireId.length > 10) {
+      var result = this.fhirService.getTIEResource("/Questionnaire/" + this.questionnaireId).subscribe(
+          questionnaire => {
+            if (questionnaire.resourceType === 'Questionnaire') {
+              this.questionnaire = questionnaire
+              const ctx = client({
+                serverUrl: this.fhirService.getTIEUrl()
+              });
+              LForms.Util.setFHIRContext(ctx)
 
-            // Can also just to this LForms.Util.addFormToPage(questionnaire, this.mydiv?.nativeElement, {prepopulate: false});
-            var parameters : Parameters = {
-              resourceType: "Parameters",
-              parameter: []
+              // Can also just to this LForms.Util.addFormToPage(questionnaire, this.mydiv?.nativeElement, {prepopulate: false});
+              var parameters: Parameters = {
+                resourceType: "Parameters",
+                parameter: []
+              }
+              parameters.parameter?.push({
+                "name": "subject",
+                "valueReference": {
+                  "reference": "Patient/" + this.patientId
+                }
+              })
+              parameters.parameter?.push({
+                "name": "questionnaireRef",
+                "valueReference": {
+                  "reference": "Questionnaire/" + this.questionnaireId
+                }
+              })
+              this.fhirService.postTIE("/Questionnaire/$populate", parameters).subscribe(response => {
+                if (response.resourceType === 'Parameters') {
+                  for (var param of response.parameter) {
+                    if (param.name === 'response') {
+                      let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(questionnaire, "R4");
+                      var newFormData = (new LForms.LFormsData(formDef));
+                      try {
+                        formDef = LForms.Util.mergeFHIRDataIntoLForms('QuestionnaireResponse', param.resource, newFormData, "R4");
+                        LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
+                      } catch (e) {
+                        console.log(e)
+                        formDef = null;
+                      }
+                    }
+                  }
+                }
+              })
             }
-            parameters.parameter?.push({
-              "name": "subject",
-              "valueReference": {
-                "reference": "Patient/" + this.patientId
-              }
-            })
-            parameters.parameter?.push({
-              "name": "questionnaireRef",
-              "valueReference": {
-                "reference": "Questionnaire/" + this.questionnaireId
-              }
-            })
-            this.fhirService.postTIE("/Questionnaire/$populate",parameters).subscribe(response => {
-               if (response.resourceType ==='Parameters') {
-                 for (var param of response.parameter) {
-                   if (param.name === 'response') {
-                     let formDef = LForms.Util.convertFHIRQuestionnaireToLForms(questionnaire, "R4");
-                     var newFormData = (new LForms.LFormsData(formDef));
-                     try {
-                       formDef = LForms.Util.mergeFHIRDataIntoLForms('QuestionnaireResponse', param.resource, newFormData, "R4");
-                       LForms.Util.addFormToPage(formDef, this.mydiv?.nativeElement, {prepopulate: false});
-                     }
-                     catch (e) {
-                      console.log(e)
-                       formDef = null;
-                     }
-                   }
-                 }
-               }
-            })
           }
-        }
-    );
+      );
+    } else {
+      var result = this.fhirService.getLOINCResource("/Questionnaire/" + this.questionnaireId).subscribe(
+          questionnaire => {
+            if (questionnaire.resourceType === 'Questionnaire') {
+              this.questionnaire = questionnaire
+              const ctx = client({
+                serverUrl: this.fhirService.getTIEUrl()
+              });
+              LForms.Util.setFHIRContext(ctx)
+              LForms.Util.addFormToPage(LForms.Util.convertFHIRQuestionnaireToLForms(questionnaire, "R4"),this.mydiv?.nativeElement, {prepopulate: false});
+            }
+          }
+      );
+    }
   }
 
   ngOnInit(): void {

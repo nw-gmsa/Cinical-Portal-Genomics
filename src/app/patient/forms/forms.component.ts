@@ -1,11 +1,14 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FhirService} from "../../services/fhir.service";
 import {EprService} from "../../services/epr.service";
-import {Patient, Questionnaire, QuestionnaireResponse} from "fhir/r4";
+import {Bundle, Patient, Questionnaire, QuestionnaireResponse} from "fhir/r4";
 import {environment} from "../../../environments/environment";
 import {TaskCreateComponent} from "../workflow/task-create/task-create.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Router} from "@angular/router";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {Observable, of, Subject} from "rxjs";
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 
 
 @Component({
@@ -17,6 +20,9 @@ export class FormsComponent implements OnInit {
   forms: QuestionnaireResponse[] = [];
   patientId: string | null = null;
   private nhsNumber: string | undefined;
+
+  private searchQuestionnairesLOINC = new Subject<string>();
+  questionnaireLOINC$: Observable<Questionnaire[]> | undefined;
 
   form: Questionnaire | undefined;
   questionnaires: Questionnaire[] = [];
@@ -50,6 +56,46 @@ export class FormsComponent implements OnInit {
           }
         }
     );
+
+    this.questionnaireLOINC$ = this.searchQuestionnairesLOINC.pipe(
+        // wait 300ms after each keystroke before considering the term
+        debounceTime(300),
+
+        // ignore new term if same as previous term
+        distinctUntilChanged(),
+
+        // switch to new search observable each time the term changes
+        switchMap((term: string) => {
+
+              //  this._loadingService.register('overlayStarSyntax');
+              return this.fhirService.searchQuestionnaireLOINC(term.replace(',', ''));
+            }
+
+        ),
+
+        map(resource    => {
+
+          const bundle = resource as Bundle;
+          const temp: Questionnaire[] = [];
+          if (bundle !== undefined && bundle.entry !== undefined) {
+            // @ts-ignore
+            for (let entry of bundle.entry) {
+              {
+                if (entry.resource !== undefined && entry.resource.resourceType === 'Questionnaire') {
+
+                  temp.push(entry.resource as Questionnaire);
+                }
+              }
+            }
+          }
+          return temp; }
+        ),
+        catchError(err => {
+          console.log('Handling error locally ...', err);
+
+          return of([]);
+        })
+    )
   }
 
   getRecords(patient: Patient){
@@ -106,6 +152,26 @@ export class FormsComponent implements OnInit {
   selected(questionnaire : Questionnaire) {
     console.log(questionnaire)
     this.router.navigate(['/patient', this.patientId, 'sdc', questionnaire.id])
+  }
+  selectedQuestionnaireLOINC(event: MatAutocompleteSelectedEvent) {
+    // @ts-ignore
+    this.router.navigate(['/patient', this.patientId, 'sdc', event.option.value.id])
+
+  }
+  getTitleLOINC() {
+    //if (this.loinc && this.questionnaire !== undefined && this.questionnaire.title !== undefined) return this.questionnaire.title
+    return '';
+  }
+  searchQuestionnaireLOINC(value: string) {
+
+    if (value.length>1) {
+      try {
+        this.searchQuestionnairesLOINC.next(value);
+      } catch (error) {
+
+        console.log(error)
+      }
+    }
   }
 
 

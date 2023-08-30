@@ -40,9 +40,14 @@ export class FormDefinitionComponent implements OnInit{
   }
   selectedQuestionnaireLOINC(event: MatAutocompleteSelectedEvent) {
     this.loinc = true;
-    this.questionnaire = event.option.value
+    this.questionnaire = undefined
+    this.fhirService.getLOINCResource('/Questionnaire/' + event.option.value.id).subscribe(resource => {
+      if (resource !== undefined && resource.resourceType === 'Questionnaire') {
+        this.questionnaire = resource
+      }
+    })
     // @ts-ignore
-    this.router.navigate(['form', this.questionnaire.id])
+    this.router.navigate(['form', event.option.value.id])
 
   }
 
