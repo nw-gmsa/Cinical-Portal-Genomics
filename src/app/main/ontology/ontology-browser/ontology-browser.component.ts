@@ -35,7 +35,7 @@ export class OntologyBrowserComponent implements OnInit {
 
   ngOnInit(): void {
       this.valuesSets = []
-      this.fhirService.getConf('/ValueSet').subscribe(
+      this.fhirService.getConf('/ValueSet?_sort=title').subscribe(
           resource  => {
               console.log(resource)
               if (resource.resourceType === 'Bundle') {

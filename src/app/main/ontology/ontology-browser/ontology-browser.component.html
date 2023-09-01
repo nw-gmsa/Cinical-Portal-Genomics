@@ -11,7 +11,7 @@
                     <mat-label>ValueSet (UK)</mat-label>
                     <mat-select required name="status" [(ngModel)]="valueSet">
                         <mat-option *ngFor="let vs of valuesSets" [value]="vs">
-                            {{vs.title}}
+                            {{vs.title}} <span *ngIf="vs.title === undefined">{{vs.url}}</span>
                             <span *ngIf="vs.status ==='draft'">&nbsp;<i>draft</i></span>
                             <span *nfIf="vs.title === undefined">{{vs.name}}</span>
                         </mat-option>
