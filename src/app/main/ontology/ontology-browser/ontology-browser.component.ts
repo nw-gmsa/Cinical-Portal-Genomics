@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
-import {Observable, Subject} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {Bundle, ValueSet, ValueSetExpansionContains} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
@@ -18,7 +18,7 @@ export class OntologyBrowserComponent implements OnInit {
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
 
-  snomed = true;
+  snomed = false;
   concepts$: Observable<ValueSetExpansionContains[]> | undefined;
   valuesSets: ValueSet[] = []
     valueSet: ValueSet | undefined;
@@ -50,29 +50,44 @@ export class OntologyBrowserComponent implements OnInit {
               }
           }
       );
-    this.concepts$ = this.searchConcepts.pipe(
-        // wait 300ms after each keystroke before considering the term
-        debounceTime(300),
-        // ignore new term if same as previous term
-        distinctUntilChanged(),
+      this.buildPipe()
 
-        // switch to new search observable each time the term changes
-        switchMap((term: string) => {
+  }
+  buildPipe() {
+      this.concepts$ = this.searchConcepts.pipe(
+          // wait 300ms after each keystroke before considering the term
+          debounceTime(300),
+          // ignore new term if same as previous term
+          // swap of valueset will use same search term distinctUntilChanged(),
 
-            if (this.snomed || this.valueSet === undefined) {
-                return this.fhirService.searchSNOMEDConcepts(term);
-            } else {
-                // @ts-ignore
-                return this.fhirService.searchConcepts(term, this.valueSet.url);
-            }
-        }
-        ),
-        map(resource    => {
-              return this.dlgSrv.getContainsExpansion(resource);
-            }
+          // switch to new search observable each time the term changes
+          switchMap((term: string) => {
 
-        ), catchError(this.dlgSrv.handleError('getReasons', [])));
+                  if (term == '' && this.valueSet !== undefined && this.valueSet.url !== undefined) {
+                      return this.fhirService.expand(this.valueSet.url)
+                  } else
+                  if (this.snomed) {
+                      return this.fhirService.searchSNOMEDConcepts(term);
+                  } else {
+                      // @ts-ignore
+                      return this.fhirService.searchConcepts(term, this.valueSet.url);
+                  }
 
+              }
+
+          ),
+          map(resource    => {
+                  return this.dlgSrv.getContainsExpansion(resource);
+              }
+
+          ), catchError(
+              (error) => {
+                  // Can this be done in a better way?
+                  this.buildPipe()
+                  return []
+              }
+          )
+      );
   }
   search(term: string): void {
     if (this.snomed && term.length > 3) {
@@ -107,5 +122,14 @@ export class OntologyBrowserComponent implements OnInit {
             }
         }
         return undefined
+    }
+
+    // @ts-ignore
+    vsSelect(vs: ValueSet) {
+       if (vs.url !== undefined ) {
+
+           this.searchConcepts.next('');
+       }
+
     }
 }

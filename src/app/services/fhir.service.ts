@@ -536,6 +536,12 @@ export class FhirService {
       `/ValueSet/$expand?url=${valueSet}&filter=${term}&includeDesignations=true`);
   }
 
+  expand(valueSet: string): Observable<ValueSet> {
+    const url = this.conformanceUrl;
+    return this.http.get<ValueSet>(url +
+        `/ValueSet/$expand?url=${valueSet}`);
+  }
+
   searchConceptsInternational(term: string, valueSet: string): Observable<ValueSet> {
     const url = this.ontoUrl;
     return this.http.get<ValueSet>(url +
