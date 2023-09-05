@@ -133,7 +133,7 @@ export class ConceptDetailComponent implements OnInit {
         }
         if (this.isRefset) {
           console.log('Is Refset')
-          this.fhirService.getConf(`/ValueSet/$expandEcl?ecl=memberOf `+ this.concept.code +`&count=30`).subscribe(vs => {
+          this.fhirService.getConf(`/ValueSet/$expandEcl?ecl=memberOf `+ this.concept.code +`&count=100`).subscribe(vs => {
             console.log(vs)
             if (vs !== undefined && vs.expansion !== undefined) {
                for(let concept of vs.expansion.contains) {

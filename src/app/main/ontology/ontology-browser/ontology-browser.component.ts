@@ -5,7 +5,7 @@ import {Bundle, ValueSet, ValueSetExpansionContains} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {DialogService} from "../../../services/dialog.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -33,6 +33,7 @@ export class OntologyBrowserComponent implements OnInit {
   constructor(private _loadingService: TdLoadingService,
               public fhirService: FhirService,
               private route: ActivatedRoute,
+              private router: Router,
               public dlgSrv: DialogService) { }
 
   ngOnInit(): void {
@@ -118,8 +119,8 @@ export class OntologyBrowserComponent implements OnInit {
 
 
 
-    selected(event: any) {
-
+    selected(event: ValueSetExpansionContains) {
+        this.router.navigate(['ontology', event.code])
         this.concept = event
     }
 
