@@ -5,6 +5,7 @@ import {Bundle, ValueSet, ValueSetExpansionContains} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {DialogService} from "../../../services/dialog.service";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -18,7 +19,7 @@ export class OntologyBrowserComponent implements OnInit {
   loadingStrategy = LoadingStrategy;
   loadingType = LoadingType;
 
-  snomed = false;
+  snomed = true;
   concepts$: Observable<ValueSetExpansionContains[]> | undefined;
   valuesSets: ValueSet[] = []
     valueSet: ValueSet | undefined;
@@ -31,9 +32,26 @@ export class OntologyBrowserComponent implements OnInit {
 
   constructor(private _loadingService: TdLoadingService,
               public fhirService: FhirService,
+              private route: ActivatedRoute,
               public dlgSrv: DialogService) { }
 
   ngOnInit(): void {
+      const conceptid= this.route.snapshot.paramMap.get('conceptid');
+      if (conceptid !== undefined && conceptid !== null) {
+          this.concept = {
+              system: 'http://snomed.info/sct',
+              code: conceptid
+          }
+      }
+      this.route.params.subscribe(params => {
+          const code = params['conceptid'];
+          if (code !== undefined) {
+              this.concept = {
+                  system: 'http://snomed.info/sct',
+                  code: code
+              }
+          }
+      });
       this.valuesSets = []
       this.fhirService.getConf('/ValueSet?_sort=title').subscribe(
           resource  => {

@@ -5,6 +5,7 @@ import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource
 import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 
 interface Concept {
@@ -57,21 +58,23 @@ export class ConceptDetailComponent implements OnInit {
 
   }
   parameters: Parameters | undefined;
-  parentList: ValueSetExpansionContains[]=[];
-  childList: ValueSetExpansionContains[]=[];
+  parentList: Concept[]=[];
+  childList: Concept[]=[];
   synonyms: string[] = [];
   fullName: string | undefined
   preferred: string | undefined
   tags: string | undefined
+  isRefset = false;
 
   conceptData : Concept[] = [];
   dmd: string | undefined;
   constructor(public fhirService: FhirService,
+              private router: Router,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
-      this.getData()
+    //  this.getData()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -90,14 +93,6 @@ export class ConceptDetailComponent implements OnInit {
         this.parameters = params
         this.getPropertyRoles()
 
-        var childConcept :Concept = {
-          code: {
-          },
-          name: 'Child',
-          children: []
-        }
-
-        this.conceptData.push(childConcept)
         var children = this.getParameters("child")
         var maxCodes = 25;
         for(let child of children) {
@@ -111,7 +106,7 @@ export class ConceptDetailComponent implements OnInit {
                 },
                 children: []
               }
-          childConcept.children.push(childCT)
+          this.childList.push(childCT)
           if (maxCodes>0) {
             this.getName(childCT)
           }
@@ -127,11 +122,35 @@ export class ConceptDetailComponent implements OnInit {
             },
             children:[]
           }
-          this.conceptData.push(parentConcept)
+          this.parentList.push(parentConcept)
+          console.log(parentConcept)
+          if (parentConcept.code.code ==='446609009') {
+            console.log('Is a refset')
+            this.isRefset = true
+          }
           this.getName(parentConcept)
+
+        }
+        if (this.isRefset) {
+          console.log('Is Refset')
+          this.fhirService.getConf(`/ValueSet/$expandEcl?ecl=memberOf `+ this.concept.code +`&count=30`).subscribe(vs => {
+            console.log(vs)
+            if (vs !== undefined && vs.expansion !== undefined) {
+               for(let concept of vs.expansion.contains) {
+                 console.log(concept.code)
+                 var childCT = {name: concept.display,
+                   code: concept,
+                   children: []
+                 }
+                 this.childList.push(childCT)
+               }
+
+            }
+          });
         }
       } )
     }
+
   }
 
   getPropertyRoles() {
@@ -142,6 +161,7 @@ export class ConceptDetailComponent implements OnInit {
     this.dataSource.data = this.conceptData
   }
   getProperty(parameters : ParametersParameter[], concepts : Concept[]) {
+    this.isRefset = false;
     this.fullName = undefined
     this.preferred = undefined
     this.synonyms = []
@@ -363,5 +383,16 @@ export class ConceptDetailComponent implements OnInit {
       this.concept = node.data
       this.getData()
     }
+  }
+
+    selectChild(child: Concept) {
+      this.router.navigate(['ontology', child.code.code])
+      this.concept = child.code
+
+    }
+
+  getHint(parent: Concept) {
+    if (parent.code !== undefined && parent.code.code !== undefined) return parent.code.code
+    return '';
   }
 }

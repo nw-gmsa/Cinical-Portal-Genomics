@@ -48,6 +48,7 @@ const routes: Routes = [
       { path: 'search', component: PatientFindComponent},
       { path: 'pathways', component: PathwayComponent},
       { path: 'ontology', component: OntologyBrowserComponent},
+      { path: 'ontology/:conceptid', component: OntologyBrowserComponent},
       {path: 'activity/:activity', component: ActivityDefinitionDetailComponent},
       {path: 'plan/:plan', component: PlanDefinitionDetailComponent},
       { path: 'about', component: AboutComponent },

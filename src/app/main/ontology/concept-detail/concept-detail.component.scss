@@ -3,7 +3,6 @@
 }
 .fullscreen {
   height: 100%;
-  width: 100%;
 }
 
 .example-full-width {
@@ -28,8 +27,11 @@ table {
 }
 
 .mat-list-base .mat-list-item.mat-list-item-test {
+  display: flex;
   width: 250px;
   height: auto;
 }
+
+
 
 

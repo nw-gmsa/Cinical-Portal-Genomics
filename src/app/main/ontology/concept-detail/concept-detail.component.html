@@ -1,7 +1,6 @@
-<mat-card class="fullscreen scrollable-content">
+<mat-card class="fullscreen">
     <mat-card-header>
         <mat-card-title>{{concept.display}}</mat-card-title>
-
     </mat-card-header>
     <mat-card-content>
       <span *ngIf="parameters !== undefined">
@@ -20,77 +19,93 @@
             </span>
         </mat-chip-listbox>
 
-    <table style="width: 100%;">
-        <tr>
-            <td style="width: 50%;">
-                <small>Preferred</small>
-                <br/>
-                {{preferred}}
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%;">
+                    <small>Preferred</small>
+                    <br/>
+                    {{preferred}}
 
-            </td>
-            <td> <small>System</small>
-                <br/>
-                {{concept.system}}
-            </td>
-        </tr>
+                </td>
+                <td> <small>System</small>
+                    <br/>
+                    {{concept.system}}
+                </td>
+            </tr>
 
-        <tr>
-            <td>
-                <small>Concept</small>
-                <br/>
-                {{concept.code}}
-            </td>
-            <td> <small>Module</small>
-                <br/>
-                {{getParameter('name',this.parameters)}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <small>Inactive</small>
-                <br/>
-                {{getParameter('inactive',this.parameters)}}
-            </td>
-            <td> <small>Effective Date</small>
-                <br/>
-                {{getParameter('effectiveTime',this.parameters)}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <small>Synonym</small>
-                <br/>
-                <p *ngFor="let syn of synonyms">{{syn}}</p>
-            </td>
-            <td> <small>Fully Specified Name</small>
-                <br/>
-                {{fullName}}
-            </td>
-        </tr>
-    </table>
+            <tr>
+                <td>
+                    <small>Concept</small>
+                    <br/>
+                    {{concept.code}}
+                </td>
+                <td> <small>Module</small>
+                    <br/>
+                    {{getParameter('name',this.parameters)}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <small>Inactive</small>
+                    <br/>
+                    {{getParameter('inactive',this.parameters)}}
+                </td>
+                <td> <small>Effective Date</small>
+                    <br/>
+                    {{getParameter('effectiveTime',this.parameters)}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <small>Synonym</small>
+                    <br/>
+                    <p *ngFor="let syn of synonyms">{{syn}}</p>
+                </td>
+                <td> <small>Fully Specified Name</small>
+                    <br/>
+                    {{fullName}}
+                </td>
+            </tr>
+        </table>
 
 
-    <span *ngIf="parameters !== undefined">
+             <div class="container" layout="row" layout-align="space-around start" flex style="border-width: thin; border: #0d47a1">
 
-         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-                <!-- This is the tree node template for leaf nodes -->
-                <mat-tree-node *matTreeNodeDef="let node"  matTreeNodePadding>
-                    <!-- use a disabled button to provide padding for tree leaf -->
-                    <button mat-icon-button disabled></button>
-                    {{node.name}} <span *ngIf="node.data !== undefined && node.data.system"><mat-icon color="accent" (click)="selectedN(node)">file_open</mat-icon></span>
-                </mat-tree-node>
-                     <!-- This is the tree node template for expandable nodes -->
-                <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-                    <button mat-icon-button matTreeNodeToggle
-                            [attr.aria-label]="'Toggle ' + node.name">
-                        <mat-icon class="mat-icon-rtl-mirror">
-                            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                        </mat-icon>
-                    </button>
-                    {{node.name}}
-                </mat-tree-node>
-            </mat-tree>
-
-    </span>
+                <span style="width: 50%">
+                    <h3>Parents</h3>
+                        <mat-nav-list>
+                          <mat-list-item class="mat-list-item-test" *ngFor="let parent of parentList" (click)="selectChild(parent)" [matTooltip]="getHint(parent)" >
+                             <span matListItemTitle >{{ parent.name }}</span>
+                          </mat-list-item>
+                        </mat-nav-list>
+                </span>
+                <span style="width: 50%">
+                      <h3>Children</h3>
+                        <mat-nav-list>
+                          <mat-list-item class="mat-list-item-test" *ngFor="let child of childList" (click)="selectChild(child)" [matTooltip]="getHint(child)" >
+                             <span matListItemTitle>{{ child.name }}</span>
+                          </mat-list-item>
+                        </mat-nav-list>
+                </span>
+             </div>
+        <h3>Properties</h3>
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node"  matTreeNodePadding>
+                <!-- use a disabled button to provide padding for tree leaf -->
+                <button mat-icon-button disabled></button>
+                {{node.name}} <span *ngIf="node.data !== undefined && node.data.system"><mat-icon color="accent" (click)="selectedN(node)">file_open</mat-icon></span>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                <button mat-icon-button matTreeNodeToggle
+                        [attr.aria-label]="'Toggle ' + node.name">
+                    <mat-icon class="mat-icon-rtl-mirror">
+                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                </button>
+                {{node.name}}
+            </mat-tree-node>
+        </mat-tree>
     </mat-card-content>
 </mat-card>
