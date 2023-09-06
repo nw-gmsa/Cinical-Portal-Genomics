@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Parameters, ParametersParameter, ValueSetExpansionContains} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
@@ -6,7 +6,6 @@ import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {Router} from "@angular/router";
-
 
 interface Concept {
   name: string;
@@ -25,7 +24,7 @@ interface ExampleFlatNode {
   templateUrl: './concept-detail.component.html',
   styleUrls: ['./concept-detail.component.scss']
 })
-export class ConceptDetailComponent implements OnInit {
+export class ConceptDetailComponent implements OnInit, AfterViewInit {
   private _transformer = (node: Concept, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -68,6 +67,8 @@ export class ConceptDetailComponent implements OnInit {
 
   conceptData : Concept[] = [];
   dmd: string | undefined;
+
+
   constructor(public fhirService: FhirService,
               private router: Router,
               public dialog: MatDialog) { }
@@ -125,7 +126,7 @@ export class ConceptDetailComponent implements OnInit {
           this.parentList.push(parentConcept)
           console.log(parentConcept)
           if (parentConcept.code.code ==='446609009') {
-            console.log('Is a refset')
+           // console.log('Is a refset')
             this.isRefset = true
           }
           this.getName(parentConcept)
@@ -148,6 +149,7 @@ export class ConceptDetailComponent implements OnInit {
             }
           });
         }
+        this.treeControl.expandAll()
       } )
     }
 
@@ -201,12 +203,19 @@ export class ConceptDetailComponent implements OnInit {
               },
               children: []
             }
-            concepts.push(concept)
-            this.getName(concept)
+            if (role.valueCode !== '609096000') {
+              concepts.push(concept)
+              this.getName(concept)
+            }
 
           }
           if (subProperty.length>0) {
-            this.getProperty(subProperty,concept.children)
+            console.log(role.valueCode)
+            if (role.valueCode === '609096000') {
+              this.getProperty(subProperty, this.conceptData)
+            } else {
+              this.getProperty(subProperty, concept.children)
+            }
           }
           if (valueCode !== undefined) {
             var valueConcept = {
@@ -394,5 +403,9 @@ export class ConceptDetailComponent implements OnInit {
   getHint(parent: Concept) {
     if (parent.code !== undefined && parent.code.code !== undefined) return parent.code.code
     return '';
+  }
+
+  ngAfterViewInit(): void {
+
   }
 }
