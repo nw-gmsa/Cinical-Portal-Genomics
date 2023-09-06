@@ -18,6 +18,9 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
+    "paths": {
+      "stream": [ "./node_modules/stream-browserify" ]
+    },
     "types": [
       "node"
     ],

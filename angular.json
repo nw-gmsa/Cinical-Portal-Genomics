@@ -26,6 +26,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "fhirclient",
+              "moment/moment",
+              "fhir",
+              "pdfjs-dist/web/pdf_viewer",
+              "pdfjs-dist/build/pdf",
+              "showdown",
+              "rfdc"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

@@ -539,13 +539,13 @@ export class FhirService {
   expand(valueSet: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
-        `/ValueSet/$expand?url=${valueSet}`);
+        `/ValueSet/$expand?url=${valueSet}&includeDesignations=true`);
   }
 
   searchConceptsInternational(term: string, valueSet: string): Observable<ValueSet> {
     const url = this.ontoUrl;
     return this.http.get<ValueSet>(url +
-        `/ValueSet/$expand?url=${valueSet}&filter=${term}`);
+        `/ValueSet/$expand?url=${valueSet}&filter=${term}&includeDesignations=true`);
   }
 
   searchSNOMEDConcepts(term: string): Observable<ValueSet> {

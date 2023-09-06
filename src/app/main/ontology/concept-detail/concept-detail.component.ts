@@ -124,7 +124,7 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
             children:[]
           }
           this.parentList.push(parentConcept)
-          console.log(parentConcept)
+
           if (parentConcept.code.code ==='446609009') {
            // console.log('Is a refset')
             this.isRefset = true
