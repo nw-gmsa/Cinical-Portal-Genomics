@@ -25,11 +25,12 @@
         </form>
         <div *ngIf="concepts$ !== undefined" >
             <mat-list *ngFor="let item of concepts$ | async" class="mat-list-test">
-                <mat-list-item class="mat-list-item-test" (click)="selected(item)" [innerHTML]="getMenuDisplay(item)"></mat-list-item>
-                <span *ngIf="item.designation !== undefined"><mat-chip-listbox *ngIf="!item.inactive" (click)="selected(item)">
-                    <mat-chip>{{getChip(item)}}</mat-chip>
-                </mat-chip-listbox>
-                </span>
+                <mat-list-item (click)="selected(item)">
+                    <div matListItemTitle [innerHTML]="getMenuDisplay(item)"></div>
+                    <div matListItemLine  *ngIf="item.designation !== undefined">
+                        <small>{{getChip(item)}}</small>
+                    </div>
+                </mat-list-item>
             </mat-list>
         </div>
     </mat-drawer>
