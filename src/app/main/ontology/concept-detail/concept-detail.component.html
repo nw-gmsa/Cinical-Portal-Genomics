@@ -20,56 +20,50 @@
             </span>
         </mat-chip-listbox>
 
-        <table style="width: 100%;">
-            <tr>
-                <td style="width: 50%;">
-                    <small>Preferred</small>
-                    <br/>
-                    {{preferred}}
+        <div layout="row" layout-align="space-around start" flex >
 
-                </td>
-                <td> <small>System</small>
-                    <br/>
-                    {{concept.system}}
-                </td>
-            </tr>
+            <span style="width: 50%;">
+                <mat-list>
+                    <mat-list-item>
+                        <div matListItemLine>{{preferred}}</div>
+                        <div matListItemTitle>Preferred</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div matListItemLine>{{concept.code}}</div>
+                        <div matListItemTitle>Concept</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                         <div matListItemLine> {{getParameter('inactive',this.parameters)}}</div>
+                        <div matListItemTitle>Inactive</div>
+                    </mat-list-item>
+                    <mat-list-item *ngFor="let syn of synonyms">
+                          <div matListItemLine> {{syn}}</div>
+                        <div matListItemTitle>Inactive</div>
+                    </mat-list-item>
 
-            <tr>
-                <td>
-                    <small>Concept</small>
-                    <br/>
-                    {{concept.code}}
-                </td>
-                <td> <small>Module</small>
-                    <br/>
-                    {{getParameter('name',this.parameters)}}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <small>Inactive</small>
-                    <br/>
-                    {{getParameter('inactive',this.parameters)}}
-                </td>
-                <td> <small>Effective Date</small>
-                    <br/>
-                    {{getParameter('effectiveTime',this.parameters)}}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <small>Synonym</small>
-                    <br/>
-                    <p *ngFor="let syn of synonyms">{{syn}}</p>
-                </td>
-                <td> <small>Fully Specified Name</small>
-                    <br/>
-                    {{fullName}}
-                </td>
-            </tr>
-        </table>
-
-
+                </mat-list>
+            </span>
+            <span style="width: 50%">
+                <mat-list>
+                     <mat-list-item>
+                        <div matListItemLine>{{concept.system}}</div>
+                        <div matListItemTitle>System</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div matListItemLine> {{getParameter('name',this.parameters)}}</div>
+                        <div matListItemTitle>Module</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <div matListItemLine> {{getParameter('effectiveTime',this.parameters)}}</div>
+                        <div matListItemTitle>Effective Date</div>
+                    </mat-list-item>
+                     <mat-list-item>
+                        <div matListItemLine> {{fullName}}</div>
+                        <div matListItemTitle>Fully Specified Name</div>
+                    </mat-list-item>
+                </mat-list>
+            </span>
+        </div>
              <div class="container" layout="row" layout-align="space-around start" flex style="border-width: thin; border: #0d47a1">
 
                 <span style="width: 50%">
@@ -95,7 +89,10 @@
             <mat-tree-node *matTreeNodeDef="let node"  matTreeNodePadding>
                 <!-- use a disabled button to provide padding for tree leaf -->
                 <button mat-icon-button disabled></button>
-                {{node.name}} <span *ngIf="node.data !== undefined && node.data.system"><mat-icon color="accent" (click)="selectedN(node)">file_open</mat-icon></span>
+                <div>
+                    <div >{{node.name}}</div>
+                    <span><i style="color: gray">{{node.answer.name}} </i></span>
+                </div>
             </mat-tree-node>
             <!-- This is the tree node template for expandable nodes -->
             <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
@@ -105,7 +102,10 @@
                         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                     </mat-icon>
                 </button>
-                {{node.name}}
+                <div>
+                    <div >{{node.name}}</div>
+                    <span><i style="color: gray">{{node.answer.name}} </i></span>
+                </div>
             </mat-tree-node>
         </mat-tree>
     </mat-card-content>

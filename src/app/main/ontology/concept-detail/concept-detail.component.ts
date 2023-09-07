@@ -9,13 +9,15 @@ import {Router} from "@angular/router";
 
 interface Concept {
   name: string;
-  code: ValueSetExpansionContains
+  code: ValueSetExpansionContains;
+  answer?: Concept;
   children: Concept[];
 }
 
 interface ExampleFlatNode {
   expandable: boolean;
   name: string;
+  answer?: Concept
   level: number;
 }
 
@@ -30,6 +32,7 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       data: node.code,
+      answer: node.answer,
       level: level,
     };
   };
@@ -210,7 +213,7 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
 
           }
           if (subProperty.length>0) {
-            console.log(role.valueCode)
+
             if (role.valueCode === '609096000') {
               this.getProperty(subProperty, this.conceptData)
             } else {
@@ -218,14 +221,15 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
             }
           }
           if (valueCode !== undefined) {
-            var valueConcept = {
+
+            var valueConcept: Concept = {
               name: valueCode.valueCode,
               code: {
                 code: valueCode.valueCode
               },
               children: []
             }
-            concept.children.push(valueConcept)
+            concept.answer = valueConcept
             this.getName(valueConcept)
           }
         }
