@@ -24,8 +24,6 @@
         <small>Answer</small>
         <mat-chip-grid>
             <span *ngIf="item.type !== undefined"> <mat-chip-row color="warn">{{item.type}}</mat-chip-row> </span>
-            <span *ngIf="item.required"> <mat-chip-row color="warn">Required</mat-chip-row> </span>
-            <span *ngIf="item.repeats"> <mat-chip-row color="warn">Repeats</mat-chip-row> </span>
         </mat-chip-grid>
         <mat-slide-toggle [checked]="item.repeats ? true : false" disabled>Repeats</mat-slide-toggle>
         &nbsp;
