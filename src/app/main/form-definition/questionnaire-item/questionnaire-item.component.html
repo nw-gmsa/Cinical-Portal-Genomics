@@ -46,7 +46,7 @@
             </div>
         </span>
         <span *ngIf="item.answerOption !== undefined && item.answerOption.length>0">
-            <small>Answer Choices (coded)</small>
+            <small>Answer Choices</small>
             <span *ngFor="let option of item.answerOption">
                 <div *ngIf="option.valueCoding !== undefined">
                     <span *ngIf="option.valueCoding?.system !== undefined && option.valueCoding?.system === 'http://snomed.info/sct' else templateName ">
@@ -57,6 +57,9 @@
                     <ng-template #templateName>
                        <button mat-stroked-button>{{option.valueCoding.display}}</button>
                     </ng-template>
+                </div>
+                <div *ngIf="option.valueString !== undefined">
+                       <button mat-stroked-button>{{option.valueString}}</button>
                 </div>
             </span>
         </span>
