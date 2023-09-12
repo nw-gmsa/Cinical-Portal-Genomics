@@ -31,7 +31,6 @@ export class QuestionnaireItemComponent {
 
   getUnitRanges(unit : String | undefined) : String {
     if (unit === undefined) return ''
-    console.log(unit)
     var answer = ' '
     if (this.item !== undefined && this.item.extension !== undefined) {
       for (let extension of this.item.extension) {
