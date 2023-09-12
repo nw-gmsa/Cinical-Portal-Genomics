@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Coding, Questionnaire, QuestionnaireItem} from "fhir/r4";
+import {Coding, Questionnaire, QuestionnaireItem, QuestionnaireItemAnswerOption} from "fhir/r4";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
@@ -23,6 +23,25 @@ export class QuestionnaireItemComponent {
       for (let extension of this.item.extension) {
         if (extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption' && extension.valueCoding !== undefined) {
           answer.push(extension.valueCoding)
+        }
+      }
+    }
+    return answer
+  }
+
+  getUnitRanges(unit : String | undefined) : String {
+    if (unit === undefined) return ''
+    console.log(unit)
+    var answer = ' '
+    if (this.item !== undefined && this.item.extension !== undefined) {
+      for (let extension of this.item.extension) {
+        if (extension.url === 'http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-minQuantity' && extension.valueQuantity !== undefined) {
+        //  console.log(' - ' + extension.valueQuantity.code)
+          if (extension.valueQuantity.code === unit) answer = answer + 'min ' + extension.valueQuantity.value
+        }
+        if (extension.url === 'http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-maxQuantity' && extension.valueQuantity !== undefined) {
+         // console.log(' - ' + extension.valueQuantity.code)
+          if (extension.valueQuantity.code === unit) answer = answer + ' - max ' + extension.valueQuantity.value
         }
       }
     }
@@ -89,4 +108,15 @@ export class QuestionnaireItemComponent {
         const resourceDialog: MatDialogRef<ConceptDialogComponent> = this.dialog.open(ConceptDialogComponent, dialogConfig);
       }
     }
+
+  getScore(option: QuestionnaireItemAnswerOption) {
+    if (option !== undefined && option.extension !== undefined) {
+      for (let extension of option.extension) {
+        if (extension.url === 'http://hl7.org/fhir/StructureDefinition/ordinalValue' && extension.valueDecimal !== undefined) {
+          return ' Score ['+ extension.valueDecimal + ']'
+        }
+      }
+    }
+    return undefined
+  }
 }

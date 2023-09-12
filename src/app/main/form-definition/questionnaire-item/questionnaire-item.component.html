@@ -36,6 +36,7 @@
             <mat-chip-grid >
                 <mat-chip-row *ngFor="let unit of getUnitOption()" >
                     {{unit.code}}
+                    {{getUnitRanges(unit.code)}}
                 </mat-chip-row>
             </mat-chip-grid>
         </span>
@@ -57,9 +58,11 @@
                     <ng-template #templateName>
                        <button mat-stroked-button>{{option.valueCoding.display}}</button>
                     </ng-template>
+                    {{getScore(option)}}
                 </div>
                 <div *ngIf="option.valueString !== undefined">
                        <button mat-stroked-button>{{option.valueString}}</button>
+                    {{getScore(option)}}
                 </div>
             </span>
         </span>
