@@ -118,4 +118,13 @@ export class QuestionnaireItemComponent {
     }
     return undefined
   }
+
+    getCodingTip(option: QuestionnaireItemAnswerOption) : string {
+        let tip = ''
+        if (option.valueCoding !== undefined) {
+          if (option.valueCoding.code !== undefined) tip = option.valueCoding.code
+          if (option.valueCoding.system !== undefined) tip = tip + ' ' + option.valueCoding.system
+        }
+        return tip;
+    }
 }

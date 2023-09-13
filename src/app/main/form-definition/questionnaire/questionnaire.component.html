@@ -17,18 +17,51 @@
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <span *ngIf="questionnaire?.purpose !== undefined">
-            <h3>Purpose</h3>
-            <td-markdown [innerHTML]="questionnaire?.purpose"></td-markdown>
-        </span>
-         <span *ngIf="questionnaire?.description !== undefined">
-            <h3>Description</h3>
-            <td-markdown [innerHTML]="questionnaire?.description"></td-markdown>
-        </span>
-        <div>
-            <small>id</small>
-            {{questionnaire.id}}
-        </div>
+        <mat-tab-group>
+          <mat-tab label="Summary">
+
+                  <span *ngIf="questionnaire?.purpose !== undefined">
+                        <h3>Purpose</h3>
+                        <td-markdown [innerHTML]="questionnaire?.purpose"></td-markdown>
+                    </span>
+                     <span *ngIf="questionnaire?.description !== undefined">
+                        <h3>Description</h3>
+                        <td-markdown [innerHTML]="questionnaire?.description"></td-markdown>
+                    </span>
+          </mat-tab>
+          <mat-tab label="Metadata">
+              <div layout="row" layout-align="space-between start">
+                  <div >
+                          <div>
+                            <h3>url</h3>
+                              {{questionnaire.url}}
+                        </div>
+                        <div>
+                            <h3>id</h3>
+                            {{questionnaire.id}}
+                        </div>
+                        <div *ngIf="questionnaire?.identifier !== undefined">
+                            <h3>identifier</h3>
+                            <span *ngFor="let ident of questionnaire?.identifier">
+                            {{ident.value}}
+                                </span>
+                        </div>
+                  </div>
+                  <div>
+                      <div *ngIf="questionnaire?.contact !== null">
+                          <h3>Contacts</h3>
+                          <span *ngFor="let contact of questionnaire?.contact">
+                              <div>{{contact.name}}</div>
+                          </span>
+                      </div>
+                      </div>
+                  </div>
+          </mat-tab>
+
+        </mat-tab-group>
+
+
+
         <h2>Items</h2>
 
     <mat-tree  [dataSource]="dataSource" [treeControl]="treeControl" >

@@ -29,6 +29,7 @@ export class DialogService {
     if (system === 'http://loinc.org') return 'LOINC'
     if (system === 'http://read.info/readv2') return 'Read v2'
     if (system === 'http://snomed.info/sct') return 'SCT'
+    if (system?.includes('openehr')) return 'openEHR'
     return '?'
   }
 

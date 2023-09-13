@@ -56,7 +56,7 @@
                          >{{option.valueCoding.display}}</button>
                     </span>
                     <ng-template #templateName>
-                       <button mat-stroked-button>{{option.valueCoding.display}}</button>
+                       <button mat-stroked-button [matTooltip]="getCodingTip(option)">{{option.valueCoding.display}}</button>
                     </ng-template>
                     {{getScore(option)}}
                 </div>
