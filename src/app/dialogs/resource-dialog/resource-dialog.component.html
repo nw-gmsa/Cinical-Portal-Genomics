@@ -5,7 +5,7 @@
       Resource Detail [ {{resource.resourceType}} ]
      </span>
      <span *ngIf="resource.resourceType == undefined">
-      Composition.section
+      Item
      </span>
    </span></h2>
 <mat-dialog-content>
@@ -18,9 +18,13 @@
        <mat-tab label="JSON">
           <pre>{{JSON.stringify(resource,null, 2)}}</pre>
       </mat-tab>
-        <mat-tab label="XML">
-            <pre>{{getXML(resource)}}</pre>
-        </mat-tab>
+        <span *ngIf="resource !=undefined">
+             <span *ngIf="resource.resourceType !== undefined">
+                <mat-tab label="XML">
+                    <pre>{{getXML(resource)}}</pre>
+                </mat-tab>
+             </span>
+        </span>
     </mat-tab-group>
 
 </mat-dialog-content>

@@ -68,11 +68,22 @@
         </span>
     </div>
 
+
     <div *ngIf="getSDCExtract() || getSDCPopulate() !== undefined " style="width: 15%">
         <small>Structured Data Capture</small>
         <mat-chip-grid >
             <mat-chip-row *ngIf="getSDCExtract()" (click)="extractOpen()">$extract</mat-chip-row>
             <mat-chip-row *ngIf="getSDCPopulate() !== undefined"  (click)="populateOpen()">{{getSDCPopulate()}}</mat-chip-row>
         </mat-chip-grid>
+    </div>
+    <div style="width: 15%" >
+        <small *ngIf="item.definition !== undefined">Definition</small>
+        <div>
+            {{item.definition}}
+        </div>
+    </div>
+    <div style="width: 5%" >
+
+        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(item)"><mat-icon>code</mat-icon></button>
     </div>
 </div>

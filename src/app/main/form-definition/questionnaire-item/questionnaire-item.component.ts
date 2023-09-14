@@ -127,4 +127,15 @@ export class QuestionnaireItemComponent {
         }
         return tip;
     }
+
+  select(resource: any): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      resource
+    };
+    const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
+  }
 }
