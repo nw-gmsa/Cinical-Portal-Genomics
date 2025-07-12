@@ -36,7 +36,8 @@
     <ng-container matColumnDef="medication">
       <th mat-header-cell *matHeaderCellDef > Medication </th>
       <td mat-cell *matCellDef="let medicationRequest">
-        <span [innerHTML]="fhirService.getCodeableConcept(medicationRequest.medicationCodeableConcept)"></span>
+
+          <app-clinical-concept [setConcept]="medicationRequest.medicationCodeableConcept"></app-clinical-concept>
         <span [innerHTML]="fhirService.getReference(medicationRequest.medicationReference)"></span>
       </td>
     </ng-container>

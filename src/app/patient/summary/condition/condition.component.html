@@ -30,7 +30,7 @@
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Condition </th>
       <td mat-cell *matCellDef="let condition">
-        <span [innerHTML]="fhirService.getCodeableConcept(condition.code)"></span>
+        <app-clinical-concept [setConcept]="condition.code"></app-clinical-concept>
       </td>
     </ng-container>
 

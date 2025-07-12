@@ -24,8 +24,8 @@
 
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Procedure </th>
-      <td mat-cell *matCellDef="let procedure"> <b>{{procedure.code.coding[0].display}}</b>
-
+      <td mat-cell *matCellDef="let procedure">
+          <app-clinical-concept [setConcept]="procedure.code"></app-clinical-concept>
       </td>
     </ng-container>
 

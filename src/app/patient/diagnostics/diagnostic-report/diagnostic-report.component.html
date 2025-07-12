@@ -36,8 +36,7 @@
     <ng-container matColumnDef="code">
       <th mat-header-cell mat-sort-header *matHeaderCellDef> Observation </th>
       <td mat-cell *matCellDef="let diagnosticReport">
-        <span [innerHTML]="fhirService.getCodeableConcept(diagnosticReport.code)"></span>
-
+          <app-clinical-concept [setConcept]="diagnosticReport.code"></app-clinical-concept>
       </td>
     </ng-container>
 

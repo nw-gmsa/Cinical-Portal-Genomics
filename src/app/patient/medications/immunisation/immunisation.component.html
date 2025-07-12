@@ -109,7 +109,8 @@
 
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Immunisation </th>
-      <td mat-cell *matCellDef="let immunisation"> <b>{{immunisation.vaccineCode.coding[0].display}}</b>
+      <td mat-cell *matCellDef="let immunisation">
+          <app-clinical-concept [setConcept]="immunisation.vaccineCode"></app-clinical-concept>
       </td>
     </ng-container>
 

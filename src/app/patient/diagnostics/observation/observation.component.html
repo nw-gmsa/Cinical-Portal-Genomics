@@ -54,10 +54,7 @@
       <b>{{observation.code.text}}</b>
       <span *ngIf="observation.code !== undefined && observation.code.coding !== undefined">
 
-        <span *ngFor="let coding of observation.code.coding">
-            {{coding.display}}
-            <app-clinical-coding [setCode]="coding"></app-clinical-coding>
-        </span>
+         <app-clinical-concept [setConcept]="observation.code"></app-clinical-concept>
       </span>
     </td>
   </ng-container>

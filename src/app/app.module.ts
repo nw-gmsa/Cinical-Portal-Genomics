@@ -124,6 +124,7 @@ import { FormDefinitionComponent } from './main/form-definition/form-definition.
 import { ConceptDialogComponent } from './dialogs/concept-dialog/concept-dialog.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {ClinicalCodingComponent} from "./clinical-coding/clinical-coding.component";
+import {ClinicalConceptComponent} from "./clinical-concept/clinical-concept.component";
 
 const modules = [
   MatIconModule,
@@ -227,7 +228,8 @@ const modules = [
       QuestionnaireItemComponent,
       FormDefinitionComponent,
       ConceptDialogComponent,
-      ClinicalCodingComponent
+      ClinicalCodingComponent,
+      ClinicalConceptComponent
   ],
   imports: [
     BrowserModule,
@@ -259,7 +261,7 @@ const modules = [
     MatSlideToggleModule
 
   ],
-  exports: [...modules],
+  exports: [...modules, ClinicalCodingComponent],
   providers: [
     EprService,
     DatePipe,
