@@ -1,5 +1,4 @@
 import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
 import {QuestionnaireResponse} from 'fhir/r4';
 
 import {FhirService} from '../../../services/fhir.service';

@@ -94,9 +94,6 @@ import { PlanDefinitionComponent } from './main/journey/plan-definition/plan-def
 import { PlanDefinitionActionComponent } from './main/journey/plan-definition-action/plan-definition-action.component';
 import { PlanDefinitionDetailComponent } from './main/journey/plan-definition-detail/plan-definition-detail.component';
 import { PathwayComponent } from './main/journey/pathway.component';
-import {CovalentBaseEchartsModule} from "@covalent/echarts/base";
-import {CovalentTreeEchartsModule} from "@covalent/echarts/tree";
-import {CovalentTooltipEchartsModule} from "@covalent/echarts/tooltip";
 import { ConditionCreateEditComponent } from './patient/summary/condition-create-edit/condition-create-edit.component';
 import { MedicationRequestCreateEditComponent } from './patient/medications/medication-request-create-edit/medication-request-create-edit.component';
 import { OntologyBrowserComponent } from './main/ontology/ontology-browser/ontology-browser.component';
@@ -247,7 +244,6 @@ const modules = [
     CovalentLayoutModule,
     CovalentMarkdownModule,
     CovalentDynamicFormsModule,
-    CovalentBaseEchartsModule,
     CovalentFileModule,
     CovalentJsonFormatterModule,
     CovalentDialogsModule,
@@ -259,8 +255,6 @@ const modules = [
     CovalentCommonModule,
     CovalentBreadcrumbsModule,
     A11yModule,
-    CovalentTreeEchartsModule,
-    CovalentTooltipEchartsModule,
     MatChipsModule,
     MatSlideToggleModule
 

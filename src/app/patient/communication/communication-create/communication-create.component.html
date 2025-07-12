@@ -38,7 +38,7 @@
      <mat-select multiple  [(ngModel)]="selectedFoods"
                  (ngModelChange)="selectedFoods" name="selectedFoods" >
        <mat-option *ngFor="let doc of documents" [value]="doc">
-         {{getName(doc)}}}
+         {{getName(doc)}}
        </mat-option>
      </mat-select>
    </mat-form-field>

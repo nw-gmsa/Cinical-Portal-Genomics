@@ -1,13 +1,14 @@
 import {Component, Input} from '@angular/core';
 
 import {Coding} from "fhir/r4";
+import {AppService} from "../app.service";
 
 @Component({
   selector: 'app-clinical-coding',
   templateUrl: './clinical-coding.component.html'
 })
 export class ClinicalCodingComponent {
-  constructor() {
+  constructor(public appService: AppService) {
   }
   coding: Coding[] =[]
   @Input()

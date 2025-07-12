@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+// (optional) Additional themes
+@use '@covalent/markdown/markdown-theme' as markdown;
+@use '@covalent/highlight/highlight-theme' as highlight;
+@import '@covalent/flavored-markdown/flavored-markdown-theme';
+
+// Covalent core themes
+@import '@covalent/core/theming/all-theme';
+@import '@covalent/core/theming/teradata-theme';
+
+@include mat.core();
+
+// Define a custom typography config that overrides the font-family
+// or any typography level.
+$typography: mat.define-typography-config(
+        $font-family: 'Roboto, monospace',
+        $headline-1: mat.define-typography-level(32px, 48px, 700),
+);
+
+$primary: mat.define-palette($mat-blue, 700);
+$accent: mat.define-palette($mat-orange, 800, A100, A400);
+$warn: mat.define-palette($mat-red, 600);
+
+$theme: mat.define-light-theme(
+                (
+                        color: (
+                                primary: $primary,
+                                accent: $accent,
+                                warn: $warn,
+                        ),
+                        typography: $typography,
+                )
+);
+
+// Include the Angular Material styles using the custom theme
+@include mat.all-component-themes($theme);
+
+@include covalent-theme($theme);
+
+// (optional) Additional themes
+@include markdown.covalent-markdown-theme($theme);
+@include covalent-flavored-markdown-theme($theme);
+@include highlight.covalent-highlight-theme($theme);/* You can add global styles to this file, and also import other style files */
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-tooltip-white {   color: white !important; }

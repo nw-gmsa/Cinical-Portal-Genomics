@@ -1,12 +1,22 @@
 import {Component, inject, Inject, OnInit} from '@angular/core';
 import {Coding, OperationOutcome, Parameters, ParametersParameter, QuestionnaireItem} from "fhir/r4";
 import {HttpClient} from "@angular/common/http";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent} from "@angular/material/dialog";
+import {MatChip, MatChipSet} from "@angular/material/chips";
+import {MatIcon} from "@angular/material/icon";
 
 
 @Component({
   selector: 'app-concept-popup',
   templateUrl: './concept-popup.component.html',
+  standalone: true,
+  imports: [
+    MatDialogContent,
+    MatChipSet,
+    MatChip,
+    MatIcon,
+    MatDialogActions
+  ],
   styleUrl: './concept-popup.component.scss'
 })
 export class ConceptPopupComponent implements OnInit {

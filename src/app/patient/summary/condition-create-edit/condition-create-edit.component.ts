@@ -9,11 +9,11 @@ import {Observable, Subject} from "rxjs";
 import {FhirService} from "../../../services/fhir.service";
 import {DialogService} from "../../../services/dialog.service";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import * as uuid from "uuid";
 import {TdDialogService} from "@covalent/core/dialogs";
 import {Moment} from "moment/moment";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 @Component({
   selector: 'app-condition-create-edit',
   templateUrl: './condition-create-edit.component.html',

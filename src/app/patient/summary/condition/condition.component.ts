@@ -2,13 +2,13 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {Condition, Reference} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {TaskCreateComponent} from "../../workflow/task-create/task-create.component";
 import {ConditionCreateEditComponent} from "../condition-create-edit/condition-create-edit.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {environment} from "../../../../environments/environment";
+import {MatTableDataSource} from "@angular/material/table";
 @Component({
   selector: 'app-condition',
   templateUrl: './condition.component.html',

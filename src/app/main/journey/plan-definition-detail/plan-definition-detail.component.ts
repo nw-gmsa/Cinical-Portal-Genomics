@@ -4,7 +4,7 @@ import {TdDialogService} from "@covalent/core/dialogs";
 import {FhirService} from "../../../services/fhir.service";
 import {EprService} from "../../../services/epr.service";
 import {ActivatedRoute} from "@angular/router";
-import {getThemes} from "@covalent/echarts/base";
+
 
 
 
@@ -15,7 +15,7 @@ import {getThemes} from "@covalent/echarts/base";
  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanDefinitionDetailComponent implements OnInit {
-  themes: string[] = getThemes();
+
   selectedTheme!: string;
 
   @Input()

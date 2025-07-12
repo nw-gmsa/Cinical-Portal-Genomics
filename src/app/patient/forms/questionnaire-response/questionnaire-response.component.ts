@@ -2,12 +2,12 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {Coding, QuestionnaireResponse} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {FhirService} from '../../../services/fhir.service';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {MatSort} from '@angular/material/sort';
 import {Router} from "@angular/router";
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
+import {MatTableDataSource} from "@angular/material/table";
 @Component({
   selector: 'app-questionnaire-response',
   templateUrl: './questionnaire-response.component.html',

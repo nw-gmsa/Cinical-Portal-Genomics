@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatLegacyChip as MatChip} from '@angular/material/legacy-chips';
+
 import {
     AllergyIntolerance, Condition,
     Encounter,
@@ -19,6 +19,7 @@ import {
 } from "../medications/medication-request-create-edit/medication-request-create-edit.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {environment} from "../../../environments/environment";
+import {MatChip} from "@angular/material/chips";
 
 
 @Component({

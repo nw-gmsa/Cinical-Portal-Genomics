@@ -87,10 +87,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "FHIR-Demonstration:build:production"
+              "buildTarget": "FHIR-Demonstration:build:production"
             },
             "development": {
-              "browserTarget": "FHIR-Demonstration:build:development"
+              "buildTarget": "FHIR-Demonstration:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +98,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FHIR-Demonstration:build"
+            "buildTarget": "FHIR-Demonstration:build"
           }
         },
         "test": {
