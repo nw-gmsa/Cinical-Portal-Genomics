@@ -101,9 +101,6 @@ export class ObservationComponent implements OnInit {
       };
     };
 
-    // this.dataSource.sort = this.sort;
-    //  console.log(this.dataSource.sort);
-
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

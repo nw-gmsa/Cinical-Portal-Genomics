@@ -27,10 +27,6 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angula
 })
 export class PatientSummaryComponent implements OnInit {
 
-
-
-
-
     encounters: Encounter[] = [];
 
     patient: Patient | undefined;
