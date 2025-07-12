@@ -172,12 +172,6 @@ export class MainComponent implements OnInit {
       action: 'documents'
     },
     {
-      id: 'forms',
-      text: 'Forms',
-      icon: 'dataset',
-      action: 'forms'
-    },
-    {
       // Grouping label
       id: 'patientobservations',
       text: 'Observations',
@@ -189,12 +183,6 @@ export class MainComponent implements OnInit {
       action: 'observations',
     },
     {
-      id: 'vitals',
-      text: 'Vital Signs',
-      icon: 'local_hospital',
-      action: 'vitals',
-    },
-    {
       // Grouping label
       id: 'coordination',
       text: 'Patient Care Coordination',
@@ -204,6 +192,23 @@ export class MainComponent implements OnInit {
       text: 'Referrals, Tasks and Interventions',
       icon: 'assignment',
       action: 'workflow'
+    }
+  ];
+
+  /*
+  removed for demo
+,
+    {
+      id: 'vitals',
+      text: 'Vital Signs',
+      icon: 'local_hospital',
+      action: 'vitals',
+    },
+  ,{
+      id: 'forms',
+      text: 'Forms',
+      icon: 'dataset',
+      action: 'forms'
     },
     {
       id: 'coordination',
@@ -217,10 +222,6 @@ export class MainComponent implements OnInit {
       icon: 'question_answer',
       action: 'communication'
     },
-  ];
-
-  /*
-  removed for demo
 
    {
       id: 'physical',

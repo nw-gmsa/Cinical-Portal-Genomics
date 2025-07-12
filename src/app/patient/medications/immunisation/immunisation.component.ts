@@ -22,7 +22,7 @@ export class ImmunisationComponent implements OnInit {
     dataSource : MatTableDataSource<Immunization>;
 
 
-  displayedColumns = ['date','procedure', 'code','indication','dose','status', 'resource'];
+  displayedColumns = ['date','code','indication','status', 'procedure', 'resource'];
 
   constructor(
               public dialog: MatDialog,
