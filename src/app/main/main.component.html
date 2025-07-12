@@ -10,7 +10,7 @@
                     layout="row"
                     layout-align="center center"
             >
-            FHIR R4 and UKCore Demonstration
+            Clinical Portal (Genomics) Demonstration
                 <td-dynamic-menu
                         [trigger]="triggerPatient"
                         [items]="itemsPatient"
@@ -22,21 +22,26 @@
                         [items]="itemsCare"
                         (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu>
+                    <!--
                 <td-dynamic-menu
                         [trigger]="triggerSmartApps"
                         [items]="itemsSmartApps"
                         (itemClicked)="reportClick($event)"
-                ></td-dynamic-menu>
+                ></td-dynamic-menu> -->
+                    <!--
                     <button mat-button routerLink="/patient/{{patientId}}/device"><mat-icon>app_shortcut</mat-icon> Health Device</button>
+                    -->
             </span>
           <span flex>
             </span>
+                <!--
                 <td-dynamic-menu
                         [trigger]="triggerApps"
                         [items]="itemsApps"
                         (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu>
                 <button mat-icon-button routerLink="/about"><mat-icon>help</mat-icon></button>
+                -->
                <!-- <td-dynamic-menu
                         [trigger]="triggerAccount"
                         [items]="itemsAccount"

@@ -18,6 +18,7 @@ import {
     MedicationRequestCreateEditComponent
 } from "../medications/medication-request-create-edit/medication-request-create-edit.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {environment} from "../../../environments/environment";
 
 
 @Component({
@@ -360,4 +361,6 @@ export class PatientSummaryComponent implements OnInit {
             }
         })
     }
+
+    protected readonly environment = environment;
 }

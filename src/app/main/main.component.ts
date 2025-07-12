@@ -184,15 +184,9 @@ export class MainComponent implements OnInit {
     },
     {
       id: 'obs',
-      text: 'Observations',
+      text: 'Diagnostic Reports and Observations',
       icon: 'view_kanban',
       action: 'observations',
-    },
-    {
-      id: 'physical',
-      text: 'Physical Activity',
-      icon: 'directions_walk',
-      action: 'physical',
     },
     {
       id: 'vitals',
@@ -225,6 +219,16 @@ export class MainComponent implements OnInit {
     },
   ];
 
+  /*
+  removed for demo
+
+   {
+      id: 'physical',
+      text: 'Physical Activity',
+      icon: 'directions_walk',
+      action: 'physical',
+    },
+   */
 
   constructor( private testingService: TestingService,
                private route: ActivatedRoute,

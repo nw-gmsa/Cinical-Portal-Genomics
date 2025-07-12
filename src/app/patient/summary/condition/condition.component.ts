@@ -8,6 +8,7 @@ import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {TaskCreateComponent} from "../../workflow/task-create/task-create.component";
 import {ConditionCreateEditComponent} from "../condition-create-edit/condition-create-edit.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {environment} from "../../../../environments/environment";
 @Component({
   selector: 'app-condition',
   templateUrl: './condition.component.html',
@@ -120,4 +121,6 @@ export class ConditionComponent implements OnInit {
       }
     })
   }
+
+  protected readonly environment = environment;
 }

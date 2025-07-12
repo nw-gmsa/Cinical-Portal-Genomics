@@ -1,4 +1,4 @@
-# FHIR R4 Demonstration
+# FHIR R4 + Health Information Exchange Demonstration
 
 This app demonstrates the use of UKCore and FHIR RESTful API's.
 

@@ -3,7 +3,9 @@
         <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
         <td-breadcrumb>Summary Record</td-breadcrumb>
     </td-breadcrumbs>
-    <td-markdown>{{ basicFlavoredMarkdown }}</td-markdown>
+    <span *ngIf="environment.hintsSupport">
+        <td-markdown>{{ basicFlavoredMarkdown }}</td-markdown>
+    </span>
     <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
 
     <mat-card>
@@ -36,9 +38,11 @@
                <h3>Medications</h3>
                <span flex></span>
              </div>
-            <div *ngIf="nhsNumber !== undefined" class="list-horizontal">
-                    <button mat-stroked-button color="accent"  (click)="addMedication()">Add Medication Request</button>
-            </div>
+            <span *ngIf="environment.addDataSupport">
+                <div *ngIf="nhsNumber !== undefined" class="list-horizontal">
+                        <button mat-stroked-button color="accent"  (click)="addMedication()">Add Medication Request</button>
+                </div>
+            </span>
              <span *ngIf="medicationRequests.length>0">
                <app-medication-request [medicationRequests]="medicationRequests"> </app-medication-request>
                  </span>

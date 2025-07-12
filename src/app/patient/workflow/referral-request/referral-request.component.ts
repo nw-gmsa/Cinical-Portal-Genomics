@@ -10,6 +10,7 @@ import {ServiceCreateComponent} from "../service-create/service-create.component
 import {EprService} from "../../../services/epr.service";
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {environment} from "../../../../environments/environment";
 
 
 @Component({
@@ -195,4 +196,6 @@ export class ReferralRequestComponent implements OnInit {
             if (reference.type === 'DiagnosticReport') this.router.navigate(['/patient', this.patientId, 'report', id])
         }
     }
+
+    protected readonly environment = environment;
 }

@@ -2,7 +2,9 @@
   <mat-card-header>Patient Search</mat-card-header>
   <mat-card-content>
     <br/>
+    <span *ngIf="environment.hintsSupport">
     <td-markdown>For documentation of the data model see [UKCore-Patient]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient')}}) and [NHSDigital-Patient](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Patient)</td-markdown>
+    </span>
     <app-patient-search (patientSelected)="selectPatient($event)" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" ></app-patient-search>
   </mat-card-content>
 </mat-card>

@@ -9,6 +9,7 @@ import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {environment} from "../../../../environments/environment";
 @Component({
   selector: 'app-diagnostic-report',
   templateUrl: './diagnostic-report.component.html',
@@ -147,4 +148,5 @@ export class DiagnosticReportComponent implements OnInit {
     }
 
   protected readonly performance = performance;
+  protected readonly environment = environment;
 }

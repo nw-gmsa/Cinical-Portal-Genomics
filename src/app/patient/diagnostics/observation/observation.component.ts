@@ -12,6 +12,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
 import {DialogService} from "../../../services/dialog.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-observation',
@@ -257,4 +258,6 @@ export class ObservationComponent implements OnInit {
     if (system === 'http://read.info/readv2') return 'Read v2'
     return '?'
   }
+
+  protected readonly environment = environment;
 }

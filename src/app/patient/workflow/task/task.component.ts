@@ -11,6 +11,7 @@ import {DialogService} from "../../../services/dialog.service";
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
+import {environment} from "../../../../environments/environment";
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -306,4 +307,6 @@ export class TaskComponent implements OnInit {
       }
     }
   }
+
+    protected readonly environment = environment;
 }

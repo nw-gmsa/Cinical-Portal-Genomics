@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {EprService} from '../../services/epr.service';
 import {Patient} from 'fhir/r4';
 import {FhirService} from "../../services/fhir.service";
+import {environment} from "../../../environments/environment";
 
 
 @Component({
@@ -41,4 +42,5 @@ export class PatientFindComponent implements OnInit {
         this.router.navigateByUrl('patient/' + patient.id);
     }
 
+    protected readonly environment = environment;
 }

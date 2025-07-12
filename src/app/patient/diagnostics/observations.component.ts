@@ -8,6 +8,7 @@ import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagno
 import {EventCreateComponent} from "./event-create/event-create.component";
 import {DialogService} from "../../services/dialog.service";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {environment} from "../../../environments/environment";
 @Component({
   selector: 'app-observations',
   templateUrl: './observations.component.html',
@@ -62,7 +63,7 @@ export class ObservationsComponent implements OnInit {
     this._loadingService.register('overlayStarSyntax');
     this.observations = [];
       this.fhirService.get('/Observation?patient=' + this.patientId
-          + '&date=gt' + this.dlgSrv.getFHIRDateString(from).split('T')[0]
+        //  + '&date=gt' + this.dlgSrv.getFHIRDateString(from).split('T')[0]
           + '&_count=400&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -77,7 +78,7 @@ export class ObservationsComponent implements OnInit {
       );
       this.diagnosticReports = [];
       this.fhirService.get('/DiagnosticReport?patient=' + this.patientId
-          + '&date=gt' + this.dlgSrv.getFHIRDateString(from).split('T')[0]
+         // + '&date=gt' + this.dlgSrv.getFHIRDateString(from).split('T')[0]
           + '&_count=50&_sort=-date').subscribe(bundle => {
             if (bundle.entry !== undefined) {
               for (const entry of bundle.entry) {
@@ -143,4 +144,5 @@ export class ObservationsComponent implements OnInit {
   }
 
 
+    protected readonly environment = environment;
 }

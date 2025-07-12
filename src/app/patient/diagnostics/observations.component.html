@@ -4,19 +4,25 @@
             <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
             <td-breadcrumb>Observations</td-breadcrumb>
         </td-breadcrumbs>
-        <td-markdown>This is based on [IHE QEDm](https://wiki.ihe.net/index.php/Query_for_Existing_Data_for_Mobile_(QEDm))</td-markdown>
-        <mat-card-content>
+        <span *ngIf="environment.hintsSupport">
+            <td-markdown>This is based on [IHE QEDm](https://wiki.ihe.net/index.php/Query_for_Existing_Data_for_Mobile_(QEDm))</td-markdown>
+        </span>
+            <mat-card-content>
 
 
             <div>
-                <h3>Observations (Last 14 days)</h3>
+                <h3>Observations</h3>
                 <span flex></span>
             </div>
+                <span *ngIf="environment.addDataSupport">
             <div *ngIf="patientId !== undefined" class="list-horizontal">
                     <button mat-stroked-button color="accent"  (click)="addEvent()">Add Event</button>
             </div>
+                </span>
+                <span *ngIf="environment.hintsSupport">
             <td-markdown>Data models [UKCore-Observation]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation')}}) and [NHSDigital-Observation](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Observation).</td-markdown>
-            <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
+                </span>
+                    <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
                 <span *ngIf="observations.length>0">
                              <app-observation [observations]="observations"> </app-observation>
                               </span>
@@ -27,15 +33,18 @@
         </mat-card-content>
         <mat-card-content>
             <div>
-                <h3>Diagnostic Reports (Last 14 days)</h3>
+                <h3>Diagnostic Reports</h3>
                 <span flex></span>
 
             </div>
+            <span *ngIf="environment.addDataSupport">
             <div *ngIf="patientId !== undefined" class="list-horizontal">
                     <button mat-stroked-button color="accent"  (click)="addReport()">Add Report</button>
             </div>
-            <td-markdown>For documentation of the data model see [UKCore-DiagnosticReport]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DiagnosticReport')}})</td-markdown>
-
+            </span>
+            <span *ngIf="environment.hintsSupport">
+                <td-markdown>For documentation of the data model see [UKCore-DiagnosticReport]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-DiagnosticReport')}})</td-markdown>
+            </span>
             <span *ngIf="diagnosticReports.length>0">
                          <app-diagnostic-report [diagnosticReports]="diagnosticReports"> </app-diagnostic-report>
                           </span>
