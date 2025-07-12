@@ -1,0 +1,8 @@
+<span *ngFor="let code of coding">
+    <span *ngIf="code.system == 'http://snomed.info/sct'">
+           <a mat-button (click)="appService.showSNOMED(code)" [matTooltip]="getDisplay(code)" matTooltipClass="mat-tooltip-white">SCT {{ appService.getCoded(code) }} </a>
+    </span>
+    <span  *ngIf="code.system == 'http://loinc.org'" >
+         <a mat-button target="_blank" [href]="'https://loinc.org/'+appService.getCoded(code)" [matTooltip]="getDisplay(code)" matTooltipClass="mat-tooltip-white">LOINC {{ appService.getCoded(code) }} </a>
+    </span>
+</span>

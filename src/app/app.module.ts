@@ -126,6 +126,7 @@ import { QuestionnaireItemComponent } from './main/form-definition/questionnaire
 import { FormDefinitionComponent } from './main/form-definition/form-definition.component';
 import { ConceptDialogComponent } from './dialogs/concept-dialog/concept-dialog.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {ClinicalCodingComponent} from "./clinical-coding/clinical-coding.component";
 
 const modules = [
   MatIconModule,
@@ -228,7 +229,8 @@ const modules = [
       QuestionnaireComponent,
       QuestionnaireItemComponent,
       FormDefinitionComponent,
-      ConceptDialogComponent
+      ConceptDialogComponent,
+      ClinicalCodingComponent
   ],
   imports: [
     BrowserModule,

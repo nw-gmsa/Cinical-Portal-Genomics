@@ -11,7 +11,7 @@
 
     <ng-container matColumnDef="note">
         <th mat-header-cell *matHeaderCellDef> Note </th>
-        <td mat-cell *matCellDef="let note"> {{note.text}} </td>
+        <td mat-cell *matCellDef="let note"> <td-markdown>{{note.text}}</td-markdown> </td>
     </ng-container>
 
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
