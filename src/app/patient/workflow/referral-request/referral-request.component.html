@@ -48,11 +48,13 @@
       <th mat-header-cell *matHeaderCellDef> Category </th>
       <td mat-cell *matCellDef="let referral">
          <span [innerHTML]="fhirService.getCodeableConcepts(referral.category)"></span>
+
       </td>
     </ng-container>
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Code </th>
       <td mat-cell *matCellDef="let referral">
+          <app-clinical-coding [setCoding]="referral.code.coding"></app-clinical-coding>
         <span [innerHTML]="fhirService.getCodeableConcept(referral.code)"></span>
       </td>
     </ng-container>
@@ -132,7 +134,12 @@
           <span *ngIf="element.reasonCode !== undefined || element.reasonReference !== undefined">
             <h4>Reason</h4>
              <span *ngIf="element.reasonCode !== undefined">
-                <span [innerHTML]="fhirService.getCodeableConcepts(element.reasonCode)"></span>
+                 <span *ngFor="let reason of element.reasonCode">
+                        <span *ngFor="let coding of reason.coding">
+                            {{coding.display}}
+                            <app-clinical-coding [setCode]="coding"></app-clinical-coding>
+                         </span>
+                </span>
              </span>
             <span *ngIf="element.reasonReference !== undefined">
               <mat-card style="width: 25%;" *ngFor="let reason of element.reasonReference" (click)="onClick(reason)">

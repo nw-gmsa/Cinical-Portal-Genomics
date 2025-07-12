@@ -1,9 +1,16 @@
 import {Component, inject, Inject, OnInit} from '@angular/core';
 import {Coding, OperationOutcome, Parameters, ParametersParameter, QuestionnaireItem} from "fhir/r4";
 import {HttpClient} from "@angular/common/http";
-import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {MatChip, MatChipSet} from "@angular/material/chips";
 import {MatIcon} from "@angular/material/icon";
+import {MatButton} from "@angular/material/button";
 
 
 @Component({
@@ -15,7 +22,10 @@ import {MatIcon} from "@angular/material/icon";
     MatChipSet,
     MatChip,
     MatIcon,
-    MatDialogActions
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+    MatDialogTitle
   ],
   styleUrl: './concept-popup.component.scss'
 })

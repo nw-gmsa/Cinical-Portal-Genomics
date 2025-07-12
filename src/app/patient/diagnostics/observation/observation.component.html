@@ -36,14 +36,9 @@
     <td mat-cell *matCellDef="let observation">
 
         <span *ngIf="observation.valueCodeableConcept !== undefined; else templateRef">
-          <span *ngFor="let coding of observation.valueCodeableConcept.coding">
-           <span *ngIf="coding.system !== undefined && coding.system === 'http://snomed.info/sct'; else templateValueCode">
-                          <button mat-button color="primary"  (click)="selectConcept(coding)"> {{coding.display}}</button>
-                     </span>
-                      <ng-template #templateValueCode>
-                       <button mat-button (click)="selectConcept(coding)">LOINC?
-                         {{coding.display}}</button>
-                    </ng-template>
+            <span *ngFor="let coding of observation.valueCodeableConcept.coding">
+              {{coding.display}}
+              <app-clinical-coding [setCode]="coding"></app-clinical-coding>
         </span>
         </span>
         <ng-template #templateRef>
@@ -54,18 +49,14 @@
   </ng-container>
 
   <ng-container matColumnDef="code">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef> Observation </th>
+    <th mat-header-cell mat-sort-header *matHeaderCellDef> Question/Observation </th>
     <td mat-cell *matCellDef="let observation">
       <b>{{observation.code.text}}</b>
       <span *ngIf="observation.code !== undefined && observation.code.coding !== undefined">
+
         <span *ngFor="let coding of observation.code.coding">
-           <span *ngIf="coding.system !== undefined && coding.system === 'http://snomed.info/sct'; else templateCode">
-                          <button mat-button color="primary"  (click)="selectConcept(coding)"> {{coding.display}} <span *ngIf="coding.display === undefined">{{coding.code}}</span> </button>
-                     </span>
-                      <ng-template #templateCode>
-                       <button mat-button (click)="selectConcept(coding)">{{dlgservice.getSystem(coding.system)}}
-                         {{coding.display}}</button>
-                    </ng-template>
+            {{coding.display}}
+            <app-clinical-coding [setCode]="coding"></app-clinical-coding>
         </span>
       </span>
     </td>
