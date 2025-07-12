@@ -11,6 +11,7 @@ import {
 import {MatChip, MatChipSet} from "@angular/material/chips";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
+import {NgForOf, NgIf} from "@angular/common";
 
 
 @Component({
@@ -25,7 +26,9 @@ import {MatButton} from "@angular/material/button";
     MatDialogActions,
     MatButton,
     MatDialogClose,
-    MatDialogTitle
+    MatDialogTitle,
+    NgForOf,
+    NgIf
   ],
   styleUrl: './concept-popup.component.scss'
 })

@@ -11,17 +11,22 @@
                     layout-align="center center"
             >
             Clinical Portal (Genomics) Demonstration
+
+          <span flex>
+              &nbsp;
+          </span>
+                <span flex>
                 <td-dynamic-menu
                         [trigger]="triggerPatient"
                         [items]="itemsPatient"
                         (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu>
                 <span *ngIf="patientId!== undefined">
-                <td-dynamic-menu
-                        [trigger]="triggerCare"
-                        [items]="itemsCare"
-                        (itemClicked)="reportClick($event)"
-                ></td-dynamic-menu>
+                        <td-dynamic-menu
+                                [trigger]="triggerCare"
+                                [items]="itemsCare"
+                                (itemClicked)="reportClick($event)"
+                        ></td-dynamic-menu>
                     <!--
                 <td-dynamic-menu
                         [trigger]="triggerSmartApps"
@@ -31,9 +36,7 @@
                     <!--
                     <button mat-button routerLink="/patient/{{patientId}}/device"><mat-icon>app_shortcut</mat-icon> Health Device</button>
                     -->
-            </span>
-          <span flex>
-            </span>
+                </span>
                 <!--
                 <td-dynamic-menu
                         [trigger]="triggerApps"
@@ -47,7 +50,7 @@
                         [items]="itemsAccount"
                         (itemClicked)="reportClick($event)"
                 ></td-dynamic-menu> -->
-
+                </span>
             </div>
         </div>
         <router-outlet></router-outlet>
