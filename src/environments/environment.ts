@@ -10,5 +10,7 @@ export const environment = {
   withingSecret: 'removedevsecretandreplaceitwithyourownstravasecretkeyhere',
   addDataSupport: false,
   hintsSupport: false,
-  physicalActivitySupport: false
+  physicalActivitySupport: false,
+  workflow : true,
+  pcc : false
 };

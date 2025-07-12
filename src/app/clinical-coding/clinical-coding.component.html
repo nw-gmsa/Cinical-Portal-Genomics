@@ -5,4 +5,7 @@
     <span  *ngIf="code.system == 'http://loinc.org'" >
          <a mat-button target="_blank" [href]="'https://loinc.org/'+appService.getCoded(code)" [matTooltip]="getDisplay(code)" matTooltipClass="mat-tooltip-white">LOINC {{ appService.getCoded(code) }} </a>
     </span>
+    <span *ngIf="code.system != 'http://loinc.org' && code.system != 'http://snomed.info/sct'">
+        <button mat-button [matTooltip]="getSystem(code.system)" matTooltipClass="mat-tooltip-white"> {{ code.code }} </button>
+    </span>
 </span>

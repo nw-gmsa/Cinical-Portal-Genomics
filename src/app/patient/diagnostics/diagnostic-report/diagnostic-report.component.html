@@ -44,7 +44,7 @@
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef> Category </th>
       <td mat-cell *matCellDef="let diagnosticReport">  <span *ngIf="diagnosticReport.category !== undefined">
-      <span [innerHTML]="fhirService.getCodeableConcepts(diagnosticReport.category)"></span>
+       <app-clinical-concept [setConcepts   ]="diagnosticReport.category"></app-clinical-concept>
       </span> </td>
     </ng-container>
 

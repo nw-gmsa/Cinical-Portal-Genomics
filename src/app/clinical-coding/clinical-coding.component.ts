@@ -33,4 +33,9 @@ export class ClinicalCodingComponent {
     if (code?.display == undefined) return "";
     return code.display
   }
+
+  getSystem(system: string | undefined) {
+    if (system !== undefined) return system;
+    return "";
+  }
 }

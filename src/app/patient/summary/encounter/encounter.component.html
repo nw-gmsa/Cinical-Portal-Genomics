@@ -36,18 +36,14 @@
     <ng-container matColumnDef="class">
       <th mat-header-cell *matHeaderCellDef> class </th>
       <td mat-cell *matCellDef="let encounter">
-        <span *ngIf="encounter.class !== undefined">
-          <span [innerHTML]="fhirService.getCoding(encounter.class)"></span>
-        </span>
+          <app-clinical-coding [setCode]="encounter.class"></app-clinical-coding>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef> Type </th>
       <td mat-cell *matCellDef="let encounter">
-        <span *ngIf="encounter.type !== undefined">
-           <span [innerHTML]="fhirService.getCodeableConcepts(encounter.type)"></span>
-        </span>
+          <app-clinical-concept [setConcepts]="encounter.type"></app-clinical-concept>
       </td>
     </ng-container>
 
@@ -55,7 +51,7 @@
       <th mat-header-cell *matHeaderCellDef> Service Type </th>
       <td mat-cell *matCellDef="let encounter">
         <span *ngIf="encounter.serviceType !== undefined">
-           <span [innerHTML]="fhirService.getCodeableConcept(encounter.serviceType)"></span>
+           <app-clinical-concept [setConcept]="encounter.serviceType"></app-clinical-concept>
         </span>
       </td>
     </ng-container>
