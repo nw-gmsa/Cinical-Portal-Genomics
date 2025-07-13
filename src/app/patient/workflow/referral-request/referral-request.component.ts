@@ -49,7 +49,7 @@ export class ReferralRequestComponent implements OnInit {
     displayedColumns = [ 'date', 'start', 'end', 'fulfills', 'status', 'intent', 'priority', 'category',
       'code', 'performer',  'recipient',  'resource'];
 
-    columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+    columnsToDisplayWithExpand = ['expand', ...this.displayedColumns] ;
 
 
   constructor(

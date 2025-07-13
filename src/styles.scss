@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@angular/material' as mat;
 
-// (optional) Additional themes
+@use '@angular/material' as mat;
 @use '@covalent/markdown/markdown-theme' as markdown;
 @use '@covalent/highlight/highlight-theme' as highlight;
-@import '@covalent/flavored-markdown/flavored-markdown-theme';
 
-// Covalent core themes
+//@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+@import '@covalent/flavored-markdown/flavored-markdown-theme';
 @import '@covalent/core/theming/all-theme';
 @import '@covalent/core/theming/teradata-theme';
 

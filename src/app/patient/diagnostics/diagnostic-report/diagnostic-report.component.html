@@ -1,9 +1,6 @@
 
 <div>
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-  </mat-form-field>
+
   <table mat-table [dataSource]="dataSource"
          class="mat-elevation-z8"
          multiTemplateDataRows
@@ -37,7 +34,14 @@
 
 
     <ng-container matColumnDef="code">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef> Observation </th>
+      <th mat-header-cell *matHeaderCellDef> Report
+          <div>
+          <mat-form-field >
+              <mat-label>Filter</mat-label>
+              <input matInput class="form-field" (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+          </mat-form-field>
+          </div>
+      </th>
       <td mat-cell *matCellDef="let diagnosticReport">
           <app-clinical-concept [setConcept]="diagnosticReport.code"></app-clinical-concept>
       </td>
@@ -69,7 +73,7 @@
         <button mat-icon-button color="accent"  (click)="selecReport(diagnosticReport)"><mat-icon>insert_chart</mat-icon></button>
         <button mat-icon-button color="accent" matTooltip="Delete" (click)="delete(diagnosticReport)"><mat-icon>delete</mat-icon></button>
            </span>
-        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(diagnosticReport)"><mat-icon>code</mat-icon>
+        <button mat-icon-button color="accent"  matTooltip="View FHIR resource" (click)="select(diagnosticReport)"><mat-icon>fireplace</mat-icon>
         </button>  </td>
     </ng-container>
 

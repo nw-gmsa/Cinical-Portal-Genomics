@@ -9,7 +9,7 @@
         <span *ngIf="environment.hintsSupport">
             <td-markdown>This is based on [IHE QEDm](https://wiki.ihe.net/index.php/Query_for_Existing_Data_for_Mobile_(QEDm))</td-markdown>
         </span>
-        <mat-accordion>
+        <mat-accordion [togglePosition]="'before'">
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>

@@ -58,7 +58,7 @@ export class ObservationChartComponent implements OnInit {
   observations: Observation[] = [];
   maxScale: any;
   minScale: any;
-  selectedValue: number = 1;
+  selectedValue: number = 120;
   @Input()
   startDate: Moment = moment(new Date());
   @Input()
