@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {DiagnosticReport} from 'fhir/r4';
+import {DiagnosticReport, ServiceRequest} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatSort} from '@angular/material/sort';
@@ -10,10 +10,18 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {environment} from "../../../../environments/environment";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 @Component({
   selector: 'app-diagnostic-report',
   templateUrl: './diagnostic-report.component.html',
-  styleUrls: ['./diagnostic-report.component.scss']
+  styleUrls: ['./diagnostic-report.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class DiagnosticReportComponent implements OnInit {
 
@@ -33,7 +41,9 @@ export class DiagnosticReportComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer',  'resource'];
+  expandedElement: null | ServiceRequest | undefined;
+
+  displayedColumns = ['effectiveDateTime', 'code',  'category', 'status', 'performer',  'resource', 'expand'];
 
   constructor(public fhirService: FhirService,
               public dlgSrv: DialogService,

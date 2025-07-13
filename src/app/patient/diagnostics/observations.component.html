@@ -9,6 +9,7 @@
         <span *ngIf="environment.hintsSupport">
             <td-markdown>This is based on [IHE QEDm](https://wiki.ihe.net/index.php/Query_for_Existing_Data_for_Mobile_(QEDm))</td-markdown>
         </span>
+        <mat-accordion>
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -30,7 +31,7 @@
                           No results found.
                       </span>
         </mat-expansion-panel>
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel expanded="false">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>Observation</h3>
@@ -53,36 +54,6 @@
                           </span>
             </div>
         </mat-expansion-panel>
-        <!--    <mat-card-content>
+        </mat-accordion>
 
-
-            <div>
-                <h3>Observations</h3>
-                <span flex></span>
-            </div>
-                <span *ngIf="environment.addDataSupport">
-            <div *ngIf="patientId !== undefined" class="list-horizontal">
-                    <button mat-stroked-button color="accent"  (click)="addEvent()">Add Event</button>
-            </div>
-                </span>
-                <span *ngIf="environment.hintsSupport">
-            <td-markdown>Data models [UKCore-Observation]({{fhirService.getUKCore('https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation')}}) and [NHSDigital-Observation](https://simplifier.net/guide/nhsdigital/Home/FHIRAssets/AllAssets/Profiles/NHSDigital-Observation).</td-markdown>
-                </span>
-                    <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
-                <span *ngIf="observations.length>0">
-                             <app-observation [observations]="observations"> </app-observation>
-                              </span>
-                <span *ngIf="observations.length==0">
-                              No results found.
-                          </span>
-            </div>
-        </mat-card-content>
-        <mat-card-content>
-            <div>
-                <h3>Diagnostic Reports</h3>
-                <span flex></span>
-
-            </div>
-
-        </mat-card-content>-->
     </mat-card>

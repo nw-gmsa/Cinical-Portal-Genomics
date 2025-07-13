@@ -125,6 +125,9 @@ import { ConceptDialogComponent } from './dialogs/concept-dialog/concept-dialog.
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {ClinicalCodingComponent} from "./clinical-coding/clinical-coding.component";
 import {ClinicalConceptComponent} from "./clinical-concept/clinical-concept.component";
+import {
+    DiagnosticReportExpandComponent
+} from "./patient/diagnostics/diagnostic-report/diagnostic-report-expand/diagnostic-report-expand.component";
 
 const modules = [
   MatIconModule,
@@ -179,6 +182,7 @@ const modules = [
     ResourceDialogComponent,
     TaskComponent,
     DiagnosticReportComponent,
+      DiagnosticReportExpandComponent,
     BinaryComponent,
     QuestionnaireResponseViewComponent,
     ExchangeTokenComponent,
@@ -231,37 +235,37 @@ const modules = [
       ClinicalCodingComponent,
       ClinicalConceptComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    RouterModule,
-    ...modules,
-    ReactiveFormsModule,
-    FormsModule,
-    NgxChartsModule,
-    HttpClientModule,
-    LayoutModule,
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        RouterModule,
+        ...modules,
+        ReactiveFormsModule,
+        FormsModule,
+        NgxChartsModule,
+        HttpClientModule,
+        LayoutModule,
 
-    CovalentLayoutModule,
-    CovalentMarkdownModule,
-    CovalentDynamicFormsModule,
-    CovalentFileModule,
-    CovalentJsonFormatterModule,
-    CovalentDialogsModule,
-    CovalentMessageModule,
-    CovalentLoadingModule,
-    CovalentDynamicMenuModule,
-    PdfViewerModule,
-    MatPaginatorModule,
-    CovalentCommonModule,
-    CovalentBreadcrumbsModule,
-    A11yModule,
-    MatChipsModule,
-    MatSlideToggleModule
+        CovalentLayoutModule,
+        CovalentMarkdownModule,
+        CovalentDynamicFormsModule,
+        CovalentFileModule,
+        CovalentJsonFormatterModule,
+        CovalentDialogsModule,
+        CovalentMessageModule,
+        CovalentLoadingModule,
+        CovalentDynamicMenuModule,
+        PdfViewerModule,
+        MatPaginatorModule,
+        CovalentCommonModule,
+        CovalentBreadcrumbsModule,
+        A11yModule,
+        MatChipsModule,
+        MatSlideToggleModule
 
-  ],
-  exports: [...modules, ClinicalCodingComponent],
+    ],
+  exports: [...modules, ClinicalCodingComponent, ObservationComponent],
   providers: [
     EprService,
     DatePipe,

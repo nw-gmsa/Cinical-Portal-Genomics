@@ -27,6 +27,8 @@ export class ObservationComponent implements OnInit {
 
   @Input() patientId: string | undefined;
 
+  @Input() showFilter: boolean = true;
+
   @Output() observation = new EventEmitter<any>();
 
 

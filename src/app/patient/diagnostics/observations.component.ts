@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {DiagnosticReport, Observation, Patient} from "fhir/r4";
 import {FhirService} from "../../services/fhir.service";
 import {EprService} from "../../services/epr.service";
-import {TdDialogService} from "@covalent/core/dialogs";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagnostic-report-create.component";
 import {EventCreateComponent} from "./event-create/event-create.component";
 import {DialogService} from "../../services/dialog.service";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {environment} from "../../../environments/environment";
+
 @Component({
   selector: 'app-observations',
   templateUrl: './observations.component.html',
