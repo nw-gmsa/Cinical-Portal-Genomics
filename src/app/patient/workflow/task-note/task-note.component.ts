@@ -21,5 +21,16 @@ export class TaskNoteComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Annotation>(this.annotations);
   }
+/*
+  fix(text :string) {
+    console.log('before')
+    console.log(text);
+    const fixed = text.replace('\\n'," <br/>")
+    console.log('after')
+    console.log(fixed);
+    return fixed;
+  }
+
+*/
 
 }
