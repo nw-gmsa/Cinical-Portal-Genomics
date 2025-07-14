@@ -133,6 +133,9 @@ import {
 } from "./patient/workflow/referral-request/service-request-expand/service-request-expand.component";
 import {PractitionerRoleComponent} from "./datatypes/practitioner-role/practitioner-role.component";
 import {SpecimenComponent} from "./patient/workflow/specimen/specimen.component";
+import {
+  ObservationExpandComponent
+} from "./patient/diagnostics/observation/observation-expand/observation-expand.component";
 
 const modules = [
   MatIconModule,
@@ -241,7 +244,8 @@ const modules = [
       ClinicalCodingComponent,
       ClinicalConceptComponent,
       PractitionerRoleComponent,
-      SpecimenComponent
+      SpecimenComponent,
+    ObservationExpandComponent
   ],
     imports: [
         BrowserModule,

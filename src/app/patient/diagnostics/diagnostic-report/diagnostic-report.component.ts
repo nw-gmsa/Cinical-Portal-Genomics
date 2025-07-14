@@ -157,6 +157,5 @@ export class DiagnosticReportComponent implements OnInit {
 
     }
 
-  protected readonly performance = performance;
   protected readonly environment = environment;
 }

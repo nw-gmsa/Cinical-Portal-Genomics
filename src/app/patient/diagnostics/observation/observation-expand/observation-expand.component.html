@@ -1,0 +1,17 @@
+<span *ngIf="observation !== undefined">
+    <span *ngIf="observation.hasMember !== undefined">
+        <table style="width: 100%">
+            <td style="width: 5%">&nbsp;</td>
+            <td style="width: 95%">
+                <mat-card>
+                    <mat-card-title> <h4>Panel Members</h4></mat-card-title>
+                    <mat-card-content>
+                        <span *ngIf="observations !== undefined && observations.length > 0">
+                              <app-observation [observations]="observations" [showFilter]="false"> </app-observation>
+                        </span>
+                    </mat-card-content>
+                  </mat-card>
+            </td>
+        </table>
+    </span>
+</span>

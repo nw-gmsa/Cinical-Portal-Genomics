@@ -30,11 +30,9 @@
         <mat-card *ngIf="serviceRequest.supportingInfo !== undefined">
             <mat-card-title> <h4>Supporting Information</h4></mat-card-title>
             <mat-card-content>
-
-            <mat-card style="width: 25%;" *ngFor="let supportingInfo of serviceRequest.supportingInfo" (click)="onClick(supportingInfo)">
-              <p style="color:blue;font-size:11px;">{{supportingInfo.type}}</p>
-              <span [innerHTML]="fhirService.getReference(supportingInfo)"></span>
-            </mat-card>
+                <span *ngIf="observations !== undefined">
+                      <app-observation [observations]="observations" [showFilter]="false"> </app-observation>
+                </span>
             </mat-card-content>
           </mat-card>
 

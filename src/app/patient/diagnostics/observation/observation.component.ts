@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 import {FhirService} from '../../../services/fhir.service';
-import {Coding, Extension, Observation} from 'fhir/r4';
+import {Coding, Extension, Observation, ServiceRequest} from 'fhir/r4';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {MatSort, Sort} from '@angular/material/sort';
 import {LiveAnnouncer} from "@angular/cdk/a11y";
@@ -11,13 +11,20 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
-import {DialogService} from "../../../services/dialog.service";
 import {environment} from "../../../../environments/environment";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-observation',
   templateUrl: './observation.component.html',
-  styleUrls: ['./observation.component.css']
+  styleUrls: ['./observation.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ObservationComponent implements OnInit {
 
@@ -38,8 +45,9 @@ export class ObservationComponent implements OnInit {
   dataSource: MatTableDataSource<Observation> ;
   @ViewChild(MatSort) sort: MatSort | undefined;
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  displayedColumns = ['effectiveDateTime', 'code', 'tags', 'category',  'value', 'performer', 'resource'];
+  displayedColumns = ['expand', 'effectiveDateTime', 'code', 'tags', 'category',  'value', 'performer', 'resource'];
 
+  expandedElement: null | Observation | undefined;
 
   constructor(public fhirService: FhirService,
               public dialog: MatDialog,
@@ -261,4 +269,11 @@ export class ObservationComponent implements OnInit {
   }
 
   protected readonly environment = environment;
+
+  hasExpand(element : Observation) {
+    if (element.hasMember !== undefined && element.hasMember.length>0) {
+      return true;
+    }
+    return false;
+  }
 }
