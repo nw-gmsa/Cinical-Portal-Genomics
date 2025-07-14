@@ -28,7 +28,7 @@ export class ObservationExpandComponent implements OnInit {
                 .subscribe(resource => {
                       if (resource.resourceType === 'Observation') {
                         obs.push(resource as Observation);
-                        console.log(resource)
+                        //console.log(resource)
                       }
                     if (this.observation?.hasMember?.length == obs.length) {
                         this.observations = obs;

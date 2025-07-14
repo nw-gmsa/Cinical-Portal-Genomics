@@ -33,7 +33,7 @@ export class ResourceDialogComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    console.log('Init Called TREE');
+    //console.log('Init Called TREE');
   }
 
   escapeHtml(source: string): string {

@@ -26,7 +26,7 @@ export class EprService {
   }
 
   public getPatient(){
-    console.log(this.patient?.id)
+    //console.log(this.patient?.id)
     return this.patient;
   }
 

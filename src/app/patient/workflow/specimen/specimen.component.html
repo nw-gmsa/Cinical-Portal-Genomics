@@ -22,11 +22,11 @@
     <ng-container matColumnDef="accessionNumber">
         <th mat-header-cell *matHeaderCellDef> Accession Number </th>
         <td mat-cell *matCellDef="let specimen">
-
+            <span *ngIf="specimen.accessionIdentifier !== undefined">
                 {{specimen.accessionIdentifier.value}}
                 <span *ngIf="specimen.accessionIdentifier.assigner !== undefined && specimen.accessionIdentifier.assigner.identifier !== undefined" > ({{specimen.accessionIdentifier.assigner.identifier.value}})</span>
                 <span *ngIf="specimen.accessionIdentifier.type !== undefined && specimen.accessionIdentifier.type.coding!== undefined" > ({{specimen.accessionIdentifier.type.coding[0].code}})</span>
-
+            </span>
         </td>
     </ng-container>
 
