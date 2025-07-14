@@ -11,9 +11,6 @@ export class ClinicalConceptComponent {
 
   public concepts: CodeableConcept[] =[]
 
-  public conceptz: CodeableConcept[] =[]
-
-
   @Input()
   set setConcepts(concepts: CodeableConcept[] | undefined) {
     if (concepts !== undefined) {

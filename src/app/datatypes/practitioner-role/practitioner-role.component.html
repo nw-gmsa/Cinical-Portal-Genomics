@@ -1,0 +1,12 @@
+
+<span *ngFor="let practitionerRole of roles">
+    <span *ngIf="practitionerRole.practitioner !== undefined">
+        {{practitionerRole.practitioner.display}}
+        <span *ngIf="practitionerRole.practitioner.identifier !== undefined">{{practitionerRole.practitioner.identifier.value}}</span>
+    </span>
+    &#64;
+    <span *ngIf="practitionerRole.organization !== undefined">
+        {{practitionerRole.organization.display}}
+        <span *ngIf="practitionerRole.organization.identifier !== undefined">{{practitionerRole.organization.identifier.value}}</span>
+    </span>
+</span>

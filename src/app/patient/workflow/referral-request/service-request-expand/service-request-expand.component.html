@@ -2,14 +2,15 @@
 <table style="width: 100%">
     <td style="width: 5%">&nbsp;</td>
     <td style="width: 95%">
-
+        <!--
         <mat-card *ngIf="serviceRequest.requester !== undefined">
             <mat-card-title><h4>Requester</h4></mat-card-title>
             <mat-card-content>
             <span [innerHTML]="fhirService.getReference(serviceRequest.requester)"></span>
             </mat-card-content>
           </mat-card>
-
+        -->
+        <!--
         <mat-card *ngIf="serviceRequest.reasonCode !== undefined || serviceRequest.reasonReference !== undefined">
             <mat-card-title><h4>Reason</h4></mat-card-title>
             <mat-card-content>
@@ -24,6 +25,7 @@
                 </span>
             </mat-card-content>
           </mat-card>
+          -->
 
         <mat-card *ngIf="serviceRequest.supportingInfo !== undefined">
             <mat-card-title> <h4>Supporting Information</h4></mat-card-title>

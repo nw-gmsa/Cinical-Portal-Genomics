@@ -123,14 +123,15 @@ import { QuestionnaireItemComponent } from './main/form-definition/questionnaire
 import { FormDefinitionComponent } from './main/form-definition/form-definition.component';
 import { ConceptDialogComponent } from './dialogs/concept-dialog/concept-dialog.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {ClinicalCodingComponent} from "./clinical-coding/clinical-coding.component";
-import {ClinicalConceptComponent} from "./clinical-concept/clinical-concept.component";
+import {ClinicalCodingComponent} from "./datatypes/clinical-coding/clinical-coding.component";
+import {ClinicalConceptComponent} from "./datatypes/clinical-concept/clinical-concept.component";
 import {
     DiagnosticReportExpandComponent
 } from "./patient/diagnostics/diagnostic-report/diagnostic-report-expand/diagnostic-report-expand.component";
 import {
   ServiceRequestExpandComponent
 } from "./patient/workflow/referral-request/service-request-expand/service-request-expand.component";
+import {PractitionerRoleComponent} from "./datatypes/practitioner-role/practitioner-role.component";
 
 const modules = [
   MatIconModule,
@@ -237,7 +238,8 @@ const modules = [
       FormDefinitionComponent,
       ConceptDialogComponent,
       ClinicalCodingComponent,
-      ClinicalConceptComponent
+      ClinicalConceptComponent,
+      PractitionerRoleComponent
   ],
     imports: [
         BrowserModule,

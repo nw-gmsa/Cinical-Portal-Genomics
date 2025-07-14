@@ -50,6 +50,13 @@
          <app-clinical-concept [setConcepts]="referral.category"></app-clinical-concept>
       </td>
     </ng-container>
+
+      <ng-container matColumnDef="reason">
+          <th mat-header-cell *matHeaderCellDef> Reason </th>
+          <td mat-cell *matCellDef="let referral">
+              <app-clinical-concept [setConcepts]="referral.reasonCode"></app-clinical-concept>
+          </td>
+      </ng-container>
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Code </th>
       <td mat-cell *matCellDef="let referral">
@@ -57,7 +64,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="performer">
+    <ng-container matColumnDef="performerType">
       <th mat-header-cell *matHeaderCellDef> Performer Type </th>
       <td mat-cell *matCellDef="let referral">
         <span [innerHTML]="fhirService.getCodeableConcept(referral.performerType)"></span>
@@ -89,12 +96,31 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="recipient">
+      <ng-container matColumnDef="orderNumber">
+          <th mat-header-cell *matHeaderCellDef> Order Number(s) </th>
+          <td mat-cell *matCellDef="let referral">
+              <p *ngFor="let orderNumber of referral.identifier">
+                  {{orderNumber.value}}
+                  <span *ngIf="orderNumber.assigner !== undefined && orderNumber.assigner.identifier !== undefined" > ({{orderNumber.assigner.identifier.value}})</span>
+                  <span *ngIf="orderNumber.type !== undefined && orderNumber.type.coding!== undefined" > ({{orderNumber.type.coding[0].code}})</span>
+              </p>
+          </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="performer">
       <th mat-header-cell *matHeaderCellDef> Performers </th>
       <td mat-cell *matCellDef="let referral">
         <span [innerHTML]="fhirService.getReferences(referral.performer)"></span>
       </td>
     </ng-container>
+
+      <ng-container matColumnDef="requester">
+          <th mat-header-cell *matHeaderCellDef> Requester </th>
+          <td mat-cell *matCellDef="let referral">
+              <app-practitioner-role [setRole]="referral.requester"></app-practitioner-role>
+          </td>
+      </ng-container>
 
     <ng-container matColumnDef="resource">
       <th mat-header-cell *matHeaderCellDef style="min-width: 50px;"></th>

@@ -1,9 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Reference, ServiceRequest} from "fhir/r4";
 import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
 import {FhirService} from "../../../../services/fhir.service";
-import {EprService} from "../../../../services/epr.service";
 
 @Component({
   selector: 'app-service-request-expand',

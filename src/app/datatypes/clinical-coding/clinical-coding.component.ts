@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 
 import {Coding} from "fhir/r4";
-import {AppService} from "../app.service";
+import {AppService} from "../../app.service";
 
 @Component({
   selector: 'app-clinical-coding',

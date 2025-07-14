@@ -44,10 +44,10 @@ export class ReferralRequestComponent implements OnInit {
 
   // @ts-ignore
     dataSource: MatTableDataSource<ServiceRequest>;
-  @ViewChild(MatSort) sort: MatSort | undefined;
+    @ViewChild(MatSort) sort: MatSort | undefined;
 
-    displayedColumns = [ 'date', 'start', 'end', 'fulfills', 'status', 'intent', 'priority', 'category',
-      'code', 'performer',  'recipient',  'resource'];
+    displayedColumns = [ 'orderNumber', 'date', 'code', 'reason', 'status',  'category',
+        'requester', 'performer', 'resource'];
 
     columnsToDisplayWithExpand = ['expand', ...this.displayedColumns] ;
 
