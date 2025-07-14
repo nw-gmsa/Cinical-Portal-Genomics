@@ -1,5 +1,5 @@
 <span *ngFor="let concept of concepts">
-    {{concept.text}}
+    {{getText(concept)}}
     <app-clinical-coding [setCoding]="concept.coding"></app-clinical-coding>
 </span>
 

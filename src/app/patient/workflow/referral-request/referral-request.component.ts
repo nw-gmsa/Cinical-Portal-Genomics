@@ -53,7 +53,6 @@ export class ReferralRequestComponent implements OnInit {
 
 
   constructor(
-      private router: Router,
       public dialog: MatDialog,
       public fhirService: FhirService,
       private eprService: EprService) {
@@ -185,16 +184,6 @@ export class ReferralRequestComponent implements OnInit {
             this.referral.emit(result)
             //this.getResults();
         })
-    }
-
-    onClick(reference: Reference) {
-        if (reference.type !== undefined && reference.reference !== undefined) {
-            const id = reference.reference.split('/')[1];
-            console.log(id);
-            if (reference.type === 'DocumentReference') this.router.navigate(['/patient', this.patientId, 'documents', id])
-            if (reference.type === 'QuestionnaireResponse') this.router.navigate(['/patient', this.patientId, 'forms', id])
-            if (reference.type === 'DiagnosticReport') this.router.navigate(['/patient', this.patientId, 'report', id])
-        }
     }
 
     protected readonly environment = environment;

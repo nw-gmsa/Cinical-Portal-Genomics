@@ -31,4 +31,12 @@ export class ClinicalConceptComponent {
       this.concepts = []
     }
   }
+
+  getText(concept: CodeableConcept) {
+   if (concept.text !== undefined) return concept.text;
+   if (concept.coding !== undefined && concept.coding.length > 0) {
+     return concept.coding[0].display;
+   }
+   return "";
+  }
 }

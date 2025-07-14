@@ -128,6 +128,9 @@ import {ClinicalConceptComponent} from "./clinical-concept/clinical-concept.comp
 import {
     DiagnosticReportExpandComponent
 } from "./patient/diagnostics/diagnostic-report/diagnostic-report-expand/diagnostic-report-expand.component";
+import {
+  ServiceRequestExpandComponent
+} from "./patient/workflow/referral-request/service-request-expand/service-request-expand.component";
 
 const modules = [
   MatIconModule,
@@ -177,6 +180,7 @@ const modules = [
     DocumentReferenceComponent,
     QuestionnaireResponseComponent,
     ReferralRequestComponent,
+      ServiceRequestExpandComponent,
     AllergyIntoleranceComponent,
     MedicationRequestComponent,
     ResourceDialogComponent,

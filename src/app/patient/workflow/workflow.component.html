@@ -11,7 +11,7 @@
         </span>
         <div *tdLoading="  'overlayStarSyntax'; mode: loadingMode.Indeterminate; type: loadingType.Circular;  strategy: loadingStrategy.Overlay;  color: 'accent'">
 
-            <mat-expansion-panel expanded="true">
+            <mat-expansion-panel expanded="true" [togglePosition]="'before'">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         <h3>Referrals and Interventions</h3>
@@ -29,7 +29,7 @@
                        No results found.
                    </span>
             </mat-expansion-panel>
-            <mat-expansion-panel expanded="true">
+            <mat-expansion-panel expanded="true" [togglePosition]="'before'">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         <h3>Tasks</h3>

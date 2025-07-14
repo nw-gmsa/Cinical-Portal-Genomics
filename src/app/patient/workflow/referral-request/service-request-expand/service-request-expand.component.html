@@ -1,0 +1,54 @@
+<span *ngIf="serviceRequest !== undefined">
+<table style="width: 100%">
+    <td style="width: 5%">&nbsp;</td>
+    <td style="width: 95%">
+
+        <mat-card *ngIf="serviceRequest.requester !== undefined">
+            <mat-card-title><h4>Requester</h4></mat-card-title>
+            <mat-card-content>
+            <span [innerHTML]="fhirService.getReference(serviceRequest.requester)"></span>
+            </mat-card-content>
+          </mat-card>
+
+        <mat-card *ngIf="serviceRequest.reasonCode !== undefined || serviceRequest.reasonReference !== undefined">
+            <mat-card-title><h4>Reason</h4></mat-card-title>
+            <mat-card-content>
+                 <span *ngIf="serviceRequest.reasonCode !== undefined">
+                     <app-clinical-concept [setConcepts]="serviceRequest.reasonCode"></app-clinical-concept>
+                 </span>
+                <span *ngIf="serviceRequest.reasonReference !== undefined">
+                  <mat-card style="width: 25%;" *ngFor="let reason of serviceRequest.reasonReference" (click)="onClick(reason)">
+                  <p style="color:blue;font-size:11px;">{{reason.type}}</p>
+                  <span [innerHTML]="fhirService.getReference(reason)"></span>
+                </mat-card>
+                </span>
+            </mat-card-content>
+          </mat-card>
+
+        <mat-card *ngIf="serviceRequest.supportingInfo !== undefined">
+            <mat-card-title> <h4>Supporting Information</h4></mat-card-title>
+            <mat-card-content>
+
+            <mat-card style="width: 25%;" *ngFor="let supportingInfo of serviceRequest.supportingInfo" (click)="onClick(supportingInfo)">
+              <p style="color:blue;font-size:11px;">{{supportingInfo.type}}</p>
+              <span [innerHTML]="fhirService.getReference(supportingInfo)"></span>
+            </mat-card>
+            </mat-card-content>
+          </mat-card>
+
+        <mat-card *ngIf="serviceRequest.note !== undefined">
+            <mat-card-title><h4>Notes</h4></mat-card-title>
+            <mat-card-content>
+                <app-task-note [annotations]="serviceRequest.note"></app-task-note>
+            </mat-card-content>
+        </mat-card>
+<!--
+<div style="display: flex; align-items: flex-start; width: 100%;">
+    <h4>Tasks</h4>
+    <app-task [serviceRequest]="element" [patientId]="patientId" (task)="processTaskChange($event)"></app-task>
+</div>
+-->
+
+    </td>
+</table>
+</span>
