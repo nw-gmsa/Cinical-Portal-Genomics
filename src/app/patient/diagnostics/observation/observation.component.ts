@@ -43,7 +43,6 @@ export class ObservationComponent implements OnInit {
 
   constructor(public fhirService: FhirService,
               public dialog: MatDialog,
-              public dlgservice: DialogService,
               private router: Router,
               private _liveAnnouncer: LiveAnnouncer) { }
 

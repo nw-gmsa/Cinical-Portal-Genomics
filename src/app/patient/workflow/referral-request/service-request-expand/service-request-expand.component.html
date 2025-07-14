@@ -44,6 +44,13 @@
                 <app-task-note [annotations]="serviceRequest.note"></app-task-note>
             </mat-card-content>
         </mat-card>
+
+        <mat-card *ngIf="serviceRequest.specimen !== undefined">
+            <mat-card-title><h4>Specimen(s)</h4></mat-card-title>
+            <mat-card-content>
+                <app-specimen [setSpecimens]="serviceRequest.specimen"></app-specimen>
+            </mat-card-content>
+        </mat-card>
 <!--
 <div style="display: flex; align-items: flex-start; width: 100%;">
     <h4>Tasks</h4>

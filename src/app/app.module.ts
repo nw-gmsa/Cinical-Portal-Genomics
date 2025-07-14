@@ -132,6 +132,7 @@ import {
   ServiceRequestExpandComponent
 } from "./patient/workflow/referral-request/service-request-expand/service-request-expand.component";
 import {PractitionerRoleComponent} from "./datatypes/practitioner-role/practitioner-role.component";
+import {SpecimenComponent} from "./patient/workflow/specimen/specimen.component";
 
 const modules = [
   MatIconModule,
@@ -239,7 +240,8 @@ const modules = [
       ConceptDialogComponent,
       ClinicalCodingComponent,
       ClinicalConceptComponent,
-      PractitionerRoleComponent
+      PractitionerRoleComponent,
+      SpecimenComponent
   ],
     imports: [
         BrowserModule,

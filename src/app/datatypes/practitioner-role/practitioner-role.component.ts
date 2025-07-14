@@ -1,10 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DiagnosticReport, PractitionerRole, Reference} from "fhir/r4";
-import {MatTableDataSource} from "@angular/material/table";
+import { PractitionerRole, Reference} from "fhir/r4";
 import {FhirService} from "../../services/fhir.service";
-import {DialogService} from "../../services/dialog.service";
-import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+
 
 @Component({
   selector: 'app-practitioner-role',
