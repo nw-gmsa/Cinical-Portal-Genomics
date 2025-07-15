@@ -1,6 +1,6 @@
 {
   "/fhir": {
-    "target": "http://192.168.1.67:32783",
+    "target": "http://localhost:32783",
     "secure": false,
     "changeOrigin": true
   }

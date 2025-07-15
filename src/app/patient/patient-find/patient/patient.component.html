@@ -24,10 +24,7 @@
     <ng-container matColumnDef="identifier">
       <th mat-header-cell *matHeaderCellDef > Identifier </th>
       <td mat-cell *matCellDef="let patient" (click)="selectPatient(patient)">
-
-        <div *ngFor="let identifier of patient.identifier">
-            <span [innerHTML]="fhirService.getIdentifier(identifier)"></span>
-          </div>
+          <app-identifier [setIdentifiers]="patient.identifier"></app-identifier>
       </td>
     </ng-container>
 

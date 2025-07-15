@@ -20,11 +20,7 @@
       <ng-container matColumnDef="reportNumber">
           <th mat-header-cell *matHeaderCellDef> Report Number(s) </th>
           <td mat-cell *matCellDef="let referral">
-              <p *ngFor="let orderNumber of referral.identifier">
-                  {{orderNumber.value}}
-                  <span *ngIf="orderNumber.assigner !== undefined && orderNumber.assigner.identifier !== undefined" > ({{orderNumber.assigner.identifier.value}})</span>
-                  <span *ngIf="orderNumber.type !== undefined && orderNumber.type.coding!== undefined" > ({{orderNumber.type.coding[0].code}})</span>
-              </p>
+              <app-identifier [setIdentifiers]="referral.identifier"></app-identifier>
           </td>
       </ng-container>
       <ng-container matColumnDef="orderNumber">
@@ -33,11 +29,9 @@
               <span *ngIf="diagnosticReport.basedOn !== undefined">
 
                   <span *ngFor="let reference of diagnosticReport.basedOn">
-                      <p *ngIf="reference.identifier !== undefined">
-                      {{reference.identifier.value}}
-                      <span *ngIf="reference.identifier.assigner !== undefined && reference.identifier.assigner.identifier !== undefined" > ({{reference.identifier.assigner.identifier.value}})</span>
-                      <span *ngIf="reference.identifier.type !== undefined && reference.identifier.type.coding!== undefined" > ({{reference.identifier.type.coding[0].code}})</span>
-                      </p>
+                      <span *ngIf="reference.identifier !== undefined">
+                           <app-identifier [setIdentifier]="reference.identifier"></app-identifier>
+                      </span>
                   </span>
                   </span>
           </td>

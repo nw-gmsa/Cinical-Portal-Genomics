@@ -1,0 +1,5 @@
+<p *ngFor="let identifier of identifiers">
+    {{identifier.value}}
+    <mat-chip *ngIf="identifier.type !== undefined && identifier.type.coding!== undefined" [matTooltip]="getDisplay(identifier.type)" matTooltipClass="mdc-tooltip"> {{identifier.type.coding[0].code}}</mat-chip>
+    <span *ngIf="identifier.assigner !== undefined && identifier.assigner.identifier !== undefined" > ({{identifier.assigner.identifier.value}})</span>
+</p>

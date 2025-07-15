@@ -216,8 +216,7 @@ export class ConceptPopupComponent implements OnInit {
   }
   */
   getTerminologyUrlbyCode(code : string | undefined, system : string| undefined) {
-    return "https://ontoserver.csiro.au/shrimp/?concept=" + code + "&version=http%3A%2F%2Fsnomed.info%2Fsct%2F83821000000107%2Fversion%2F20221123&valueset=http%3A%2F%2Fsnomed.info%2Fsct%2F83821000000107%3Ffhir_vs"
-    // return "https://ontoserver.csiro.au/shrimp/?concept=" + code + "&valueset=http%3A%2F%2Fsnomed.info%2Fsct%3Ffhir_vs"
+    return "https://ontoserver.csiro.au/shrimp/?concept=" + code + "&valueset=http%3A%2F%2Fsnomed.info%2Fsct%3Ffhir_vs&fhir=https%3A%2F%2Fontology.nhs.uk%2Fproduction1%2Ffhir"
   }
 
   private getParents() {
