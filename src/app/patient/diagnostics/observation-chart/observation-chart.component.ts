@@ -29,7 +29,7 @@ export class ObservationChartComponent implements OnInit {
   observationCode: string ='';
 
   @Input()
-  title = 'Observation Chart';
+  title = '';
 
   @Input()
   showRange = false;
@@ -124,6 +124,7 @@ export class ObservationChartComponent implements OnInit {
                 if (firstObservation.code.text !== undefined) label = firstObservation.code.text
                 if (firstObservation.code.coding !== undefined && firstObservation.code.coding.length > 0 && firstObservation.code.coding[0].display !== undefined) {
                   label = firstObservation.code.coding[0].display
+                    this.title = label;
                 }
               }
               if (firstObservation.valueQuantity !== undefined) {
