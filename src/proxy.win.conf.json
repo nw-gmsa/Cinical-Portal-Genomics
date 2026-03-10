@@ -1,7 +1,11 @@
 {
   "/fhir": {
-    "target": "http://192.168.1.67:32783",
-    "secure": false,
-    "changeOrigin": true
+    "target": "https://192.168.1.20",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "/fhir": "/healthconnect/cdr/fhir"
+    }
   }
 }

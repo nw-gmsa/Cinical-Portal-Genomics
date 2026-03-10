@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  conformanceServer: 'http://localhost:4200/fhir/r4',
-  fhirServer: 'http://localhost:4200/fhir/r4',
-  tieServer: 'http://localhost:4200/fhir/r4',
-  directoryServer: 'http://localhost:4200/fhir/r4',
+  conformanceServer: 'http://localhost:4200/healthconnect/cdr/fhir/r4',
+  fhirServer: 'http://localhost:4200/healthconnect/cdr/fhir/r4',
+  tieServer: 'http://localhost:4200/healthconnect/cdr/fhir/r4',
+  directoryServer: 'http://localhost:4200/healthconnect/cdr/fhir/r4',
   stravaClientId: '123',
   stravaSecret: 'removedevsecretandreplaceitwithyourownstravasecretkeyhere',
   withingClientId: 'removedevsecretandreplaceitwithyourownstravasecretkeyhere',
