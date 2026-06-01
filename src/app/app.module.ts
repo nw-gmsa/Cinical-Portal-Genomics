@@ -70,7 +70,6 @@ import { FormsComponent } from './patient/forms/forms.component';
 import { WorkflowComponent } from './patient/workflow/workflow.component';
 import { CoordinatedCareComponent } from './patient/care-coordination/coordinated-care.component';
 import { PatientCommunicationComponent } from './patient/communication/patient-communication.component';
-import { PersonalHealthDeviceComponent } from './patient/personal-health-device/personal-health-device.component';
 import {CovalentCommonModule} from "@covalent/core/common";
 import { DocumentReferenceCreateComponent } from './patient/documents/document-reference-create/document-reference-create.component';
 import { ObservationDetailComponent } from './patient/diagnostics/observation-detail/observation-detail.component';
@@ -210,7 +209,7 @@ const modules = [
     WorkflowComponent,
     CoordinatedCareComponent,
     PatientCommunicationComponent,
-    PersonalHealthDeviceComponent,
+
     DocumentReferenceCreateComponent,
     ObservationDetailComponent,
     PhysicalActivityDetailComponent,

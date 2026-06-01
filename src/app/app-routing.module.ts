@@ -14,7 +14,6 @@ import {
   PatientCommunicationComponent
 } from "./patient/communication/patient-communication.component";
 import {CoordinatedCareComponent} from "./patient/care-coordination/coordinated-care.component";
-import {PersonalHealthDeviceComponent} from "./patient/personal-health-device/personal-health-device.component";
 import {ObservationDetailComponent} from "./patient/diagnostics/observation-detail/observation-detail.component";
 import {PhysicalActivityDetailComponent} from "./patient/diagnostics/physical-activity-detail/physical-activity-detail.component";
 import {VitalsDetailComponent} from "./patient/diagnostics/vitals-detail/vitals-detail.component";
@@ -59,7 +58,6 @@ const routes: Routes = [
         path: 'patient/:patientid', component: PatientMainComponent,
         children: [
           {path: '', component: PatientSummaryComponent},
-          {path: 'device', component: PersonalHealthDeviceComponent},
           {path: 'summary', component: PatientSummaryComponent},
           {path: 'exchange_token', component: ExchangeTokenComponent},
           {path: 'observations', component: ObservationsComponent},

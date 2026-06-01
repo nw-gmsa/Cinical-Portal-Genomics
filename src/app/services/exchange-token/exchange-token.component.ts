@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {StravaService} from "../strava.service";
 
 @Component({
   selector: 'app-exchange-token',
@@ -10,7 +9,7 @@ import {StravaService} from "../strava.service";
 export class ExchangeTokenComponent implements OnInit {
 
   constructor( private route: ActivatedRoute,
-               private strava: StravaService,
+
                private router: Router
   ) { }
 
@@ -27,14 +26,6 @@ export class ExchangeTokenComponent implements OnInit {
 
     console.log(authorisationCode);
 
-    // Subscribe to the token change
-    this.strava.tokenChange.subscribe(
-      token => {
-        this.router.navigateByUrl('/');
-      }
-    )
-    // this will emit a change when the token is retrieved
-    this.strava.getOAuth2AccessToken(authorisationCode);
   }
 
 }

@@ -9,10 +9,10 @@ import {
 import {FhirService} from '../../services/fhir.service';
 import {EprService} from '../../services/epr.service';
 import { TdDialogService} from '@covalent/core/dialogs';
-import {StravaService} from '../../services/strava.service';
+
 import {Athlete} from '../../services/models/athlete';
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from '@covalent/core/loading';
-import {WithingsService} from '../../services/withings.service';
+
 import {delay} from 'rxjs/operators';
 import {
     MedicationRequestCreateEditComponent
@@ -73,8 +73,7 @@ export class PatientSummaryComponent implements OnInit {
               private fhirService: FhirService,
               private route: ActivatedRoute,
               private eprService: EprService,
-              private strava: StravaService,
-              private withings: WithingsService,
+
               private dialogService: TdDialogService,
               public dialog: MatDialog,
               private _loadingService: TdLoadingService) { }
@@ -97,64 +96,11 @@ export class PatientSummaryComponent implements OnInit {
         const code = params['code'];
         const state = params['state'];
         if (code !== undefined) {
-          if (state !== undefined && state === 'withings') {
-           // console.log('Withings detected');
-            this.doWithingsSetup(code, state);
-          } else {
-            this.doStravaSetup(code);
-          }
+
         }
       });
       this.clearDown();
-      this.strava.tokenChange.subscribe(token => {
-      //  console.log('Strava Token Received');
-        if (token !== undefined) { this.stravaConnect = false; }
-        this.stravaLoad();
-      });
-      this.withings.tokenChange.subscribe(
-      token => {
-      //  console.log('Withings Token Received');
-        if (token !== undefined) { this.withingsConnect = false; }
-        this.withingsLoad();
-      }
-    );
-      this.strava.loaded.subscribe(activities => {
-    //    console.log('Strava Loaded Received');
-    //    console.log(activities)
-        const patientRef: Reference = {
-          reference: 'Patient/' + this.patientId
-        };
-        const transaction = this.strava.createTransaction(activities, patientRef);
-        this.fhirService.sendTransaction(transaction, 'Strava');
-      });
-      this.withings.activityLoaded.subscribe(result => {
-   //     console.log('Withings Activity Loaded Received');
-        const patientRef: Reference = {
-          reference: 'Patient/' + this.patientId
-        };
-        const transaction = this.withings.createTransaction(result, patientRef);
-        // console.log(JSON.stringify(transaction))
-        this.fhirService.sendTransaction(transaction, 'Withings Activity');
-      });
-      this.withings.sleepLoaded.subscribe(result => {
-     //   console.log('Withings Sleep Loaded Received');
-        const patientRef: Reference = {
-          reference: 'Patient/' + this.patientId
-        };
-        const transaction = this.withings.createTransaction(result, patientRef);
-       // console.log(JSON.stringify(transaction))
-        this.fhirService.sendTransaction(transaction, 'Withings Sleep');
-      });
-      this.withings.measuresLoaded.subscribe(result => {
-      //  console.log('Withings Measures Loaded Received');
-        const patientRef: Reference = {
-          reference: 'Patient/' + this.patientId
-        };
-        const transaction = this.withings.createTransaction(result, patientRef);
-       // console.log(JSON.stringify(transaction))
-        this.fhirService.sendTransaction(transaction, 'Withings Measures');
-      });
-      // removed &_revinclude=CarePlan:patient
+
 
   }
 
@@ -293,76 +239,6 @@ export class PatientSummaryComponent implements OnInit {
     }
 
 
-
-
-
-  doStravaSetup(authorisationCode: string): void  {
-
- //   console.log(authorisationCode);
-
-    // Subscribe to the token change
-    this.strava.tokenChange.subscribe(
-      () => {
-        this.router.navigateByUrl('/patient/' + this.patientId);
-      }
-    );
-    // this will emit a change when the token is retrieved
-    this.strava.getOAuth2AccessToken(authorisationCode);
-  }
-
-  doWithingsSetup(authorisationCode: string, state: any): void {
-
-  //  console.log(authorisationCode);
-    this.withings.tokenChange.subscribe(
-      () => {
-        this.router.navigateByUrl('/patient/' + this.patientId);
-      }
-    );
-    const url = window.location.href.split('?');
-    this.withings.getOAuth2AccessToken(authorisationCode, url[0]);
-  }
-  stravaLoad(): void {
-    this.getAthlete();
-
-    this.phrLoad(false);
-  }
-
-  getAthlete(): void {
-
-    this.strava.getAthlete().subscribe(
-      result => {
-        this.athlete = result;
-        this.strava.setAthlete(result);
-      },
-      (err) => {
-        console.log(err);
-        if (err.status === 401) {
-          this.stravaConnect = true;
-        }
-      }
-    );
-  }
-
-  phrLoad(withing: boolean): void {
-    this.stravaComplete = false;
-
-    this.strava.getActivities();
-
-
-   // TODO reload data
-  }
-
-
-  private async withingsLoad(): Promise<void> {
-    // Process sequentially. Don't bombard AWS with many requests
-    this.withings.getSleep();
-    await delay(20000);
-    await this.withings.getMeasures();
-    await delay(100000);
-    this.withings.getActivity();
-
-    // Strava covers this this.withings.getWorkoutResults();
-  }
 
     protected readonly undefined = undefined;
 
