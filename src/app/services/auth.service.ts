@@ -10,7 +10,7 @@ export class AuthService {
 
   public isLoggedIn: boolean = false;
 
-  private accessToken = undefined;
+  private accessToken: string | undefined = undefined;
 
   private refreshingToken = false;
 
@@ -32,7 +32,7 @@ export class AuthService {
 
 
 
-  getAccessToken() {
+  getAccessToken(): string | undefined {
     if (localStorage.getItem('awsToken') != undefined) {
       var token: any = JSON.parse(<string>localStorage.getItem('awsToken'));
 
