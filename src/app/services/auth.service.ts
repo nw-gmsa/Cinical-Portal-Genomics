@@ -58,36 +58,7 @@ export class AuthService {
     if (this.refreshingToken) return;
     this.refreshingToken = true;
     console.log('AWS Refresh Token');
-    // See note below on AWS handling refresh internally
-    this.getOAuth2AccessToken(undefined);
-    /*
 
-    Libs apparently handle behind the scenes - so not needed.
-
-    try {
-     Auth.currentAuthenticatedUser().then(cognitoUser => {
-       Auth.currentSession().then(currentSession => {
-         cognitoUser.refreshSession(currentSession.getRefreshToken(), (err, session) => {
-           if (err != undefined) {
-             console.log('AWS Refresh Error',err);
-           } else {
-             this.refreshingToken = false;
-             let token = session.getRefreshToken();
-             console.log('AWS Refresh Token', token);
-             localStorage.setItem('awsToken', JSON.stringify(token));
-             this.tokenChange.emit(token);
-
-             const {idToken, refreshToken, accessToken} = session;
-           }
-         });
-       })
-     });
-    } catch (e) {
-      console.log('Unable to refresh Token', e);
-      this.refreshingToken = false;
-    }
-
-     */
   }
 
   private isTokenExpired(
@@ -118,7 +89,5 @@ export class AuthService {
     return date;
   }
 
-  public getOAuth2AccessToken(authorisationCode) {
 
-  }
 }
