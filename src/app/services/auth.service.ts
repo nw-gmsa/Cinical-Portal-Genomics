@@ -1,16 +1,14 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Observable, Subject} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
-import {Auth, Hub} from 'aws-amplify';
-import {ICredentials} from 'aws-amplify/lib/Common/types/types';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  public isLoggedIn: boolean;
+  public isLoggedIn: boolean = false;
 
   private accessToken = undefined;
 
@@ -28,29 +26,15 @@ export class AuthService {
 
 
   constructor() {
-    Hub.listen('auth',(data) => {
-      const { channel, payload } = data;
-      if (channel === 'auth') {
-        this._authState.next(payload.event);
-      }
-    });
+
   }
 
-  public signOut(): Promise<any> {
-    return Auth.signOut()
-      .then(() => this.isLoggedIn = false)
-  }
 
-  googleSocialSignIn():Promise<ICredentials> {
-    console.log("googleSocialSignIn");
-    return Auth.federatedSignIn({
-      'provider': CognitoHostedUIIdentityProvider.Google
-    });
-  }
+
 
   getAccessToken() {
     if (localStorage.getItem('awsToken') != undefined) {
-      var token: any = JSON.parse(localStorage.getItem('awsToken'));
+      var token: any = JSON.parse(<string>localStorage.getItem('awsToken'));
 
       const helper = new JwtHelperService();
       if (this.isTokenExpired(token)) {
@@ -135,19 +119,6 @@ export class AuthService {
   }
 
   public getOAuth2AccessToken(authorisationCode) {
-    Auth.currentSession().then(res => {
-      this.isLoggedIn = true;
-      let accessToken = res.getAccessToken();
-      console.log('AWS Access Token',accessToken);
-      localStorage.setItem('awsToken', JSON.stringify(accessToken));
 
-
-      Auth.currentUserInfo().then(result => {
-        this.currentUser = result;
-        console.log('Auth have current user');
-        this.tokenChange.emit(result);
-      })
-
-    });
   }
 }

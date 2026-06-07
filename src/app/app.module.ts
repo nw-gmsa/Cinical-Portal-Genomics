@@ -14,7 +14,7 @@ import {CovalentFileModule} from '@covalent/core/file';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatStepperModule} from '@angular/material/stepper';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, provideHttpClient, withInterceptors} from '@angular/common/http';
 import {CovalentJsonFormatterModule} from '@covalent/core/json-formatter';
 import {MatSortModule} from '@angular/material/sort';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -136,6 +136,7 @@ import {
   ObservationExpandComponent
 } from "./patient/diagnostics/observation/observation-expand/observation-expand.component";
 import {IdentifierComponent} from "./datatypes/identifier/identifier.component";
+import {authInterceptor} from "./services/auth.interceptor";
 
 const modules = [
   MatIconModule,
@@ -294,6 +295,9 @@ const modules = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    provideHttpClient(
+        withInterceptors([authInterceptor])
+    ),
   ],
 
   bootstrap: [AppComponent]
