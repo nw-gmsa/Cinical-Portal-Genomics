@@ -81,7 +81,7 @@ export class BinaryComponent implements OnInit {
             if (documentReference.content !== undefined && documentReference.content.length > 0 && documentReference.content[0].attachment !== undefined
                 && documentReference.content[0].attachment.url !== undefined) {
 
-              this.fhirService.getBinary("fhir/r4/"+documentReference.content[0].attachment.url).subscribe(result => {
+              this.fhirService.getBinary("/"+documentReference.content[0].attachment.url).subscribe(result => {
                 this.binary = result;
                 this.processBinary();
               })

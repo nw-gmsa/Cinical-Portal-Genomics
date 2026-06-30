@@ -40,7 +40,7 @@ export class PatientFindComponent implements OnInit {
     selectPatient(patient: Patient) {
         console.log('Patient change - '+patient.id);
         this.eprService.setPatient(patient);
-        this.router.navigateByUrl('patient/' + patient.id);
+        this.router.navigateByUrl('patient/' + patient.id + '/observations');
     }
 
 

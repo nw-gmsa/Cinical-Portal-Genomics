@@ -3,7 +3,7 @@
         <mat-card-content>
             <td-breadcrumbs>
                 <a td-breadcrumb [routerLink]="['/patient', patientId]">Patient</a>
-                <td-breadcrumb>Referrals, Tasks and Interventions</td-breadcrumb>
+                <td-breadcrumb>Referrals</td-breadcrumb>
             </td-breadcrumbs>
         </mat-card-content>
         <span *ngIf="environment.hintsSupport">
@@ -29,7 +29,7 @@
                        No results found.
                    </span>
             </mat-expansion-panel>
-            <mat-expansion-panel expanded="true" [togglePosition]="'before'">
+          <!--  <mat-expansion-panel expanded="true" [togglePosition]="'before'">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         <h3>Tasks</h3>
@@ -50,7 +50,7 @@
                 <span *ngIf="tasks.length==0">
                        No results found.
                    </span>
-            </mat-expansion-panel>
+            </mat-expansion-panel> -->
           <!--  <mat-card-content>
 
                 <h3>Referrals and Interventions</h3>

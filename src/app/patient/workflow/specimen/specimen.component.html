@@ -41,7 +41,9 @@
     <ng-container matColumnDef="collected">
         <th mat-header-cell mat-sort-header *matHeaderCellDef> Collected </th>
         <td mat-cell *matCellDef="let specimen">
+             <span *ngIf="specimen.collection !== undefined">
             <span *ngIf="specimen.collection.collectedDateTime != undefined">{{specimen.collection.collectedDateTime | date: 'dd-MMM-yyyy HH:mm'}} </span>
+             </span>
         </td>
     </ng-container>
 

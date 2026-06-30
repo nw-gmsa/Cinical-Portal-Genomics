@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import {inject} from "@angular/core";
 import {AuthService} from "./auth.service";
+import {environment} from "../../environments/environment";
 
 
 // https://angular.dev/guide/http/interceptors
@@ -8,10 +9,11 @@ import {AuthService} from "./auth.service";
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   console.log(req.url);
-  const authToken = inject(AuthService).getAccessToken()
+ // put back in for OAuth2 const authToken = inject(AuthService).getAccessToken()
+  const authToken = "Basic "+btoa(unescape(encodeURIComponent(environment.user + ':' + environment.password)));
   if (authToken != undefined) {
     const newReq = req.clone({
-      headers: req.headers.append('X-Authentication-Token', authToken),
+      headers: req.headers.append('Authorization', authToken),
     });
     return next(newReq);
   } else {

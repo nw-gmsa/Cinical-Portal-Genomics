@@ -473,7 +473,7 @@ export class FhirService {
   }
 
   getBinary(url: string): Observable<Binary> {
-    return this.http.get<Binary>(url, {headers: this.getEPRHeaders(true)});
+    return this.http.get<Binary>(this.getFHIRServerBase() + url, {headers: this.getEPRHeaders(true)});
   }
 
   getBinaryRaw(url: string): Observable<any> {
