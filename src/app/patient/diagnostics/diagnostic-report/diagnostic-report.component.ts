@@ -44,7 +44,7 @@ export class DiagnosticReportComponent implements OnInit {
 
   expandedElement: null | ServiceRequest | undefined;
 
-  displayedColumns = ['expand', 'reportNumber', 'orderNumber', 'effectiveDateTime', 'code',  'category', 'status', 'performer',  'resource' ];
+  displayedColumns = ['expand', 'reportNumber', 'orderNumber', 'effectiveDateTime', 'code',  'category', 'status', 'performer', 'lastUpdated', 'resource' ];
 
   constructor(public fhirService: FhirService,
               public dlgSrv: DialogService,

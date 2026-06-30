@@ -48,7 +48,7 @@ export class ReferralRequestComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort | undefined;
 
     displayedColumns = [ 'orderNumber', 'date', 'code', 'reason', 'status',  'category',
-        'requester', 'performer', 'resource'];
+        'requester', 'performer', 'lastUpdated', 'resource'];
 
     columnsToDisplayWithExpand = ['expand', ...this.displayedColumns] ;
 

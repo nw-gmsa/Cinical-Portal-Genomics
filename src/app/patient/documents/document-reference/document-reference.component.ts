@@ -44,7 +44,7 @@ export class DocumentReferenceComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  displayedColumns = [ 'created','category', 'type', 'setting', 'author', 'custodian',  'status', 'resource'];
+  displayedColumns = [ 'created','category', 'type', 'setting', 'author', 'custodian',  'status', 'lastUpdated','resource'];
 
   constructor(private router: Router,
               private _viewContainerRef: ViewContainerRef,

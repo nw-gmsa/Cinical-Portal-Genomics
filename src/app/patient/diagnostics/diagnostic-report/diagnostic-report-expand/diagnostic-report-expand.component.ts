@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DiagnosticReport, Observation} from "fhir/r4";
+import {DiagnosticReport, DocumentReference, Observation} from "fhir/r4";
 import {FhirService} from "../../../../services/fhir.service";
 import {TdLoadingService} from "@covalent/core/loading";
 
@@ -18,6 +18,7 @@ export class DiagnosticReportExpandComponent implements OnInit {
   }
 
   observations: Observation[] | undefined;
+  documentReference: DocumentReference[] | undefined;
 
   ngOnInit() {
 
@@ -41,7 +42,25 @@ export class DiagnosticReportExpandComponent implements OnInit {
                 )
           }
         }
-      }
+          var docs :DocumentReference[] = [];
+          this.fhirService.getResource('/DocumentReference?related=DiagnosticReport/'+this.diagnosticReport?.id)
+              .subscribe(resource => {
+                      if (resource.resourceType === 'Bundle') {
+                          if (resource.entry !== undefined) {
+                              for (const entry of resource.entry) {
+                                  if (entry.resource !== undefined && entry.resource.resourceType === 'DocumentReference') {
+                                      docs.push(entry.resource as DocumentReference);
+                                  }
+                              }
+                          }
+                          //console.log(resource)
+                          this.documentReference = docs;
+                      }
+                  },() => {}, () =>{
+                      this._loadingService.resolve('overlayStarSyntax');
+                  }
+              )
+          }
       /*
       this.fhirService.get('/DiagnosticReport?_id=' + this.diagnosticReport?.id
           + '&_include=DiagnosticReport:result')

@@ -46,7 +46,7 @@ export class ObservationComponent implements OnInit {
   dataSource: MatTableDataSource<Observation> ;
   @ViewChild(MatSort) sort: MatSort | undefined;
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  displayedColumns = ['expand', 'effectiveDateTime', 'code',    'value', 'category', 'performer', 'resource'];
+  displayedColumns = ['expand', 'effectiveDateTime', 'code',    'value', 'category', 'performer', 'lastUpdated','resource'];
 
   expandedElement: null | Observation | undefined;
 
