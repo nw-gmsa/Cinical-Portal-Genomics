@@ -2,13 +2,14 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {FhirService} from "../../services/fhir.service";
 import {EprService} from "../../services/epr.service";
 import {Bundle, Patient, Questionnaire, QuestionnaireResponse} from "fhir/r4";
-import {environment} from "../../../../environment";
+
 import {TaskCreateComponent} from "../workflow/task-create/task-create.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
+import {environment} from "../../../environments/environment";
 
 
 @Component({

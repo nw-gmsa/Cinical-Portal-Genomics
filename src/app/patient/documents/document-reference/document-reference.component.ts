@@ -16,8 +16,9 @@ import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {environment} from "../../../../../environment";
+
 import {MatPaginator} from "@angular/material/paginator";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-document-reference',
@@ -154,5 +155,5 @@ export class DocumentReferenceComponent implements OnInit {
     });
   }
 
-    protected readonly environment = environment;
+  protected readonly environment = environment;
 }

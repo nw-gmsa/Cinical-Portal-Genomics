@@ -1,7 +1,7 @@
 import {Component, Input, ViewChild} from '@angular/core';
 import {Observation, Reference, ServiceRequest, Specimen} from "fhir/r4";
 import {FhirService} from "../../../services/fhir.service";
-import {environment} from "../../../../../environment";
+
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {ResourceDialogComponent} from "../../../dialogs/resource-dialog/resource-dialog.component";
 import {MatTableDataSource} from "@angular/material/table";
@@ -74,5 +74,4 @@ export class SpecimenComponent {
     const resourceDialog: MatDialogRef<ResourceDialogComponent> = this.dialog.open( ResourceDialogComponent, dialogConfig);
   }
 
-  protected readonly environment = environment;
 }

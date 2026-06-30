@@ -14,8 +14,10 @@ import {
   Reference, Resource, ServiceRequest,
   ValueSet
 } from 'fhir/r4';
-import {environment} from '../../../environment';
+
+
 import {SummaryActivity} from './models/summary-activity';
+import {environment} from "../../environments/environment";
 
 
 export enum Formats {

@@ -14,12 +14,13 @@ import * as uuid from "uuid";
 import {Observable, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {Moment} from "moment/moment";
-import {environment} from "../../../../../environment";
+
 import {TdDialogService} from "@covalent/core/dialogs";
 import * as moment from "moment";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSelectChange} from "@angular/material/select";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {environment} from "../../../../environments/environment";
 
 
 // JULY 2023  var Fhir = require('fhir').Fhir;

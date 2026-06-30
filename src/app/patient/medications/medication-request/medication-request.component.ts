@@ -6,7 +6,8 @@ import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {environment} from "../../../../../environment";
+import {environment} from "../../../../environments/environment";
+
 
 @Component({
   selector: 'app-medication-request',
@@ -101,5 +102,5 @@ export class MedicationRequestComponent implements OnInit {
     });
   }
 
-    protected readonly environment = environment;
+  protected readonly environment = environment;
 }

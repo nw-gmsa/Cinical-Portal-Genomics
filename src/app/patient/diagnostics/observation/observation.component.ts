@@ -11,8 +11,9 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
-import {environment} from "../../../../../environment";
+
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-observation',
@@ -268,7 +269,7 @@ export class ObservationComponent implements OnInit {
     return '?'
   }
 
-  protected readonly environment = environment;
+
 
   hasExpand(element : Observation) {
     if (element.hasMember !== undefined && element.hasMember.length>0) {
@@ -276,4 +277,6 @@ export class ObservationComponent implements OnInit {
     }
     return false;
   }
+
+  protected readonly environment = environment;
 }
