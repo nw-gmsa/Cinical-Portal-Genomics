@@ -1,12 +1,15 @@
 
 import {Component, OnInit, Input, EventEmitter, Output, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Patient} from 'fhir/r4';
+import {Patient, ServiceRequest} from 'fhir/r4';
 import {FhirService} from '../../../services/fhir.service';
 import {ResourceDialogComponent} from '../../../dialogs/resource-dialog/resource-dialog.component';
 import {PatientDataSource} from '../../../services/patient-data-source';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {environment} from "../../../../environments/environment";
+import {DeleteComponent} from "../../../dialogs/delete/delete.component";
+import {MatTableDataSource} from "@angular/material/table";
 
 
 @Component({
@@ -31,7 +34,7 @@ export class PatientComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
 
-  displayedColumns = ['patient', 'dob', 'gender', 'identifier', 'contact', 'gp',  'resource'];
+  displayedColumns = ['patient', 'dob', 'gender', 'identifier', 'contact', 'gp', 'lastUpdated', 'resource'];
 
   constructor( private dialog: MatDialog,
                public fhirService: FhirService) {
@@ -40,7 +43,7 @@ export class PatientComponent implements OnInit {
 
   ngOnInit() {
     if (!this.showResourceLink) {
-      this.displayedColumns = ['select', 'patient', 'dob', 'gender', 'identifier', 'contact', 'gp', 'resource'];
+      this.displayedColumns = ['select', 'patient', 'dob', 'gender', 'identifier', 'contact', 'gp', 'lastUpdated', 'resource'];
     }
     if (this.useObservable) {
       this.dataSource = new PatientDataSource(this.fhirService,  [], this.patientsObservable, this.useObservable);
@@ -146,5 +149,31 @@ export class PatientComponent implements OnInit {
     this.patient.emit(patient);
   }
 
+  delete(patient : Patient) {
+    let dialogRef = this.dialog.open(DeleteComponent, {
+      width: '250px',
+      data:  patient
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('The dialog was closed ' + result);
+        this.fhirService.deleteTIE('/Patient/'+patient.id).subscribe(result => {
+          console.log(result);
+          if (this.patients !== undefined) {
+            this.patients.forEach((taskIt,index)=> {
+              if (taskIt.id === patient.id) {
+                // @ts-ignore
+                this.patients.splice(index, 1);
+              }
+            })
+            //this.dataSource = new MatTableDataSource<Patient>(this.patients);
+          }
 
+        })
+      }
+    });
+  }
+
+
+  protected readonly environment = environment;
 }
