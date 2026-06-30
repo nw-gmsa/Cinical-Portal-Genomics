@@ -68,6 +68,7 @@ export class CarePlanCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/request-status').subscribe(
       resource  => {
         this.statuses = this.dlgSrv.getContainsExpansion(resource);
@@ -77,7 +78,7 @@ export class CarePlanCreateComponent implements OnInit {
       resource  => {
         this.intents = this.dlgSrv.getContainsExpansion(resource);
       }
-    );
+    );*/
     this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
         if (bundle.entry !== undefined) {
           for (const entry of bundle.entry) {
@@ -122,7 +123,7 @@ export class CarePlanCreateComponent implements OnInit {
           }
         }
     );
-
+    /*
     this.categories$ = this.searchCategories.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -134,7 +135,8 @@ export class CarePlanCreateComponent implements OnInit {
           return this.dlgSrv.getContainsExpansion(resource);
         }
         ), catchError(this.dlgSrv.handleError('getReasons', [])));
-
+  */
+    /*
     this.conditions$ = this.searchConditions.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -146,6 +148,7 @@ export class CarePlanCreateComponent implements OnInit {
           return this.dlgSrv.getContainsExpansion(resource);
         }
     ), catchError(this.dlgSrv.handleError('getReasons', [])));
+    */
   }
 
   selectedStatus(status: any): void {

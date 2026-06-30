@@ -100,6 +100,7 @@ export class TaskCreateComponent implements OnInit {
       }
     }
 
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/task-status').subscribe(
       resource  => {
         this.statuses = this.dlgSrv.getContainsExpansion(resource);
@@ -132,6 +133,9 @@ export class TaskCreateComponent implements OnInit {
         }
       }
     );
+
+     */
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/request-priority').subscribe(
       resource  => {
         this.priorities = this.dlgSrv.getContainsExpansion(resource);
@@ -147,7 +151,9 @@ export class TaskCreateComponent implements OnInit {
           })
         }
       }
-    );
+    );*/
+
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=https://fhir.nhs.uk/ValueSet/NHSDigital-task-code').subscribe(
         resource  => {
           this.code = this.dlgSrv.getContainsExpansion(resource);
@@ -160,7 +166,7 @@ export class TaskCreateComponent implements OnInit {
           }
         }
       }
-    );
+    );*/
     if (this.taskType === 2 || this.taskType === 0 ) {
       this.fhirService.get('/ServiceRequest?status=active,on-hold,draft&patient=' + this.patientId).subscribe(bundle => {
             if (bundle.entry !== undefined) {
@@ -205,7 +211,7 @@ export class TaskCreateComponent implements OnInit {
         }
       }
     );
-
+    /*
     this.code$ = this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -218,7 +224,9 @@ export class TaskCreateComponent implements OnInit {
       }
 
     ), catchError(this.dlgSrv.handleError('getPatients', [])));
+*/
 
+    /*
     this.reason$ = this.searchReasons.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -236,8 +244,9 @@ export class TaskCreateComponent implements OnInit {
         }
 
     ), catchError(this.dlgSrv.handleError('getReasons', [])));
+*/
 
-
+    /*
     this.practitioner$ = this.searchTermsDoc.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -264,6 +273,8 @@ export class TaskCreateComponent implements OnInit {
         }
 
     ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
+    
+     */
   }
 
   search(term: string): void {

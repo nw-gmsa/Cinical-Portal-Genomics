@@ -11,7 +11,7 @@ import {DialogService} from "../../../services/dialog.service";
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -82,12 +82,15 @@ export class TaskComponent implements OnInit {
     } else {
       this.dataSource = new MatTableDataSource<Task>(this.tasks);
     }
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/task-status').subscribe(
         resource  => {
           this.statuses = this.dlgSrv.getContainsExpansion(resource);
 
         }
     );
+
+     */
     let displayedColumns;
     this.refreshResults()
 

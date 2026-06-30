@@ -42,7 +42,7 @@ export class ConceptDialogComponent implements OnInit{
   ngOnInit(): void {
 
     if (this.concept !== undefined && this.concept.system !== undefined && this.concept.code !== undefined) {
-
+      /*
       if (this.concept.system === 'http://snomed.info/sct') {
         this.fhirService.lookup(this.concept.system, this.concept.code).subscribe( params => {
 
@@ -50,7 +50,7 @@ export class ConceptDialogComponent implements OnInit{
 
           this.getPropertyRoles()
         } )
-      }
+      }*/
       if (this.concept.system === 'http://loinc.org') {
         this.international = true
         this.fhirService.lookupInt(this.concept.system, this.concept.code).subscribe( params => {
@@ -182,6 +182,7 @@ export class ConceptDialogComponent implements OnInit{
   getName(concept : Concept) {
     if (concept.code.code !== undefined) {
       if (!this.international) {
+        /*
         this.fhirService.lookup('http://snomed.info/sct', concept.code.code).subscribe(params => {
           var display = this.getParameter("display", params)
           if (display !== undefined) {
@@ -189,7 +190,7 @@ export class ConceptDialogComponent implements OnInit{
             concept.code.display = concept.name
             //  this.dataSource.data = this.conceptData
           }
-        })
+        })*/
       } else {
         this.fhirService.lookupInt('http://loinc.org', concept.code.code).subscribe(params => {
           var display = this.getParameter("display", params)

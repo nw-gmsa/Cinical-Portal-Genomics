@@ -50,6 +50,7 @@ export class CareTeamCreateComponent implements OnInit {
 
 
   ngOnInit(): void {
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/care-team-status').subscribe(
       resource  => {
         this.status = this.dlgSrv.getContainsExpansion(resource);
@@ -68,6 +69,10 @@ export class CareTeamCreateComponent implements OnInit {
         ),
         catchError(this.dlgSrv.handleError('getReasons', [])))
     ;
+
+     */
+
+    /*
     this.organisation$ = this.searchTermsOrg.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -93,7 +98,7 @@ export class CareTeamCreateComponent implements OnInit {
         }
 
     ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
-
+*/
   }
 
   selectedStatus(status: any): void {

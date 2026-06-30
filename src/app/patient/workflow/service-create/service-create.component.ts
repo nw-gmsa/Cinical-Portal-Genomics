@@ -92,11 +92,14 @@ export class ServiceCreateComponent implements OnInit {
         }
       }
     );
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/request-intent').subscribe(
       resource  => {
         this.intents = this.dlgSrv.getContainsExpansion(resource);
       }
     );
+
+     */
     this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
         if (bundle.entry !== undefined) {
           for (const entry of bundle.entry) {
@@ -137,6 +140,7 @@ export class ServiceCreateComponent implements OnInit {
           }
         }
     );
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/request-status').subscribe(
       resource  => {
         this.status = this.dlgSrv.getContainsExpansion(resource);
@@ -153,6 +157,9 @@ export class ServiceCreateComponent implements OnInit {
       }
     );
 
+     */
+
+    /*
     this.contains$ = this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -219,6 +226,8 @@ export class ServiceCreateComponent implements OnInit {
 
     ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
 
+
+     */
   }
 
   search(term: string): void {

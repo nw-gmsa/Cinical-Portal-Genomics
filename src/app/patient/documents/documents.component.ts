@@ -6,7 +6,7 @@ import {DocumentReference, Patient} from "fhir/r4";
 import {BinaryComponent} from "./binary/binary.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {DocumentReferenceCreateComponent} from "./document-reference-create/document-reference-create.component";
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environment";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 

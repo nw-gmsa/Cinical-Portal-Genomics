@@ -7,7 +7,7 @@ import {DiagnosticReportCreateComponent} from "./diagnostic-report-create/diagno
 import {EventCreateComponent} from "./event-create/event-create.component";
 import {DialogService} from "../../services/dialog.service";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environment";
 
 @Component({
   selector: 'app-observations',

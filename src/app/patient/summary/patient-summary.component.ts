@@ -18,7 +18,7 @@ import {
     MedicationRequestCreateEditComponent
 } from "../medications/medication-request-create-edit/medication-request-create-edit.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environment";
 import {MatChip} from "@angular/material/chips";
 
 

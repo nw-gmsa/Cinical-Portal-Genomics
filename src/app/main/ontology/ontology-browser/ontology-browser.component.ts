@@ -54,6 +54,7 @@ export class OntologyBrowserComponent implements OnInit {
           }
       });
       this.valuesSets = []
+      /*
       this.fhirService.getConf('/ValueSet?_sort=title').subscribe(
           resource  => {
 
@@ -68,11 +69,12 @@ export class OntologyBrowserComponent implements OnInit {
                   }
               }
           }
-      );
+      );*/
       this.buildPipe()
 
   }
   buildPipe() {
+      /*
       this.concepts$ = this.searchConcepts.pipe(
           // wait 300ms after each keystroke before considering the term
           debounceTime(300),
@@ -107,6 +109,8 @@ export class OntologyBrowserComponent implements OnInit {
               }
           )
       );
+      
+       */
   }
   search(term: string): void {
     if (this.snomed && term.length > 3) {

@@ -65,7 +65,7 @@ export class GoalCreateComponent implements OnInit {
   ngOnInit(): void {
 
     this.dataSource = new MatTableDataSource<GoalTarget>(this.goalTarget);
-
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/goal-status').subscribe(
         resource  => {
           this.statuses = this.dlgSrv.getContainsExpansion(resource);
@@ -111,6 +111,8 @@ export class GoalCreateComponent implements OnInit {
             }
 
     ), catchError(this.dlgSrv.handleError('getReasons', [])));
+
+     */
   }
 
 

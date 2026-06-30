@@ -91,6 +91,7 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
     this.parentList = []
     this.childList = []
     this.dmd = undefined
+    /*
     if (this.concept !== undefined && this.concept.system !== undefined && this.concept.code !== undefined) {
       this.fhirService.lookup(this.concept.system, this.concept.code).subscribe( params => {
 
@@ -155,6 +156,8 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
         this.treeControl.expandAll()
       } )
     }
+
+     */
 
   }
 
@@ -293,7 +296,7 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
         default:
         //  console.log(concept.code.code)
       }
-
+      /*
       this.fhirService.lookup('http://snomed.info/sct', concept.code.code).subscribe(params => {
         var display = this.getParameter("display", params)
         if (display !== undefined) {
@@ -301,7 +304,7 @@ export class ConceptDetailComponent implements OnInit, AfterViewInit {
           concept.code.display = concept.name
           this.dataSource.data = this.conceptData
         }
-      })
+      })*/
     }
   }
 

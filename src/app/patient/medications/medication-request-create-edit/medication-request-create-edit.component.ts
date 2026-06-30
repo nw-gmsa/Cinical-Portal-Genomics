@@ -62,7 +62,7 @@ export class MedicationRequestCreateEditComponent implements OnInit {
         this.medicationCode = this.medicationRequest.medicationCodeableConcept.coding[0]
       }
     }
-
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/medicationrequest-status').subscribe(
         resource  => {
           this.statuses = this.dlgSrv.getContainsExpansion(resource);
@@ -84,7 +84,9 @@ export class MedicationRequestCreateEditComponent implements OnInit {
         }
     );
 
+     */
 
+    /*
     this.medication$ = this.searchMedications.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -98,6 +100,8 @@ export class MedicationRequestCreateEditComponent implements OnInit {
         ),
         catchError(this.dlgSrv.handleError('getReasons', [])))
     ;
+    
+     */
   }
 
   selectedStatus(status: any): void {

@@ -47,7 +47,7 @@ export class EventCreateComponent implements OnInit {
     this.observation = data.observation; }
 
   ngOnInit(): void {
-
+    /*
     this.reason$ = this.searchReasons.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -61,7 +61,11 @@ export class EventCreateComponent implements OnInit {
         ),
         catchError(this.dlgSrv.handleError('getReasons', [])))
     ;
+
+     */
   }
+
+
 
   selectedReason(event: MatAutocompleteSelectedEvent): void {
     this.reasonCode = {
@@ -71,7 +75,6 @@ export class EventCreateComponent implements OnInit {
     };
     this.checkSubmit();
   }
-
   searchReason(term: string): void {
     if (term.length > 3) {
       this.searchReasons.next(term);

@@ -91,7 +91,7 @@ export class ConditionCreateEditComponent implements OnInit {
       }
     }
 
-
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/condition-clinical').subscribe(
         resource  => {
           this.status = this.dlgSrv.getContainsExpansion(resource);
@@ -120,6 +120,8 @@ export class ConditionCreateEditComponent implements OnInit {
           }
         }
     );
+
+     */
     /*
 
     Not returning SNOMED terms
@@ -130,7 +132,7 @@ export class ConditionCreateEditComponent implements OnInit {
         }
     );
 */
-
+    /*
     this.reason$ = this.searchReasons.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -144,6 +146,8 @@ export class ConditionCreateEditComponent implements OnInit {
         ),
         catchError(this.dlgSrv.handleError('getReasons', [])))
     ;
+    
+     */
   }
 
   selectedStatus(status: any): void {

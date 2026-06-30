@@ -17,10 +17,6 @@ const setEnv = () => {
   fhirServer: 'https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/clinicaldatasharing/FHIR/R4',
   tieServer: 'https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/events/FHIR/R4',
   directoryServer: 'https://3cdzg7kbj4.execute-api.eu-west-2.amazonaws.com/poc/caredirectories/FHIR/R4',
-  stravaClientId: '${process.env.STRAVA_CLIENT}',
-  stravaSecret: '${process.env.STRAVA_SECRET}',
-  withingClientId: '${process.env.WITHINGS_CLIENT}',
-  withingSecret: '${process.env.WITHINGS_SECRET}',
 };
 `;
   console.log(colors.magenta('The file `environment.ts` will be written with the following content: \n'));

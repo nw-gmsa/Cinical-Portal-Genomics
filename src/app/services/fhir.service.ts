@@ -14,7 +14,7 @@ import {
   Reference, Resource, ServiceRequest,
   ValueSet
 } from 'fhir/r4';
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environment';
 import {SummaryActivity} from './models/summary-activity';
 
 
@@ -42,8 +42,7 @@ export class FhirService {
 
   private baseUrl = environment.fhirServer ;
   private tieUrl = environment.tieServer;
-  private conformanceUrl = environment.conformanceServer;
-  private directoryUrl = environment.directoryServer;
+
   private appId = 'hie_';
 
   private format: Formats = Formats.JsonFormatted;
@@ -406,17 +405,18 @@ export class FhirService {
     headers.append('Prefer', 'return=representation');
     return this.http.delete<any>(this.tieUrl + resource, {headers});
   }
-
+/*
   public getConf(search: string): Observable<any> {
     const url: string = this.conformanceUrl + search;
     const headers = new HttpHeaders();
     return this.http.get<any>(url, {headers});
-  }
+  }*/
+  /*
   public getDirectory(search: string): Observable<any> {
     const url: string = this.directoryUrl + search;
     const headers = new HttpHeaders();
     return this.http.get<any>(url, {headers});
-  }
+  }*/
 
   public getResource(search: string): Observable<any> {
 
@@ -529,35 +529,38 @@ export class FhirService {
     return this.http.get<Bundle>(url + `/Questionnaire?_content=${term}`, {headers: this.getLOINCHeaders()});
 
   }
-
+  /*
   searchConcepts(term: string, valueSet: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
       `/ValueSet/$expand?url=${valueSet}&filter=${term}&includeDesignations=true`);
   }
 
+   */
+  /*
   expand(valueSet: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
         `/ValueSet/$expand?url=${valueSet}&includeDesignations=true`);
-  }
+  }*/
 
   searchConceptsInternational(term: string, valueSet: string): Observable<ValueSet> {
     const url = this.ontoUrl;
     return this.http.get<ValueSet>(url +
         `/ValueSet/$expand?url=${valueSet}&filter=${term}&includeDesignations=true`);
   }
-
+  /*
   searchSNOMEDConcepts(term: string): Observable<ValueSet> {
     const url = this.conformanceUrl;
     return this.http.get<ValueSet>(url +
         `/ValueSet/$expandSCT?filter=${term}&includeDesignations=true&activeOnly=true`);
-  }
+  }*/
+  /*
   lookup(system: string , code: string ): Observable<Parameters> {
     const url = this.conformanceUrl;
     return this.http.get<Parameters>(url +
         `/CodeSystem/$lookup?system=${system}&code=${code}&property=*`);
-  }
+  }*/
   lookupInt(system: string , code: string ): Observable<Parameters> {
     const url = this.ontoUrl;
     return this.http.get<Parameters>(url +

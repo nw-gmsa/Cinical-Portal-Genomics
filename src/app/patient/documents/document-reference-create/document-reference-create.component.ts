@@ -14,7 +14,7 @@ import * as uuid from "uuid";
 import {Observable, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {Moment} from "moment/moment";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 import {TdDialogService} from "@covalent/core/dialogs";
 import * as moment from "moment";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -73,6 +73,7 @@ export class DocumentReferenceCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/document-reference-status').subscribe(
         resource  => {
           this.statuses = this.dlgSrv.getContainsExpansion(resource);
@@ -105,6 +106,9 @@ export class DocumentReferenceCreateComponent implements OnInit {
             }
 
     ), catchError(this.dlgSrv.handleError('getPatients', [])));
+
+     */
+    /*
     this.practitioner$ = this.searchTermsDoc.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -144,6 +148,8 @@ export class DocumentReferenceCreateComponent implements OnInit {
             }
 
     ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
+
+     */
   }
 
   checkSubmit(): void {

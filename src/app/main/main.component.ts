@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {IMenuItem, IMenuTrigger, ITdDynamicMenuLinkClickEvent} from "@covalent/core/dynamic-menu";
 import {EprService} from "../services/epr.service";
 import {FhirService} from "../services/fhir.service";
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environment";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({

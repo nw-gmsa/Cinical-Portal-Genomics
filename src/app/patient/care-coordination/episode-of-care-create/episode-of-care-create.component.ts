@@ -63,6 +63,7 @@ export class EpisodeOfCareCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/episode-of-care-status').subscribe(
       resource  => {
         this.statuses = this.dlgSrv.getContainsExpansion(resource);
@@ -73,6 +74,8 @@ export class EpisodeOfCareCreateComponent implements OnInit {
         this.types = this.dlgSrv.getContainsExpansion(resource);
       }
     );
+
+     */
     this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
         if (bundle.entry !== undefined) {
           for (const entry of bundle.entry) {
@@ -97,6 +100,7 @@ export class EpisodeOfCareCreateComponent implements OnInit {
         }
       }
     );
+    /*
     this.organisation$ = this.searchTermsOrg.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -110,6 +114,10 @@ export class EpisodeOfCareCreateComponent implements OnInit {
         }
 
     ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
+
+     */
+
+    /*
     this.practitioner$ = this.searchTermsDoc.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -122,7 +130,7 @@ export class EpisodeOfCareCreateComponent implements OnInit {
         }
 
     ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
-
+*/
   }
   searchOrg(value: string): void {
     if (value.length > 3) {

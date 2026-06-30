@@ -7,7 +7,7 @@ import {TaskCreateComponent} from "./task-create/task-create.component";
 import {ServiceCreateComponent} from "./service-create/service-create.component";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environment";
 
 @Component({
   selector: 'app-workflow',

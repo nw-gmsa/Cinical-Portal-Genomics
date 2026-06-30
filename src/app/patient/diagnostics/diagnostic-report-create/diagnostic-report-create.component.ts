@@ -63,13 +63,15 @@ export class DiagnosticReportCreateComponent implements OnInit {
 
   ngOnInit(): void {
 
-
+  /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/diagnostic-report-status').subscribe(
         resource  => {
           this.statuses = this.dlgSrv.getContainsExpansion(resource);
         }
     );
+*/
 
+    /*
     this.code$ = this.searchCode.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -82,7 +84,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
             }
 
     ), catchError(this.dlgSrv.handleError('getReasons', [])));
-
+*/
     this.fhirService.getTIE('/CareTeam?patient=' + this.patientId).subscribe(bundle => {
           if (bundle.entry !== undefined) {
             for (const entry of bundle.entry) {
@@ -91,6 +93,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
           }
         }
     );
+    /*
     this.practitioner$ = this.searchTermsDoc.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -103,7 +106,9 @@ export class DiagnosticReportCreateComponent implements OnInit {
             }
 
     ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
+*/
 
+    /*
     this.organisation$ = this.searchTermsOrg.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -116,7 +121,7 @@ export class DiagnosticReportCreateComponent implements OnInit {
               return this.dlgSrv.getContainsOrganisation(resource);
             }
             ), catchError(this.dlgSrv.handleError('getPractitioner', [])));
-
+*/
   }
 
   selectedOrg(event: MatAutocompleteSelectedEvent): void {

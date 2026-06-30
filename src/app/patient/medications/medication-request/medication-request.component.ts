@@ -6,7 +6,7 @@ import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 
 @Component({
   selector: 'app-medication-request',

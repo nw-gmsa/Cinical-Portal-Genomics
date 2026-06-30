@@ -9,7 +9,7 @@ import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 @Component({
   selector: 'app-diagnostic-report',

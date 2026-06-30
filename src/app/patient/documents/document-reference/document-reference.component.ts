@@ -16,7 +16,7 @@ import {MatSort} from '@angular/material/sort';
 import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 import {MatPaginator} from "@angular/material/paginator";
 
 @Component({

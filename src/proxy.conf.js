@@ -5,6 +5,13 @@ const PROXY_CONFIG = {
     "bypass": function (req, res, proxyOptions) {
       req.headers["webpass-remote-user"] = "TOTO_USER";
     }
+  },
+  "/dataplatform/**" : {
+    "target": "https://192.168.1.20/",
+    "secure": false,
+    "bypass": function (req, res, proxyOptions) {
+      req.headers["webpass-remote-user"] = "TOTO_USER";
+    }
   }
 }
 

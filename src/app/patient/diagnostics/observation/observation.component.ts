@@ -11,7 +11,7 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ConceptDialogComponent} from "../../../dialogs/concept-dialog/concept-dialog.component";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({

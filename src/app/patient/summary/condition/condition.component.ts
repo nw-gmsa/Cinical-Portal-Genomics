@@ -7,7 +7,7 @@ import {DeleteComponent} from "../../../dialogs/delete/delete.component";
 import {TaskCreateComponent} from "../../workflow/task-create/task-create.component";
 import {ConditionCreateEditComponent} from "../condition-create-edit/condition-create-edit.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 import {MatTableDataSource} from "@angular/material/table";
 @Component({
   selector: 'app-condition',

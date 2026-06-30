@@ -9,7 +9,7 @@ import {ServiceCreateComponent} from "../service-create/service-create.component
 import {EprService} from "../../../services/epr.service";
 import {Router} from "@angular/router";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environment";
 import {MatTableDataSource} from "@angular/material/table";
 
 

@@ -52,11 +52,15 @@ export class CommunicationCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+   /*
     this.fhirService.getConf('/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/communication-category').subscribe(
       resource  => {
         this.categories = this.dlgSrv.getContainsExpansion(resource);
       }
     );
+    
+    */
     this.fhirService.get('/DocumentReference?patient=' + this.patientId).subscribe(bundle => {
         if (bundle.entry !== undefined) {
           for (const entry of bundle.entry) {
@@ -67,6 +71,7 @@ export class CommunicationCreateComponent implements OnInit {
         }
       }
     );
+    /*
     this.practitioner$ = this.searchTermsDoc.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -93,7 +98,7 @@ export class CommunicationCreateComponent implements OnInit {
         }
       )
     ), catchError(this.dlgSrv.handleError('getPractitioner', []));
-
+    */
   }
 
   selectedCategory(status: MatSelectChange): void {
