@@ -7,7 +7,7 @@ const PROXY_CONFIG = {
     }
   },
   "/dataplatform/**" : {
-    "target": "https://192.168.1.20/",
+    "target": "https://gen-tie-test.nwgenomics.nhs.uk",
     "secure": false,
     "bypass": function (req, res, proxyOptions) {
       req.headers["webpass-remote-user"] = "TOTO_USER";
