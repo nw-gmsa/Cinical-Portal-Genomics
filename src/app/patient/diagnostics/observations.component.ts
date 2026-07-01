@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DiagnosticReport, Observation, Patient} from "fhir/r4";
+import {DiagnosticReport, Observation, Patient, ServiceRequest, Task} from "fhir/r4";
 import {FhirService} from "../../services/fhir.service";
 import {EprService} from "../../services/epr.service";
 import {LoadingMode, LoadingStrategy, LoadingType, TdLoadingService} from "@covalent/core/loading";
@@ -8,6 +8,7 @@ import {EventCreateComponent} from "./event-create/event-create.component";
 import {DialogService} from "../../services/dialog.service";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {environment} from "../../../environments/environment";
+import {ServiceCreateComponent} from "../workflow/service-create/service-create.component";
 
 
 @Component({
@@ -18,8 +19,10 @@ import {environment} from "../../../environments/environment";
 export class ObservationsComponent implements OnInit {
   searchRange = 14;
   observations: Observation[] = [];
+  tasks: Task[] = []
   // @ts-ignore
   diagnosticReports: DiagnosticReport[] = [];
+  requests: ServiceRequest[] = [];
 
   patientId: string | null = null;
   private nhsNumber: string | undefined;
@@ -45,6 +48,29 @@ export class ObservationsComponent implements OnInit {
     this.eprService.patientChangeEvent.subscribe(patient => {
       if (patient.id !== undefined) this.patientId = patient.id
       this.getRecords(patient);
+    });
+  }
+
+  getResults() {
+    this._loadingService.register('overlayStarSyntax');
+    this.tasks = [];
+    this.fhirService.getTIE('/Task?patient=' + this.patientId + '').subscribe(bundle => {
+      this._loadingService.resolve('overlayStarSyntax');
+      if (bundle.entry !== undefined) {
+        for (const entry of bundle.entry) {
+          if (entry.resource !== undefined && entry.resource.resourceType === 'Task') {
+            this.tasks.push(entry.resource as Task); }
+        }
+      }
+    });
+    this.requests = [];
+    this.fhirService.getTIE('/ServiceRequest?patient=' + this.patientId + '').subscribe(bundle => {
+      this._loadingService.resolve('overlayStarSyntax');
+      if (bundle.entry !== undefined) {
+        for (const entry of bundle.entry) {
+          if (entry.resource !== undefined && entry.resource.resourceType === 'ServiceRequest') { this.requests.push(entry.resource as ServiceRequest); }
+        }
+      }
     });
   }
 
@@ -90,7 +116,7 @@ export class ObservationsComponent implements OnInit {
             }
           }
       );
-
+    this.getResults();
   }
 
 
@@ -143,6 +169,54 @@ export class ObservationsComponent implements OnInit {
         this.observations = Object.assign([], this.observations)
       }
     })
+  }
+
+
+  addServiceRequest(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '85%';
+    dialogConfig.width = '50%';
+
+    dialogConfig.data = {
+      id: 1,
+      patientId: this.patientId,
+      nhsNumber: this.nhsNumber
+    };
+    const dialogRef = this.dialog.open( ServiceCreateComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined && result.resourceType !== undefined) {
+        console.log(result)
+        this.requests.push(result);
+        this.requests = Object.assign([], this.requests)
+      }
+    })
+  }
+
+  getResultsEvent(task: Task) {
+    console.log('Task update received')
+    console.log(task)
+    if (task !== undefined) {
+      let taskCopy = this.tasks;
+      this.tasks = [];
+      // check if present
+      let found = undefined;
+      taskCopy.forEach((taskIt,index)=> {
+        if (taskIt.id === task.id) {
+          found = index;
+        }
+      })
+      if (found == undefined) {
+        taskCopy.push(task)
+      } else {
+        // replace
+        taskCopy[found] = task;
+      }
+      this.tasks = Object.assign([], taskCopy)
+      // console.log(this.tasks)
+    }
   }
 
   protected readonly environment = environment;

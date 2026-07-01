@@ -9,7 +9,7 @@
         <span *ngIf="environment.hintsSupport">
             <td-markdown>This is based on [IHE QEDm](https://wiki.ihe.net/index.php/Query_for_Existing_Data_for_Mobile_(QEDm))</td-markdown>
         </span>
-        <mat-accordion [togglePosition]="'before'">
+     <mat-accordion [togglePosition]="'before'">
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -31,6 +31,24 @@
                           No results found.
                       </span>
         </mat-expansion-panel>
+            <mat-expansion-panel expanded="false" [togglePosition]="'before'">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h3>Referrals and Interventions</h3>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <span *ngIf="environment.addDataSupport">
+                    <div *ngIf="patientId !== undefined" class="list-horizontal">
+                            <button mat-stroked-button color="accent"  (click)="addServiceRequest()">Add Service Request</button>
+                    </div>
+                </span>
+                <span *ngIf="requests.length>0">
+                      <app-referral-request [referrals]="requests" (taskChange)="getResultsEvent($event)"> </app-referral-request>
+                       </span>
+                <span *ngIf="requests.length==0">
+                       No results found.
+                   </span>
+            </mat-expansion-panel>
         <mat-expansion-panel expanded="false">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -54,6 +72,6 @@
                           </span>
             </div>
         </mat-expansion-panel>
-        </mat-accordion>
+       </mat-accordion>
 
     </mat-card>

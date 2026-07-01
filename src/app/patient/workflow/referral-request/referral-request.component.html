@@ -121,7 +121,7 @@
               <span *ngIf="referral.requester !== undefined && referral.identifier== undefined">
               <app-practitioner-role [setRole]="referral.requester"></app-practitioner-role>
                   </span>
-              <span *ngIf="referral.requester !== undefined && referral.identifier != undefined">
+              <span *ngIf="referral.requester !== undefined && referral.requester.identifier !== undefined">
                 {{referral.requester.identifier.value}}
                   </span>
           </td>
